@@ -31,7 +31,6 @@ import com.google.android.gcm.GCMRegistrar;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
-import com.oakclub.android.SnapshotActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.model.ChatHistoryData;

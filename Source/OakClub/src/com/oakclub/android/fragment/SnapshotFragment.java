@@ -173,7 +173,6 @@ public class SnapshotFragment{
     protected int lengthSnap = 0;
     protected View touchCurrent = null;
 
-    public final static int LENGTH_NAME = 10;
     public ArrayList<SnapshotData> arrayListSnapshot;
     public JSONArray jsonArray = null;
     private RelativeLayout progressCircle;
