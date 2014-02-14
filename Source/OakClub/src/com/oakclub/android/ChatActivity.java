@@ -1,5 +1,6 @@
 package com.oakclub.android;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,7 +83,9 @@ import com.oakclub.android.net.IOakClubApi;
 import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
+import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;
+import com.oakclub.android.view.TextViewWithFont;
 
 public class ChatActivity extends OakClubBaseActivity {
 
@@ -90,6 +93,8 @@ public class ChatActivity extends OakClubBaseActivity {
     public static ChatHistoryAdapter adapter;
     public static ArrayList<ChatHistoryData> messageArrayList;
     public static String profile_id;
+    public static int status;
+    public static String match_time;
     private String content = "";
     private boolean isOtherReport = false;
     String target_name;
@@ -111,6 +116,13 @@ public class ChatActivity extends OakClubBaseActivity {
     private LinearLayout lltBottom;
     private RelativeLayout.LayoutParams params;
     private boolean isShowSmile = false;
+    private boolean isPressInfoProfile = false;
+    
+    public static LinearLayout lltMatch;
+    private CircleImageView userAvatar;
+    private TextViewWithFont txt_chat_match_content;
+    private TextViewWithFont txt_chat_match_time;
+    private TextViewWithFont txt;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +135,8 @@ public class ChatActivity extends OakClubBaseActivity {
         profile_id = bundleListChatData.getString(Constants.BUNDLE_PROFILE_ID);
         target_name = bundleListChatData.getString(Constants.BUNDLE_NAME);
         target_avatar = bundleListChatData.getString(Constants.BUNDLE_AVATAR);
+        status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);
+        match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
         
         init();
         addSmileToEmoticons();
@@ -156,7 +170,31 @@ public class ChatActivity extends OakClubBaseActivity {
         gvSmile = (GridView) findViewById(R.id.activity_chat_rtlbottom_gvSmile);
         btShowSmile = (Button)findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
         lltBottom = (LinearLayout)findViewById(R.id.activity_chat_rtlbottom);
-
+        lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
+        txt_chat_match_content = (TextViewWithFont) findViewById(R.id.activity_chat_match_content);
+        txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
+        txt = (TextViewWithFont) findViewById(R.id.txt);
+        userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
+//        status == 0 || status == 1
+        if (status == 0) {
+        	chatLv.setVisibility(View.GONE);
+        	lltMatch.setVisibility(View.VISIBLE);
+        	String url = OakClubUtil.getFullLink(this, target_avatar);
+        	OakClubUtil.loadImageFromUrl(this,
+        			url, userAvatar);
+        	int fontSize = (int) OakClubUtil.convertPixelsToDp(OakClubUtil.getWidthScreen(this)/25, this);
+        	txt_chat_match_content.setText(String.format("You matched with %s", target_name));
+        	txt_chat_match_content.setTextSize(fontSize);
+        	txt_chat_match_time.setText(timeMatch(match_time));
+        	fontSize = (int) OakClubUtil.convertPixelsToDp(OakClubUtil.getWidthScreen(this)/20, this);
+        	txt_chat_match_time.setTextSize(fontSize);
+        	txt.setTextSize(fontSize);
+        	
+        } else {
+        	chatLv.setVisibility(View.VISIBLE);
+        	lltMatch.setVisibility(View.GONE);
+        }
+        
         params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.FILL_PARENT, 
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -242,9 +280,12 @@ public class ChatActivity extends OakClubBaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.activity_chat_fltTop_imgbtnInfoProfile :
-                	GetOtherProfile loader2 = new GetOtherProfile(
-            				Constants.GET_HANGOUT_PROFILE, ChatActivity.this, profile_id, snapShotData);
-            		getRequestQueue().addRequest(loader2);
+                	if (!isPressInfoProfile) {
+                		isPressInfoProfile = true;
+	                	GetOtherProfile loader2 = new GetOtherProfile(
+	            				Constants.GET_HANGOUT_PROFILE, ChatActivity.this, profile_id, snapShotData);
+	            		getRequestQueue().addRequest(loader2);
+                	}
                     break;
                 case R.id.activity_chat_fltTop_imgbtnBack:
                 	SharedPreferences.Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
@@ -255,6 +296,8 @@ public class ChatActivity extends OakClubBaseActivity {
                     finish();
                     break;
                 case R.id.activity_chat_rtlbottom_btSend :
+                	chatLv.setVisibility(View.VISIBLE);
+                	lltMatch.setVisibility(View.GONE);
                     solveSendMessage();
                     break;
                 case R.id.activity_chat_fltTop_imgbtnReport :
@@ -699,6 +742,51 @@ public class ChatActivity extends OakClubBaseActivity {
         else super.onBackPressed();
     }
     
+    private String timeMatch(String timeMatch) {
+    	String result = "";
+    	Calendar cal = Calendar.getInstance();
+        final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String now = sdf.format(cal.getTime());
+        Date dateNow = cal.getTime();
+        Date dateMatchTime = null;
+        try {
+			dateNow = sdf.parse(now);
+			dateMatchTime = sdf.parse(timeMatch);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        Date resultDate = new Date(dateNow.getTime() - dateMatchTime.getTime());
+        int time = (int) (resultDate.getTime() / (1000 * 60));
+        if (time == 0) time++;
+        
+        if (time < 59)
+        	result = time + " minute(s) ago";
+        else if (time < 60 * 60)
+        	result = time / 60 + " hour(s) ago";
+        else if (time < 60 * 60 * 24)
+        	result = time / (60 * 24) + " day(s) ago";
+        else if (time < 60 * 60 * 24 * 12)
+        	result = time / (60 * 24 * 30) + " month(s) ago";
+        else
+        	result = time / (60 * 24 * 30 * 12) + " year(s) ago";
+        
+//        if (resultDate.getTime() < 0) {
+//        	result = "1 minute(s) ago";
+//        } else if (resultDate.getYear() - 1970 > 0)
+//        	result = resultDate.getYear() - 1970 + " year(s) ago";
+//        else if (resultDate.getMonth() > 1)
+//        	result = resultDate.getMonth() - 1 + " month(s) ago";
+//        else if (resultDate.getDate() > 1)
+//        	result = resultDate.getDate() - 1 + " day(s) ago";
+//        else if (resultDate.getHours() > 1)
+//        	result = resultDate.getHours() - 1 + " hour(s) ago";
+//        else 
+//        	result = resultDate.getMinutes() + " minute(s) ago";
+    	return result;
+    }
+    
 	class GetOtherProfile extends RequestUI {
 
 		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
@@ -758,6 +846,7 @@ public class ChatActivity extends OakClubBaseActivity {
                 b.putString("Activity", "SnapshotActivity");
                 intent.putExtras(b);
                 startActivityForResult(intent, 1);
+                isPressInfoProfile = false;
 			}
 		}
 	}

@@ -77,7 +77,6 @@ public class ChatBaseActivity extends OakClubBaseActivity {
                 Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
                 Bundle bundle = new Bundle();
                 ImageView img = (ImageView) view.findViewById(R.id.item_listview_listchat_imgright);
-                Log.v("Click:", "1");
                 Integer integer = (Integer) img.getTag();
                 integer = integer == null ? 0 : integer;
                 switch (integer) {
@@ -97,6 +96,10 @@ public class ChatBaseActivity extends OakClubBaseActivity {
                         .getAvatar());
                 bundle.putString(Constants.BUNDLE_NAME, listChat.get(position)
                         .getName());
+                bundle.putInt(Constants.BUNDLE_STATUS, listChat.get(position).getStatus());
+                bundle.putString(Constants.BUNDLE_MATCH_TIME, listChat.get(position).getMatch_time());
+                
+                
                 chatHistoryActivity.putExtras(bundle);
                 chatHistoryActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

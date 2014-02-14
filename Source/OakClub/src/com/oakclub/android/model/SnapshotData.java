@@ -21,6 +21,7 @@ public class SnapshotData implements Serializable {
     private int active = 0;
     private String about_me = "";
     private boolean is_like = false;
+    private String like_time;
     
     private String location_name = "";
     private String hometown_name = ""; 
@@ -162,4 +163,10 @@ public class SnapshotData implements Serializable {
     public void setFromChat(boolean isFromChat) {
         this.isFromChat = isFromChat;
     }
+	public String getLike_time() {
+		return like_time;
+	}
+	public void setLike_time(String like_time) {
+		this.like_time = like_time;
+	}
 }
