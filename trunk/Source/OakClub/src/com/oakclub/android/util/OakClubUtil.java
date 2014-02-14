@@ -40,7 +40,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.oakclub.android.R;
-import com.oakclub.android.SnapshotActivity;
 import com.oakclub.android.view.CircleImageView;
 
 public class OakClubUtil {
@@ -112,7 +111,7 @@ public class OakClubUtil {
 		if(k.length>1) 
 		    t = k[0];
 		else t = s;
-		if(t.length()>SnapshotActivity.LENGTH_NAME)
+		if(t.length()>Constants.LENGTH_NAME)
 		    t = t.substring(0, 7)+"...";
 		return t;
 	}

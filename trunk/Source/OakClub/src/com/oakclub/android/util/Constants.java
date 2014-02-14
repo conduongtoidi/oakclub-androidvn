@@ -57,6 +57,7 @@ public class Constants {
 	public static String PROFILE_SETTING_FIELD_ABOUT_ME = "about_me";
 	public static int MAX_SEARCH_AGE = 80;
 	public static int MIN_SEARCH_AGE = 17;
+    public static int LENGTH_NAME = 10;
 	
 	public static int SPLASH_SCREEN_DELAYED_TIME = 2000;
 	public static String BUNDLE_PROFILE_ID = "profile_id";

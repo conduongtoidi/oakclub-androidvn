@@ -26,8 +26,6 @@ import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.SlidingActivity.MenuOakclub;
-import com.oakclub.android.SnapshotActivity;
-import com.oakclub.android.SnapshotSettingActivity;
 
 public class LeftMenuListFragment extends Fragment {
 	LinearLayout menuProfile;

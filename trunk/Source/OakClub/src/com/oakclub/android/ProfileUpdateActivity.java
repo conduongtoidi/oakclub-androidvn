@@ -380,7 +380,7 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 		@Override
 		public void executeUI(Exception ex) {
 			if (obj != null && obj.isStatus()) {
-			    intent = new Intent(ProfileUpdateActivity.this, SnapshotActivity.class );
+			    intent = new Intent(ProfileUpdateActivity.this, SlidingActivity.class );
 			    startActivity(intent);
                 finish();
 			} else {

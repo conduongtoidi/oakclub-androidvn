@@ -38,7 +38,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
-import com.oakclub.android.SnapshotActivity;
 import com.oakclub.android.R.drawable;
 import com.oakclub.android.R.id;
 import com.oakclub.android.R.layout;
@@ -53,7 +52,6 @@ import com.oakclub.android.net.IOakClubApi;
 import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
-import com.oakclub.android.util.WakeLocker;
 import com.oakclub.android.view.GPSTracker;
 
 public class OakClubBaseActivity extends FragmentActivity implements
