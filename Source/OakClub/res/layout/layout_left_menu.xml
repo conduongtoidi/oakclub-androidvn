@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#eaeaea"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/left_menu_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="100dp"
+        android:paddingBottom="100dp" 
+        android:listSelector="#00000000"
+        android:divider="#00000000"
+        android:visibility="gone"
+        >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/layout_left_menu_lltlistmenu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="30dp"
+	    android:layout_gravity="top"
+        android:orientation="vertical"
+        >   
+		<LinearLayout 
+		    android:id="@+id/menu_item_llt_profile" 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" 
+		    android:gravity="center_vertical"
+		    android:paddingTop="5dp"
+		    android:paddingBottom="5dp"
+		    android:background="#00000000">
+		
+		    <FrameLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="@drawable/menu_profile_selector">
+		        <com.oakclub.android.view.CircleImageView
+	            android:id="@+id/menu_item_icon_avaProfile"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
+	            android:layout_gravity="center"/>
+		    </FrameLayout>
+		    <com.oakclub.android.view.TextViewWithFont
+		        android:id="@+id/menu_item_text_profile"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:gravity="center_vertical"
+		        android:textSize="15sp"
+		        android:textColor="@drawable/menu_textview_selector"
+		        android:text="Profile0" />
+		</LinearLayout>
+		<LinearLayout 
+	        android:id="@+id/menu_item_llt_snapshot" 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" 
+		    android:gravity="center_vertical"
+		    android:paddingTop="5dp"
+		    android:paddingBottom="5dp"
+		    android:background="#00000000">
+		
+		    <FrameLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="@drawable/menu_snapshot_selector">
+		    </FrameLayout>
+		    <com.oakclub.android.view.TextViewWithFont
+		        android:id="@+id/menu_item_text_snapshot"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:gravity="center_vertical"
+		        android:textSize="15sp"
+		        android:textColor="@drawable/menu_textview_selector"
+		        android:text="Snapshots1" />
+		</LinearLayout>
+		<LinearLayout 
+	        android:id="@+id/menu_item_llt_setting" 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" 
+		    android:gravity="center_vertical"
+		    android:paddingTop="5dp"
+		    android:paddingBottom="5dp"
+		    android:background="#00000000">
+		
+		    <FrameLayout
+		        android:id="@+id/menu_item_icon_setting" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="@drawable/menu_settings_selector">
+		    </FrameLayout>
+		    <com.oakclub.android.view.TextViewWithFont
+		        android:id="@+id/menu_item_text_setting"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:gravity="center_vertical"
+		        android:textSize="15sp"
+		        android:textColor="@drawable/menu_textview_selector"
+		        android:text="Settings2" />
+		</LinearLayout>
+		<LinearLayout
+	        android:id="@+id/menu_item_llt_include_friends" 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" 
+		    android:gravity="center_vertical"
+		    android:paddingTop="5dp"
+		    android:paddingBottom="5dp"
+		    android:background="#00000000">
+		
+		    <FrameLayout
+		        android:id="@+id/menu_item_icon_include_friends" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="@drawable/menu_invite_friends_selector">
+		    </FrameLayout>
+		    <com.oakclub.android.view.TextViewWithFont
+		        android:id="@+id/menu_item_text_include_friends"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:gravity="center_vertical"
+		        android:textSize="15sp"
+		        android:textColor="@drawable/menu_textview_selector"
+		        android:text="Invite Friends3" />
+		</LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linear_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:background="@drawable/logout_menu_btn_"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical|left"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logout_icon" />
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="@string/txt_logout"
+            android:textColor="#1f1f1f"
+            android:textSize="15sp" />
+    </LinearLayout>
+    
+</FrameLayout>

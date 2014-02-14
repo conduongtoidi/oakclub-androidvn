@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+    <com.oakclub.android.view.TextViewWithFont
+        android:id="@+id/activity_listview_listchat_notify" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="con ga"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        />
+    <FrameLayout
+        android:layout_below="@+id/activity_listview_listchat_notify" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"        
+        >
+    <ListView
+        android:id="@+id/activity_listview_listchat_lvchat"        
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#e4e4e4"
+        android:dividerHeight="1dp"
+        android:background="#fff"
+    />
+    <ProgressBar
+        android:id="@+id/activity_listview_listchat_pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    </FrameLayout>
+</RelativeLayout>

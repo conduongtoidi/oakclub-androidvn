@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:background="#f5f5f5"
+        >
+
+        <LinearLayout
+            android:id="@+id/language_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activity_setting_height_textview"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:gravity="left|center_vertical"
+                android:textAllCaps="true"
+                android:text="@string/msg_choose_language"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/activity_snapshot_setting_tvlanguage"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activity_setting_height_textview"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:background="@drawable/snapshot_setting_border_top_bottom"
+                android:text="English (United State)"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/activity_setting_height_textview"
+            android:paddingLeft="@dimen/activity_setting_padding"
+            android:textAllCaps="true"
+            android:gravity="left|center_vertical"
+            android:text="@string/msg_matched_with"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:background="@drawable/snapshot_setting_border_top_bottom" >
+
+            <FrameLayout
+                android:id="@+id/flt_male_checkbox"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activity_setting_height_textview"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:paddingRight="@dimen/activity_setting_padding"
+                android:gravity="center_vertical"
+                >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/txt_male"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/setting_checkbox" />
+                
+                <CheckBox
+                    android:id="@+id/male_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center_vertical"
+                    android:button="@drawable/radio_selector"
+                    android:focusable="false" />
+                
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/flt_female_checkbox"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activity_setting_height_textview"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:paddingRight="@dimen/activity_setting_padding"
+                android:background="@drawable/snapshot_setting_border_top"
+                android:gravity="center_vertical" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/txt_female"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/setting_checkbox" />
+                
+                <CheckBox
+                    android:id="@+id/female_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center_vertical"
+                    android:button="@drawable/radio_selector"
+                    android:gravity="center_vertical"
+                    android:focusable="false" />
+                
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/flt_include_friends_checkbox"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/activity_setting_height_textview"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:paddingRight="@dimen/activity_setting_padding"
+                android:gravity="center_vertical" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/txt_fb_friends"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/setting_checkbox" />
+                <CheckBox
+                    android:id="@+id/include_friends_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center_vertical"
+                    android:button="@drawable/checkbox_selector"
+                    android:gravity="center_vertical" 
+                    android:focusable="false"/>
+                
+            </FrameLayout>
+        </LinearLayout>
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/activity_setting_height_textview"
+            android:paddingLeft="@dimen/activity_setting_padding"
+            android:textAllCaps="true"
+            android:gravity="left|center_vertical"
+            android:text="@string/msg_search_age"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Gray"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/snapshot_setting_border_top_bottom"
+                 >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/tvAgeLimit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="Age limit" 
+                	android:textSize="13sp"
+                	/>
+
+                <LinearLayout
+	                android:id="@+id/range_seekbar_layout"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:paddingBottom="20dp"
+	                android:paddingTop="20dp"
+	                android:paddingLeft="10dp"
+	                android:paddingRight="10dp"
+	                android:orientation="horizontal" />
+        		</LinearLayout>
+            </LinearLayout>
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/activity_setting_height_textview"
+            android:paddingLeft="@dimen/activity_setting_padding"
+            android:textAllCaps="true"
+            android:gravity="left|center_vertical"
+            android:text="@string/msg_people_around"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/snapshot_setting_border_top_bottom"
+            android:orientation="vertical" >
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/tvDistance"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_setting_padding"
+                android:paddingTop="5dp"
+                android:gravity="left|center_vertical"
+                android:text="@string/msg_people_around_sub_1"
+                android:textSize="13sp" />
+
+            <SeekBar
+                android:id="@+id/seekBarDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:progressDrawable="@drawable/progress_horizontal"
+                android:thumb="@drawable/seekbar_handle" />
+        </LinearLayout>
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:padding="@dimen/activity_setting_padding"
+            android:text="@string/msg_people_around_sub_2"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/linear_contact_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/setting_btn_"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_contact_us" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/txt_contact_us"
+                    android:textColor="@color/White"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/setting_btn_"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_logout" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="@string/txt_logout"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/White"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonContactUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/contactus_btn_"
+                android:text="@string/txt_contact_us"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/buttonLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/logout_btn_"
+                android:text="@string/txt_logout"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/logo_oc" />
+        
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:padding="5dp"
+            android:text="Version 1.2"
+            android:layout_gravity="bottom|right"
+            android:gravity="center_vertical|right"
+            android:textColor="#cfcfcf"
+            android:textSize="12sp" />
+            
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_snapshot_background"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    >
+    <com.oakclub.android.view.TextViewWithFont 
+        android:id = "@+id/dialog_active_snapshot_tvtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Not interested?"
+        android:textColor="#f00"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:padding="10dp"
+        />
+    <com.oakclub.android.view.TextViewWithFont
+        android:id="@+id/dialog_active_snapshot_tvcontent" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dragging a picture to the left indicates  you are not interested in Hieu."
+        android:textColor="#000"
+        android:gravity="center"
+        android:textSize="18sp"        
+        />
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        >
+        <Button 
+            android:id="@+id/dialog_active_snapshot_btCancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/dialog_snapshot_text_cancel"
+            android:textSize="22sp"
+            android:background="@drawable/dialog_snapshot_cancel"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            />
+        <Button 
+            android:id="@+id/dialog_active_snapshot_btActive"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pass"
+            android:textColor="@color/dialog_snapshot_text_pass"
+            android:textSize="22sp"
+            android:background="@drawable/dialog_snapshot_pass"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,802 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:custom="http://schemas.android.com/apk/res/net.simonvt.widget.NumberPicker"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff4f4f4" >
+
+        <RelativeLayout
+            android:id="@+id/top_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            >
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/activity_profile_setting_rlt_twname"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hieu Pham"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" 
+                />
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/activity_profile_setting_rlt_twinfo"
+                android:layout_below="@+id/activity_profile_setting_rlt_twname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other, Ho Chi Minh city, VietNam" 
+                />
+            
+             <LinearLayout 
+                android:id="@+id/activity_profile_settings_llt_top"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activity_profile_setting_rlt_twinfo"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                >
+                <FrameLayout
+                  android:id="@+id/frameLayout1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  >
+                  <com.oakclub.android.view.CircleImageView
+                      android:id="@+id/user_avatar"
+                      android:layout_width="110dp"
+                      android:layout_height="110dp"
+                      android:layout_gravity="center"
+                      />
+                  <View
+                      android:layout_width="110dp"
+                      android:layout_height="110dp"
+                      android:background="@drawable/avatar_edit"
+                      android:layout_gravity="center"
+                      />
+                  <com.oakclub.android.view.TextViewWithFont
+                      android:id="@+id/textViewEdit"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom|center_horizontal"
+                      android:gravity="center_horizontal"
+                      android:paddingBottom="10dp"
+                      android:text="Edit"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      android:textColor="@android:color/white"
+                      android:textSize="14sp" />
+              </FrameLayout>
+  
+              <FrameLayout
+                  android:id="@+id/activity_profile_settings_flt_video"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_gravity="center"
+                   >
+                  <com.oakclub.android.view.CircleImageView
+                      android:id="@+id/activity_profile_settings_flt_video_civAvatar"
+                      android:layout_width="110dp"
+                      android:layout_height="110dp"
+                      android:layout_gravity="center"
+                      />
+                  <View
+                      android:layout_width="110dp"
+                      android:layout_height="110dp"
+                      android:background="@drawable/avatar_edit"
+                      android:layout_gravity="center"
+                      />
+                  <com.oakclub.android.view.TextViewWithFont
+                      android:id="@+id/activity_profile_settings_flt_twedit"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom|center_horizontal"
+                      android:gravity="center_horizontal"
+                      android:paddingBottom="10dp"
+                      android:text="Edit"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      android:textColor="@android:color/white"
+                      android:textSize="14sp" />
+              </FrameLayout>     
+                 
+             </LinearLayout>
+            
+           
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_relative_layout"
+            android:orientation="vertical" >
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="@string/profile_photo_header"
+                android:textSize="16sp" />
+            
+            <FrameLayout 
+                android:id="@+id/flt_list_view_photo"
+			    android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                />
+                
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout03"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearLayout02"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+             >
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_name"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    
+                     />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageName"
+                    android:gravity="right"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" 
+                    android:visibility="invisible"
+                    />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutBirthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:text="@string/profile_birthdate" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageBirthdate"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageBirthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp"
+                android:visibility="visible" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:text="@string/profile_email" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageEmail"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:text="@string/profile_gender" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageGender"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutRelationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileRelationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:text="@string/profile_relation_status" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvRelationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageRelationStatus"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageRelationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_height" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/editImageHeight"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_weight" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageWeight"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutInterestedIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileInterestedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_interested_in" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvInterestedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageInterestedIn"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageInterestedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_location" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageLocation"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer"
+                     />
+
+                <ImageView
+                    android:id="@+id/editImageLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn"
+                    android:visibility="invisible"
+                    />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutEthnicity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileEthnicity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_ethnicity" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvEthnicity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageEthnicity"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageEthnicity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutSchool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:layout_centerVertical="true"
+                    android:text="@string/profile_school" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageSchool"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn"
+                    android:visibility="invisible"
+                     />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_language" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageLanguage"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutWork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:text="@string/profile_work" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageWork"
+                    android:gravity="right"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageWork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn"
+                    android:visibility="invisible"
+                     />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/separators" />
+
+            <RelativeLayout
+                android:id="@+id/profileLayoutAboutMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                
+                android:paddingLeft="7dp" >
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileAboutMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:textColor="@color/EditProfileBlack"
+                    android:layout_centerVertical="true"
+                    android:text="@string/profile_about_me" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/profileTvAboutMe"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_toLeftOf="@+id/editImageAboutMe"
+                    android:gravity="right"
+                    android:lines="1"
+                    android:text="@string/profile_no_answer" />
+
+                <ImageView
+                    android:id="@+id/editImageAboutMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/edit_btn" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/linearLayout03"
+            android:layout_margin="5dp"
+            android:background="@drawable/done_btn_"
+            android:text="@string/str_done"
+            android:textColor="@android:color/white"
+            android:visibility="invisible"
+             />
+    </RelativeLayout>
+
+</ScrollView>

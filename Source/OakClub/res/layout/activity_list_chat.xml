@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/activity_list_chat_rlt_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#f8f8f8"
+        android:padding="10dp" >
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/search_matches_edittext"
+            android:hint="@string/txt_search_your_match"
+            android:lines="1"
+            android:id="@+id/search_editext"
+            android:textColor="#740353"
+            android:inputType="text"
+            android:padding="5dp" />
+        <ImageView
+            android:id="@+id/search_edittext_imv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:clickable="true"
+            android:src="@drawable/icon_search" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_list_chat_rlt_center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_list_chat_rlt_top" >
+
+        <TabHost
+            android:id="@android:id/tabhost"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:padding="10dp" >
+
+                    <TabWidget
+                        android:id="@android:id/tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="#fff"
+                        android:gravity="center" >
+                    </TabWidget>
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </RelativeLayout>
+
+</RelativeLayout>

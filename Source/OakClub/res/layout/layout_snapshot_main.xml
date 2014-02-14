@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:padding="14dp"
+        android:background="@drawable/frame_snapshot"
+        >
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:background="@drawable/frame_snapshot_background_image">
+            <ImageView 
+                android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:background="@drawable/frame_snapshot_background_image"
+            />
+            <ImageView 
+                android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:background="@drawable/like_stamp"/>
+            <ImageView 
+                android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_nope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:background="@drawable/no_stamp"/>
+            <TextView 
+                android:id="@+id/activity_snapshot_flt_body_flt_content_tv_numFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="48dp"
+                android:layout_marginBottom="10dp"
+                android:text=" 1 share friend"
+                android:layout_gravity="bottom|right"
+                android:gravity="center_vertical"
+                android:background="#047829"
+                android:visibility="gone"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:paddingTop="5dp"
+            android:layout_weight="5"
+            >
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="right|bottom">
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    >
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_mutual_friend_normal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/ico_mutualfriend_normal"/>
+
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_mutual_friend_disable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ico_mutualfriend_disable" />
+
+                    <TextView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_tvw_mutual_friend"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="25"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/activity_snapshot_flt_body_flt_content_ivw_mutual_friend_disable"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_shareinterest_normal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/ico_sharedinterest_normal"/>
+
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ico_sharedinterest_disable" />
+
+                    <TextView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_tvw_shareinterest"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="0"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable"
+                    />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content">
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_photo_normal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/ico_photonormal"/>
+
+                    <ImageView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_photo_disable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ico_photo_disable" />
+
+                    <TextView
+                        android:id="@+id/activity_snapshot_flt_body_flt_content_tvw_photo"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="0"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/activity_snapshot_flt_body_flt_content_ivw_photo_disable"
+                    />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/activity_snapshot_flt_body_flt_content_tvw_info"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                style="@style/snapshot_info_text_01"
+                android:text="ABC"/>
+
+        </FrameLayout>
+    </LinearLayout>

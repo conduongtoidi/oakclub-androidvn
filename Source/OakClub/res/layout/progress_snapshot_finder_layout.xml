@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    tools:context=".MainActivity">
+  
+    <FrameLayout
+        android:id="@+id/progress_snapshot_layout_flt_body_finder"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/White"
+        android:layout_above="@+id/progress_snapshot_layout_flt_footer_find">
+        
+	    
+        <com.oakclub.android.view.ProgressCircle android:id="@+id/progress_snapshot_layout_flt_process_finder"
+	        android:layout_height="match_parent"
+	        android:layout_width="match_parent"
+	        android:layout_marginBottom="10dp"
+	        android:background="@color/White">
+	    </com.oakclub.android.view.ProgressCircle>
+	   
+    </FrameLayout>
+    <RelativeLayout android:id="@+id/progress_snapshot_layout_flt_footer_find"
+	     android:layout_height="190dp"
+	     android:layout_alignParentBottom="true"
+	     android:background="@color/White"
+	     android:layout_width="match_parent">
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/progress_snapshot_layout_flt_footer_find_text_finder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="bottom|center_horizontal"
+            android:lines="4"
+            android:text="@string/txt_you_seen_all_the_friend_near_you"
+            android:textSize="20sp" />
+
+	     <FrameLayout
+	        android:id="@+id/progress_snapshot_layout_flt_footer_action_find"
+	        android:layout_height="100dp"
+	        android:gravity="center"
+	        android:layout_alignParentBottom="true"
+	        android:layout_width="match_parent">
+	        
+	        <FrameLayout
+	            android:id="@+id/progress_snapshot_layout_flt_footer_action_find_flt_invite" 
+	            android:background="@drawable/tellmyfriends_btn_"
+	            android:layout_gravity="center"
+	            android:clickable="true"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content">
+	            <com.oakclub.android.view.TextViewWithFont android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center"
+		            android:textSize="20sp"
+		            android:textColor="@color/White"
+		            android:text="@string/txt_tell_your_friend"/>
+	        </FrameLayout>
+	       
+	    </FrameLayout>
+        
+    </RelativeLayout>
+    
+</RelativeLayout>

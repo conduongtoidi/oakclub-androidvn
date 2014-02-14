@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    tools:context=".MainActivity">
+    
+    <include layout="@layout/progress_snapshot_layout"
+        android:id="@+id/activity_snapshot_flt_process"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/White"
+        android:visibility="gone"/>
+    <include layout="@layout/progress_snapshot_finder_layout"
+        android:id="@+id/activity_snapshot_flt_process_finder"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/White"
+        android:visibility="gone"/>
+    
+    <FrameLayout
+        android:id="@+id/activity_snapshot_flt_body"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/activity_snapshot_flt_footer"
+        >
+        <ImageView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@drawable/polaroid_back"
+            android:layout_gravity="center"/>
+        <include
+            android:id="@+id/activity_snapshot_flt_body_flt_content_third"
+            layout="@layout/layout_snapshot_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+        <include
+            android:id="@+id/activity_snapshot_flt_body_flt_content_second"
+            layout="@layout/layout_snapshot_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+        <include
+            android:id="@+id/activity_snapshot_flt_body_flt_content"
+            layout="@layout/layout_snapshot_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/activity_snapshot_flt_footer"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_width="match_parent">
+
+        <ImageButton
+            android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/btn_pass_pressed" />
+
+        <ImageButton
+            android:id="@+id/activity_snapshot_flt_footer_ibn_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_info_pressed" />
+
+        <ImageButton
+            android:id="@+id/activity_snapshot_flt_footer_ibn_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="68dp"
+            android:background="@drawable/like_btn_pressed" />
+
+    </FrameLayout>
+</RelativeLayout>

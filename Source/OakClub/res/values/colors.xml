@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="White">#FFFFFF</color>
+    <color name="Purple">#740051</color>
+    <color name="Black">#000000</color>
+    <color name="Gray">#f4f4f4</color>
+    <color name="EditProfileBlack">#222222</color>
+    <color name="setting_checkbox">#ff2b2b2b</color>
+    <color name="chat_background_gray">#e2e2e2</color>
+    <color name="chat_edittext_stroke">#f7f7f7</color>
+    <color name="chat_button_send_solid">#4d0f34</color>
+    <color name="chat_button_send_stroke">#e2e2e2</color>
+    <color name="dialog_snapshot_cancel">#606060</color>
+    <color name="dialog_snapshot_like">#009FD9</color>
+    <color name="dialog_snapshot_pass">#DC1E3A</color>
+    <color name="button_block_active">#CBCBCB</color>
+    <color name="button_block_inactive">#D42F2F</color>
+</resources>
