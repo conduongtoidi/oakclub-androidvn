@@ -179,6 +179,8 @@ public class SnapshotFragment{
 
     private String nameProfile;
     private String avaProfile;
+    private int status;
+    private String match_time;
 
     private int index = 0;
 
@@ -656,6 +658,7 @@ public class SnapshotFragment{
                 boolean isLike = arrayListSnapshot.get(0).getIs_like();
                 nameProfile = arrayListSnapshot.get(0).getName();
                 avaProfile = arrayListSnapshot.get(0).getAvatar();
+                match_time = arrayListSnapshot.get(0).getLike_time();
                 arrayListSnapshot.remove(0);
                 String proId = profileId;
                 String action = Constants.ACTION_LIKE;
@@ -669,6 +672,7 @@ public class SnapshotFragment{
                 if (arrayListSnapshot.size() > 0) {
                     swapData(2);
                     if (action == Constants.ACTION_LIKE && isLike) {
+                    	status = 0;
                         showDialog(url);
                     } else {
                         setEnableAll(true);
@@ -799,6 +803,8 @@ public class SnapshotFragment{
                     if (arrayListSnapshot.size() > 0) {
                         swapData(2);
                         if (action == Constants.ACTION_LIKE && isLike) {
+                        	status = 0;
+                        	match_time = arrayListSnapshot.get(0).getLike_time();
                             showDialog(url);
                         } else {
                             // OakClubUtil.clearCacheWithUrl(url, imageLoader);
@@ -1077,10 +1083,14 @@ public class SnapshotFragment{
                 bundle.putString(Constants.BUNDLE_PROFILE_ID, profileId);
                 bundle.putString(Constants.BUNDLE_AVATAR, avaProfile);
                 bundle.putString(Constants.BUNDLE_NAME, nameProfile);
+            	bundle.putInt(Constants.BUNDLE_STATUS, status);
+                bundle.putString(Constants.BUNDLE_MATCH_TIME, match_time);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 activity.startActivity(intent);
+                dialogMutual.dismiss();
+                dialogMutual.setCancelable(true);
 
                 break;
             case R.id.popup_mutual_match_layout_btn_keep_swiping:

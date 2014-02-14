@@ -52,7 +52,60 @@
         </LinearLayout>
     </FrameLayout>
     
+    <LinearLayout 
+        android:id="@+id/activity_chat_llt_match"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_chat_fltTop"
+        android:layout_above="@+id/activity_chat_rtlbottom"
+        android:orientation="vertical"
+        android:gravity="center">
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/activity_chat_match_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="You matched with Khuong Ngoc"/>
+        
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/activity_chat_match_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="10 hours ago"/>
+        
+        <FrameLayout
+            android:id="@+id/frameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp" >
+
+            <com.oakclub.android.view.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="210dp"
+                android:layout_height="210dp"
+                android:layout_gravity="center_horizontal"
+                />
+            <View
+                android:layout_width="210dp"
+                android:layout_height="210dp"
+                android:background="@drawable/avatarbase_chat_match"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+        
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:text="Start conversations are awkward, but not at OakClub"/>
+        
+    </LinearLayout>
+    
     <ListView
+        
         android:id="@+id/chat_history_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,8 +117,10 @@
         android:listSelector="@android:color/transparent"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
+        android:visibility="gone"
          >
     </ListView>
+    
     <LinearLayout
         android:id="@+id/activity_chat_rtlbottom"
         android:layout_width="fill_parent"

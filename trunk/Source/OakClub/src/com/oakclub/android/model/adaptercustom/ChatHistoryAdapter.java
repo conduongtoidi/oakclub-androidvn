@@ -55,7 +55,6 @@ public class ChatHistoryAdapter extends BaseAdapter {
     }
 
     public int getItemViewType(int position) {
-        Log.v("position", position + "");
         if (list.get(position).getFrom() != null){
             if (list.get(position).getFrom().equals(profile_id)) {
                 return 0;
@@ -63,7 +62,6 @@ public class ChatHistoryAdapter extends BaseAdapter {
                 return 1;
             }
         }
-        Log.v("null", "null");
         return 1;
     }
 

@@ -483,6 +483,8 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
                 @Override
                 public void run() {
+                	ChatActivity.chatLv.setVisibility(View.VISIBLE);
+                	ChatActivity.lltMatch.setVisibility(View.GONE);
                     ChatActivity.messageArrayList.add(message);
                     ChatActivity.adapter.notifyDataSetChanged();
                     ChatActivity.chatLv.setSelection(ChatActivity.adapter.getCount() - 1);
