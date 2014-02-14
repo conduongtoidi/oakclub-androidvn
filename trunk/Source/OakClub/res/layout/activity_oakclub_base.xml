@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+     <LinearLayout
+        android:id="@+id/main_linear_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingTop="48dp" >
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/tapToRetryImv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/top_title_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/navigation_base"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical" >
+
+        <ImageView
+            android:id="@+id/main_icon_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/btn_menu_" />
+
+        <ImageView
+            android:id="@+id/main_icon_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@+id/main_layout_chat"
+            android:src="@drawable/btn_report_"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/main_layout_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp" >
+
+            <ImageView
+                android:id="@+id/main_icon_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:src="@drawable/btn_chat_"
+                android:visibility="visible" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/main_icon_noti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/notification_nn"
+                android:gravity="center"
+                android:text="0"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:visibility="gone"
+                android:textColor="@color/White"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/small_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_small"
+                android:visibility="visible" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+

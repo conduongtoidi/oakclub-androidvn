@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/dialog_warning_lltheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_base"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/dialog_warning_lltheader_imgLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_profile_logo" />
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/dialog_warning_lltheader_tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="@string/txt_warning"
+            android:textColor="@color/Purple"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:id="@+id/dialog_warning_tvQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="@string/txt_internet_message"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+    />
+	<View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#d7d7d7"/>
+    <LinearLayout
+        android:id="@+id/dialog_warning_lltfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/dialog_internet_access_lltfooter_btOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/white_purple_btn_"
+            android:text="OK"
+            android:padding="12dp"
+            android:textColor="@color/Purple" />
+        
+        
+    </LinearLayout>
+
+</LinearLayout>

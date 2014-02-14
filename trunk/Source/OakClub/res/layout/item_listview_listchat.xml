@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp" >
+
+    <FrameLayout
+        android:id="@+id/item_listview_listchat_fltAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" >
+
+        <ImageView
+            android:id="@+id/item_listview_listchat_imgCircle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/avatar_chat_border"
+            android:contentDescription="avatar" />
+
+        <com.oakclub.android.view.CircleImageView
+            android:id="@+id/item_listview_listchat_imgleft"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:contentDescription="avatar" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/item_listview_listchat_lltcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_listview_listchat_fltAvatar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_weight="10"
+             >
+    
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/item_listview_listchat_lltcontent_tvname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hieu Pham"
+                android:textColor="#740353"
+                android:textSize="18sp"
+                android:lines="1" />
+    
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/item_listview_listchat_lltcontent_tvmatches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="Last message on 10/07"
+                android:textColor="#5a5a5a"
+                android:textSize="13sp" />
+            
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/item_listview_listchat_lltcontent_tvlastchat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+                android:textStyle="italic"
+                android:textColor="#5a5a5a"
+                android:textSize="12sp"
+                android:lines="1"
+                 />
+            
+    
+        </LinearLayout>
+    
+        <ImageView
+            android:id="@+id/item_listview_listchat_imgright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:contentDescription="chat"
+            android:src="@drawable/chat_up_off" />
+    </LinearLayout>
+</RelativeLayout>

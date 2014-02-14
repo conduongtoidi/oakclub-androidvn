@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_gravity="center" 
+    android:clickable="true"
+    >
+    
+	<com.oakclub.android.view.CircleImageView 
+	    android:id="@+id/item_photo_profile_ciwPhoto"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:src="@drawable/img_snapshot_temp"
+	    />
+	
+	<ImageView 
+	    android:id="@+id/item_photo_profile_ivFrame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/small_avatar"
+        />
+</FrameLayout>

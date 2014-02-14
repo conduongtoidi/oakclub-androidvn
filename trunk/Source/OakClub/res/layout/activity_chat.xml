@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+      android:background="@drawable/navigation_base" >
+
+    <FrameLayout 
+        android:id="@+id/activity_chat_fltTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_chat_height_background"
+        android:layout_alignParentTop="true"
+        >
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            >
+            <ImageButton
+                android:id="@+id/activity_chat_fltTop_imgbtnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_chat_back"
+                android:background="@color/transparent"
+                />
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/activty_chat_fltTop_tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="KHUONGNGOC"
+                />
+        </LinearLayout>
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center_vertical"
+            android:orientation="horizontal"
+            >
+            <ImageButton
+                android:id="@+id/activity_chat_fltTop_imgbtnInfoProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_profile"
+                android:background="@color/transparent" />
+            <ImageButton
+                android:id="@+id/activity_chat_fltTop_imgbtnReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_report_"
+                android:background="@color/transparent" />
+        </LinearLayout>
+    </FrameLayout>
+    
+    <ListView
+        android:id="@+id/chat_history_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_chat_fltTop"
+        android:layout_above="@+id/activity_chat_rtlbottom"
+        android:background="@android:color/white"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#000"
+        android:listSelector="@android:color/transparent"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+         >
+    </ListView>
+    <LinearLayout
+        android:id="@+id/activity_chat_rtlbottom"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/activity_chat_height_background"
+        android:layout_above="@+id/activity_chat_rtlbottom_gvSmile"
+        android:orientation="horizontal" 
+        android:layout_alignParentBottom="true"
+        android:background="@color/chat_background_gray"
+        android:padding="5dp"
+        >
+        <Button 
+            android:id="@+id/activity_chat_rtlbottom_btshowsmile"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_chat_send"
+            android:text="+"
+            />
+        <EditText
+            android:id="@+id/activity_chat_rtlbottom_tbMessage"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@drawable/edittext_chat_input"
+            android:inputType="text"
+            android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/activity_chat_rtlbottom_btSend"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/txt_send_chat"
+            android:textColor="@color/button_chat_send_color"
+            android:background="@drawable/button_chat_send"
+            />
+    </LinearLayout>
+    
+    <GridView 
+        android:id="@+id/activity_chat_rtlbottom_gvSmile"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:numColumns="8"
+        android:columnWidth="60dp"
+        android:stretchMode="columnWidth"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
