@@ -202,7 +202,7 @@ public class OakClubUtil {
 	 }
 	 
 	 
-	 public static void enableDialogWarning(Context context, String title, String message)
+	 public static void enableDialogWarning(final Context context, String title, final String message)
 	 {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(context);
@@ -222,9 +222,13 @@ public class OakClubUtil {
 
             @Override
             public void onClick(View v) {
-                dialog.cancel();
-                //finish();
-                // System.exit(0);
+                String internetFailed = context.getString(R.string.txt_internet_message);
+                if(!internetFailed.equals(message))
+                    dialog.cancel();
+                else{
+                    ((Activity) context).finish();
+                    System.exit(0);
+                }
             }
         });
         dialog.setCancelable(false);

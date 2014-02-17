@@ -28,7 +28,8 @@ public class AllChatActivity extends ChatBaseActivity {
 		super.onCreate(savedInstanceState);
 		if (!isInternetAccess())
             return;
-        init(adapterAllListChatData, allList, this, CHAT_ALL);
+		else
+		    init(adapterAllListChatData, allList, this, CHAT_ALL);
 		
 //		adapterAllListChatData = new AdapterListChat(this, allList);
 //		lvListChat.setAdapter(adapterAllListChatData);

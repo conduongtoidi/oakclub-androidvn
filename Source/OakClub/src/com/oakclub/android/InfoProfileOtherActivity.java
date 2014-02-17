@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -623,9 +625,9 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
         btnBlock.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 showBlockConfirmDialog(getResources().getString(R.string.txt_block_message), 
                         getResources().getString(R.string.txt_block_anyway), false);
-                dialog.dismiss();
             }
         });
 
@@ -884,7 +886,10 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
         @Override
         public void executeUI(Exception ex) {
-            
+            SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+            Editor editor = pref.edit();
+            editor.putBoolean(Constants.IS_BLOCK_USER, true);
+            editor.commit();
         }
         
     }   
