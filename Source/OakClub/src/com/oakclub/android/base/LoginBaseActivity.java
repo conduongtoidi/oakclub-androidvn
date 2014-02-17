@@ -83,11 +83,11 @@ public class LoginBaseActivity extends OakClubBaseActivity {
         }
         
         if (savedInstanceState == null) {
-        appVer = android.os.Build.VERSION.RELEASE;
-        nameDevice = android.os.Build.MODEL;
-        facebook = new Facebook(getString(R.string.app_id));
-        mAsyncRunner = new AsyncFacebookRunner(facebook);
-        logInFacebook();
+            appVer = android.os.Build.VERSION.RELEASE;
+            nameDevice = android.os.Build.MODEL;
+            facebook = new Facebook(getString(R.string.app_id));
+            mAsyncRunner = new AsyncFacebookRunner(facebook);
+            logInFacebook();
         }
         
     }
@@ -239,8 +239,6 @@ public class LoginBaseActivity extends OakClubBaseActivity {
                         getResources().getString(R.string.txt_signin_failed));
             } else {
                 ProfileSettingFragment.profileInfoObj = obj.getData();
-                
-
                 // Register custom Broadcast receiver to show messages on activity
          		registerGCM();
                 runOnUiThread(new Runnable() {
