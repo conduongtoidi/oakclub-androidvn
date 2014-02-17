@@ -26,8 +26,10 @@ public class MatchChatActivity extends ChatBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-        init(adapterMatchListChatData, matchedList, this, CHAT_MATCHES);
+		if (!isInternetAccess())
+            return;
+        else
+            init(adapterMatchListChatData, matchedList, this, CHAT_MATCHES);
 		
 //		if (matchedList==null || matchedList.size()==0){
 //			matchedList = new ArrayList<ListChatData>();

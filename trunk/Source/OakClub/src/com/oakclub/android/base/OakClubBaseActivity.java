@@ -335,6 +335,11 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	
     @Override
     protected void onResume() {
+        if(!isInternetAccess()){
+            OakClubUtil.enableDialogWarning(this, 
+                    this.getString(R.string.txt_warning), 
+                    this.getString(R.string.txt_internet_message));
+        }
         com.facebook.AppEventsLogger.activateApp(this, this.getString(R.string.app_id));
         super.onResume();
     }

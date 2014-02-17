@@ -24,8 +24,10 @@ public class VIPActivity extends ChatBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        
-        init(adapterVIPListChatData, vipList, this, CHAT_VIP);
+        if (!isInternetAccess())
+            return;
+        else
+            init(adapterVIPListChatData, vipList, this, CHAT_VIP);
         
 //        adapterVIPListChatData = new AdapterListChat(this, vipList);
 //        lvListChat.setAdapter(adapterVIPListChatData);
