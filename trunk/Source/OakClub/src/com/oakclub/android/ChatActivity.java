@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -406,6 +407,7 @@ public class ChatActivity extends OakClubBaseActivity {
         btnBlock.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 showBlockConfirmDialog(getResources().getString(R.string.txt_block_message), 
                         getResources().getString(R.string.txt_block_anyway), false);
             }
@@ -608,7 +610,10 @@ public class ChatActivity extends OakClubBaseActivity {
 
         @Override
         public void executeUI(Exception ex) {
-            
+            SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+            Editor editor = pref.edit();
+            editor.putBoolean(Constants.IS_BLOCK_USER, true);
+            editor.commit();
         }
         
     }   
