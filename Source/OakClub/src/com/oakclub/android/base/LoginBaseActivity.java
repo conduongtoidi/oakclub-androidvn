@@ -181,11 +181,21 @@ public class LoginBaseActivity extends OakClubBaseActivity {
                         @Override
                         public void onFacebookError(FacebookError error) {
                             Log.e("FB:", "Facebook Error");
+                            OakClubUtil.enableDialogWarning(LoginBaseActivity.this, getResources().getString(R.string.txt_warning),
+                                    getResources().getString(R.string.txt_signin_failed));
+                            if (isInternetAccess()) {
+                            	oakClubApi.sendRegister("", "", "3", appVer, nameDevice, android_token);
+                            }
                         }
 
                         @Override
                         public void onError(DialogError e) {
                             Log.e("FB:", "Error");
+                            OakClubUtil.enableDialogWarning(LoginBaseActivity.this, getResources().getString(R.string.txt_warning),
+                                    getResources().getString(R.string.txt_signin_failed));
+                            if (isInternetAccess()) {
+                            	oakClubApi.sendRegister("", "", "3", appVer, nameDevice, android_token);
+                            }
                         }
 
                         @Override
