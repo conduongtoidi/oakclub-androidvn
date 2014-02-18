@@ -79,7 +79,6 @@
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:layout_gravity="center"
-                  android:visibility="gone"
                    >
                   <com.oakclub.android.view.CircleImageView
                       android:id="@+id/activity_profile_settings_flt_video_civAvatar"
