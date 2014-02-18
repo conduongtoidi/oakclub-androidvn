@@ -44,6 +44,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Toast;
 import net.simonvt.numberpicker.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -1091,14 +1092,21 @@ public class ProfileSettingFragment{
         filePath = getPath(activity, mImageCaptureUri);
         if(filePath!= null && !filePath.equals("")){
             file = new File(filePath);
-            if (checkFileMax(file, VIDEO_UPLOAD_MAX_SIZE)) {
-                showDialogWarning(activity.getString(R.string.warning_profile_max_size_video));
+            final String demoVideoPath = "/sdcard/videokit/in.mp4";
+            if (checkIfFileExistAndNotEmpty(demoVideoPath)) {
+                new TranscdingBackground(activity, demoVideoPath).execute();
             }
-            else{
-                UploadProfileVideoLoader loader = new UploadProfileVideoLoader(
-                        "uploadVideo", activity, file);
-                activity.getRequestQueue().addRequest(loader);
+            else {
+                Toast.makeText(activity.getApplicationContext(), demoVideoPath + " not found", Toast.LENGTH_LONG).show();
             }
+//            if (checkFileMax(file, VIDEO_UPLOAD_MAX_SIZE)) {
+//                showDialogWarning(activity.getString(R.string.warning_profile_max_size_video));
+//            }
+//            else{
+//                UploadProfileVideoLoader loader = new UploadProfileVideoLoader(
+//                        "uploadVideo", activity, file);
+//                activity.getRequestQueue().addRequest(loader);
+//            }
         }
     }
     
@@ -1608,7 +1616,7 @@ public class ProfileSettingFragment{
     public class TranscdingBackground extends AsyncTask<String, Integer, Integer>
     {
        
-       ProgressDialog progressDialog;
+       ProgressDialog pdLoading;
        Activity _act;
        String inputFilePath = "";
        String outputFilePath = "";
@@ -1620,9 +1628,10 @@ public class ProfileSettingFragment{
    
        @Override
        protected void onPreExecute() {
-           progressDialog = new ProgressDialog(_act);
-           progressDialog.setMessage("FFmpeg4Android Transcoding in progress...");
-           progressDialog.show();
+           pdLoading=new ProgressDialog(activity);
+           pdLoading.setMessage(activity.getString(R.string.txt_loading));
+           pdLoading.setCancelable(false);
+           pdLoading.show();
            
        }
 
@@ -1642,7 +1651,7 @@ public class ProfileSettingFragment{
                    "-r", "25", 
                    "-b:v", "500k", 
                    "-s", "800x480",
-                   "-f", "flv", outputFilePath};
+                   "-f", "flv", "/sdcard/videokit/output.flv"};
            
            LoadJNI vk = new LoadJNI();
            
@@ -1670,7 +1679,7 @@ public class ProfileSettingFragment{
        @Override
        protected void onPostExecute(Integer result) {
            Log.i(Constants.TAG, "onPostExecute");
-           progressDialog.dismiss();
+           pdLoading.dismiss();
            super.onPostExecute(result);
 
        }
