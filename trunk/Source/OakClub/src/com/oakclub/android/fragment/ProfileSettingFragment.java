@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,6 +60,7 @@ import com.oakclub.android.model.ProfileInfoData;
 import com.oakclub.android.model.SettingReturnObject;
 import com.oakclub.android.model.UploadPhotoReturnObject;
 import com.oakclub.android.model.UploadVideoObject;
+import com.oakclub.android.net.LoadJNI;
 import com.oakclub.android.util.BitmapScaler;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -112,7 +114,6 @@ public class ProfileSettingFragment{
     public Uri mImageCaptureUri;
 //    String imagePath;
     Bitmap photo;
-
     SlidingActivity activity;
     public ProfileSettingFragment(SlidingActivity activity){
         this.activity = activity;
@@ -1599,4 +1600,96 @@ public class ProfileSettingFragment{
             }
         return 0;
     }
+
+
+    /*
+     * Compression video
+     */
+    public class TranscdingBackground extends AsyncTask<String, Integer, Integer>
+    {
+       
+       ProgressDialog progressDialog;
+       Activity _act;
+       String inputFilePath = "";
+       String outputFilePath = "";
+       
+       public TranscdingBackground (Activity act, String filePath) {
+           _act = act;
+           this.inputFilePath = filePath;
+       }
+   
+       @Override
+       protected void onPreExecute() {
+           progressDialog = new ProgressDialog(_act);
+           progressDialog.setMessage("FFmpeg4Android Transcoding in progress...");
+           progressDialog.show();
+           
+       }
+
+       protected Integer doInBackground(String... paths) {
+           Log.i(Constants.TAG, "doInBackground started...");
+           
+           String[] complexCommand = {"ffmpeg","-y" ,
+                   "-i", inputFilePath,
+                   "-strict","experimental",
+                   "-crf", "30",
+                   "-preset", "ultrafast", 
+                   "-acodec", "aac", 
+                   "-ar", "22050", 
+                   "-ac", "2", 
+                   "-b:a", "96k", 
+                   "-vcodec", "libx264", 
+                   "-r", "25", 
+                   "-b:v", "500k", 
+                   "-s", "800x480",
+                   "-f", "flv", outputFilePath};
+           
+           LoadJNI vk = new LoadJNI();
+           
+           try {
+               vk.run(complexCommand, "/sdcard/videokit", activity.getApplicationContext());
+           } catch (Throwable e) {
+               Log.i(Constants.TAG, "vk run exeption.");
+           }
+           Log.i(Constants.TAG, "doInBackground finished");
+           return Integer.valueOf(0);
+       }
+
+       protected void onProgressUpdate(Integer... progress) {
+
+       }
+
+       @Override
+       protected void onCancelled() {
+           Log.i(Constants.TAG, "onCancelled");
+           //progressDialog.dismiss();
+           super.onCancelled();
+       }
+
+
+       @Override
+       protected void onPostExecute(Integer result) {
+           Log.i(Constants.TAG, "onPostExecute");
+           progressDialog.dismiss();
+           super.onPostExecute(result);
+
+       }
+    }
+    
+    private String[] utilConvertToComplex(String str) {
+        String[] complex = str.split(" ");
+        return complex;
+    }
+    
+    private static boolean checkIfFileExistAndNotEmpty(String fullFileName) {
+       File f = new File(fullFileName);
+       long lengthInBytes = f.length();
+       Log.d(Constants.TAG, fullFileName + " length in bytes: " + lengthInBytes);
+       if (lengthInBytes > 100)
+           return true;
+       else {
+           return false;
+       }
+   
+   }
 }
