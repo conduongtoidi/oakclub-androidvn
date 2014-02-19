@@ -98,6 +98,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
                         .getName());
                 bundle.putInt(Constants.BUNDLE_STATUS, listChat.get(position).getStatus());
                 bundle.putString(Constants.BUNDLE_MATCH_TIME, listChat.get(position).getMatch_time());
+                bundle.putBoolean(Constants.BUNDLE_NOTI, false);
                 
                 
                 chatHistoryActivity.putExtras(bundle);

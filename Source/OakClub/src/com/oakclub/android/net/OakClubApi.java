@@ -411,6 +411,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
     @Override
     public ChatHistoryReturnObject getHistoryMessages(String profile_id, int index) {
         try {
+        	
             List<NameValuePair> paramList = new ArrayList<NameValuePair>();
             paramList.add(new BasicNameValuePair("profile_id", "" + profile_id));
             paramList.add(new BasicNameValuePair("index", "" + index));
