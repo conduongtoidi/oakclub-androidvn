@@ -164,7 +164,7 @@ public class OakClubUtil {
         String t = url;
         if (!url.contains("http")) {
             t = c.getResources().getString(R.string.server_address_video)
-                    +"/" +  url + type;
+                    +"/" +  url +"."+ type;
         } else  t = t + type;
         return t;
     }

@@ -89,6 +89,9 @@ public class Constants {
     public static int heightImage = 0;
     public static String isLoadChat = "isLoadChat";
     public static String IS_BLOCK_USER = "isBlockUser";
+
+    public static final String PHOTO_EXTENSION = "jpg";
+    public static final String VIDEO_EXTENSION = "flv"; 
     
 	public static final String SENDER_ID = "105826272497";//"377367791749";//"857951122835";
 	
