@@ -30,7 +30,7 @@ public class MatchChatActivity extends ChatBaseActivity {
             return;
         else
             init(adapterMatchListChatData, matchedList, this, CHAT_MATCHES);
-		
+			Log.v("asd", "asd");
 //		if (matchedList==null || matchedList.size()==0){
 //			matchedList = new ArrayList<ListChatData>();
 //			vipList = new ArrayList<ListChatData>();

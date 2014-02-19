@@ -60,6 +60,20 @@ public class ChatBaseActivity extends OakClubBaseActivity {
             final Activity activity, int chatCase){
     	listChat.clear();
         adapterListChatData = new AdapterListChat(this, listChat);
+        switch (chatCase) {
+		case CHAT_ALL:
+			OakClubBaseActivity.adapterAllListChatData = adapterListChatData;
+			break;
+		case CHAT_MATCHES:
+			OakClubBaseActivity.adapterMatchListChatData = adapterListChatData;
+			break;
+		case CHAT_VIP:
+			OakClubBaseActivity.adapterVIPListChatData = adapterListChatData;
+			break;
+
+		default:
+			break;
+		}
         lvListChat.setAdapter(adapterListChatData);
         if ((ListChatFragment.searchEdt != null && ListChatFragment.searchEdt
                 .getText().toString().length() == 0)
