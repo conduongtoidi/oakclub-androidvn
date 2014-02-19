@@ -5,6 +5,8 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +27,7 @@ import com.oakclub.android.R;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.IRightMenuOnClickListener;
+import com.oakclub.android.model.adaptercustom.AdapterListChat;
 
 @SuppressWarnings("deprecation")
 public class ListChatFragment extends Fragment {
@@ -107,6 +110,7 @@ public class ListChatFragment extends Fragment {
             }
         });
         searchChat();
+        
     }
     
     private void searchChat(){
@@ -134,33 +138,42 @@ public class ListChatFragment extends Fragment {
     }
     
     private void changeText(){
-        String str = searchEdt.getText().toString().toLowerCase();
-        if (OakClubBaseActivity.baseAllList!=null){
-            OakClubBaseActivity.matchedList.clear();
-            OakClubBaseActivity.vipList.clear();
-            OakClubBaseActivity.allList.clear();
-            for (int i = 0 ; i<OakClubBaseActivity.baseAllList.size();i++){
-                String str1=OakClubBaseActivity.baseAllList.get(i).getName().toLowerCase();
-                if (str==null || str.length()==0 || str1.contains(str)){
-                    OakClubBaseActivity.allList.add(OakClubBaseActivity.baseAllList.get(i));
-                    if (OakClubBaseActivity.baseAllList.get(i).isMatches()){
-                        OakClubBaseActivity.matchedList.add(OakClubBaseActivity.baseAllList.get(i));
-                    } else {
-                        OakClubBaseActivity.vipList.add(OakClubBaseActivity.baseAllList.get(i));
-                    }
-                }
-            }
-            if (OakClubBaseActivity.adapterMatchListChatData!=null){
-                OakClubBaseActivity.adapterMatchListChatData.notifyDataSetChanged();
-            }
-            if (OakClubBaseActivity.adapterVIPListChatData!=null){
-                OakClubBaseActivity.adapterVIPListChatData.notifyDataSetChanged();
-            }
+    	new Handler(Looper.getMainLooper()).post(new Runnable() {
+			
+			@Override
+			public void run() {
+				String str = searchEdt.getText().toString().toLowerCase();
+		        if (OakClubBaseActivity.baseAllList!=null){
+		            OakClubBaseActivity.matchedList.clear();
+		            OakClubBaseActivity.vipList.clear();
+		            OakClubBaseActivity.allList.clear();
+		            for (int i = 0 ; i<OakClubBaseActivity.baseAllList.size();i++){
+		                String str1=OakClubBaseActivity.baseAllList.get(i).getName().toLowerCase();
+		                if (str==null || str.length()==0 || str1.contains(str)){
+		                    OakClubBaseActivity.allList.add(OakClubBaseActivity.baseAllList.get(i));
+		                    if (OakClubBaseActivity.baseAllList.get(i).isMatches()){
+		                        OakClubBaseActivity.matchedList.add(OakClubBaseActivity.baseAllList.get(i));
+		                    } else {
+		                        OakClubBaseActivity.vipList.add(OakClubBaseActivity.baseAllList.get(i));
+		                    }
+		                }
+		            }
+		            
+		            if (OakClubBaseActivity.adapterMatchListChatData!=null){
+		                OakClubBaseActivity.adapterMatchListChatData.notifyDataSetChanged();
+		            }
+		            if (OakClubBaseActivity.adapterVIPListChatData!=null){
+		                OakClubBaseActivity.adapterVIPListChatData.notifyDataSetChanged();
+		            }
 
-            if (OakClubBaseActivity.adapterAllListChatData!=null){
-                OakClubBaseActivity.adapterAllListChatData.notifyDataSetChanged();
-            }
-        }
+		            if (OakClubBaseActivity.adapterAllListChatData!=null){
+		                OakClubBaseActivity.adapterAllListChatData.notifyDataSetChanged();
+		            }
+		        }
+				
+			}
+		});
+        
     }
     
     private static View createTabView(Context context, String tabText) {

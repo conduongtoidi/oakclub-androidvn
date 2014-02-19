@@ -745,10 +745,14 @@ public class ChatActivity extends OakClubBaseActivity {
                 String textHead = text.substring(0, pos);
                 String textTail = text.substring(pos, text.length());
                 pos = (textHead +value).length();
+//                if (Html.fromHtml(value).toString().length() > 1)
+//        		{
+//                	pos = (textHead + Html.fromHtml(value).toString()).length();
+//        		}
                 value = textHead + value + textTail;
                 Spannable spannable = getSmiledText(ChatActivity.this, value);
                 tbMessage.setText(spannable);
-                tbMessage.setSelection(pos);
+                tbMessage.setSelection(spannable.length());
             }
         });
       
@@ -788,27 +792,32 @@ public class ChatActivity extends OakClubBaseActivity {
 	public static Spannable getSmiledText(Context context, String text) {
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		String path = "<img src=\"/bundles/likevnhangout/images/gift/";
+		boolean isGift = false;
+		String textGift = text;
 		if (Html.fromHtml(text).toString().length() > 1)
 		{
-			text = Html.fromHtml(text).toString();
-			builder = new SpannableStringBuilder(text);
+			textGift = Html.fromHtml(text).toString();
+			builder = new SpannableStringBuilder(textGift);
 		}
 		if (path.length() > builder.length()) {
 			
 		} else if (text.subSequence(0, path.length()).equals(path)) {
 			try {
-				String img = text.replace(path, "").split("\"")[0].replace(
+				String img = textGift.replace(path, "").split("\"")[0].replace(
 						".png", "");
 
 				builder.setSpan(
 						new ImageSpan(context, context.getResources()
 								.getIdentifier(img.toLowerCase(), "drawable",
-										context.getPackageName())), 0, text
+										context.getPackageName())), 0, textGift
 								.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				isGift = true;
 			} catch (Exception e) {
 
 			}
-		} else {
+		} 
+		if (!isGift) {
+			builder = new SpannableStringBuilder(text);
 			int index;
 			for (index = 0; index < builder.length(); index++) {
 				for (Entry<String, Integer> entry : emoticons.entrySet()) {
