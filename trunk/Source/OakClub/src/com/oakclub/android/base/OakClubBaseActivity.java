@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.android.AsyncFacebookRunner;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -61,6 +62,8 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	public IOakClubApi oakClubApi;
 	public static String facebook_user_id;
 	public static String access_token;
+	public static String appVer;
+	public static String nameDevice;
 	public static XMPPConnection xmpp;
 	public static String user_id;
 	public static ArrayList<ListChatData> matchedList;

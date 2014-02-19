@@ -140,6 +140,7 @@ public class LeftMenuListFragment extends Fragment {
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); 
                         startActivity(intent);
+                        activity.finish();
                         break;
     			}
 	        activity.getSlidingMenu().toggle();

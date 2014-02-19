@@ -66,6 +66,7 @@ public class Constants {
 	public static String BUNDLE_BODY = "body";
 	public static String BUNDLE_STATUS = "status";
 	public static String BUNDLE_MATCH_TIME = "match_time";
+	public static String BUNDLE_NOTI = "notification";
 	public static String XMPP_SERVICE_NAME = "oakclub.com";
 	public static int XMPP_SERVER_PORT = 5222;
 	public static String CHAT_TIME_FORMAT = "MM-dd-yyyy HH:mm:ss";

@@ -1085,6 +1085,7 @@ public class SnapshotFragment{
                 bundle.putString(Constants.BUNDLE_NAME, nameProfile);
             	bundle.putInt(Constants.BUNDLE_STATUS, status);
                 bundle.putString(Constants.BUNDLE_MATCH_TIME, match_time);
+                bundle.putBoolean(Constants.BUNDLE_NOTI, false);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

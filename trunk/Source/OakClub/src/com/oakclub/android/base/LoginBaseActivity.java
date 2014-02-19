@@ -68,9 +68,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	protected LinearLayout mLoginButton;
 	// protected boolean onLoginSuccess = false;
 	SendRegisterReturnObject sendRegObj;
-	ProgressDialog pd;
-	public static String appVer;
-	public static String nameDevice;
+	protected ProgressDialog pd;
 	public static Facebook facebook;
 	public static AsyncFacebookRunner mAsyncRunner;
 
@@ -81,7 +79,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			return;
 		}
 
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null ) {
 			appVer = android.os.Build.VERSION.RELEASE;
 			nameDevice = android.os.Build.MODEL;
 			facebook = new Facebook(getString(R.string.app_id));
@@ -263,10 +261,11 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 									"sendLocation", LoginBaseActivity.this, ""
 											+ latitude, "" + longitude);
 							getRequestQueue().addRequest(loader);
-							Log.v("snapshot", "snapshot");
+							
 							Intent intent = new Intent(LoginBaseActivity.this,
 									SlidingActivity.class);
 							startActivity(intent);
+							finish();
 							// }
 							finish();
 						} else if (mGPS.isGPSEnabled) {
@@ -352,7 +351,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		}
 	}
 
-	private void solveReceiveNewMessage(Message msg) {
+	void solveReceiveNewMessage(Message msg) {
 		ChatHistoryData message = new ChatHistoryData();
 		message.setBody(msg.getBody());
 		String str;

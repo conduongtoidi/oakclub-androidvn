@@ -1,42 +1,40 @@
 package com.oakclub.android;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.codehaus.jackson.map.util.Comparators;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.SASLAuthentication;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.MessageTypeFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
-import org.xbill.DNS.TLSARecord;
+import org.jivesoftware.smack.packet.Packet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.Html;
 import android.text.Spannable;
-import android.text.Spannable.Factory;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
@@ -44,15 +42,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
-import android.view.ViewGroup;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -67,25 +60,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.internal.da;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.google.android.gcm.GCMRegistrar;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
+import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.ChatHistoryReturnObject;
+import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
-import com.oakclub.android.model.HangoutProfileReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.SendChatReturnObject;
-import com.oakclub.android.model.SendMessageReturnObject;
-import com.oakclub.android.model.SetLocationReturnObject;
+import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.SmileysAdapter;
-import com.oakclub.android.net.IOakClubApi;
-import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
@@ -100,6 +90,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	public static String profile_id;
 	public static int status;
 	public static String match_time;
+	public static boolean isLoadFromNoti = false;
 	private String content = "";
 	private boolean isOtherReport = false;
 	String target_name;
@@ -132,6 +123,8 @@ public class ChatActivity extends OakClubBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
 		View v = inflater.inflate(R.layout.activity_chat, null);
 		setContentView(v);
@@ -142,12 +135,77 @@ public class ChatActivity extends OakClubBaseActivity {
 		target_avatar = bundleListChatData.getString(Constants.BUNDLE_AVATAR);
 		status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);
 		match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
+		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);		
+		
+		if (xmpp == null) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+			SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
+			
+			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
+					null);
+			access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
+			GCMRegistrar.checkDevice(this);
+			GCMRegistrar.checkManifest(this);
+			android_token = GCMRegistrar.getRegistrationId(this);
+			
+			ConnectionConfiguration config = new ConnectionConfiguration(
+					getString(R.string.xmpp_server_address),
+					Constants.XMPP_SERVER_PORT, Constants.XMPP_SERVICE_NAME);
+			config.setSASLAuthenticationEnabled(true);
+			
+			xmpp = new XMPPConnection(config);
+			try {
+				SASLAuthentication.supportSASLMechanism("DIGEST-MD5", 0);
+				// SASLAuthentication.supportSASLMechanism("PLAIN", 0);
+				xmpp.connect();
+				String username = pref.getString("username", "");
+				String password = pref.getString("password", "");
+				xmpp.login(username, password);
+				Log.v("xmpp chat", username);
+				PacketFilter filter = new MessageTypeFilter(Message.Type.chat);
+				xmpp.addPacketListener(new org.jivesoftware.smack.PacketListener() {
 
+					@Override
+					public void processPacket(Packet packet) {
+						SharedPreferences pref = getSharedPreferences(
+								Constants.PREFERENCE_NAME, MODE_PRIVATE);
+						boolean isLogin = pref.getBoolean(
+								Constants.PREFERENCE_LOGGINED, false);
+						if (isLogin) {
+							Message message = (Message) packet;
+							if (message.getBody() != null) {
+								Log.v("Message chat", message.getBody());
+								solveReceiveNewMessage(message);
+							}
+						} else {
+							xmpp.disconnect();
+						}
+
+					}
+				}, filter);
+			} catch (XMPPException e) {
+				Toast.makeText(getApplicationContext(), "XMPP Error", 1).show();
+				e.printStackTrace();
+			} catch (Exception e) {
+				Toast.makeText(getApplicationContext(), "XMPP Error 2", 1).show();
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
 		init();
 		addSmileToEmoticons();
 		addItemGridView();
+		
+		
+		
+		//init();
+//		addSmileToEmoticons();
+//		addItemGridView();
 	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -208,6 +266,8 @@ public class ChatActivity extends OakClubBaseActivity {
 				RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+		tvName.setText(target_name);
+		
 		btShowSmile.setOnClickListener(listener);
 		btnInfoProfile.setOnClickListener(listener);
 		btnBack.setOnClickListener(listener);
@@ -251,9 +311,9 @@ public class ChatActivity extends OakClubBaseActivity {
 				messageArrayList, profile_id, target_avatar);
 		chatLv.setAdapter(adapter);
 
-		ChatManager chatManager = xmpp.getChatManager();
-		String str = "" + profile_id + "@oakclub.com";
-		chat = chatManager.createChat(str, null);
+//		ChatManager chatManager = xmpp.getChatManager();
+//		String str = "" + profile_id + "@oakclub.com";
+//		chat = chatManager.createChat(str, null);
 
 		// chat = chatManager.createChat(str, new MessageListener() {
 
@@ -304,7 +364,18 @@ public class ChatActivity extends OakClubBaseActivity {
 						Constants.SET_READ_MESSAGES, ChatActivity.this,
 						profile_id);
 				getRequestQueue().addRequest(loader3);
-				finish();
+				if (isLoadFromNoti) {
+					appVer = android.os.Build.VERSION.RELEASE;
+					nameDevice = android.os.Build.MODEL;
+					
+					SendRegisterRequest request = new SendRegisterRequest(
+							"sendRegister", ChatActivity.this,
+							facebook_user_id, access_token);
+					getRequestQueue().addRequest(request);
+					
+				} else {
+					finish();
+				}
 				break;
 			case R.id.activity_chat_rtlbottom_btSend:
 				chatLv.setVisibility(View.VISIBLE);
@@ -576,6 +647,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 	}
 
+	
 	public class SendMessageLoader extends RequestUI {
 		SendChatReturnObject obj;
 		String userId;
@@ -652,6 +724,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	}
 
+	
 	private void addItemGridView() {
 		SmileysAdapter adapter = new SmileysAdapter(arrayListSmileys,
 				ChatActivity.this, emoticons);
@@ -660,6 +733,7 @@ public class ChatActivity extends OakClubBaseActivity {
     
     private static HashMap<String, Integer> emoticons = new HashMap<String, Integer>();
     private ArrayList<String> arrayListSmileys = new ArrayList<String>();
+    
     private void showSmile(){
         gvSmile.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -804,8 +878,21 @@ public class ChatActivity extends OakClubBaseActivity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			lltBottom.setLayoutParams(params);
 			isShowSmile = false;
-		} else
+		} else {
+			if (isLoadFromNoti) {
+				appVer = android.os.Build.VERSION.RELEASE;
+				nameDevice = android.os.Build.MODEL;
+				
+				SendRegisterRequest request = new SendRegisterRequest(
+						"sendRegister", ChatActivity.this,
+						facebook_user_id, access_token);
+				getRequestQueue().addRequest(request);
+				
+			} else {
+				finish();
+			}
 			super.onBackPressed();
+		}
 	}
 
 	private String timeMatch(String timeMatch) {
@@ -919,7 +1006,10 @@ public class ChatActivity extends OakClubBaseActivity {
 				startActivityForResult(intent, 1);
 				isPressInfoProfile = false;
 			}
-		}
+			else {
+				OakClubUtil.enableDialogWarning(ChatActivity.this, getString(R.string.txt_warning), getString(R.string.txt_internet_message));
+			}
+		} 
 	}
 
 	class SetReadMessages extends RequestUI {
@@ -982,6 +1072,195 @@ public class ChatActivity extends OakClubBaseActivity {
 								.setVisibility(View.GONE);
 					}
 				}
+			}
+		}
+
+	}
+	
+	protected void solveReceiveNewMessage(Message msg) {
+		ChatHistoryData message = new ChatHistoryData();
+		message.setBody(msg.getBody());
+		String str;
+		str = msg.getTo();
+		str = str.substring(0, str.indexOf('@'));
+
+		message.setTo(str);
+		str = msg.getFrom();
+		str = str.substring(0, str.indexOf('@'));
+
+		message.setFrom(str);
+		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_TIME_FORMAT);
+		String formattedDate = df.format(new Date());
+		message.setTime_string(formattedDate);
+		updateNewMessage(message);
+	}
+	
+	private void updateNewMessage(final ChatHistoryData message) {
+
+		boolean needToShowNotification = false;
+		if (ChatActivity.profile_id != null
+				&& ChatActivity.profile_id.equals(message.getFrom())) {
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					ChatActivity.chatLv.setVisibility(View.VISIBLE);
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					ChatActivity.messageArrayList.add(message);
+					ChatActivity.adapter.notifyDataSetChanged();
+					ChatActivity.chatLv.setSelection(ChatActivity.adapter
+							.getCount() - 1);
+				}
+			});
+			if (!ChatActivity.isActive) {
+				needToShowNotification = true;
+			}
+		} else {
+			needToShowNotification = true;
+		}
+		int id = -1;
+		if (baseAllList != null)
+			for (int i = 0; i < baseAllList.size(); i++) {
+				if (baseAllList.get(i).getProfile_id()
+						.equals(message.getFrom())) {
+					id = i;
+					break;
+				}
+			}
+		if (id == -1) {
+			ListChatData newMessage = new ListChatData();
+			newMessage.setProfile_id(message.getFrom());
+			newMessage.setName("NO NAME");
+			newMessage.setLast_message(message.getBody());
+			newMessage.setTime(message.getTime_string());
+			newMessage.setStatus(2);
+			newMessage.setMatches(false);
+			newMessage.setUnread_count(1);
+			baseAllList.add(0, newMessage);
+			allList.add(0, newMessage);
+			vipList.add(0, newMessage);
+		} else {
+			baseAllList.get(id).setLast_message(message.getBody());
+			baseAllList.get(id).setTime(message.getTime_string());
+			matchedList.get(id).setUnread_count(
+					matchedList.get(id).getUnread_count() + 1);
+			for (int i = 0; i < matchedList.size(); i++) {
+				if (matchedList.get(i).getProfile_id()
+						.equals(message.getFrom())) {
+					matchedList.get(i).setLast_message(message.getBody());
+					matchedList.get(i).setTime(message.getTime_string());
+					matchedList.get(i).setUnread_count(
+							matchedList.get(i).getUnread_count() + 1);
+				}
+			}
+			for (int i = 0; i < allList.size(); i++) {
+				if (allList.get(i).getProfile_id().equals(message.getFrom())) {
+					allList.get(i).setLast_message(message.getBody());
+					allList.get(i).setTime(message.getTime_string());
+					allList.get(i).setUnread_count(
+							allList.get(i).getUnread_count() + 1);
+				}
+			}
+			for (int i = 0; i < vipList.size(); i++) {
+				if (vipList.get(i).getProfile_id().equals(message.getFrom())) {
+					vipList.get(i).setLast_message(message.getBody());
+					vipList.get(i).setTime(message.getTime_string());
+					vipList.get(i).setUnread_count(
+							vipList.get(i).getUnread_count() + 1);
+				}
+			}
+		}
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				SlidingMenuActivity.totalUnreadMessage += 1;
+				if (SlidingMenuActivity.mNotificationTv != null) {
+					SlidingMenuActivity.mNotificationTv.setText(""
+							+ SlidingMenuActivity.totalUnreadMessage);
+					if (SlidingMenuActivity.totalUnreadMessage > 0) {
+						SlidingMenuActivity.mNotificationTv
+								.setVisibility(View.VISIBLE);
+					} else {
+						SlidingMenuActivity.mNotificationTv
+								.setVisibility(View.GONE);
+					}
+				}
+				if (adapterAllListChatData != null) {
+					adapterAllListChatData.notifyDataSetChanged();
+				}
+				if (adapterVIPListChatData != null) {
+					adapterVIPListChatData.notifyDataSetChanged();
+				}
+				if (adapterMatchListChatData != null) {
+					adapterMatchListChatData.notifyDataSetChanged();
+				}
+			}
+		});
+	}
+
+	class SendRegisterRequest extends RequestUI {
+		SendRegisterReturnObject obj;
+		String user_id;
+		String access_token;
+
+		public SendRegisterRequest(Object key, Activity activity,
+				String user_id, String access_token) {
+			super(key, activity);
+			this.user_id = user_id;
+			this.access_token = access_token;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			obj = oakClubApi.sendRegister(user_id, access_token, "3", appVer,
+					nameDevice, android_token);
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (obj == null
+					|| (!obj.isStatus() && obj.getError_status().equals("1"))) {
+				OakClubUtil.enableDialogWarning(ChatActivity.this,
+						getResources().getString(R.string.txt_warning),
+						getResources().getString(R.string.txt_signin_failed));
+			} else {
+				ProfileSettingFragment.profileInfoObj = obj.getData();
+
+				// Register custom Broadcast receiver to show messages on
+				// activity
+				registerGCM();
+				
+				user_id = obj.getData().getProfile_id();
+
+				GetDataLanguageLoader loader2 = new GetDataLanguageLoader(
+						"getDataLanguage", ChatActivity.this);
+				loader2.setPriority(RequestUI.PRIORITY_LOW);
+				getRequestQueue().addRequest(loader2);
+				Intent intent = new Intent(ChatActivity.this,
+						SlidingActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		}
+	}
+	
+	class GetDataLanguageLoader extends RequestUI {
+		GetDataLanguageReturnObject obj;
+
+		public GetDataLanguageLoader(Object key, Activity activity) {
+			super(key, activity);
+		}
+
+		@Override
+		public void execute() throws Exception {
+			obj = oakClubApi.GetDataLanguage();
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (obj != null && obj.getData() != null) {
+				SlidingMenuActivity.mDataLanguageObj = obj.getData();
 			}
 		}
 
