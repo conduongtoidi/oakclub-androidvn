@@ -102,15 +102,12 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	
 	@Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         System.gc();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-//        snapShotData=null;
-//        imageCache = null;
         System.gc();
         super.onDestroy();
     }

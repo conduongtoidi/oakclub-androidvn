@@ -46,12 +46,12 @@ public class SplashScreenActivity extends Activity {
 		
 		ImageLoader imgLoader = new ImageLoader(this);
         imgLoader.clearCache();
-//
-//		try {
-//			saveLogcatToFile(getApplicationContext());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+
+		try {
+			saveLogcatToFile(getApplicationContext());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//OakClubApplication.getInstance().clearApplicationData();
 		SlideToDown(img, 500);

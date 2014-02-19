@@ -3,7 +3,7 @@
     
     <string name="default_server_address">http://oakclub.com/service</string>
     <string name="server_address_image">http://oakclub.com/load_photo.php</string>
-    <string name="server_address_video">http://oakclub.com/datanew</string>
+    <string name="server_address_video">http://oakclub.com/data</string>
     <string name="xmpp_server_address">xmpp.oakclub.com</string>
     <string name="mail_server_address">help@Oakclub.com</string>
     <string name="test_server_address">staging.oakclub.com/service</string>

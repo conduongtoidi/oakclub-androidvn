@@ -165,7 +165,7 @@ public class GPSTracker implements LocationListener {
      * */
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-
+        
         // Setting Dialog Title
         alertDialog.setTitle(context.getString(R.string.txt_gps_settings_title));
         // Setting Dialog Message
@@ -177,6 +177,7 @@ public class GPSTracker implements LocationListener {
                         Intent intent = new Intent(
                                 Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         context.startActivity(intent);
+                        dialog.cancel();
                     }
                 });
 

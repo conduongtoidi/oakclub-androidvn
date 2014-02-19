@@ -9,12 +9,13 @@ public class FileCache {
     
     public FileCache(Context context){
         //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            cacheDir=new File(android.os.Environment.getExternalStorageDirectory(),"TempImages");
-        else
-            cacheDir=context.getCacheDir();
-        if(!cacheDir.exists())
-            cacheDir.mkdirs();
+//        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+//            cacheDir=new File(android.os.Environment.getExternalStorageDirectory(), Constants.TAG);
+//        else
+//            cacheDir=context.getCacheDir();
+//        if(!cacheDir.exists())
+//            cacheDir.mkdirs();
+        cacheDir = OakClubUtil.getFileStore(context);
     }
   
     public File getFile(String url){
