@@ -317,7 +317,7 @@ public class ProfileSettingFragment{
 //              imagePath = null;
               if(!profileInfoObj.getVideo_link().equals("")){
                   String urlVideo = OakClubUtil.getFullLinkVideo(activity,
-                                  profileInfoObj.getVideo_link(), ".flv");
+                                  profileInfoObj.getVideo_link(), Constants.VIDEO_EXTENSION);
                   intent = new Intent(activity, VideoViewActivity.class);
                   intent.putExtra("url_video", urlVideo);
                   activity.startActivity(intent);
@@ -1001,7 +1001,7 @@ public class ProfileSettingFragment{
                     url, avatar);
             if(!profileInfoObj.getVideo_link().equals("")){
                 url =OakClubUtil.getFullLinkVideo(activity,
-                        profileInfoObj.getVideo_link(), ".jpg");
+                        profileInfoObj.getVideo_link(), Constants.PHOTO_EXTENSION);
                 OakClubUtil.loadImageFromUrl(activity,
                         url, video);
                 imgAddVideo.setVisibility(View.GONE);

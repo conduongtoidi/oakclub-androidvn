@@ -21,6 +21,14 @@
                 android:scaleType="fitCenter"
                 android:background="@drawable/frame_snapshot_background_image"
             />
+            <ImageButton
+                android:id="@+id/activity_snapshot_flt_body_flt_content_imgPlayvideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_margin="20dp"
+                android:background="@drawable/play_icon_onimage"
+            />
             <ImageView 
                 android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_like"
                 android:layout_width="wrap_content"

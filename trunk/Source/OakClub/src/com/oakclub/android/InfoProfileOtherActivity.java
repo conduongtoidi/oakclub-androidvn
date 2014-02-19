@@ -64,7 +64,8 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	private TextView tvAbout;
 	private TextView tvShareInterest;
 	private TextView tvMutualMatch;
-	private ImageView imgAboutme;
+    private ImageButton imgPlayvideo;
+    private ImageView imgAboutme;
 	private ImageView imgShareInterests;
 	private ImageView imgMutualFriends;
 	private ImageView imgLocation;
@@ -80,8 +81,9 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	private ImageView imgInterested_In;
 	private TextView tvInterested_In;
 	
-	
-	private  TextView tvwNumCapture;
+
+    private  TextView tvwNumCapture;
+    private  TextView tvwNumVideo;
 	private TextView tvwName;
 	private TextView tvwAge;
 	private TextView tvwDistance;
@@ -115,6 +117,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
 
     private ArrayList<ListPhotoReturnDataItemObject> imageCache;
+    private String urlVideo = "";
 	
 	private boolean isZoom = false;
 	private ViewPager pager;
@@ -213,7 +216,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 		}
 		this.profileId = snapShotData.getProfile_id();
 		imageCache = (ArrayList<ListPhotoReturnDataItemObject>)snapShotData.getPhotos();
-		
+		urlVideo = snapShotData.getVideo_link();
 		pager = (ViewPager) findViewById(R.id.activity_profile_info_other_header_fltSnapshot_vpr_list_images);
 		pager.getLayoutParams().height = profile_info_other_image_height;
 		pager.getLayoutParams().width = LayoutParams.MATCH_PARENT;
@@ -234,7 +237,9 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 			
 			@Override
 			public void onPageSelected(int arg0) {
-				tvwNumCapture.setText((arg0+1)+"/"+imageCache.size());
+                if(arg0+1<=imageCache.size())
+                    tvwNumCapture.setText((arg0+1)+"/"+imageCache.size());
+                else tvwNumCapture.setText(arg0+"/"+imageCache.size());
 			}
 			
 			@Override
@@ -266,9 +271,11 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 		tvWork = (TextView) findViewById(R.id.activity_profile_info_other_body_work);
 		imgInterested_In = (ImageView) findViewById(R.id.activity_profile_info_other_body_imgInterested);
 		tvInterested_In = (TextView) findViewById(R.id.activity_profile_info_other_body_interested);
-		
-		btDone = (Button)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_btDone);
-		btDone.setOnClickListener(eventClickButton);
+
+        btDone = (Button)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_btDone);
+        btDone.setOnClickListener(eventClickButton);
+        imgPlayvideo = (ImageButton)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_imgPlayvideo);
+        imgPlayvideo.setOnClickListener(eventClickButton);
 		
 		ibnLike = (ImageButton)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_ibLike);
 		ibnLike.setOnClickListener(eventClickButton);
@@ -278,8 +285,18 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
             ibnLike.setVisibility(View.GONE);
             ibnReject.setVisibility(View.GONE);
 		}
-		tvwNumCapture = (TextView)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_tvwNumCapture);
-		tvwNumCapture.setText((pager.getCurrentItem()+1)+"/"+imageCache.size());		
+        tvwNumCapture = (TextView)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_tvwNumCapture);
+        tvwNumCapture.setText((pager.getCurrentItem()+1)+"/"+imageCache.size());
+        tvwNumVideo = (TextView)findViewById(R.id.activity_profile_info_other_header_fltSnapshot_tvwNumVideo);
+        if(!urlVideo.equals("")){    
+            imgPlayvideo.setVisibility(View.VISIBLE);
+            tvwNumVideo.setText("1");
+        }
+        else {    
+            imgPlayvideo.setVisibility(View.GONE);
+            tvwNumVideo.setText("0");
+        }
+	
 		tvwName = (TextView)findViewById(R.id.activity_profile_info_other_body_fltInfo_tvName);		
 		tvwAge = (TextView)findViewById(R.id.activity_profile_info_other_body_fltInfo_tvAge);		
 		tvwDistance = (TextView)findViewById(R.id.activity_profile_info_other_body_rltInfoDistance_tvDistance);		
@@ -452,52 +469,59 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 		public void onClick(View v) {
 			String action = "-1";
 			switch (v.getId()) {
-			case R.id.activity_profile_info_other_header_fltSnapshot_btDone:
-				if(isZoom){
-					isZoom = false;
-					ResizeAnimation animation = null;
-					Resources rs = getApplicationContext().getResources();
-					int rsNaviHeight = getApplicationContext().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-					int rsStatusHeight = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-					int NaviHeight = 0;
-					int StatusHeight = 0;
-					
-					if (rsNaviHeight > 0)
-						NaviHeight = rs.getDimensionPixelSize(rsNaviHeight);
-					
-					if (rsStatusHeight > 0)
-						StatusHeight = rs.getDimensionPixelSize(rsStatusHeight);
-					animation = new ResizeAnimation(rltMain, (int) OakClubUtil.getHeightScreen(getApplicationContext()) - NaviHeight - StatusHeight, profile_info_other_image_height);
-					animation.setDuration(500);
-					animation.setAnimationListener(new Animation.AnimationListener() {
-					    
-					    @Override
-					    public void onAnimationStart(Animation animation) {
-					    	FrameLayout.LayoutParams layoutPager = new android.widget.FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, profile_info_other_image_height);
-							layoutPager.gravity = Gravity.CENTER;
-							pager.setLayoutParams(layoutPager);
-							rltNavigation.setVisibility(View.GONE);
-					    }
-					    
-					    @Override
-					    public void onAnimationRepeat(Animation animation) {
-	
-					    }
-					    
-					    @Override
-					    public void onAnimationEnd(Animation animation) {
-					    	RelativeLayout.LayoutParams layout = new android.widget.RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-							rltMain.setLayoutParams(layout);
-							footer.setVisibility(View.VISIBLE);
-							rltNavigation.setVisibility(View.VISIBLE);
-					    }
-					});
-					rltMain.startAnimation(animation);
-					
-					return;
-				}
-				finishAct();
-				break;
+	            case R.id.activity_profile_info_other_header_fltSnapshot_btDone:
+	                if(isZoom){
+	                    isZoom = false;
+	                    ResizeAnimation animation = null;
+	                    Resources rs = getApplicationContext().getResources();
+	                    int rsNaviHeight = getApplicationContext().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+	                    int rsStatusHeight = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+	                    int NaviHeight = 0;
+	                    int StatusHeight = 0;
+	                    
+	                    if (rsNaviHeight > 0)
+	                        NaviHeight = rs.getDimensionPixelSize(rsNaviHeight);
+	                    
+	                    if (rsStatusHeight > 0)
+	                        StatusHeight = rs.getDimensionPixelSize(rsStatusHeight);
+	                    animation = new ResizeAnimation(rltMain, (int) OakClubUtil.getHeightScreen(getApplicationContext()) - NaviHeight - StatusHeight, profile_info_other_image_height);
+	                    animation.setDuration(500);
+	                    animation.setAnimationListener(new Animation.AnimationListener() {
+	                        
+	                        @Override
+	                        public void onAnimationStart(Animation animation) {
+	                            FrameLayout.LayoutParams layoutPager = new android.widget.FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, profile_info_other_image_height);
+	                            layoutPager.gravity = Gravity.CENTER;
+	                            pager.setLayoutParams(layoutPager);
+	                            rltNavigation.setVisibility(View.GONE);
+	                        }
+	                        
+	                        @Override
+	                        public void onAnimationRepeat(Animation animation) {
+	    
+	                        }
+	                        
+	                        @Override
+	                        public void onAnimationEnd(Animation animation) {
+	                            RelativeLayout.LayoutParams layout = new android.widget.RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+	                            rltMain.setLayoutParams(layout);
+	                            footer.setVisibility(View.VISIBLE);
+	                            rltNavigation.setVisibility(View.VISIBLE);
+	                        }
+	                    });
+	                    rltMain.startAnimation(animation);
+	                    
+	                    return;
+	                }
+	                finishAct();
+                break;
+            case R.id.activity_profile_info_other_header_fltSnapshot_imgPlayvideo:
+                String videoUrl = OakClubUtil.getFullLinkVideo(InfoProfileOtherActivity.this,
+                        urlVideo, Constants.VIDEO_EXTENSION);
+                intent = new Intent(InfoProfileOtherActivity.this, VideoViewActivity.class);
+                intent.putExtra("url_video", videoUrl);
+                startActivity(intent);
+                break;
 			case R.id.activity_profile_info_other_header_fltSnapshot_ibLike:
 				action = Constants.ACTION_LIKE;
 				Constants.ACTION = action;
@@ -809,21 +833,73 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
 		@Override
 		public int getCount() {
-			return imageCache.size();
+		    int size =imageCache.size();
+		    if(!urlVideo.equals(""))
+		        size++;
+			return size;
 		}
 
 		@Override
 		public Object instantiateItem(ViewGroup view, int position) {
-			ImageView imageView = new ImageView(InfoProfileOtherActivity.this);
-			imageView.setBackgroundColor(Color.BLACK);
-			imageView.setOnClickListener(zoomEvent);
-			imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, profile_info_other_image_height));
-			
-			String imageUrl = OakClubUtil.getFullLink(InfoProfileOtherActivity.this, imageCache.get(position).getTweet_image_link(), Constants.widthImage,Constants.heightImage,1);
-			OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageView, imageUrl);
-			
-			((ViewPager) view).addView(imageView, 0);
-			return imageView;
+		    FrameLayout fltImage = new FrameLayout(InfoProfileOtherActivity.this);
+
+            android.widget.FrameLayout.LayoutParams params;
+		    if(position< imageCache.size()){
+		        ImageView imageView = new ImageView(InfoProfileOtherActivity.this);
+                imageView.setBackgroundColor(Color.BLACK);
+                imageView.setOnClickListener(zoomEvent);
+                params = new  android.widget.FrameLayout.LayoutParams(
+                                android.widget.FrameLayout.LayoutParams.MATCH_PARENT, 
+                                profile_info_other_image_height);
+                params.gravity = Gravity.CENTER;
+                imageView.setLayoutParams(params);
+            
+    			String imageUrl = OakClubUtil.getFullLink(InfoProfileOtherActivity.this, imageCache.get(position).getTweet_image_link(), Constants.widthImage,Constants.heightImage,1);
+    			OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageView, imageUrl);
+    			fltImage.addView(imageView);
+		    }
+		    else {
+                if(!urlVideo.equals("")){
+                    ImageView imageView = new ImageView(InfoProfileOtherActivity.this);
+                    imageView.setBackgroundColor(Color.BLACK);
+                    params = new  android.widget.FrameLayout.LayoutParams(
+                            android.widget.FrameLayout.LayoutParams.MATCH_PARENT, 
+                            profile_info_other_image_height);
+                    params.gravity = Gravity.CENTER;
+                    imageView.setLayoutParams(params);
+                    String imageUrl = OakClubUtil.getFullLinkVideo(InfoProfileOtherActivity.this, urlVideo, Constants.PHOTO_EXTENSION);
+                    OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageView, imageUrl);
+                    fltImage.addView(imageView);
+                    
+                    ImageView imageViewVideo = new ImageView(InfoProfileOtherActivity.this);
+                    params = new  android.widget.FrameLayout.LayoutParams(
+                                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT,
+                                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT);
+                    params.gravity = Gravity.CENTER;
+                    imageViewVideo.setLayoutParams(params);
+                    imageViewVideo.setBackgroundResource(R.drawable.play_icon_onimage);
+                    //imageViewVideo.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, profile_info_other_image_height));
+                    imageView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                String videoUrl = OakClubUtil.getFullLinkVideo(InfoProfileOtherActivity.this,
+                                        urlVideo, Constants.VIDEO_EXTENSION);
+                                intent = new Intent(InfoProfileOtherActivity.this, VideoViewActivity.class);
+                                intent.putExtra("url_video", videoUrl);
+                                startActivity(intent);
+                            }
+                    });
+                    fltImage.addView(imageViewVideo);
+                }
+		    }
+		    params = new  android.widget.FrameLayout.LayoutParams(
+		                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT,
+		                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT);
+		    params.gravity = Gravity.CENTER;
+		    fltImage.setLayoutParams(params);
+		    fltImage.setBackgroundColor(Color.BLACK);
+			((ViewPager) view).addView(fltImage, 0);
+			return fltImage;
 			
 		}
 

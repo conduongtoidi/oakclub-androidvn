@@ -39,6 +39,14 @@
                     android:padding="10dp"
                     android:text="@string/txt_done"
                     android:textColor="#fff" />
+                
+                <ImageButton
+                    android:id="@+id/activity_profile_info_other_header_fltSnapshot_imgPlayvideo"
+                    android:layout_toRightOf="@+id/activity_profile_info_other_header_fltSnapshot_btDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/play_icon_onimage"/>
 
                 <ImageButton
                     android:id="@+id/activity_profile_info_other_header_fltSnapshot_ibNope"
@@ -61,21 +69,43 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="#aa000000"
-                android:gravity="center" >
+                android:gravity="center" 
+                >
 
                 <ImageView
                     android:id="@+id/activity_profile_info_other_header_fltSnapshot_ivCapture"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/activity_profile_info_other_header_fltSnapshot_tvwNumCapture"
-                    android:src="@drawable/camera_icon" />
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/total_photo_icon" />
 
                 <com.oakclub.android.view.TextViewWithFont
                     android:id="@+id/activity_profile_info_other_header_fltSnapshot_tvwNumCapture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerInParent="true"
                     android:text="4/30"
+                    android:textColor="#fff" />
+                
+                <ImageView
+                    android:id="@+id/activity_profile_info_other_header_fltSnapshot_ivVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/activity_profile_info_other_header_fltSnapshot_tvwNumCapture"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/playicon" />
+
+                <com.oakclub.android.view.TextViewWithFont
+                    android:id="@+id/activity_profile_info_other_header_fltSnapshot_tvwNumVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/activity_profile_info_other_header_fltSnapshot_ivVideo"
+                    android:layout_centerInParent="true"
+                    android:text="0"
                     android:textColor="#fff" />
             </RelativeLayout>
         </FrameLayout>
@@ -102,15 +132,14 @@
                     android:textSize="20sp" />
 
                 <FrameLayout
-                    android:layout_width="70dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right" >
-
                     <ImageButton
                         android:id="@+id/activity_profile_info_other_body_fltInfo_imgReport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="right|center"
                         android:background="@color/transparent"
                         android:src="@drawable/btn_report_" />
 

@@ -62,6 +62,7 @@ import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.TutorialScreenActivity;
+import com.oakclub.android.VideoViewActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ListChatFragment;
@@ -89,6 +90,7 @@ public class SnapshotFragment{
     private ImageView ivwMuatualFriendDisable;
     private ImageView ivwShareInterestedDisable;
     private ImageView ivwNumPhotoDisable;
+    private ImageButton imgPlayVideo;
 
     private LinearLayout fltContent;
     private TextView tvwInfo;
@@ -106,6 +108,7 @@ public class SnapshotFragment{
     private ImageView ivwSecondMuatualFriendDisable;
     private ImageView ivwSecondShareInterestedDisable;
     private ImageView ivwSecondNumPhotoDisable;
+    private ImageButton imgPlayVideoSecond;
 
     private LinearLayout fltContentSecond;
     private TextView tvwSecondInfo;
@@ -123,6 +126,7 @@ public class SnapshotFragment{
     private ImageView ivwThirdMuatualFriendDisable;
     private ImageView ivwThirdShareInterestedDisable;
     private ImageView ivwThirdNumPhotoDisable;
+    private ImageButton imgPlayVideoThird;
 
     private LinearLayout fltContentThird;
     private TextView tvwThirdInfo;
@@ -318,6 +322,7 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwNumPhotoDisable = (ImageView) fltContent
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        imgPlayVideo = (ImageButton)fltContent.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
 
         ivwSecondLikeStamp = (ImageView) fltContentSecond
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
@@ -345,6 +350,7 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwSecondNumPhotoDisable = (ImageView) fltContentSecond
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        imgPlayVideoSecond = (ImageButton)fltContentSecond.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
 
         ivwThirdLikeStamp = (ImageView) fltContentThird
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
@@ -372,6 +378,7 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwThirdNumPhotoDisable = (ImageView) fltContentThird
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        imgPlayVideoThird = (ImageButton)fltContentThird.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
 
         resetAll();
         getListSnapshotData(start);
@@ -421,6 +428,20 @@ public class SnapshotFragment{
         }
     }
 
+    private OnClickListener clickPlayVideo(final String url){
+        OnClickListener listener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String videoUrl = OakClubUtil.getFullLinkVideo(activity,
+                        url, Constants.VIDEO_EXTENSION);
+                intent = new Intent(activity, VideoViewActivity.class);
+                intent.putExtra("url_video", videoUrl);
+                activity.startActivity(intent);
+            }
+        };
+        return listener;
+    }
+    
     protected void assignInfo(int index) {
         int age = arrayListSnapshot.get(index).getAge();
         if (age <= 1)
@@ -436,10 +457,17 @@ public class SnapshotFragment{
                 + "";
         String numPicture = arrayListSnapshot.get(index).getPhotos().size()
                 + "";
-
+        String urlVideo = arrayListSnapshot.get(index).getVideo_link();
         switch (contentSnapshot) {
         case 1:
             ivwAvatar.setBackgroundResource(R.drawable.logo_splashscreen);
+            if(!urlVideo.equals("")){
+                imgPlayVideo.setVisibility(View.VISIBLE);
+                imgPlayVideo.setOnClickListener(clickPlayVideo(urlVideo));
+            }
+            else{ 
+                imgPlayVideo.setVisibility(View.GONE);
+            }
             tvwInfo.setText(info);
             tvwNumFriend.setText(numFriend);
             tvwNumShareInterested.setText(numLikePerson);
@@ -459,6 +487,13 @@ public class SnapshotFragment{
             break;
         case 2:
             ivwAvatarSecond.setBackgroundResource(R.drawable.logo_splashscreen);
+            if(!urlVideo.equals("")){
+                imgPlayVideoSecond.setVisibility(View.INVISIBLE);
+                imgPlayVideoSecond.setOnClickListener(clickPlayVideo(urlVideo));
+            }
+            else{
+                imgPlayVideoSecond.setVisibility(View.GONE);
+            }
             tvwSecondInfo.setText(info);
             tvwSecondNumFriend.setText(numFriend);
             tvwSecondNumShareInterested.setText(numLikePerson);
@@ -478,6 +513,13 @@ public class SnapshotFragment{
             break;
         case 3:
             ivwAvatarThird.setBackgroundResource(R.drawable.logo_splashscreen);
+            if(!urlVideo.equals("")){
+                imgPlayVideoThird.setVisibility(View.INVISIBLE);
+                imgPlayVideoThird.setOnClickListener(clickPlayVideo(urlVideo));
+            }
+            else{
+                imgPlayVideoThird.setVisibility(View.GONE);
+            }
             tvwThirdInfo.setText(info);
             tvwThirdNumFriend.setText(numFriend);
             tvwThirdNumShareInterested.setText(numLikePerson);
@@ -950,8 +992,6 @@ public class SnapshotFragment{
                 String target_name = OakClubUtil.getFirstName(arrayListSnapshot.get(0).getName());
                 setNopeSnapshot(target_name);
             }
-            ;
-
         }
     };
     
