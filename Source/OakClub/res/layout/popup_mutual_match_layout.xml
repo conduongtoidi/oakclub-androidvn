@@ -36,13 +36,13 @@
                 android:layout_height="@dimen/activity_snapshot_mutual_match"
                 android:layout_width="@dimen/activity_snapshot_mutual_match"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/avatar_edit"/>
+                android:src="@drawable/edit_photo_btn"/>
             <com.oakclub.android.view.CircleImageView
                 android:id="@+id/popup_mutual_match_layout_image_you"
                 android:layout_height="@dimen/activity_snapshot_mutual_match"
                 android:layout_width="@dimen/activity_snapshot_mutual_match"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/avatar_edit"/>
+                android:src="@drawable/edit_photo_btn"/>
         </LinearLayout>
     </FrameLayout>
     <com.oakclub.android.view.TextViewWithFont

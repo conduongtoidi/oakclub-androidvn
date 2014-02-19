@@ -105,6 +105,7 @@
     <string name = "txt_new_friend_code">make_friend</string>
     <string name = "warning_profile_max_size_photo">The maximum size of photo is 3MB</string>
     <string name = "warning_profile_max_size_video">The maximum size of video is 3MB</string>
+    <string name = "warning_not_found_video">Can not found video path</string>
     <string name = "profile_email">Email</string>
     <string name = "profile_no_answer">No answer</string>
     <string name = "txt_fb_friends">Include friends</string>
@@ -120,6 +121,9 @@
     <string name = "txt_type_message">Type message here</string>
     <string name = "txt_edit_profile_title">Edit profile settings</string>
     <string name = "txt_loading">Loading...</string>
+    <string name = "txt_upload_photo">Uploading photo...</string>
+    <string name = "txt_upload_video">Uploading video...</string>
+    <string name = "txt_compressing_video">Compressing video...</string>
     <string name = "txt_share_title">Make friends, find lovers</string>
     <string name = "txt_notification_content">You have new messages</string>
     <string name = "txt_report_user">Report this user</string>

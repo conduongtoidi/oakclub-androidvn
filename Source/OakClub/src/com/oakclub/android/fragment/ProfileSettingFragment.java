@@ -29,6 +29,7 @@ import android.provider.MediaStore;
 
 import android.widget.FrameLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.content.DialogInterface;
@@ -50,9 +51,11 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netcompss.loader.LoadJNI;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.SlidingActivity.MenuOakclub;
+import com.oakclub.android.VideoViewActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.model.ListPhotoReturnDataItemObject;
@@ -61,7 +64,6 @@ import com.oakclub.android.model.ProfileInfoData;
 import com.oakclub.android.model.SettingReturnObject;
 import com.oakclub.android.model.UploadPhotoReturnObject;
 import com.oakclub.android.model.UploadVideoObject;
-import com.oakclub.android.net.LoadJNI;
 import com.oakclub.android.util.BitmapScaler;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -73,6 +75,10 @@ public class ProfileSettingFragment{
     public static ProfileInfoData profileInfoObj;
     CircleImageView avatar;
     CircleImageView video;
+    ImageView imgAddVideo;
+    ImageView imgPlayVideo;
+    TextView tvEditVideo;
+    TextView tvEditPhoto;
     TextView userNameTv;
     TextView userBriefInfoTv;
     TextView profileTvName;
@@ -106,6 +112,8 @@ public class ProfileSettingFragment{
     RelativeLayout profileLayoutAboutMe;
 
     FrameLayout fltListViewPhoto;
+    FrameLayout fltAvatar;
+    FrameLayout fltVideo;
     HorizontalScrollView listViewPhoto;
     ArrayList<ListPhotoReturnDataItemObject> arrListPhoto;
     private static final int PADDING_DIALOG = 12;
@@ -113,21 +121,36 @@ public class ProfileSettingFragment{
     Button btnDone;
     boolean hasChange = false;
     public Uri mImageCaptureUri;
-//    String imagePath;
+
     Bitmap photo;
     SlidingActivity activity;
     public ProfileSettingFragment(SlidingActivity activity){
         this.activity = activity;
     }
     
-    public void initProfile() {
-
+    public void initProfile() {        
         activity.setTheme(R.style.PickerSampleTheme_Light);
         activity.init(R.layout.activity_profile_settings);
 
+        int widthImageParam = (int)OakClubUtil.getWidthScreen(activity)/3;
+        LayoutParams params = new LayoutParams(widthImageParam, widthImageParam);
+        params.gravity = Gravity.CENTER;
+        fltAvatar = (FrameLayout)findViewById(R.id.activity_profile_settings_flt_photo);
+        fltAvatar.setLayoutParams(params);
+        fltVideo = (FrameLayout)findViewById(R.id.activity_profile_settings_flt_video);
+        fltVideo.setLayoutParams(params);
+        
         arrListPhoto = profileInfoObj.getPhotos();
         avatar = (CircleImageView) findViewById(R.id.user_avatar);
         video = (CircleImageView) findViewById(R.id.activity_profile_settings_flt_video_civAvatar);
+        imgAddVideo = (ImageView) findViewById(R.id.activity_profile_setting_flt_video_ImgAddvideo);
+        imgPlayVideo = (ImageView) findViewById(R.id.activity_profile_setting_flt_video_ImgPlayvideo);
+        params = new LayoutParams(widthImageParam/3, widthImageParam/3);
+        params.gravity = Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
+        tvEditVideo = (TextView) findViewById(R.id.activity_profile_settings_flt_video_tvEditvideo);
+        tvEditPhoto = (TextView) findViewById(R.id.activity_profile_settings_flt_video_tvEditPhoto);
+        tvEditVideo.setLayoutParams(params);
+        tvEditPhoto.setLayoutParams(params);
         userNameTv = (TextView) findViewById(R.id.activity_profile_setting_rlt_twname);
         userBriefInfoTv = (TextView) findViewById(R.id.activity_profile_setting_rlt_twinfo);
         profileTvName = (TextView) findViewById(R.id.profileTvName);
@@ -181,7 +204,9 @@ public class ProfileSettingFragment{
         profileLayoutAboutMe.setOnClickListener(listener);
         btnDone.setOnClickListener(listener);
         avatar.setOnClickListener(listener);
-        video.setOnClickListener(listener);
+        imgPlayVideo.setOnClickListener(listener);
+        imgAddVideo.setOnClickListener(listener);
+        tvEditVideo.setOnClickListener(listener);
     }
     
     public void release()
@@ -206,12 +231,16 @@ public class ProfileSettingFragment{
         linear.setLayoutParams(layoutListView);
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        int widthPhotoItem = (int) OakClubUtil.getWidthScreen(activity)/5;
+        LinearLayout.LayoutParams layoutView = new LinearLayout.LayoutParams(
+                widthPhotoItem, widthPhotoItem);
+//                (int) OakClubUtil.convertDpToPixel(80, activity),
+//                (int) OakClubUtil.convertDpToPixel(80, activity));
+        layoutView.gravity = Gravity.CENTER;
         for (int i = 0; i < arrListPhoto.size(); i++) {
             FrameLayout view = (FrameLayout) inflater.inflate(
                     R.layout.item_photo_profile, null);
-            LinearLayout.LayoutParams layoutView = new LinearLayout.LayoutParams(
-                    (int) OakClubUtil.convertDpToPixel(80, activity),
-                    (int) OakClubUtil.convertDpToPixel(80, activity));
             view.setLayoutParams(layoutView);
             view.setId(0);
             ImageView imgPhoto = (CircleImageView) view
@@ -230,9 +259,6 @@ public class ProfileSettingFragment{
         }
         FrameLayout view = (FrameLayout) inflater.inflate(
                 R.layout.item_photo_profile, null);
-        LinearLayout.LayoutParams layoutView = new LinearLayout.LayoutParams(
-                (int) OakClubUtil.convertDpToPixel(80, activity),
-                (int) OakClubUtil.convertDpToPixel(80, activity));
         view.setLayoutParams(layoutView);
         view.setId(1);
         ImageView imgPhoto = (CircleImageView) view
@@ -240,7 +266,7 @@ public class ProfileSettingFragment{
         imgPhoto.setVisibility(View.GONE);
         ImageView imgFrame = (ImageView) view
                 .findViewById(R.id.item_photo_profile_ivFrame);
-        imgFrame.setImageResource(R.drawable.edit_avatar_btn);
+        imgFrame.setImageResource(R.drawable.addphto_btn);
         view.setOnClickListener(listener);
         linear.addView(view);
 
@@ -269,15 +295,34 @@ public class ProfileSettingFragment{
                         activity.getResources().getString(R.string.txt_complete_action_photo)),
                         PICK_AVATAR_FROM_CAMERA);
                 break;
-            case R.id.activity_profile_settings_flt_video_civAvatar:
-//                imagePath = null;
-                Intent intent = new Intent();
-                intent.setType("video/mp4");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                activity.startActivityForResult(Intent.createChooser(intent,
-                        activity.getResources().getString(R.string.txt_complete_action_photo)),
-                        SELECT_VIDEO); 
-                break;
+            case R.id.activity_profile_setting_flt_video_ImgAddvideo:
+//              imagePath = null;
+              intent = new Intent();
+              intent.setType("video/mp4");
+              intent.setAction(Intent.ACTION_GET_CONTENT);
+              activity.startActivityForResult(Intent.createChooser(intent,
+                      activity.getResources().getString(R.string.txt_complete_action_photo)),
+                      SELECT_VIDEO); 
+              break;
+            case R.id.activity_profile_settings_flt_video_tvEditvideo:
+//              imagePath = null;
+              intent = new Intent();
+              intent.setType("video/mp4");
+              intent.setAction(Intent.ACTION_GET_CONTENT);
+              activity.startActivityForResult(Intent.createChooser(intent,
+                      activity.getResources().getString(R.string.txt_complete_action_photo)),
+                      SELECT_VIDEO); 
+              break;
+            case R.id.activity_profile_setting_flt_video_ImgPlayvideo:
+//              imagePath = null;
+              if(!profileInfoObj.getVideo_link().equals("")){
+                  String urlVideo = OakClubUtil.getFullLinkVideo(activity,
+                                  profileInfoObj.getVideo_link(), ".flv");
+                  intent = new Intent(activity, VideoViewActivity.class);
+                  intent.putExtra("url_video", urlVideo);
+                  activity.startActivity(intent);
+              }
+              break;
             case R.id.profileLayoutName:
                 TextView profileName = (TextView) v
                         .findViewById(R.id.profileName);
@@ -954,10 +999,13 @@ public class ProfileSettingFragment{
                     profileInfoObj.getAvatar());
             OakClubUtil.loadImageFromUrl(activity,
                     url, avatar);
-            url =OakClubUtil.getFullLinkVideo(activity,
-                    profileInfoObj.getVideo_link(), ".jpg");
-            OakClubUtil.loadImageFromUrl(activity,
-                    url, video);
+            if(!profileInfoObj.getVideo_link().equals("")){
+                url =OakClubUtil.getFullLinkVideo(activity,
+                        profileInfoObj.getVideo_link(), ".jpg");
+                OakClubUtil.loadImageFromUrl(activity,
+                        url, video);
+                imgAddVideo.setVisibility(View.GONE);
+            }
             getDataListPhoto();
             
             Calendar cal = Calendar.getInstance();
@@ -1087,26 +1135,15 @@ public class ProfileSettingFragment{
 
     private static final int VIDEO_UPLOAD_MAX_SIZE = 3;
     public void doUploadVideo() {
-        File file = null;
         String filePath = "";
         filePath = getPath(activity, mImageCaptureUri);
         if(filePath!= null && !filePath.equals("")){
-            file = new File(filePath);
-            final String demoVideoPath = "/sdcard/videokit/in.mp4";
-            if (checkIfFileExistAndNotEmpty(demoVideoPath)) {
-                new TranscdingBackground(activity, demoVideoPath).execute();
+            if (checkIfFileExistAndNotEmpty(filePath)) {
+                new TranscdingBackground(activity, filePath, OakClubUtil.getFileStore(activity).getAbsolutePath()).execute();
             }
             else {
-                Toast.makeText(activity.getApplicationContext(), demoVideoPath + " not found", Toast.LENGTH_LONG).show();
+                showDialogWarning(activity.getString(R.string.warning_not_found_video));
             }
-//            if (checkFileMax(file, VIDEO_UPLOAD_MAX_SIZE)) {
-//                showDialogWarning(activity.getString(R.string.warning_profile_max_size_video));
-//            }
-//            else{
-//                UploadProfileVideoLoader loader = new UploadProfileVideoLoader(
-//                        "uploadVideo", activity, file);
-//                activity.getRequestQueue().addRequest(loader);
-//            }
         }
     }
     
@@ -1263,7 +1300,7 @@ public class ProfileSettingFragment{
 
             pdLoading = new ProgressDialog(activity);
             pdLoading.setMessage(activity.getString(
-                    R.string.txt_loading));
+                    R.string.txt_upload_photo));
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
@@ -1320,7 +1357,7 @@ public class ProfileSettingFragment{
 
             pdLoading = new ProgressDialog(activity);
             pdLoading.setMessage(activity.getString(
-                    R.string.txt_loading));
+                    R.string.txt_upload_video));
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
@@ -1338,6 +1375,7 @@ public class ProfileSettingFragment{
             if (obj != null && obj.isStatus()) {
                 String urlVideo = OakClubUtil.getFullLinkVideo(activity, obj.getData(), ".jpg");
                 OakClubUtil.loadImageFromUrl(activity, urlVideo, video);
+                imgAddVideo.setVisibility(View.GONE);
             } else {
                 OakClubUtil.enableDialogWarning(activity,
                         activity.getResources().getString(R.string.txt_warning),
@@ -1358,7 +1396,8 @@ public class ProfileSettingFragment{
             this.id = id;
 
             pdLoading = new ProgressDialog(activity);
-            pdLoading.setMessage("Loading ....");
+            pdLoading.setMessage(activity.getString(
+                    R.string.txt_loading));
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
@@ -1618,45 +1657,45 @@ public class ProfileSettingFragment{
        
        ProgressDialog pdLoading;
        Activity _act;
-       String inputFilePath = "";
-       String outputFilePath = "";
+       String inputFile = "";
+       String outputFile = "";
        
-       public TranscdingBackground (Activity act, String filePath) {
+       public TranscdingBackground (Activity act, String inputFile, String outputFile) {
            _act = act;
-           this.inputFilePath = filePath;
+           this.inputFile = inputFile;
+           this.outputFile = outputFile;
        }
    
        @Override
        protected void onPreExecute() {
-           pdLoading=new ProgressDialog(activity);
-           pdLoading.setMessage(activity.getString(R.string.txt_loading));
+           pdLoading=new ProgressDialog(_act);
+           pdLoading.setMessage(_act.getString(R.string.txt_compressing_video));
            pdLoading.setCancelable(false);
            pdLoading.show();
-           
        }
 
        protected Integer doInBackground(String... paths) {
            Log.i(Constants.TAG, "doInBackground started...");
            
            String[] complexCommand = {"ffmpeg","-y" ,
-                   "-i", inputFilePath,
+                   "-i", inputFile,
                    "-strict","experimental",
                    "-crf", "30",
                    "-preset", "ultrafast", 
                    "-acodec", "aac", 
-                   "-ar", "22050", 
+                   "-ar", "44100", 
                    "-ac", "2", 
                    "-b:a", "96k", 
                    "-vcodec", "libx264", 
                    "-r", "25", 
                    "-b:v", "500k", 
                    "-s", "800x480",
-                   "-f", "flv", "/sdcard/videokit/output.flv"};
+                   "-f", "flv", outputFile + "/video.flv"};
            
            LoadJNI vk = new LoadJNI();
            
            try {
-               vk.run(complexCommand, "/sdcard/videokit", activity.getApplicationContext());
+               vk.run(complexCommand, outputFile, activity.getApplicationContext());
            } catch (Throwable e) {
                Log.i(Constants.TAG, "vk run exeption.");
            }
@@ -1680,6 +1719,16 @@ public class ProfileSettingFragment{
        protected void onPostExecute(Integer result) {
            Log.i(Constants.TAG, "onPostExecute");
            pdLoading.dismiss();
+           File file = new File(outputFile + "/video.flv");
+
+           if (checkFileMax(file, VIDEO_UPLOAD_MAX_SIZE)) {
+               showDialogWarning(activity.getString(R.string.warning_profile_max_size_video));
+           }
+           else{
+               UploadProfileVideoLoader loader = new UploadProfileVideoLoader(
+                       "uploadVideo", activity, file);
+               activity.getRequestQueue().addRequest(loader);
+           }
            super.onPostExecute(result);
 
        }

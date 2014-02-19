@@ -323,17 +323,7 @@ public class OakClubUtil {
             }
         }
     }
-//	public static void recycleImage(View view){
-//	    if(view instanceof ImageView){
-//	        Drawable drawable = ((ImageView)view).getDrawable();
-//	        if(drawable instanceof BitmapDrawable)
-//            {
-//                BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable;
-//                bitmapDrawable.getBitmap().recycle();
-//            }
-//	    }
-//	}
-//	
+	
 	public static void releaseImagePager(ViewPager pager){
         if(pager!=null && pager.getChildCount()>0){
             for(int i = 0; i<pager.getChildCount(); i++){
@@ -341,4 +331,15 @@ public class OakClubUtil {
             }
         }
     }
+	
+	public static File getFileStore(Context context){
+	    File file;
+	    if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+	        file=new File(android.os.Environment.getExternalStorageDirectory(), Constants.TAG);
+        else
+            file=context.getCacheDir();
+        if(!file.exists())
+            file.mkdirs();
+	    return file;
+	} 
 }
