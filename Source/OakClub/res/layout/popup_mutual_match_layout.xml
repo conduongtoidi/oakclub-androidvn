@@ -4,14 +4,11 @@
     android:fillViewport="true"
     android:layout_height="match_parent"
      >
-        
     <RelativeLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="#d1171717"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
+        android:background="@drawable/dialog_match_background"
+        android:padding="30dp"
         >
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/tvw_text"
@@ -24,13 +21,14 @@
         <FrameLayout
             android:id="@+id/popup_mutual_match_layout_llt_listimages"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_below="@+id/tvw_text"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp">
             <LinearLayout
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:gravity="center">
                  
                  <com.oakclub.android.view.CircleImageView
@@ -63,9 +61,9 @@
         <LinearLayout
             android:layout_below="@+id/tvw_text_notice"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:orientation="vertical"
-            android:layout_width="match_parent">
+            android:layout_width="wrap_content">
             <RelativeLayout
                 android:id="@+id/popup_mutual_match_layout_btn_chat"
                 android:background="@drawable/btn_sayhi"

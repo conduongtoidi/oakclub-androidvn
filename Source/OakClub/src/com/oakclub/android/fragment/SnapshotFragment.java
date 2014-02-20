@@ -207,7 +207,6 @@ public class SnapshotFragment{
         //initSnapshot();
     }
     
-    
     public void initSnapshot() {
         activity.init(R.layout.activity_snapshot);
 
@@ -229,7 +228,6 @@ public class SnapshotFragment{
         }
         urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
         init(START_RECORD);
-        showDialog("aaa");
         
     }
 
@@ -866,67 +864,79 @@ public class SnapshotFragment{
                     isAction = false;
                 }
             });
-
+            ScaleAnimation animButton;
             switch (contentSnapshot) {
             case 1:
                 if (action == Constants.ACTION_LIKE) {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwLikeStamp.setAlpha(1.0f);
+                    ivwNopeStamp.setAlpha(0.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwLikeStamp.getWidth() / 2, Animation.ABSOLUTE,
                             ivwLikeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwLikeStamp.setAnimation(animButton);
-                    ivwLikeStamp.setAlpha(1.0f);
-                    ivwNopeStamp.setAlpha(0.0f);
+                    ivwLikeStamp.startAnimation(animButton);
                 } else {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwLikeStamp.setAlpha(0.0f);
+                    ivwNopeStamp.setAlpha(1.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwNopeStamp.getWidth() / 2, Animation.ABSOLUTE,
                             ivwNopeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwNopeStamp.setAnimation(animButton);
-                    ivwLikeStamp.setAlpha(0.0f);
-                    ivwNopeStamp.setAlpha(1.0f);
+                    ivwNopeStamp.startAnimation(animButton);
                 }
                 break;
             case 2:
                 if (action == Constants.ACTION_LIKE) {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwSecondLikeStamp.setAlpha(1.0f);
+                    ivwSecondNopeStamp.setAlpha(0.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwSecondLikeStamp.getWidth() / 2,
                             Animation.ABSOLUTE,
                             ivwSecondLikeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwSecondLikeStamp.setAnimation(animButton);
-                    ivwSecondLikeStamp.setAlpha(1.0f);
-                    ivwSecondNopeStamp.setAlpha(0.0f);
+                    ivwSecondLikeStamp.startAnimation(animButton);
                 } else {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwSecondLikeStamp.setAlpha(0.0f);
+                    ivwSecondNopeStamp.setAlpha(1.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwSecondNopeStamp.getWidth() / 2,
                             Animation.ABSOLUTE,
                             ivwSecondNopeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwSecondNopeStamp.setAnimation(animButton);
-                    ivwSecondLikeStamp.setAlpha(0.0f);
-                    ivwSecondNopeStamp.setAlpha(1.0f);
+                    ivwSecondNopeStamp.startAnimation(animButton);
                 }
                 break;
             case 3:
                 if (action == Constants.ACTION_LIKE) {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwThirdLikeStamp.setAlpha(1.0f);
+                    ivwThirdNopeStamp.setAlpha(0.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwThirdLikeStamp.getWidth() / 2,
                             Animation.ABSOLUTE,
                             ivwThirdLikeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwThirdLikeStamp.setAnimation(animButton);
-                    ivwThirdLikeStamp.setAlpha(1.0f);
-                    ivwThirdNopeStamp.setAlpha(0.0f);
+                    ivwThirdLikeStamp.startAnimation(animButton);
                 } else {
-                    ScaleAnimation animButton = new ScaleAnimation(1.5f, 1f,
+                    ivwThirdLikeStamp.setAlpha(0.0f);
+                    ivwThirdNopeStamp.setAlpha(1.0f);
+                    animButton = new ScaleAnimation(1.5f, 1f,
                             1.5f, 1f, Animation.ABSOLUTE,
                             ivwThirdNopeStamp.getWidth() / 2,
                             Animation.ABSOLUTE,
                             ivwThirdNopeStamp.getHeight() / 2);
+                    animButton.setDuration(TIMER);
                     ivwThirdNopeStamp.setAnimation(animButton);
-                    ivwThirdLikeStamp.setAlpha(0.0f);
-                    ivwThirdNopeStamp.setAlpha(1.0f);
+                    ivwThirdNopeStamp.startAnimation(animButton);
                 }
                 break;
             default:
@@ -1277,16 +1287,17 @@ public class SnapshotFragment{
 
     private void showDialog(String url) {
         index = 1;
-        dialogMutual = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
-
-        //dialogMutual.setTitle("");
+        dialogMutual = new Dialog(activity);//, android.R.style.Theme_Translucent);
         dialogMutual.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Window window = dialogMutual.getWindow();
-        window.setLayout(LayoutParams.MATCH_PARENT
-                , LayoutParams.MATCH_PARENT);
-        window.setGravity(Gravity.CENTER);
+
+        WindowManager.LayoutParams params = dialogMutual.getWindow().getAttributes();
+        params.gravity = Gravity.CENTER;       
+        dialogMutual.getWindow().setAttributes(params); 
+        
+        dialogMutual.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         View view = activity.getLayoutInflater().inflate(
                 R.layout.popup_mutual_match_layout, null);
+
         TextViewWithFont tvTitle = (TextViewWithFont)view.findViewById(R.id.tvw_text);
         tvTitle.setFont("helveticaneueultralight.ttf");
         ivwMutualMe = (ImageView) view
