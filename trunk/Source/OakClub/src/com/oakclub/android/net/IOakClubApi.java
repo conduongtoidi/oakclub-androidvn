@@ -125,8 +125,10 @@ public interface IOakClubApi {
 	public SetLocationReturnObject SetUserLocation(String latitude, String longitude);
 	
 	public SendChatReturnObject SendChatMessage(String toUser, String content);
-	
-	public PostMethodReturnObject DeleteUserPhoto(String photo_id);
+
+    public PostMethodReturnObject DeleteUserPhoto(String photo_id);
+    
+    public PostMethodReturnObject DeleteUserVideo();
 	
 	public GetDataLanguageReturnObject GetDataLanguage();
 	
@@ -140,4 +142,5 @@ public interface IOakClubApi {
     public void ReportUserById(String profile_id, String content);
     
 	public void SetReadMessages(String profile_id);
+
 }

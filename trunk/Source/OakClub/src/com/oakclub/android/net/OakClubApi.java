@@ -593,18 +593,30 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 	}
 
-	@Override
-	public PostMethodReturnObject DeleteUserPhoto(String photo_id) {
-		try {
-			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-			paramList.add(new BasicNameValuePair("photo_id", "" + photo_id));
-			String result = excutePost(baseUrl + "/deletePhoto", paramList);
-			return OakClubJsonParser.getJsonObjectByMapper(result,
-					PostMethodReturnObject.class);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    @Override
+    public PostMethodReturnObject DeleteUserPhoto(String photo_id) {
+        try {
+            List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+            paramList.add(new BasicNameValuePair("photo_id", "" + photo_id));
+            String result = excutePost(baseUrl + "/deletePhoto", paramList);
+            return OakClubJsonParser.getJsonObjectByMapper(result,
+                    PostMethodReturnObject.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public PostMethodReturnObject DeleteUserVideo() {
+        try {
+            List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+            String result = excutePost(baseUrl + "/deleteVideo", paramList);
+            return OakClubJsonParser.getJsonObjectByMapper(result,
+                    PostMethodReturnObject.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 	@Override
 	public GetDataLanguageReturnObject GetDataLanguage() {
