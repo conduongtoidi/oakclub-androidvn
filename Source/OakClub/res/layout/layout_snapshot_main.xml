@@ -26,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|top"
-                android:layout_margin="20dp"
-                android:background="@drawable/play_icon_onimage"
+                android:layout_margin="10dp"
+                android:background="@drawable/small_video_btn"
             />
             <ImageView 
                 android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_like"

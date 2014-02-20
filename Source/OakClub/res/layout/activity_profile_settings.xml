@@ -103,6 +103,14 @@
                           android:background="@drawable/edit_video_btn"
                           android:layout_gravity="center"
                           />
+                      
+                      <ImageView
+                          android:id="@+id/activity_profile_setting_flt_video_ImgDelvideo"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/del_btn"
+                          android:layout_gravity="right|top"
+                          />
                       <com.oakclub.android.view.TextViewWithFont
                           android:id="@+id/activity_profile_settings_flt_video_tvEditvideo"
                           android:layout_width="fill_parent"

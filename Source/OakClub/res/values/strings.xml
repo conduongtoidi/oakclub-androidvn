@@ -87,7 +87,9 @@
     <string name = "txt_save_settings">Save Your Settings</string>
     <string name = "txt_warning">Warning</string>
     <string name = "txt_delete_photo_question">Do you want to delete this photo ?</string>
+    <string name = "txt_delete_video_question">Do you want to delete this video ?</string>
     <string name = "txt_delete_avatar">Cannot delete this photo.</string>
+    <string name = "txt_delete_video">Cannot delete this video.</string>
     <string name = "txt_distance_country">Country</string>
     <string name = "txt_distance_world">World</string>
     <string name = "txt_tutorial_snapshots_swipe_photo_left">Swipe photo Left to PASS a profile</string>

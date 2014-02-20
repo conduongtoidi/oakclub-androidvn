@@ -77,6 +77,7 @@ public class ProfileSettingFragment{
     CircleImageView video;
     ImageView imgAddVideo;
     ImageView imgPlayVideo;
+    ImageView imgDelVideo;
     TextView tvEditVideo;
     TextView tvEditPhoto;
     TextView userNameTv;
@@ -145,6 +146,11 @@ public class ProfileSettingFragment{
         video = (CircleImageView) findViewById(R.id.activity_profile_settings_flt_video_civAvatar);
         imgAddVideo = (ImageView) findViewById(R.id.activity_profile_setting_flt_video_ImgAddvideo);
         imgPlayVideo = (ImageView) findViewById(R.id.activity_profile_setting_flt_video_ImgPlayvideo);
+        params = new LayoutParams(widthImageParam/4, widthImageParam/4);
+        params.gravity = Gravity.RIGHT|Gravity.TOP;
+        imgDelVideo = (ImageView) findViewById(R.id.activity_profile_setting_flt_video_ImgDelvideo);
+        imgDelVideo.setLayoutParams(params);
+        
         params = new LayoutParams(widthImageParam/3, widthImageParam/3);
         params.gravity = Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
         tvEditVideo = (TextView) findViewById(R.id.activity_profile_settings_flt_video_tvEditvideo);
@@ -206,6 +212,7 @@ public class ProfileSettingFragment{
         avatar.setOnClickListener(listener);
         imgPlayVideo.setOnClickListener(listener);
         imgAddVideo.setOnClickListener(listener);
+        imgDelVideo.setOnClickListener(listener);
         tvEditVideo.setOnClickListener(listener);
     }
     
@@ -298,7 +305,8 @@ public class ProfileSettingFragment{
             case R.id.activity_profile_setting_flt_video_ImgAddvideo:
 //              imagePath = null;
               intent = new Intent();
-              intent.setType("video/mp4");
+
+              intent.setType("video/*");
               intent.setAction(Intent.ACTION_GET_CONTENT);
               activity.startActivityForResult(Intent.createChooser(intent,
                       activity.getResources().getString(R.string.txt_complete_action_photo)),
@@ -307,7 +315,7 @@ public class ProfileSettingFragment{
             case R.id.activity_profile_settings_flt_video_tvEditvideo:
 //              imagePath = null;
               intent = new Intent();
-              intent.setType("video/mp4");
+              intent.setType("video/*");
               intent.setAction(Intent.ACTION_GET_CONTENT);
               activity.startActivityForResult(Intent.createChooser(intent,
                       activity.getResources().getString(R.string.txt_complete_action_photo)),
@@ -322,6 +330,9 @@ public class ProfileSettingFragment{
                   intent.putExtra("url_video", urlVideo);
                   activity.startActivity(intent);
               }
+              break;
+            case R.id.activity_profile_setting_flt_video_ImgDelvideo:
+                solveDeleteVideo();
               break;
             case R.id.profileLayoutName:
                 TextView profileName = (TextView) v
@@ -999,12 +1010,18 @@ public class ProfileSettingFragment{
                     profileInfoObj.getAvatar());
             OakClubUtil.loadImageFromUrl(activity,
                     url, avatar);
+            
             if(!profileInfoObj.getVideo_link().equals("")){
                 url =OakClubUtil.getFullLinkVideo(activity,
                         profileInfoObj.getVideo_link(), Constants.PHOTO_EXTENSION);
                 OakClubUtil.loadImageFromUrl(activity,
                         url, video);
                 imgAddVideo.setVisibility(View.GONE);
+            }
+            else{
+                imgDelVideo.setVisibility(View.GONE);
+                imgPlayVideo.setVisibility(View.GONE);
+                imgAddVideo.setVisibility(View.VISIBLE);
             }
             getDataListPhoto();
             
@@ -1082,6 +1099,40 @@ public class ProfileSettingFragment{
 
     }
 
+    private void solveDeleteVideo() {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(activity);
+        final AlertDialog dialog = builder.create();
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View layout = inflater.inflate(R.layout.dialog_warning, null);
+        dialog.setView(layout, 0, 0, 0, 0);
+
+        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+        //tvTitle.setText(getResources().getString(R.string.txt_title_delete_photo_warning));
+        TextView tvMessage = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+        tvMessage.setText(activity.getResources().getString(R.string.txt_delete_video_question));
+        Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
+        Button btCancel = (Button) layout
+                .findViewById(R.id.dialog_warning_lltfooter_btCancel);
+        
+        btOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                DeleteUserVideoLoader loader = new DeleteUserVideoLoader(
+                        "deleteVideo", activity);
+                activity.getRequestQueue().addRequest(loader);
+                dialog.dismiss();
+            }
+        });
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    
     private void solveDeletePhoto(final String id) {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(activity);
@@ -1316,22 +1367,22 @@ public class ProfileSettingFragment{
                 pdLoading.dismiss();
             }
             if (obj != null && obj.isStatus()) {
-                String imageUrl = OakClubUtil.getFullLink(
-                        activity, obj.getData()
-                                .getTweet_image_link());
-                if (is_Avatar) {
-                    OakClubUtil.loadImageFromUrl(activity, imageUrl,
-                            avatar);
-                    profileInfoObj.setAvatar(imageUrl);
-                }
-
                 ListPhotoReturnDataItemObject photoObj = new ListPhotoReturnDataItemObject();
                 photoObj.setId(obj.getData().getId());
                 photoObj.setTweet_image_link(obj.getData()
                         .getTweet_image_link());
                 photoObj.setIs_profile_picture(obj.getData().isIs_avatar());
-                if(photoObj!=null)
-                    arrListPhoto.add(photoObj);
+                if (is_Avatar) {
+                    String imageUrl = OakClubUtil.getFullLink(
+                            activity, photoObj
+                                    .getTweet_image_link());
+                    OakClubUtil.loadImageFromUrl(activity, imageUrl,
+                            avatar);
+                    profileInfoObj.setAvatar(photoObj
+                            .getTweet_image_link());
+                    arrListPhoto.add(0, photoObj);
+                }
+                else arrListPhoto.add(1, photoObj);
                 profileInfoObj.setPhotos(arrListPhoto);
                 if (fltListViewPhoto.getChildCount() > 0) {
                     fltListViewPhoto.removeAllViews();
@@ -1375,6 +1426,8 @@ public class ProfileSettingFragment{
             if (obj != null && obj.isStatus()) {
                 String urlVideo = OakClubUtil.getFullLinkVideo(activity, obj.getData(), ".jpg");
                 OakClubUtil.loadImageFromUrl(activity, urlVideo, video);
+                imgPlayVideo.setVisibility(View.VISIBLE);
+                imgDelVideo.setVisibility(View.VISIBLE);
                 imgAddVideo.setVisibility(View.GONE);
             } else {
                 OakClubUtil.enableDialogWarning(activity,
@@ -1443,6 +1496,44 @@ public class ProfileSettingFragment{
 //                                  .getString(R.string.value_delete_success),
 //                          Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+
+    }
+    
+    class DeleteUserVideoLoader extends RequestUI {
+        String id;
+        PostMethodReturnObject obj;
+
+        ProgressDialog pdLoading;
+
+        public DeleteUserVideoLoader(Object key, Activity activity) {
+            super(key, activity);
+
+            pdLoading = new ProgressDialog(activity);
+            pdLoading.setMessage(activity.getString(
+                    R.string.txt_loading));
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        public void execute() throws Exception {
+            obj = activity.oakClubApi.DeleteUserVideo();
+        }
+
+        @Override
+        public void executeUI(Exception ex) {
+            if (pdLoading != null && pdLoading.isShowing()) {
+                pdLoading.dismiss();
+            }
+            if (!obj.isStatus() || obj == null) {
+                OakClubUtil.enableDialogWarning(activity, activity.getResources().getString(R.string.txt_warning), 
+                        activity.getResources().getString(R.string.value_delete_failed));
+            } else {
+                imgPlayVideo.setVisibility(View.GONE);
+                imgDelVideo.setVisibility(View.GONE);
+                imgAddVideo.setVisibility(View.VISIBLE);
             }
         }
 

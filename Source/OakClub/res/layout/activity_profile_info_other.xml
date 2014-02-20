@@ -42,11 +42,12 @@
                 
                 <ImageButton
                     android:id="@+id/activity_profile_info_other_header_fltSnapshot_imgPlayvideo"
-                    android:layout_toRightOf="@+id/activity_profile_info_other_header_fltSnapshot_btDone"
+                    android:layout_toLeftOf="@+id/activity_profile_info_other_header_fltSnapshot_ibNope"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/play_icon_onimage"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/small_video_btn"/>
 
                 <ImageButton
                     android:id="@+id/activity_profile_info_other_header_fltSnapshot_ibNope"

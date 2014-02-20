@@ -877,7 +877,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
                                     android.widget.FrameLayout.LayoutParams.WRAP_CONTENT);
                     params.gravity = Gravity.CENTER;
                     imageViewVideo.setLayoutParams(params);
-                    imageViewVideo.setBackgroundResource(R.drawable.play_icon_onimage);
+                    imageViewVideo.setBackgroundResource(R.drawable.large_video_btn);
                     //imageViewVideo.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, profile_info_other_image_height));
                     imageView.setOnClickListener(new OnClickListener() {
                         @Override

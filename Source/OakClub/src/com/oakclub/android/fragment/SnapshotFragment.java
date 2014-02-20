@@ -34,6 +34,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -228,6 +229,7 @@ public class SnapshotFragment{
         }
         urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
         init(START_RECORD);
+        showDialog("aaa");
         
     }
 
@@ -1275,10 +1277,14 @@ public class SnapshotFragment{
 
     private void showDialog(String url) {
         index = 1;
-        dialogMutual = new Dialog(activity);
+        dialogMutual = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
 
         //dialogMutual.setTitle("");
         dialogMutual.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = dialogMutual.getWindow();
+        window.setLayout(LayoutParams.MATCH_PARENT
+                , LayoutParams.MATCH_PARENT);
+        window.setGravity(Gravity.CENTER);
         View view = activity.getLayoutInflater().inflate(
                 R.layout.popup_mutual_match_layout, null);
         TextViewWithFont tvTitle = (TextViewWithFont)view.findViewById(R.id.tvw_text);
@@ -1305,6 +1311,7 @@ public class SnapshotFragment{
                         activity.getString(
                                 R.string.txt_you_and_have_like_each_other),
                         nameProfile));
+        dialogMutual.setCancelable(false);
         dialogMutual.show();
     }
     
