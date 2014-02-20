@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -163,6 +164,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 			mNotificationTv.setText("" + totalUnreadMessage);
 			mNotificationTv.setVisibility(View.GONE);
 		}
+		
 	}
 
     private void setConfigImage() {
@@ -245,14 +247,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
     }
 
 
-    public boolean isInternetAccess() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-			return true;
-		}
-		return false;
-	}
+    
     
     public static void setTextmNotification(String str) {
     	mNotificationTv.setText(str);
@@ -262,22 +257,24 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
     
     @Override
     protected void onResume() {
-        if(!isInternetAccess()){
+    	if(!OakClubUtil.isInternetAccess(SlidingMenuActivity.this)){
             OakClubUtil.enableDialogWarning(this, 
                     this.getString(R.string.txt_warning), 
                     this.getString(R.string.txt_internet_message));
-        }
-        com.facebook.AppEventsLogger.activateApp(this, this.getString(R.string.app_id));
-        SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
-        boolean isBlockUser = pref.getBoolean(Constants.IS_BLOCK_USER, false);
-        if (isBlockUser) {
-            getSupportFragmentManager().beginTransaction()
-            .replace(R.id.menu_frame_right, new ListChatFragment())
-            .commit();
-            
-            SharedPreferences.Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
-            editor.putBoolean(Constants.IS_BLOCK_USER, false);
-            editor.commit();
+            //return;
+        } else {
+	        com.facebook.AppEventsLogger.activateApp(this, this.getString(R.string.app_id));
+	        SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
+	        boolean isBlockUser = pref.getBoolean(Constants.IS_BLOCK_USER, false);
+	        if (isBlockUser) {
+	            getSupportFragmentManager().beginTransaction()
+	            .replace(R.id.menu_frame_right, new ListChatFragment())
+	            .commit();
+	            
+	            SharedPreferences.Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+	            editor.putBoolean(Constants.IS_BLOCK_USER, false);
+	            editor.commit();
+	        }
         }
         
         

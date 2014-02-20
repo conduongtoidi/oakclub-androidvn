@@ -701,6 +701,8 @@ public class SnapshotFragment{
                 nameProfile = arrayListSnapshot.get(0).getName();
                 avaProfile = arrayListSnapshot.get(0).getAvatar();
                 match_time = arrayListSnapshot.get(0).getLike_time();
+                profileId = arrayListSnapshot.get(0)
+                        .getProfile_id();
                 arrayListSnapshot.remove(0);
                 String proId = profileId;
                 String action = Constants.ACTION_LIKE;
@@ -1172,7 +1174,7 @@ public class SnapshotFragment{
     }
 
     private void swapData(int index) {
-        if (activity.isInternetAccess()) {
+        if (OakClubUtil.isInternetAccess(activity)) {
             if (index < arrayListSnapshot.size()) {
                 assignInfo(index);
                 changeImage(index);

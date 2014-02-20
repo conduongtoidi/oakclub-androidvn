@@ -13,6 +13,7 @@ import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.OakClubUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,7 +42,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        if (!isInternetAccess())
+        if (!OakClubUtil.isInternetAccess(ChatBaseActivity.this))
             return;
         setContentView(R.layout.activity_listview_listchat);
         lvListChat = (ListView) findViewById(R.id.activity_listview_listchat_lvchat);

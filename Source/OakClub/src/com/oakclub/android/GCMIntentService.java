@@ -51,7 +51,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			String notification = intent.getExtras().getString("alert");
 
 			data = OakClubJsonParser.getJsonObjectByMapper(intent.getExtras()
-					.getString("data"), DataChatNotification.class);
+					.getString("info"), DataChatNotification.class);
 
 			// notifies user
 			boolean isLoad = OakClubUtil.isForeground("com.oakclub.android",

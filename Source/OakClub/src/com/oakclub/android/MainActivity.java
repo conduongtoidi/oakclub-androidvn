@@ -40,7 +40,7 @@ public class MainActivity extends LoginBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!isInternetAccess())
+		if (!OakClubUtil.isInternetAccess(MainActivity.this))
 		{
 			Log.v("inter", "1");
 			return;

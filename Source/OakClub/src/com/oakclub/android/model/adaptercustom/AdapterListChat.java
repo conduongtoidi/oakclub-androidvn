@@ -74,23 +74,9 @@ public class AdapterListChat extends BaseAdapter {
 		OakClubUtil.loadImageFromUrl(mContext, holder.imgAvatar,
 				OakClubUtil.getFullLink(mContext, url));
 		holder.tvName.setText(mListChatData.get(position).getName());
-		if (mListChatData.get(position).getLast_message_time() != null) {
-			try {
-				holder.tvTimeMatches.setText("Last message on "
-						+ mListChatData.get(position).getLast_message_time()
-								.split("/")[1]
-						+ "/"
-						+ mListChatData.get(position).getLast_message_time()
-								.split("/")[0]);
-			} catch (Exception ex) {
-
-			}
-		} else {
-			holder.tvTimeMatches.setText(mListChatData.get(position)
-					.getTime_string());
-		}
 		
 		switch (mListChatData.get(position).getStatus()) {
+		case 0:
 		case 1:
 			try {
 			holder.tvTimeMatches.setText("Matched on "
@@ -103,7 +89,19 @@ public class AdapterListChat extends BaseAdapter {
 				
 			}
 			break;
+		case 2:
+		case 3:
+			try {
+				holder.tvTimeMatches.setText("Last message on "
+						+ mListChatData.get(position).getLast_message_time()
+								.split("/")[1]
+						+ "/"
+						+ mListChatData.get(position).getLast_message_time()
+								.split("/")[0]);
+			} catch (Exception ex) {
 
+			}
+			break;
 		default:
 			break;
 		}
