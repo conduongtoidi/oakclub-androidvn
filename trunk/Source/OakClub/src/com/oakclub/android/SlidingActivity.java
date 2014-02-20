@@ -32,9 +32,11 @@ public class SlidingActivity extends SlidingMenuActivity {
         setTheme(android.R.style.Theme_Holo_NoActionBar);
         super.onCreate(savedInstanceState);
         
-        snapshot = new SnapshotFragment(this);
-        snapshot.initSnapshot();
-        this.setMenu(MenuOakclub.SNAPSHOT);
+        if (OakClubUtil.isInternetAccess(SlidingActivity.this)) {
+	        snapshot = new SnapshotFragment(this);
+	        snapshot.initSnapshot();
+	        this.setMenu(MenuOakclub.SNAPSHOT);
+        }
         
     }
     

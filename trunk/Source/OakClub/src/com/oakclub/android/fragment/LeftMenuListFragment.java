@@ -62,7 +62,9 @@ public class LeftMenuListFragment extends Fragment {
 		avatarProfile = (CircleImageView)rootView.findViewById(R.id.menu_item_icon_avaProfile);
 		menuTextList = getResources().getStringArray(R.array.menu_text_list);
 		lltMenu = (LinearLayout) rootView.findViewById(R.id.layout_left_menu_lltlistmenu);
-		init();
+		if (OakClubUtil.isInternetAccess(getActivity())) {
+			init();
+		}
 		return rootView;
 	}
 
@@ -72,7 +74,7 @@ public class LeftMenuListFragment extends Fragment {
 		public void onClick(View v) {
             final SlidingActivity activity = (SlidingActivity)getActivity();
             Intent intent;
-		    if (activity.isInternetAccess()) {
+		    if (OakClubUtil.isInternetAccess(activity)) {
     			switch(v.getId()) {
         			case R.id.menu_item_llt_profile:
         			    if(activity.getMenu()!=MenuOakclub.PROFILE){

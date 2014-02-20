@@ -20,17 +20,17 @@ import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.OakClubUtil;
 
 public class MatchChatActivity extends ChatBaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!isInternetAccess())
+		if (!OakClubUtil.isInternetAccess(MatchChatActivity.this))
             return;
         else
             init(adapterMatchListChatData, matchedList, this, CHAT_MATCHES);
-			Log.v("asd", "asd");
 //		if (matchedList==null || matchedList.size()==0){
 //			matchedList = new ArrayList<ListChatData>();
 //			vipList = new ArrayList<ListChatData>();

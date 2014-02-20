@@ -18,6 +18,7 @@ import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.OakClubUtil;
 
 public class AllChatActivity extends ChatBaseActivity {
 
@@ -26,7 +27,7 @@ public class AllChatActivity extends ChatBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		if (!isInternetAccess())
+		if (!OakClubUtil.isInternetAccess(AllChatActivity.this))
             return;
 		else
 		    init(adapterAllListChatData, allList, this, CHAT_ALL);

@@ -75,7 +75,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!isInternetAccess()) {
+		if (!OakClubUtil.isInternetAccess(LoginBaseActivity.this)) {
 			return;
 		}
 
@@ -169,7 +169,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 							getResources().getString(R.string.txt_warning),
 							getResources()
 									.getString(R.string.txt_signin_failed));
-					if (isInternetAccess()) {
+					if (OakClubUtil.isInternetAccess(LoginBaseActivity.this)) {
 						oakClubApi.sendRegister("", "", "3", appVer,
 								nameDevice, android_token);
 					}
@@ -182,7 +182,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 							getResources().getString(R.string.txt_warning),
 							getResources()
 									.getString(R.string.txt_signin_failed));
-					if (isInternetAccess()) {
+					if (OakClubUtil.isInternetAccess(LoginBaseActivity.this)) {
 						oakClubApi.sendRegister("", "", "3", appVer,
 								nameDevice, android_token);
 					}
@@ -428,6 +428,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		// registerGCM();
 
 		if (loggedIn) {
+			
 			pd = new ProgressDialog(LoginBaseActivity.this);
 			pd.setMessage(getString(R.string.txt_loading));
 			pd.setCancelable(false);

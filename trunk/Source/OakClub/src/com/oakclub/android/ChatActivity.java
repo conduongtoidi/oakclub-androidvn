@@ -131,6 +131,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		Bundle bundleListChatData = getIntent().getExtras();
 		profile_id = bundleListChatData.getString(Constants.BUNDLE_PROFILE_ID);
+		Log.v("profile_id", profile_id);
 		target_name = bundleListChatData.getString(Constants.BUNDLE_NAME);
 		target_avatar = bundleListChatData.getString(Constants.BUNDLE_AVATAR);
 		status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);

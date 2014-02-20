@@ -62,6 +62,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	public IOakClubApi oakClubApi;
 	public static String facebook_user_id;
 	public static String access_token;
+	public static long access_expires;
 	public static String appVer;
 	public static String nameDevice;
 	public static XMPPConnection xmpp;
@@ -92,7 +93,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(android.R.style.Theme_Holo_NoActionBar);
 		super.onCreate(savedInstanceState);
-		if (isInternetAccess()) {
+		if (OakClubUtil.isInternetAccess(OakClubBaseActivity.this)) {
 			if (Constants.imageLoader == null) {
 				Constants.imageLoader = ImageLoader.getInstance();
 				Constants.imageLoader.init(ImageLoaderConfiguration
@@ -142,15 +143,6 @@ public class OakClubBaseActivity extends FragmentActivity implements
 
 	public RequestQueue getRequestQueue() {
 		return ((IRequestQueue) getApplication()).getRequestQueue();
-	}
-
-	protected boolean isInternetAccess() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-			return true;
-		}
-		return false;
 	}
 
 	private void setConfigImage() {
@@ -278,7 +270,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	protected void onStart() {
 		super.onStart();
 		// Connect the client.
-		if (isInternetAccess())
+		if (OakClubUtil.isInternetAccess(OakClubBaseActivity.this))
         {
 	        mLocationClient.connect();
         }
@@ -338,7 +330,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	
     @Override
     protected void onResume() {
-        if(!isInternetAccess()){
+        if(!OakClubUtil.isInternetAccess(OakClubBaseActivity.this)){
             OakClubUtil.enableDialogWarning(this, 
                     this.getString(R.string.txt_warning), 
                     this.getString(R.string.txt_internet_message));

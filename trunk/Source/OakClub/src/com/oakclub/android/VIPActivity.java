@@ -17,6 +17,7 @@ import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.OakClubUtil;
 
 public class VIPActivity extends ChatBaseActivity {
 
@@ -24,7 +25,7 @@ public class VIPActivity extends ChatBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        if (!isInternetAccess())
+        if (!OakClubUtil.isInternetAccess(VIPActivity.this))
             return;
         else
             init(adapterVIPListChatData, vipList, this, CHAT_VIP);
