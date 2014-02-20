@@ -199,12 +199,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		init();
 		addSmileToEmoticons();
 		addItemGridView();
-		
-		
-		
-		//init();
-//		addSmileToEmoticons();
-//		addItemGridView();
 	}
 	
 	@Override
