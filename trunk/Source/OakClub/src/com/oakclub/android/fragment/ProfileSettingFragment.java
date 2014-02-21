@@ -1426,6 +1426,7 @@ public class ProfileSettingFragment{
                 pdLoading.dismiss();
             }
             if (obj != null && obj.isStatus()) {
+            	profileInfoObj.setVideo_link(obj.getData());
                 String urlVideo = OakClubUtil.getFullLinkVideo(activity, obj.getData(), ".jpg");
                 OakClubUtil.loadImageFromUrl(activity, urlVideo, video);
                 imgPlayVideo.setVisibility(View.VISIBLE);
