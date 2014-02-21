@@ -289,7 +289,7 @@ public class ProfileSettingFragment{
     private android.view.View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (profileInfoObj == null || profileInfoObj == null) {
+            if (profileInfoObj == null ) {
                 return;
             }
             switch (v.getId()) {
@@ -1020,6 +1020,7 @@ public class ProfileSettingFragment{
             }
             else{
                 imgDelVideo.setVisibility(View.GONE);
+                video.setVisibility(View.GONE);
                 imgPlayVideo.setVisibility(View.GONE);
                 imgAddVideo.setVisibility(View.VISIBLE);
             }
@@ -1428,6 +1429,7 @@ public class ProfileSettingFragment{
                 OakClubUtil.loadImageFromUrl(activity, urlVideo, video);
                 imgPlayVideo.setVisibility(View.VISIBLE);
                 imgDelVideo.setVisibility(View.VISIBLE);
+                video.setVisibility(View.VISIBLE);
                 imgAddVideo.setVisibility(View.GONE);
             } else {
                 OakClubUtil.enableDialogWarning(activity,
@@ -1465,7 +1467,7 @@ public class ProfileSettingFragment{
             if (pdLoading != null && pdLoading.isShowing()) {
                 pdLoading.dismiss();
             }
-            if (!obj.isStatus() || obj == null) {
+            if ( obj == null || !obj.isStatus() ) {
 //              Toast.makeText(
 //                      ProfileSettingActivity.this,
 //                      ProfileSettingActivity.this
@@ -1527,12 +1529,13 @@ public class ProfileSettingFragment{
             if (pdLoading != null && pdLoading.isShowing()) {
                 pdLoading.dismiss();
             }
-            if (!obj.isStatus() || obj == null) {
+            if (obj == null || !obj.isStatus()) {
                 OakClubUtil.enableDialogWarning(activity, activity.getResources().getString(R.string.txt_warning), 
                         activity.getResources().getString(R.string.value_delete_failed));
             } else {
                 imgPlayVideo.setVisibility(View.GONE);
                 imgDelVideo.setVisibility(View.GONE);
+                video.setVisibility(View.GONE);
                 imgAddVideo.setVisibility(View.VISIBLE);
             }
         }
