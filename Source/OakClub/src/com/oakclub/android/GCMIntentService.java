@@ -153,6 +153,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// Vibrate if vibrate is enabled
 		noti.defaults |= Notification.DEFAULT_VIBRATE;
 
+		noti.flags |= Notification.FLAG_SHOW_LIGHTS;
+		noti.ledARGB = 0xff00ff00;
+		noti.ledOnMS = 300;
+		noti.ledOffMS = 1000;
+		
 		notiMgr.notify(data.getProfile_id().hashCode(), noti);
 	}
 }
