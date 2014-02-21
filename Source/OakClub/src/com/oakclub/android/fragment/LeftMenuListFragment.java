@@ -68,6 +68,13 @@ public class LeftMenuListFragment extends Fragment {
 		return rootView;
 	}
 
+	public void reloadAvatar(){
+	    String imageUrl = OakClubUtil.getFullLink(
+                this.getActivity(), 
+                ProfileSettingFragment.profileInfoObj.getAvatar());
+        OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl,
+                avatarProfile);
+	}
 	
 	private OnClickListener layoutClick =new OnClickListener() {
 		@Override

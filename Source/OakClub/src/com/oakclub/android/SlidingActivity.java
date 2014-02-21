@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 
+import com.google.android.gms.internal.fm;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.fragment.SnapshotFragment;
@@ -37,7 +38,6 @@ public class SlidingActivity extends SlidingMenuActivity {
 	        snapshot.initSnapshot();
 	        this.setMenu(MenuOakclub.SNAPSHOT);
         }
-        
     }
     
     public void init(int id){
@@ -76,6 +76,7 @@ public class SlidingActivity extends SlidingMenuActivity {
                         break;
                     case ProfileSettingFragment.PICK_AVATAR_FROM_CAMERA:
                         profileSetting.doUploadPhoto(true);
+                        
                         break;
                     case ProfileSettingFragment.SELECT_VIDEO:
                         profileSetting.doUploadVideo();
