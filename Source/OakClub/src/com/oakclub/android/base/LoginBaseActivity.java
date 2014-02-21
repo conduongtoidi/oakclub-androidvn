@@ -1,5 +1,7 @@
 package com.oakclub.android.base;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -115,8 +117,17 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		if (loggedIn) {
 			logInFacebook();
 		} else
-		// if (!facebook.isSessionValid())
-		{
+		if (facebook.isSessionValid()) {
+			try {
+				facebook.logout(LoginBaseActivity.this);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else{
 
 			facebook.authorize(LoginBaseActivity.this, new String[] {
 					"friends_photos", "friends_relationship_details",
