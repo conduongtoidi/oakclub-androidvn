@@ -63,7 +63,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	ImageView mChatImv;
 	ImageView mEditImv;
 	ImageView smallLogo;
-	LeftMenuListFragment mFrag;
+	protected LeftMenuListFragment mFrag;
 	TextView titleTv;
 	public static TextView mNotificationTv;
 	public static int totalUnreadMessage = 0;
@@ -72,6 +72,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
     private LayoutInflater inflater;
     private View v;
     protected Intent intent;
+    public boolean isChangedAvatar = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,10 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 			@Override
 			public void onClick(View v) {
 				getSlidingMenu().toggle();
+				if(isChangedAvatar){
+				    mFrag.reloadAvatar();
+				    isChangedAvatar = false;
+				}
 			}
 		});
 		mChatImv.setOnClickListener(new View.OnClickListener() {

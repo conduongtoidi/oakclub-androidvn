@@ -1381,6 +1381,7 @@ public class ProfileSettingFragment{
                             avatar);
                     profileInfoObj.setAvatar(photoObj
                             .getTweet_image_link());
+                    activity.isChangedAvatar = true;
                     arrListPhoto.add(0, photoObj);
                 }
                 else arrListPhoto.add(1, photoObj);
@@ -1790,6 +1791,7 @@ public class ProfileSettingFragment{
            
            try {
                vk.run(complexCommand, outputFile, activity.getApplicationContext());
+             
            } catch (Throwable e) {
                Log.i(Constants.TAG, "vk run exeption.");
            }
