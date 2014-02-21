@@ -1,5 +1,7 @@
 package com.oakclub.android;
 
+import java.util.Random;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -127,7 +129,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		PendingIntent content = PendingIntent.getActivity(context, 0, intent,
+		Random rd = new Random();
+		PendingIntent content = PendingIntent.getActivity(context, rd.nextInt(10), intent,
 				PendingIntent.FLAG_ONE_SHOT);
 
 		NotificationManager notiMgr = (NotificationManager) context
@@ -150,6 +153,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// Vibrate if vibrate is enabled
 		noti.defaults |= Notification.DEFAULT_VIBRATE;
 
-		notiMgr.notify(1, noti);
+		notiMgr.notify(data.getProfile_id().hashCode(), noti);
 	}
 }
