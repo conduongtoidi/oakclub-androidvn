@@ -67,7 +67,7 @@ public class ProgressCircle extends FrameLayout{
 			iv.setLayoutParams(params);
 			this.addView(iv);
 		}
-		if(civAvatar == null && !ProfileSettingFragment.profileInfoObj.getAvatar().equals("")){
+		if(civAvatar == null && ProfileSettingFragment.profileInfoObj!=null && !ProfileSettingFragment.profileInfoObj.getAvatar().equals("")){
 			civAvatar = new CircleImageView(getContext());
 			String url = OakClubUtil.getFullLink(getContext(), ProfileSettingFragment.profileInfoObj.getAvatar());
 			OakClubUtil.loadImageFromUrl(getContext() ,url, civAvatar);

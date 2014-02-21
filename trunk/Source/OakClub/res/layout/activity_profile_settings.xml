@@ -189,6 +189,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_name"
                     android:textSize="@dimen/text_view_font_size_default"
@@ -201,6 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageName"
+                    android:layout_toRightOf="@+id/profileName"
                     android:gravity="right"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:text="@string/profile_no_answer" />
@@ -238,6 +241,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textColor="@color/EditProfileBlack"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:text="@string/profile_birthdate" />
@@ -248,6 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageBirthdate"
+                    android:layout_toRightOf="@+id/profileBirthdate"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
@@ -284,6 +290,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textColor="@color/EditProfileBlack"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:text="@string/profile_email" />
@@ -294,8 +302,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageEmail"
+                    android:layout_toRightOf="@+id/profileEmail"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:gravity="right"
+                    android:lines="1"
                     android:text="@string/profile_no_answer" />
 
                 <ImageView
@@ -329,6 +339,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textColor="@color/EditProfileBlack"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:text="@string/profile_gender" />
@@ -339,6 +351,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageGender"
+                    android:layout_toRightOf="@+id/profileGender"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
@@ -374,6 +387,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textColor="@color/EditProfileBlack"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:text="@string/profile_relation_status" />
@@ -384,6 +399,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageRelationStatus"
+                    android:layout_toRightOf="@+id/profileRelationStatus"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
@@ -418,6 +434,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_view_font_size_default"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:layout_centerVertical="true"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_height" />
@@ -428,6 +446,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/editImageHeight"
+                    android:layout_toRightOf="@+id/profileHeight"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
@@ -463,6 +482,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_weight" />
@@ -474,6 +495,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageWeight"
+                    android:layout_toRightOf="@+id/profileWeight"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
 
@@ -508,6 +530,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_interested_in" />
@@ -519,6 +543,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageInterestedIn"
+                    android:layout_toRightOf="@+id/profileInterestedIn"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
 
@@ -553,6 +578,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_location" />
@@ -564,6 +591,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageLocation"
+                    android:layout_toRightOf="@+id/profileLocation"
                     android:gravity="right"
                     android:text="@string/profile_no_answer"
                      />
@@ -601,6 +629,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_ethnicity" />
@@ -612,6 +642,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageEthnicity"
+                    android:layout_toRightOf="@+id/profileEthnicity"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
 
@@ -649,6 +680,8 @@
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:text="@string/profile_school" />
 
                 <com.oakclub.android.view.TextViewWithFont
@@ -658,6 +691,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageSchool"
+                    android:layout_toRightOf="@+id/profileSchool"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
 
@@ -694,6 +728,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_language" />
@@ -705,7 +741,9 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageLanguage"
+                    android:layout_toRightOf="@+id/profileLanguage"
                     android:gravity="right"
+                    android:lines="1"
                     android:text="@string/profile_no_answer" />
 
                 <ImageView
@@ -739,6 +777,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:text="@string/profile_work" />
@@ -750,6 +790,7 @@
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageWork"
+                    android:layout_toRightOf="@+id/profileWork"
                     android:gravity="right"
                     android:text="@string/profile_no_answer" />
 
@@ -788,15 +829,18 @@
                     android:textSize="@dimen/text_view_font_size_default"
                     android:textColor="@color/EditProfileBlack"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="30dp"
                     android:text="@string/profile_about_me" />
 
                 <com.oakclub.android.view.TextViewWithFont
                     android:id="@+id/profileTvAboutMe"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/text_view_font_size_default"
                     android:layout_toLeftOf="@+id/editImageAboutMe"
+                    android:layout_toRightOf="@+id/profileAboutMe"
                     android:gravity="right"
                     android:lines="1"
                     android:text="@string/profile_no_answer" />
