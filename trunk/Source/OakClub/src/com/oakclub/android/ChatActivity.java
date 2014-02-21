@@ -913,11 +913,12 @@ public class ChatActivity extends OakClubBaseActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		Date resultDate = new Date(dateNow.getTime() - dateMatchTime.getTime());
-		int time = (int) (resultDate.getTime() / (1000 * 60));
-		if (time == 0)
-			time++;
+		long time = 0;
+		if (dateMatchTime != null && dateNow != null) {
+			time= (dateNow.getTime() - dateMatchTime.getTime()) / 60;
+		}
+		if (time <= 0)
+			time = 1;
 
 		if (time < 59)
 			result = time + " minute(s) ago";
@@ -929,19 +930,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			result = time / (60 * 24 * 30) + " month(s) ago";
 		else
 			result = time / (60 * 24 * 30 * 12) + " year(s) ago";
-
-		// if (resultDate.getTime() < 0) {
-		// result = "1 minute(s) ago";
-		// } else if (resultDate.getYear() - 1970 > 0)
-		// result = resultDate.getYear() - 1970 + " year(s) ago";
-		// else if (resultDate.getMonth() > 1)
-		// result = resultDate.getMonth() - 1 + " month(s) ago";
-		// else if (resultDate.getDate() > 1)
-		// result = resultDate.getDate() - 1 + " day(s) ago";
-		// else if (resultDate.getHours() > 1)
-		// result = resultDate.getHours() - 1 + " hour(s) ago";
-		// else
-		// result = resultDate.getMinutes() + " minute(s) ago";
+		
 		return result;
 	}
 
