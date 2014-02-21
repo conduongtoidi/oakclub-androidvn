@@ -83,7 +83,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/txt_privacy_content2"
-            android:textColor="@color/Black"/>
+            android:textColor="@color/Black"
+            android:visibility="gone"
+            />
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/activity_infomation_txtContent3"
             android:layout_width="fill_parent"
