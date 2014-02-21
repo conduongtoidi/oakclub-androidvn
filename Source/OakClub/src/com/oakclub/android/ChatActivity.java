@@ -504,6 +504,16 @@ public class ChatActivity extends OakClubBaseActivity {
 			}
 		});
 
+
+        Button btnCancel = (Button) mainRelativeLayout
+                .findViewById(R.id.dialog_report_spam_input_cancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+		
 		dialog.setCancelable(true);
 		dialog.show();
 	}
