@@ -247,12 +247,12 @@ public class SnapshotFragment{
 
         progressCircle = (RelativeLayout) findViewById(R.id.activity_snapshot_flt_process);
         tvFindPeople = (TextView)progressCircle.findViewById(R.id.progress_snapshot_layout_flt_footer_text);
-        tvFindPeople.setGravity(Gravity.CENTER);
+        //tvFindPeople.setGravity(Gravity.CENTER);
         progCir = (ProgressCircle)progressCircle.findViewById(R.id.progress_snapshot_layout_flt_process);
         
         progressFinder = (RelativeLayout) findViewById(R.id.activity_snapshot_flt_process_finder);
         tvFindPeople = (TextView)progressFinder.findViewById(R.id.progress_snapshot_layout_flt_footer_find_text_finder);
-        tvFindPeople.setGravity(Gravity.CENTER);
+        //tvFindPeople.setGravity(Gravity.CENTER);
         progFin = (ProgressCircle)progressFinder.findViewById(R.id.progress_snapshot_layout_flt_process_finder);
         
         fltBody = (FrameLayout) findViewById(R.id.activity_snapshot_flt_body);

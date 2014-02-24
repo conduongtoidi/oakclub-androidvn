@@ -270,14 +270,14 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
         } else {
 	        com.facebook.AppEventsLogger.activateApp(this, this.getString(R.string.app_id));
 	        SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
-	        boolean isBlockUser = pref.getBoolean(Constants.IS_BLOCK_USER, false);
+	        boolean isBlockUser = pref.getBoolean(Constants.IS_LOAD_CHAT_AGAIN, false);
 	        if (isBlockUser) {
 	            getSupportFragmentManager().beginTransaction()
 	            .replace(R.id.menu_frame_right, new ListChatFragment())
 	            .commit();
 	            
 	            SharedPreferences.Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
-	            editor.putBoolean(Constants.IS_BLOCK_USER, false);
+	            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, false);
 	            editor.commit();
 	        }
         }

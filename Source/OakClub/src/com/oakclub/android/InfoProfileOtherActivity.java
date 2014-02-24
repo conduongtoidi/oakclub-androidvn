@@ -970,7 +970,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
         public void executeUI(Exception ex) {
             SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
             Editor editor = pref.edit();
-            editor.putBoolean(Constants.IS_BLOCK_USER, true);
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
             editor.commit();
         }
         

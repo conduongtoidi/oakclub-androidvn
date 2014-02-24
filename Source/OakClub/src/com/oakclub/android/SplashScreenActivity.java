@@ -228,7 +228,8 @@ public class SplashScreenActivity extends Activity {
 		
 		
 	    String fileName = "logcat_"+yearNow+".txt";
-	    File outputFile = new File(context.getExternalCacheDir(),fileName);
+	    String filePath = OakClubUtil.getFileStore(context).getAbsolutePath();
+	    File outputFile = new File(filePath,fileName);
 	    @SuppressWarnings("unused")
 	    Process process = Runtime.getRuntime().exec("logcat -f "+outputFile.getAbsolutePath());
 	}
