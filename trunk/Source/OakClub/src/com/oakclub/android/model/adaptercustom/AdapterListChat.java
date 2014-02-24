@@ -71,7 +71,8 @@ public class AdapterListChat extends BaseAdapter {
 		} else
 			holder = (ListChatHolder) convertView.getTag();
 		String url = mListChatData.get(position).getAvatar();
-		OakClubUtil.loadImageFromUrl(mContext, holder.imgAvatar,
+		if (url != null)
+			OakClubUtil.loadImageFromUrl(mContext, holder.imgAvatar,
 				OakClubUtil.getFullLink(mContext, url));
 		holder.tvName.setText(mListChatData.get(position).getName());
 		

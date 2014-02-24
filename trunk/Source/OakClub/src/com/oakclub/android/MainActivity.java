@@ -3,6 +3,7 @@ package com.oakclub.android;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 
 import com.oakclub.android.base.LoginBaseActivity;
+import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.TextViewWithFont;
@@ -60,6 +62,10 @@ public class MainActivity extends LoginBaseActivity {
 		mLoginButton.setOnClickListener(listener);
 		bottomLayout = (LinearLayout) findViewById(R.id.welcome_bottom_layout);
 		bottomLayout.setOnClickListener(listener);
+		
+		Constants.country = getResources().getConfiguration().locale.getLanguage();
+		UpdateLanguage loader = new UpdateLanguage("updateLanguageApp", MainActivity.this, Constants.country);
+        getRequestQueue().addRequest(loader);
 		
 	}
 
@@ -204,6 +210,27 @@ public class MainActivity extends LoginBaseActivity {
         OakClubUtil.releaseImagePager(mPager);
         System.gc();
         super.onDestroy();
+    }
+    
+    class UpdateLanguage extends RequestUI {
+
+    	String key_language;
+		public UpdateLanguage(Object key, Activity activity, String key_language) {
+			super(key, activity);
+			this.key_language = key_language;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			oakClubApi.UpdateLanguage(key_language);
+			
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			
+		}
+    	
     }
 	
 }

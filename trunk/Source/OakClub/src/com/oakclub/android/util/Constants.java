@@ -1,6 +1,7 @@
 package com.oakclub.android.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
@@ -24,6 +25,7 @@ public class Constants {
 	public static final String GET_SNAPSHOT_SETTINGS = "getAccountSetting";
 	public static final String SET_VIEW_MUTUAL_MATCH = "setViewedMutualMatch";
 	public static final String SET_READ_MESSAGES = "setReadMessages";
+	public static final String UPDATE_LANGUAGE = "updateLanguage";
 	/*
 	 * Key config request
 	 */
@@ -94,6 +96,7 @@ public class Constants {
     public static final String VIDEO_EXTENSION = "flv"; 
     
 	public static final String SENDER_ID = "105826272497";//"377367791749";//"857951122835";
+	public static final int[] SnapShotCounter = {50, 250, 500, 1000};
 	
     
 }

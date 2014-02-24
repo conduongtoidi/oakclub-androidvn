@@ -2,6 +2,7 @@ package com.oakclub.android.fragment;
 
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -149,6 +150,9 @@ public class LeftMenuListFragment extends Fragment {
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); 
                         startActivity(intent);
+                        
+                        NotificationManager nMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+                        nMgr.cancelAll();
                         activity.finish();
                         break;
     			}

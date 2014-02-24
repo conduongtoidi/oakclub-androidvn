@@ -272,7 +272,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		
 		tbMessage.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(tbMessage.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(tbMessage.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         
 		tbMessage.setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -476,6 +476,7 @@ public class ChatActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_block_message),
 						getResources().getString(R.string.txt_block_anyway),
 						false);
+				dialog.dismiss();
 			}
 		});
 
@@ -904,7 +905,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 		long time = 0;
 		if (dateMatchTime != null && dateNow != null) {
-			time= (dateNow.getTime() - dateMatchTime.getTime()) / 60;
+			time= (dateNow.getTime() - dateMatchTime.getTime()) / (1000 * 60);
 		}
 		if (time <= 0)
 			time = 1;

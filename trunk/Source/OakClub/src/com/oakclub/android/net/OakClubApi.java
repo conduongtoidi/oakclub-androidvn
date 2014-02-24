@@ -697,5 +697,18 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 		
 	}
+	
+	@Override
+	public void UpdateLanguage(String key_language) {
+		try {
+			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+			paramList.add(new BasicNameValuePair("appLanguage", key_language));
+			excutePost(baseUrl + "/" + Constants.UPDATE_LANGUAGE, paramList);
+
+		} catch (Exception ex){
+			
+		}
+		
+	}
 
 }
