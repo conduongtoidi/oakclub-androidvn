@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Pokaži mi ljudi starosti od</string>
 <string name = "msg_people_around">Nađi ljude oko mene</string>
 <string name = "msg_people_around_sub_1">Ograniči moju pretragu na ovu udaljenost</string>
-<string name = "msg_people_around_sub_2">Oakclub koristi ove postavke kako bi predložio potencijalne parove. Neke sugestije možda neće bit unutar tvojih željenih parametara.</string>
+<string name = "msg_people_around_sub_2">OakClub koristi ove postavke kako bi predložio potencijalne parove. Neke sugestije možda neće bit unutar tvojih željenih parametara.</string>
 <string name = "txt_contact_us">Kontaktiraj nas</string>
 <string name = "txt_logout">Odjavi se</string>
 <string name = "value_distance_lessthan1">Manje od km udaljeno</string>

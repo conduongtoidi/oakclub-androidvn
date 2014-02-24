@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Bana şu yaştaki insanları göster</string>
 <string name = "msg_people_around">Etrafimda insan bul</string>
 <string name = "msg_people_around_sub_1">Aramamı şu uzaklığa sınırla</string>
-<string name = "msg_people_around_sub_2">Oakclub bu tercihleri olası eşleşmeler önerebilmek için kullanır. Bazı eşleşme önerileri arzu ettiğiniz parametrelerde olmayabilir.</string>
+<string name = "msg_people_around_sub_2">OakClub bu tercihleri olası eşleşmeler önerebilmek için kullanır. Bazı eşleşme önerileri arzu ettiğiniz parametrelerde olmayabilir.</string>
 <string name = "txt_contact_us">Bize ulaşın</string>
 <string name = "txt_logout">Çıkış</string>
 <string name = "value_distance_lessthan1">Bir km\'den yakın</string>

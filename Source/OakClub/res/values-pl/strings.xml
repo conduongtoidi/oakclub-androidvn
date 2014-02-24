@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Pokaż mi ludzi w wieku od</string>
 <string name = "msg_people_around">Znajdź ludzi wokół mnie</string>
 <string name = "msg_people_around_sub_1">Ogranicz moje wyszukiwanie do tej odległości</string>
-<string name = "msg_people_around_sub_2">Oakclub używa tych preferencji, aby zasugerować potencjalne dopasowania. Niektóre sugestie dopasowania mogą zawieść Twoje pożądane parametry.</string>
+<string name = "msg_people_around_sub_2">OakClub używa tych preferencji, aby zasugerować potencjalne dopasowania. Niektóre sugestie dopasowania mogą zawieść Twoje pożądane parametry.</string>
 <string name = "txt_contact_us">Skontaktuj się z nami</string>
 <string name = "txt_logout">Wyloguj się</string>
 <string name = "value_distance_lessthan1">Niecały kilometr stąd</string>
