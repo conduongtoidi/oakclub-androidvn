@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Toon me personen met een leeftijd van</string>
 <string name = "msg_people_around">Zoek personen in mijn omgeving</string>
 <string name = "msg_people_around_sub_1">Mijn zoekopdracht beperken tot deze afstand</string>
-<string name = "msg_people_around_sub_2">Oakclub gebruik deze voorkeuren om iemand aan u voor te stellen die mogelijk bij u past. Enkele suggesties vallen niet binnen uw gewenste parameters.</string>
+<string name = "msg_people_around_sub_2">OakClub gebruik deze voorkeuren om iemand aan u voor te stellen die mogelijk bij u past. Enkele suggesties vallen niet binnen uw gewenste parameters.</string>
 <string name = "txt_contact_us">Neem contact met ons op</string>
 <string name = "txt_logout">Afmelden</string>
 <string name = "value_distance_lessthan1">Op minder dan een kilometer afstand</string>

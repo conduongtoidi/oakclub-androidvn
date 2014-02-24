@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Arată-mi membri în vârstă de</string>
 <string name = "msg_people_around">Găseşte oameni din apropierea mea</string>
 <string name = "msg_people_around_sub_1">Limitez căutarea la această distanţă</string>
-<string name = "msg_people_around_sub_2">Oakclub foloseşte aceste preferinţe pentru a dugera potenţiale potriviri. Câteva sugestii de potrivir s-ar putea să nu se încadreze în parametri tăi.</string>
+<string name = "msg_people_around_sub_2">OakClub foloseşte aceste preferinţe pentru a dugera potenţiale potriviri. Câteva sugestii de potrivir s-ar putea să nu se încadreze în parametri tăi.</string>
 <string name = "txt_contact_us">Contactează-ne</string>
 <string name = "txt_logout">Ieşire</string>
 <string name = "value_distance_lessthan1">La mai puţin de un km distanţă</string>

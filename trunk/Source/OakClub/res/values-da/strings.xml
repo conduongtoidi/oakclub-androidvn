@@ -66,7 +66,7 @@
 <string name = "msg_search_age">Vis mig personer på følgende alder</string>
 <string name = "msg_people_around">Find andre i nærheden</string>
 <string name = "msg_people_around_sub_1">Begræns min søgning til denne afstand</string>
-<string name = "msg_people_around_sub_2">Oakclub bruger disse indstillinger for at foreslå potentielle matcher. Nogle af disse matcher falder muligvis ikke indenfor dine parametre.</string>
+<string name = "msg_people_around_sub_2">OakClub bruger disse indstillinger for at foreslå potentielle matcher. Nogle af disse matcher falder muligvis ikke indenfor dine parametre.</string>
 <string name = "txt_contact_us">Kontakt os</string>
 <string name = "txt_logout">Log ud</string>
 <string name = "value_distance_lessthan1">Mindre end en km væk</string>

@@ -27,6 +27,7 @@
         android:textSize="18sp"        
         />
     <LinearLayout 
+        android:id="@+id/dialog_active_snapshot_lltButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
