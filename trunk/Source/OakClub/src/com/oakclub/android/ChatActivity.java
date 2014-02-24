@@ -27,6 +27,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -272,7 +273,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		tbMessage.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(tbMessage.getWindowToken(), 0);
-
+        
 		tbMessage.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -306,34 +307,6 @@ public class ChatActivity extends OakClubBaseActivity {
 				messageArrayList, profile_id, target_avatar);
 		chatLv.setAdapter(adapter);
 
-//		ChatManager chatManager = xmpp.getChatManager();
-//		String str = "" + profile_id + "@oakclub.com";
-//		chat = chatManager.createChat(str, null);
-
-		// chat = chatManager.createChat(str, new MessageListener() {
-
-		//
-		// @Override
-		// public void processMessage(Chat arg0, Message arg1) {
-		// ChatHistoryData message = new ChatHistoryData();
-		// message.setBody(arg1.getBody());
-		// message.setTo(user_id);
-		// message.setFrom(profile_id);
-		// SimpleDateFormat df = new
-		// SimpleDateFormat(Constants.CHAT_TIME_FORMAT);
-		// String formattedDate = df.format(new Date());
-		// message.setTime_string(formattedDate);
-		// messageArrayList.add(message);
-		// runOnUiThread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// adapter.notifyDataSetChanged();
-		// chatLv.setSelection(chatLv.getCount() - 1);
-		// }
-		// });
-		// }
-		// });
 
     }		
 
@@ -497,6 +470,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		btnBlock.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+                dialog.dismiss();
 				showBlockConfirmDialog(
 						getResources().getString(R.string.txt_block_message),
 						getResources().getString(R.string.txt_block_anyway),
@@ -724,7 +699,11 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-
+		    SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+            Editor editor = pref.edit();
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+            editor.commit();
+            finish();
 		}
 
 	}

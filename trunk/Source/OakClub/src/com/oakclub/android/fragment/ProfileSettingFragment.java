@@ -1535,6 +1535,7 @@ public class ProfileSettingFragment{
                 OakClubUtil.enableDialogWarning(activity, activity.getResources().getString(R.string.txt_warning), 
                         activity.getResources().getString(R.string.value_delete_failed));
             } else {
+                profileInfoObj.setVideo_link("");
                 imgPlayVideo.setVisibility(View.GONE);
                 imgDelVideo.setVisibility(View.GONE);
                 video.setVisibility(View.GONE);
