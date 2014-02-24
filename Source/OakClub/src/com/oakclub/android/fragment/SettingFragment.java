@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -387,6 +388,8 @@ public class SettingFragment{
                         break;
                     }
                     
+                    
+                    
                     SharedPreferences pref = activity.getSharedPreferences(
                             Constants.PREFERENCE_NAME, 0);
                     boolean loggedIn = pref
@@ -398,6 +401,8 @@ public class SettingFragment{
                     editor.commit();
                     activity.finish();
                     activity.startActivity(activity.getIntent());
+                    UpdateLanguage loader = new UpdateLanguage("updateLanguageApp", activity, Constants.country);
+                    activity.getRequestQueue().addRequest(loader);
                 }
                 dialog.dismiss();
             }
@@ -505,7 +510,9 @@ public class SettingFragment{
                         | Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED); 
                 activity.startActivity(intent);
-                
+                NotificationManager nMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+                nMgr.cancelAll();
+                activity.finish();
                 break;
 
             case R.id.female_checkbox:
@@ -570,4 +577,24 @@ public class SettingFragment{
         }
     };
     
+    class UpdateLanguage extends RequestUI {
+
+    	String key_language;
+		public UpdateLanguage(Object key, Activity activity, String key_language) {
+			super(key, activity);
+			this.key_language = key_language;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			activity.oakClubApi.UpdateLanguage(key_language);
+			
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			
+		}
+    	
+    }
 }

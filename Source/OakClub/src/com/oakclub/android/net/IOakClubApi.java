@@ -142,5 +142,7 @@ public interface IOakClubApi {
     public void ReportUserById(String profile_id, String content);
     
 	public void SetReadMessages(String profile_id);
+	
+	public void UpdateLanguage(String key_language);
 
 }

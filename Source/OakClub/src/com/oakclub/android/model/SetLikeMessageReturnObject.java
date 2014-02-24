@@ -4,6 +4,8 @@ public class SetLikeMessageReturnObject {
     private boolean status;
     private String msg;
     private String type;
+    private DataLikeSnapShot data;
+    
     public boolean isStatus() {
         return status;
     }
@@ -21,5 +23,11 @@ public class SetLikeMessageReturnObject {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public DataLikeSnapShot getData() {
+		return data;
+	}
+	public void setData(DataLikeSnapShot data) {
+		this.data = data;
 	}
 }

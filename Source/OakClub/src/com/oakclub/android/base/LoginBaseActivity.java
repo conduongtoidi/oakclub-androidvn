@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -31,15 +32,18 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.Facebook.DialogListener;
 import com.google.android.gcm.GCMRegistrar;
 import com.oakclub.android.ChatActivity;
+import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
+import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SetLocationReturnObject;
+import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.net.AppService;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -175,7 +179,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 				@Override
 				public void onFacebookError(FacebookError error) {
-					Log.e("FB:", "Facebook Error");
+					Log.e("FB:", "Facebook Error" + error);
 					OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
 							getResources().getString(R.string.txt_warning),
 							getResources()
@@ -548,17 +552,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				}
 			}
 		if (id == -1) {
-			ListChatData newMessage = new ListChatData();
-			newMessage.setProfile_id(message.getFrom());
-			newMessage.setName("NO NAME");
-			newMessage.setLast_message(message.getBody());
-			newMessage.setTime(message.getTime_string());
-			newMessage.setStatus(2);
-			newMessage.setMatches(false);
-			newMessage.setUnread_count(1);
-			baseAllList.add(0, newMessage);
-			allList.add(0, newMessage);
-			vipList.add(0, newMessage);
+			GetOtherProfile loader2 = new GetOtherProfile(
+					Constants.GET_HANGOUT_PROFILE, LoginBaseActivity.this,
+					message.getFrom(), message);
+			getRequestQueue().addRequest(loader2);
 		} else {
 			baseAllList.get(id).setLast_message(message.getBody());
 			baseAllList.get(id).setTime(message.getTime_string());
@@ -571,6 +568,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					matchedList.get(i).setTime(message.getTime_string());
 					matchedList.get(i).setUnread_count(
 							matchedList.get(i).getUnread_count() + 1);
+					matchedList.get(i).setStatus(2);
 				}
 			}
 			for (int i = 0; i < allList.size(); i++) {
@@ -579,6 +577,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					allList.get(i).setTime(message.getTime_string());
 					allList.get(i).setUnread_count(
 							allList.get(i).getUnread_count() + 1);
+					allList.get(i).setStatus(2);
 				}
 			}
 			for (int i = 0; i < vipList.size(); i++) {
@@ -587,6 +586,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					vipList.get(i).setTime(message.getTime_string());
 					vipList.get(i).setUnread_count(
 							vipList.get(i).getUnread_count() + 1);
+					vipList.get(i).setStatus(2);
 				}
 			}
 		}
@@ -629,6 +629,56 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	protected void onDestroy() {
 		System.gc();
 		super.onDestroy();
+	}
+	
+	class GetOtherProfile extends RequestUI {
+
+		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
+		String profile_id;
+		ChatHistoryData message;
+
+		public GetOtherProfile(Object key, Activity activity,
+				String profile_id, ChatHistoryData message) {
+			super(key, activity);
+			this.profile_id = profile_id;
+			this.message = message;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			data = oakClubApi.getHangoutProfileOther(profile_id);
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (data != null) {
+				ListChatData newMessage = new ListChatData();
+				newMessage.setProfile_id(message.getFrom());
+				newMessage.setName(data.getData().getName());
+				newMessage.setAvatar(data.getData().getAvatar());
+				newMessage.setLast_message(message.getBody());
+				newMessage.setTime(message.getTime_string());
+				newMessage.setStatus(2);
+				newMessage.setMatches(false);
+				newMessage.setUnread_count(1);
+				baseAllList.add(0, newMessage);
+				allList.add(0, newMessage);
+				vipList.add(0, newMessage);
+				
+				if (adapterAllListChatData != null) {
+					adapterAllListChatData.notifyDataSetChanged();
+				}
+				if (adapterVIPListChatData != null) {
+					adapterVIPListChatData.notifyDataSetChanged();
+				}
+				if (adapterMatchListChatData != null) {
+					adapterMatchListChatData.notifyDataSetChanged();
+				}
+			}
+			else {
+				OakClubUtil.enableDialogWarning(LoginBaseActivity.this, getString(R.string.txt_warning), getString(R.string.txt_internet_message));
+			}
+		} 
 	}
 
 }
