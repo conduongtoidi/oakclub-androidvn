@@ -81,7 +81,7 @@
                     android:id="@+id/textview_chat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     android:textColor="@color/White"
                     android:text="@string/txt_say_hi"/>
             </RelativeLayout>
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/White"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -112,7 +112,7 @@
                     android:id="@+id/textview_keep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     android:textColor="@color/White"
                     android:text="@string/txt_keep_swiping"/>
             </RelativeLayout> 
