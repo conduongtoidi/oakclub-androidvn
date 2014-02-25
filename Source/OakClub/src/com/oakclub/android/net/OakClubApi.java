@@ -55,6 +55,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.facebook.Session;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.model.ChatHistoryReturnObject;
 import com.oakclub.android.model.GetAccountSettingsReturnObject;
@@ -76,6 +77,7 @@ import com.oakclub.android.model.SetViewMutualReturnObject;
 import com.oakclub.android.model.SettingReturnObject;
 import com.oakclub.android.model.UploadPhotoReturnObject;
 import com.oakclub.android.model.UploadVideoObject;
+import com.oakclub.android.model.VerifiedReturnObject;
 import com.oakclub.android.util.Constants;
 
 public class OakClubApi extends ApiConnect implements IOakClubApi {
@@ -120,6 +122,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		HttpConnectionParams.setSoTimeout(hClient.getParams(), SOCKET_TIMEOUT);
 		try {
 			HttpGet hget = new HttpGet();
+			Log.v("token old", MainActivity.access_token);
 			String headerValue = "UsernameToken "
 								+"Username=\""+ MainActivity.facebook_user_id
 								+"\", AccessToken=\""+MainActivity.access_token
@@ -135,8 +138,9 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
-				out.close();
+				
 				String responseString = out.toString();
+				out.close();
 				return responseString;
 			} else {
 				return "";
@@ -146,7 +150,6 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			return "";
 
 		} catch (Exception e) {
-
 			return "";
 
 		}
@@ -709,6 +712,28 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			
 		}
 		
+	}
+
+	@Override
+	public VerifiedReturnObject VerifiedUser() {
+		try {			
+			String result = excuteGet(baseUrl + "/" + Constants.VERIFY_USER, null);
+            return OakClubJsonParser.getJsonObjectByMapper(result,
+                    VerifiedReturnObject.class);
+		} catch (Exception e) {
+			return null;
+		}	
+	}
+
+	@Override
+	public VerifiedReturnObject SkipVerified() {
+		try {			
+			String result = excuteGet(baseUrl + "/" + Constants.SKIP_VERIFIED, null);
+            return OakClubJsonParser.getJsonObjectByMapper(result,
+                    VerifiedReturnObject.class);
+		} catch (Exception e) {
+			return null;
+		}	
 	}
 
 }

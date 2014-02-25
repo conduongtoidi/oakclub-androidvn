@@ -28,7 +28,11 @@ public class ProfileInfoData implements Serializable {
 	private String xmpp_username = "";
 	private String xmpp_password = "";
 	private String email ="";
+	private boolean is_verified = true;
+	private boolean force_verify = false;
+	private boolean skip_verify = false;
 	ArrayList<ListPhotoReturnDataItemObject> photos;
+	
 
 	public ArrayList<ListPhotoReturnDataItemObject> getPhotos() {
 		return photos;
@@ -231,4 +235,28 @@ public class ProfileInfoData implements Serializable {
     public void setFb_id(String fb_id) {
         this.fb_id = fb_id;
     }
+
+	public boolean isIs_verified() {
+		return is_verified;
+	}
+
+	public void setIs_verified(boolean is_verified) {
+		this.is_verified = is_verified;
+	}
+
+	public boolean isForce_verify() {
+		return force_verify;
+	}
+
+	public void setForce_verify(boolean force_verify) {
+		this.force_verify = force_verify;
+	}
+
+	public boolean isSkip_verify() {
+		return skip_verify;
+	}
+
+	public void setSkip_verify(boolean skip_verify) {
+		this.skip_verify = skip_verify;
+	}
 }

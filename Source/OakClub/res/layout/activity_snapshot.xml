@@ -63,14 +63,29 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginRight="70dp"
             android:background="@drawable/btn_pass_pressed" />
-
-        <ImageButton
+		<LinearLayout 
+		    android:id="@+id/vip_layout_snapshot"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:orientation="vertical"
+		    >
+			<ImageButton
             android:id="@+id/activity_snapshot_flt_footer_ibn_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/btn_info_pressed" />
-
+		    <ImageButton
+            android:id="@+id/activity_snapshot_flt_footer_ibn_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_chat_" />
+			
+		    
+		</LinearLayout>
+        
         <ImageButton
             android:id="@+id/activity_snapshot_flt_footer_ibn_like"
             android:layout_width="wrap_content"
