@@ -203,6 +203,7 @@
         <item>@string/txt_snapshot</item>
         <item>@string/txt_settings</item>
         <item>@string/txt_invite_friend</item>
+        <item>@string/txt_get_verified_now</item>
     </string-array>
 
     <string-array name="report_user_reasons">

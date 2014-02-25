@@ -135,4 +135,28 @@
 <string name = "txt_signin_failed">Không thể kết nối Facebook! Bạn vui lòng kiểm tra đường truyền internet và thử lại nha!</string>
 <string name = "value_active_dayago">%d ngày trước</string>
 <string name = "txt_get_location_failed">Không thể lấy vị trí của bạn từ GPS. Vui lòng thử lại sau.</string>
+<string name="txt_get_verified"> Khi được "Xác Nhận", bạn sẽ:</string>
+    <string name="txt_verified_title">Đăng ký Xác Nhận</string>
+    <string name="txt_verified_content_1"> Gặp gỡ nhiều đối tượng chọn lọc hơn trong "Tình cờ"</string>
+    <string name="txt_verified_content_2">Được giới thiệu tới nhiều thành viên khác hơn</string>
+    <string name="txt_verified_way_1">Để được xác nhận, bạn đồng ý đăng tải đoạn viết ngắn này lên Facebook của bạn.</string>
+	<string name="txt_verified_way_2">Bạn cũng có thể được xác nhận bằng cách  {{b}}chụp màn hình hồ sơ OakClub của bạn + 1 bản sao passport của bạn {{/b}} rồi  {{b}} gửi email{{/b}} đến chúng tôi:  {{b}}verification@oakclub.com{{/b}} bằng tài khoản email bạn dùng để đăng nhập Facebook.</string>    
+	<string name="txt_verified_continue"> Tiếp tục</string>
+    <string name="txt_verified_skip">Hủy</string>
+    <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name="txt_sample_post">Mình vừa tham gia OakClub - 1 ứng dụng rất tuyệt để kết nối yêu thương với bạn bè xung quanh mình. Hãy tham gia cùng mình đi!</string>
+    <string name="txt_btn_back">Back</string>
+    <string name="txt_get_verified_now">Hãy đăng kí xác nhận nào!</string>
+    <string name="txt_dear">Chào</string>
+     <string name="txt_force_verified">
+	    Tài khoản của bạn đã được chọn để xác minh bắt buộc bởi một số vấn đề liên quan đến {{b}}Điều khoản và Điều kiện{{/b}} của chúng tôi. Chúng tôi hiểu và rất xin lỗi bạn cho sự bất tiện này. Chúng tôi đang cố gắng xây dựng OakClub thành một môi trường an toàn cho tất cả thành viên. Vì vậy, mời bạn vui lòng làm theo các bước dưới đây và hoàn tất việc Xác nhận bằng 1 trong 2 cách: Đăng bài do OakClub cung cấp lên Facebook hoặc gửi tài liệu nhận dạng của bạn qua email. Chúng tôi cảm ơn bạn rất nhiều và xin lỗi một lần nữa cho tất cả sự bất tiện này.
+	    </string>  
+    <string name="txt_oakclub_team">Đôi ngũ OakClub </string>
+    <string name="txt_not_complete_verified">Việc Xác Nhận không thể hoàn thành được rồi…</string>
+    <string name="txt_try_again">Phiền bạn thực hiện lại lần nữa nha?</string>
+    <string name="ok">OK</string>
+    <string name="txt_thank_you">Cảm ơn bạn!</string>
+    <string name="txt_op"> Úi da!</string>
+    <string name="txt_got_it"> Ok, tôi biết rồi!</string>
+    <string name="txt_take_to_snapshot">Đưa tôi đến "Tình Cờ"</string>
 </resources>
