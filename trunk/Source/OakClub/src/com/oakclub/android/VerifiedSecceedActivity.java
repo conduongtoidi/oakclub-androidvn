@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.oakclub.android.SlidingActivity.MenuOakclub;
 import com.oakclub.android.base.OakClubBaseActivity;
+import com.oakclub.android.fragment.SnapshotFragment;
+import com.oakclub.android.util.Constants;
 
 public class VerifiedSecceedActivity extends OakClubBaseActivity{
 	private Button btnOk;
@@ -17,10 +20,12 @@ public class VerifiedSecceedActivity extends OakClubBaseActivity{
 		btnOk = (Button) findViewById(R.id.activity_secceed_verify_btn_ok);
 		btnOk.setOnClickListener(listener);
 	}
-	private void startSnapshot() {
-		Intent intent = new Intent(VerifiedSecceedActivity.this,
-				SlidingActivity.class);
-		startActivity(intent);
+	private void startSnapshot() {	
+		if(this.getIntent() != null && this.getIntent().getBooleanExtra(Constants.START_LOGIN, true) ){
+			Intent intent = new Intent(VerifiedSecceedActivity.this,
+					SlidingActivity.class);
+			startActivity(intent);
+	    }		
 	}
 	protected OnClickListener listener = new OnClickListener() {
 		
