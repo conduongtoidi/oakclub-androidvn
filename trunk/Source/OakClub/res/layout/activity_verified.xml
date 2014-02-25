@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/men_verified_srollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/bg"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/btn_chat_back"
+            android:gravity="center_vertical"
+            android:onClick="VerifiedClick"
+            android:text="@string/txt_btn_back"
+            android:textColor="@drawable/menu_textview_selector" />
+
+        <TextView
+            android:id="@+id/underline_back"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/line" />
+
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/verified_icon"
+            android:drawablePadding="25dp"
+            android:text="@string/txt_verified_title"
+            android:textColor="@color/BlueLight"
+            android:layout_gravity="center"
+            android:textSize="35sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_get_verified"
+                android:textColor="@color/BlackMidium"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/tick"
+                android:drawablePadding="10dp"
+                android:paddingLeft="15dp"
+                android:text="@string/txt_verified_content_1"
+                android:textColor="@color/BlueLight"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:drawableLeft="@drawable/tick"
+                android:drawablePadding="10dp"
+                android:paddingLeft="15dp"
+                android:text="@string/txt_verified_content_2"
+                android:textColor="@color/BlueLight"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/txt_verified_way_1"
+                android:textAlignment="center"
+                android:textColor="@color/BlackMidium"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_continue_verified"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/blue_btn"
+                    android:drawableLeft="@drawable/check_icon"
+                    android:drawablePadding="5dp"
+                    android:onClick="VerifiedClick"
+                    android:paddingLeft="20dp"
+                    android:text="@string/txt_verified_continue"
+                    android:textColor="@color/White"
+                    android:textSize="22sp" >
+                </Button>
+
+                <Button
+                    android:id="@+id/btn_skip_verified"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/grey_btn"
+                    android:onClick="VerifiedClick"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/txt_verified_skip"
+                    android:textColor="@color/White"
+                    android:textSize="22sp"
+                    android:visibility="gone" >
+                </Button>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_sample_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textview_border"
+                android:drawableLeft="@drawable/oakclub_logo"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:text="@string/txt_sample_post"
+                android:textColor="@color/BlackLight"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/divider" />
+
+            <TextView
+                android:id="@+id/txt_verified_way_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/txt_verified_way_2"
+                android:textAlignment="center"
+                android:textColor="@color/BlackMidium"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
