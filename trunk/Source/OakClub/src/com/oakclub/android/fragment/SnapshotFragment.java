@@ -2,35 +2,25 @@ package com.oakclub.android.fragment;
 
 import java.util.ArrayList;
 
-import org.jivesoftware.smackx.carbons.Carbon.Private;
 import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -53,11 +43,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.internal.ed;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
@@ -65,10 +52,11 @@ import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.VideoViewActivity;
+
 import com.oakclub.android.SlidingActivity.MenuOakclub;
 import com.oakclub.android.base.SlidingMenuActivity;
+
 import com.oakclub.android.core.RequestUI;
-import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
 import com.oakclub.android.model.SetViewMutualReturnObject;
@@ -82,7 +70,6 @@ import com.oakclub.android.view.ProgressCircle;
 import com.oakclub.android.view.TextViewWithFont;
 
 public class SnapshotFragment{
-
     // First
     private ImageView ivwAvatar;
     private ImageView ivwLikeStamp;
@@ -142,6 +129,7 @@ public class SnapshotFragment{
     private ImageButton btnNope;
     private ImageButton btnLike;
     private ImageButton btnInfo;
+    private ImageButton btnChat;
 
     private FrameLayout fltBody;
     private FrameLayout lltFooter;
@@ -210,8 +198,9 @@ public class SnapshotFragment{
     }
     
     public void initSnapshot() {
+    	
         activity.init(R.layout.activity_snapshot);
-
+        	
         SharedPreferences pref = activity.getSharedPreferences(
                 "oakclub_pref", activity.MODE_PRIVATE);
         
@@ -219,20 +208,17 @@ public class SnapshotFragment{
         
         pref = activity.getSharedPreferences(
                 Constants.PREFERENCE_NAME, 0);
-        boolean isFirstJoin = pref.getBoolean(
-                Constants.PREFERENCE_SHOW_TUTORIAL, true);
+
         isFirstLike = pref.getBoolean(
                 Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
         isFirstNope = pref.getBoolean(
                 Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
-        if (isFirstJoin) {
-            showTutorialActivity();
-        }
+       
         urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
         init(START_RECORD);
         
     }
-
+    
     private View findViewById(int id){
         return activity.view.findViewById(id);
     }
@@ -296,6 +282,9 @@ public class SnapshotFragment{
 
         btnInfo = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_info);
         btnInfo.setOnClickListener(snapEvent);
+        
+        btnChat = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_chat);
+        btnChat.setOnClickListener(snapEvent);
 
 
         ivwAvatar = (ImageView) fltContent
@@ -744,6 +733,7 @@ public class SnapshotFragment{
         isFirst = true;
         getCurrentContentView().setEnabled(false);
         btnInfo.setEnabled(false);
+        btnChat.setEnabled(false);
         btnLike.setEnabled(false);
         btnNope.setEnabled(false);
 
@@ -1007,6 +997,33 @@ public class SnapshotFragment{
                     && !isAction) {
                 String target_name = OakClubUtil.getFirstName(arrayListSnapshot.get(0).getName());
                 setNopeSnapshot(target_name);
+            }else if(v.getId() == R.id.activity_snapshot_flt_footer_ibn_chat){
+            	SnapshotData chatAccount = arrayListSnapshot.get(0);
+            	if(chatAccount != null){
+            		if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
+            			Toast.makeText(activity, activity.getString(R.string.txt_non_VIP_message), Toast.LENGTH_LONG).show();
+            		}else{
+            			Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_PROFILE_ID,
+                        		chatAccount.getProfile_id());
+                        bundle.putString(Constants.BUNDLE_AVATAR, chatAccount
+                                .getAvatar());
+                        bundle.putString(Constants.BUNDLE_NAME, chatAccount
+                                .getName());
+                        int status = 1;
+                        if (chatAccount.getIs_like())
+                        	status = 0;
+                        bundle.putInt(Constants.BUNDLE_STATUS, status);
+                        bundle.putString(Constants.BUNDLE_MATCH_TIME, chatAccount.getLike_time());
+                        
+                        
+                        chatHistoryActivity.putExtras(bundle);
+                        chatHistoryActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        activity.startActivity(chatHistoryActivity);
+            		}
+            	}
             }
         }
     };
@@ -1270,6 +1287,7 @@ public class SnapshotFragment{
 
     private void setEnableAll(boolean b) {
         btnInfo.setEnabled(b);
+        btnChat.setEnabled(b);
         btnLike.setEnabled(b);
         btnNope.setEnabled(b);
     }

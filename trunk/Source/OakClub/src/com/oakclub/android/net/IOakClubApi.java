@@ -24,6 +24,7 @@ import com.oakclub.android.model.SetViewMutualReturnObject;
 import com.oakclub.android.model.SettingReturnObject;
 import com.oakclub.android.model.UploadPhotoReturnObject;
 import com.oakclub.android.model.UploadVideoObject;
+import com.oakclub.android.model.VerifiedReturnObject;
 
 public interface IOakClubApi {
 	/**
@@ -143,6 +144,11 @@ public interface IOakClubApi {
     
 	public void SetReadMessages(String profile_id);
 	
+	public VerifiedReturnObject VerifiedUser();
+	
+	public VerifiedReturnObject SkipVerified();
+
 	public void UpdateLanguage(String key_language);
+
 
 }
