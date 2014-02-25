@@ -319,6 +319,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	        	   setResult(RESULT_OK, intent);
 	        	   //Log.v("token new", Session.getActiveSession().getAccessToken());
 	        	   Intent intent2 = new Intent(VerifiedActivity.this, VerifiedSecceedActivity.class);
+	        	   intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 	        	   startActivity(intent2);
 	        	   finish();
 			}
