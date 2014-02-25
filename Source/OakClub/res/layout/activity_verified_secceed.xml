@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/up_thankyou_base_popup"
+    android:orientation="vertical" >
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/txt_thank_you"
+        android:textColor="@color/BlueLight"
+        android:textSize="50sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+		<ImageView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:src="@drawable/stick_popup"
+		    android:layout_weight="2"
+		    android:layout_gravity="center_vertical|right"
+		    />
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_weight="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_verified_content_1"
+            android:textColor="@color/BlueLight"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center" >
+		<ImageView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:src="@drawable/stick_popup"
+		    android:layout_weight="2"
+		    />
+        <com.oakclub.android.view.TextViewWithFont
+		    android:layout_weight="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_verified_content_2"
+            android:textColor="@color/BlueLight"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/txt_verified_title"
+        android:src="@drawable/verified_icon_popup" />
+
+    <Button
+        android:id="@+id/activity_secceed_verify_btn_ok"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="63dp"
+        android:layout_marginRight="63dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/blue_boder_button"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/txt_got_it"
+        android:textColor="@color/BlueLight"
+        android:textSize="20sp"
+        />
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/txt_take_to_snapshot"
+        android:textColor="@color/BlackMidium"
+        android:textSize="14sp" />
+
+</LinearLayout>
