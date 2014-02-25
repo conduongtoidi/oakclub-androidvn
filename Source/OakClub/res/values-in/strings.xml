@@ -135,4 +135,34 @@
 <string name = "txt_signin_failed">Tidak bisa terhubung ke Facebook! Periksa koneksi internet kamu dan coba lagi!</string>
 <string name = "value_active_dayago">%d hari yang lalu</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
+
+<string name="txt_get_verified_now">Dapatkan Verifikasi Sekarang!</string>
+<string name="txt_verified_title">Dapatkan Verifikasi</string>
+<string name="txt_get_verified">Dengan "Mendapatkan Verifikasi", kamu bisa:</string>    
+    <string name="txt_verified_content_1">Melihat orang yang lebih baik di cuplikan</string>
+    <string name="txt_verified_content_2">Dipromosikan ke lebih banyak pengguna</string>
+    <string name="txt_verified_way_1">Untuk mendapatkan verifikasi, kamu harus mengirim postingan berikut ini di dinding FB kamu melalui sistem kami.</string>
+	<string name="txt_verified_way_2">
+	Atau, kamu bisa  {{b}}mendapatkan verifikasi dengan mengirim email{{/b}} pada kami sebuah {{b}}screenshot profil kamu + salinan paspor kamu{{/b}} dari akun email yang kamu gunakan untuk Facebook: {{b}}verification @ oakclub.com{{/b}}    
+		</string>    
+	<string name="txt_force_verified">
+	Akun kamu telah dipilih untuk wajib melakukan verifikasi karena kamu harus mematuhi {{b}}Syarat dan Ketentuan{{/b}} kami. Kami memahami bahwa wajib melakukan verifikasi mungkin tidak nyaman. Tetapi kami berusaha untuk membuat OakClub sebagai lingkungan yang seaman mungkin bagi pengguna kami. Jadi silakan ikuti langkah-langkah di bawah ini dan selesaikan verifikasinya baik melalui postingan Facebook atau mengirim dokumen identitas kamu melalui email. Terima kasih banyak dan sekali lagi maaf atas ketidaknyamanan yang ditimbulkan.
+	</string>  
+	<string name="txt_verified_continue">Teruskan</string>
+    <string name="txt_verified_skip">Lewati</string>
+    <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name="txt_sample_post">Saya baru bergabung OakClub – aplikasi yang hebat untuk berhubungan dengan orang-orang keren di sekitarmu. Periksalah!</string>
+    <string name="txt_dear"> Hai</string>
+     <string name="txt_oakclub_team">Tim OakClub.</string>
+       <string name="ok">OK</string>
+    <string name="txt_btn_back">Back</string>
+     <string name="txt_op"> Uuuuppss!</string>
+    <string name="txt_not_complete_verified">Verifikasi tidak dapat diselesaikan</string>
+     
+   
+    
+    <string name="txt_try_again">Silakan coba lagi!</string>
+  <string name="txt_got_it">Oke, saya mengerti</string>
+      <string name="txt_take_to_snapshot"> Bawalah saya ke layar Cuplikan!</string>
+    <string name="txt_thank_you"> Terima kasih!</string>
 </resources>

@@ -20,9 +20,8 @@
         android:id="@+id/layout_left_menu_lltlistmenu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:gravity="left"
         android:orientation="vertical" >
 
         <LinearLayout

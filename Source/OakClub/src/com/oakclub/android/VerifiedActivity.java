@@ -313,7 +313,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		@Override
 		public void executeUI(Exception ex) {
 			if (obj != null && obj.isStatus()){
-				  ProfileSettingFragment.profileInfoObj.setIs_verified(true);
+				  ProfileSettingFragment.profileInfoObj.setIs_verify(true);
 	        	   Intent intent = VerifiedActivity.this.getIntent();
 	        	   intent.putExtra(Constants.VERIFIED_SUCCESS, true);
 	        	   setResult(RESULT_OK, intent);

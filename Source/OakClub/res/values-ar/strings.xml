@@ -135,4 +135,36 @@
 <string name = "txt_signin_failed">لا يمكن الإتصال بالفيسبوك! تأكد من إتصالك بالإنترنت وحاول مرة اخري!</string>
 <string name = "value_active_dayago">%d منذ عدة أيام</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
+
+<string name="txt_get_verified_now">  قم بعمل عملية التحقق الآن!</string>
+<string name="txt_verified_title"> قم بعملية التحقق</string>
+<string name="txt_get_verified"> عند قيامك "بعملية التحقق"، يمكنك:</string>    
+    <string name="txt_verified_content_1">رؤية أشخاص أفضل في لقطات</string>
+    <string name="txt_verified_content_2">قم بالترقية للتواصل مع المزيد من الأعضاء</string>
+    <string name="txt_verified_way_1">للقيام بعملية التحقق، يجب عليك وضع المشاركة التالية على صفحة الفيسبوك الخاصة بك عن طريق نظامنا.</string>
+	<string name="txt_verified_way_2">
+	و كبديل، يمكنك {{b}} القيام بعملية التحقق عن طريق إرسال{{/b}}  {{b}}صورة للملف الشخصي الخاص بك + نسخة من جواز السفر الخاص بك{{/b}} و ذلك عن طريق البريد الإلكتروني الذي تستخدمه على موقع الفيسبوك  للعنوان التالي: {{b}}verification@oakclub.com{{/b}}
+		</string>    
+	<string name="txt_force_verified">
+	لقد تم اختيار حسابك لإجراء عملية تحقق إلزامية بسبب بعض المسائل المتعلقة بالامتثال {{b}} للشروط و الأحكام{{/b}} لدينا.
+و نحن نتفهم أن عملية التحقق الإلزامية من الممكن أن تكون عملية غير مريحة. ولكننا نسعى جاهدين لجعل " OakClub " بيئة آمنة للمستخدمين لدينا على قدر الإمكان. ولذلك يُرجى اتباع الخطوات التالية واستكمال التحقق إما عن طريق مشاركة على الفيسبوك أو عن طريق إرسال نسخة من وثائق الهوية الخاصة بك عن طريق البريد الإلكتروني. شكراً جزيلاً لك ونأسف مرة أخرى للإزعاج.
+	</string>  
+	<string name="txt_verified_continue"> استمرار</string>
+    <string name="txt_verified_skip">تخطي</string>
+    
+    <string name="txt_sample_post">لقد قمت للتو بالالتحاق بـ "OakClub" – و هو تطبيق رائع  للاتصال بأشخاص رائعين حولك. قم بتجرته!</string>
+    <string name="txt_dear">عزيزي المستخدم</string>
+     <string name="txt_oakclub_team"> فريق " OakClub ".</string>
+       <string name="ok">OK</string>
+    <string name="txt_btn_back">Back</string>
+     <string name="txt_op"> عذراً!</string>
+    <string name="txt_not_complete_verified"> لم يتم إكمال عملية التحقق</string>
+     
+   
+    
+    <string name="txt_try_again"> من فضلك حاول مرة أخرى</string>
+  <string name="txt_got_it"> حسناً، لقد فهمت</string>
+      <string name="txt_take_to_snapshot">  قم بتحويلي لشاشة التقاط الصور!</string>
+    <string name="txt_thank_you">   شكراً لك!</string>
+    <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
 </resources>

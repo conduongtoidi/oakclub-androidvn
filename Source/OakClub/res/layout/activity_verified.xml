@@ -30,10 +30,12 @@
             android:background="@drawable/line" />
 
         <TextView
-            android:layout_width="210dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/verified_icon"
             android:drawablePadding="25dp"
+            android:paddingLeft="25dp"
             android:text="@string/txt_verified_title"
             android:textColor="@color/BlueLight"
             android:layout_gravity="center"

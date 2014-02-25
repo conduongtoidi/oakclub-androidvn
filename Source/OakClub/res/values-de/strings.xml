@@ -135,4 +135,37 @@
 <string name = "txt_signin_failed">Es kann keine Verbindung zu Facebookhergestellt werden! Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut !</string>
 <string name = "value_active_dayago">tage alt</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
+
+<string name="txt_get_verified_now">Get Verified Now!</string>
+<string name="txt_verified_title">Lassen Sie sich verifizieren</string>
+<string name="txt_get_verified">Nachdem Sie sich verifiziert haben, werden Sie:</string>    
+    <string name="txt_verified_content_1">Bessere Leute in den Snapshots zu sehen bekommen</string>
+    <string name="txt_verified_content_2">An andere Benutzer häufiger beworben</string>
+    <string name="txt_verified_way_1">Um verifiziert zu werden, müssen Sie den folgenden Beitrag auf Ihrer Facebook-Pinnwand über unser System posten.</string>
+	<string name="txt_verified_way_2">
+	    Alternativ können Sie uns per {{b}}E-Mail{{/b}} einen {{b}}Screenshot von Ihrem Profil + eine Kopie Ihres Reisepasses{{/b}} von dem E-Mail-Konto, das Sie für Facebook verwenden, zusenden: {{b}}verification@oakclub.com{{/b}}
+	</string>    
+	<string name="txt_force_verified">
+	Ihr Konto wurde für eine obligatorische Überprüfung aufgrund von {{b}}Zweifeln bezüglich der Einhaltung unserer Allgemeinen Geschäftsbedingungen{{/b}} ausgewählt. Wir verstehen, dass eine obligatorische Überprüfung eine Unannehmlichkeit sein kann. Aber wir sind bestrebt, OakClub für unsere Nutzer so sicher wie möglich zu machen. Also bitte wir Sie, die unten aufgeführten Schritte zu befolgen und die Überprüfung entweder durch einen Facebook-Post oder die Übersendung Ihrer Ausweisdokumente per E-Mail zu vervollständigen. Vielen Dank und Entschuldigung für etwaige Unannehmlichkeiten,	
+     </string>  
+	<string name="txt_verified_continue">Weiter</string>
+    <string name="txt_verified_skip">Überspringen</string>
+    <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name="txt_sample_post">Ich habe mich gerade bei OakClub angemeldet - eine coole App, um neue Beziehungen aufzubauen. Sieh sie dir an!</string>
+    <string name="txt_dear">Sehr geehrte / Sehr geehrter</string>
+     <string name="txt_oakclub_team">Ihr OakClub-Team.</string>
+       <string name="ok">OK</string>
+    <string name="txt_btn_back">Back</string>
+     <string name="txt_op">Ooooppss!</string>
+    <string name="txt_not_complete_verified">Verifizierung war nicht erfolgreich</string>
+     
+   
+    
+    <string name="txt_try_again"> Bitte erneut versuchen!</string>
+  <string name="txt_got_it">Ok, einverstanden</string>
+      <string name="txt_take_to_snapshot"> Weiter zu den SnapShots</string>
+    <string name="txt_thank_you"> Vielen Dank!</string>
+   
+    
+
 </resources>
