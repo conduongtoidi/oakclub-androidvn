@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginTop="1dp"
-        android:background="@drawable/button_block_user"
+        android:background="@drawable/button_cancel_user"
         android:text="@string/txt_cancel"
         android:textColor="@color/White" />
 

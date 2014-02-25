@@ -165,7 +165,7 @@ public class SettingFragment{
             maxDistance = settingObject.getRange();
             if(maxDistance<100)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
-            if(maxDistance ==600)
+            else if(maxDistance ==600)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
             else if(maxDistance ==700)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
@@ -237,7 +237,7 @@ public class SettingFragment{
                     maxDistance = snapshotObj.getData().getRange();
                     if(maxDistance<100)
                         tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
-                    if(maxDistance ==600)
+                    else if(maxDistance ==600)
                         tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
                     else if(maxDistance ==700)
                         tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
