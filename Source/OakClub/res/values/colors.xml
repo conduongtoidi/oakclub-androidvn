@@ -16,6 +16,12 @@
     <color name="dialog_snapshot_pass">#DC1E3A</color>
     <color name="button_block_active">#CBCBCB</color>
     <color name="button_block_inactive">#D42F2F</color>
+    <color name="Blue">#00a1ff</color>
+    <color name="BlueLight">#0189ff</color>
+    <color name="BlackLight">#b2b2b2</color>
+    <color name="BlackMidium">#2b2b2b</color>
+    <color name="PurpleLight">#7b105c</color>
+    <color name="Red">#FF0000</color>
     <color name="button_cancel_active">#747474</color>
     <color name="button_cancel_inactive">#747474</color>
 </resources>

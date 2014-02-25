@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -24,9 +27,11 @@ import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.ImageLoader;
 
 import com.oakclub.android.MainActivity;
+import com.oakclub.android.VerifiedActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.SlidingActivity.MenuOakclub;
+import com.oakclub.android.ForceVerifiedActivity;
 
 public class LeftMenuListFragment extends Fragment {
 	LinearLayout menuProfile;
@@ -34,16 +39,18 @@ public class LeftMenuListFragment extends Fragment {
 	LinearLayout menuSetting;
 	LinearLayout menuIncludeFriends;
 	LinearLayout logoutBtn;
+	LinearLayout menuVerified;
 	
 	CircleImageView avatarProfile;
 	TextView tvProfile;
 	TextView tvSnapshot;
 	TextView tvSettings;
 	TextView tvIncludeFriends;
-
 	String[] menuTextList;
-	
+	ImageView ivVerified;
 	private LinearLayout lltMenu;
+	boolean isVerified = true;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,8 +61,11 @@ public class LeftMenuListFragment extends Fragment {
 		menuSnapshot = (LinearLayout) rootView.findViewById(R.id.menu_item_llt_snapshot);
 		menuSetting = (LinearLayout) rootView.findViewById(R.id.menu_item_llt_setting);
 		menuIncludeFriends = (LinearLayout) rootView.findViewById(R.id.menu_item_llt_include_friends);
+		menuVerified =(LinearLayout) rootView.findViewById(R.id.menu_item_llt_get_verified);
 		logoutBtn = (LinearLayout) rootView.findViewById(R.id.linear_logout);
 
+		ivVerified = (ImageView) rootView.findViewById(R.id.verified_profile_icon);
+		
 		tvProfile = (TextView) rootView.findViewById(R.id.menu_item_text_profile);
 		tvSnapshot = (TextView) rootView.findViewById(R.id.menu_item_text_snapshot);
 		tvSettings = (TextView) rootView.findViewById(R.id.menu_item_text_setting);
@@ -63,6 +73,7 @@ public class LeftMenuListFragment extends Fragment {
 		avatarProfile = (CircleImageView)rootView.findViewById(R.id.menu_item_icon_avaProfile);
 		menuTextList = getResources().getStringArray(R.array.menu_text_list);
 		lltMenu = (LinearLayout) rootView.findViewById(R.id.layout_left_menu_lltlistmenu);
+
 		if (OakClubUtil.isInternetAccess(getActivity())) {
 			init();
 		}
@@ -134,6 +145,12 @@ public class LeftMenuListFragment extends Fragment {
                                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
         				break;
+        				
+        			case R.id.menu_item_llt_get_verified:
+							Intent verified = new Intent(activity, VerifiedActivity.class);
+							startActivityForResult(verified, Constants.VERIFIED);
+        				break;
+        				
         			case R.id.linear_logout:
         			    Editor editor = activity.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                         .edit();
@@ -189,12 +206,16 @@ public class LeftMenuListFragment extends Fragment {
         params.leftMargin = (int) OakClubUtil.convertDpToPixel(30, getActivity().getBaseContext());
         params.topMargin = heightScreen/5;
         //(int) OakClubUtil.convertDpToPixel(heightScreen/5, getActivity().getBaseContext());
-	    
+	    if(ProfileSettingFragment.profileInfoObj.isIs_verified()){
+	    	menuVerified.setVisibility(View.GONE);
+	    	ivVerified.setVisibility(View.VISIBLE);
+	    }
         lltMenu.setLayoutParams(params);
 		menuProfile.setOnClickListener(layoutClick);
 		menuSnapshot.setOnClickListener(layoutClick);
 		menuSetting.setOnClickListener(layoutClick);
 		menuIncludeFriends.setOnClickListener(layoutClick);
+		menuVerified.setOnClickListener(layoutClick);
 		logoutBtn.setOnClickListener(layoutClick);
 
 		tvProfile.setText(menuTextList[0]);
@@ -211,6 +232,21 @@ public class LeftMenuListFragment extends Fragment {
         imgLoader.DisplayImage(url, loader, avatarProfile);
 		OakClubUtil.loadImageFromUrl(this.getActivity().getApplicationContext(), avatarProfile ,url);
 		avatarProfile.getBackground();
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data != null){
+			if(requestCode == Constants.VERIFIED){
+				boolean res = data.getBooleanExtra(Constants.VERIFIED_SUCCESS, false);
+				if(res){
+					menuVerified.setVisibility(View.GONE);
+					ivVerified.setVisibility(View.VISIBLE);
+				}				
+			}
+		}
+		
 	}
 	
 	@Override

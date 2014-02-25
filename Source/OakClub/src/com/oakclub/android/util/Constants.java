@@ -1,10 +1,5 @@
 package com.oakclub.android.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.Facebook;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.oakclub.android.model.SettingObject;
@@ -25,7 +20,10 @@ public class Constants {
 	public static final String GET_SNAPSHOT_SETTINGS = "getAccountSetting";
 	public static final String SET_VIEW_MUTUAL_MATCH = "setViewedMutualMatch";
 	public static final String SET_READ_MESSAGES = "setReadMessages";
+	public static final String VERIFY_USER = "verifyUser";
+	public static final String SKIP_VERIFIED = "skipVerifyUser";
 	public static final String UPDATE_LANGUAGE = "updateLanguage";
+
 	/*
 	 * Key config request
 	 */
@@ -39,6 +37,7 @@ public class Constants {
 	public static String PREFERENCE_USER_ID = "facebook_user_id";
 	public static String HEADER_USERNAME = "Username";
 	public static String HEADER_ACCESS_TOKEN = "AccessToken";
+	public static String HEADER_ACCESS_EXPIRES = "AccessExpires";
 	public static String HEADER_NONCE = "Nonce";
 	public static String HEADER_CREATED = "Created";
 	public static String HEADER_X_WSSE ="X-WSSE";
@@ -94,6 +93,29 @@ public class Constants {
 
     public static final String PHOTO_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "flv"; 
+    
+    public static final int  TUTORIAL = 1111;
+    public static final int VERIFIED = 1112;
+    public static final String KEY_IS_SKIP = "is_skip";
+    public static final int MEN = 1;
+    public static final String VERIFIED_PERMISSIONS  = "publish_stream";
+    public static final String START_LOGIN = "start_login";
+    public static final String FORCE_VERIFIED = "force_verified";
+    public static final String VERIFIED_SUCCESS = "verified_success";
+    public static final String[] FACEBOOK_PERMISSION = new String[] {
+		"friends_photos", "friends_relationship_details",
+		"friends_relationships", "friends_birthday",
+		"friends_location", "friends_education_history",
+		"friends_work_history", "friends_likes",
+		"friends_religion_politics", "friends_status",
+		"friends_about_me", "friends_interests",
+		"user_relationship_details", "user_relationships",
+		"user_birthday", "user_location", "user_education_history",
+		"user_work_history", "user_photos", "user_likes",
+		"user_religion_politics", "user_status", "user_about_me",
+		"user_interests", "email", "user_hometown",
+		"friends_hometown", "friends_events", "friends_checkins",
+		"user_checkins", "user_events", "offline_access" };
     
 	public static final String SENDER_ID = "105826272497";//"377367791749";//"857951122835";
 	public static final int[] SnapShotCounter = {50, 250, 500, 1000};

@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -19,6 +18,23 @@ import org.jivesoftware.smack.packet.Packet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -28,13 +44,14 @@ import com.facebook.Session;
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 import com.facebook.android.Facebook.DialogListener;
-import com.google.android.gcm.GCMRegistrar;
+import com.facebook.android.FacebookError;
 import com.oakclub.android.ChatActivity;
-import com.oakclub.android.InfoProfileOtherActivity;
+import com.oakclub.android.ForceVerifiedActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
+import com.oakclub.android.TutorialScreenActivity;
+import com.oakclub.android.VerifiedActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.model.ChatHistoryData;
@@ -43,31 +60,9 @@ import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SetLocationReturnObject;
-import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.net.AppService;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
-import com.viewpagerindicator.PageIndicator;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.view.ViewPager;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class LoginBaseActivity extends OakClubBaseActivity {
 
@@ -133,48 +128,16 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			}
 		} else{
 
-			facebook.authorize(LoginBaseActivity.this, new String[] {
-					"friends_photos", "friends_relationship_details",
-					"friends_relationships", "friends_birthday",
-					"friends_location", "friends_education_history",
-					"friends_work_history", "friends_likes",
-					"friends_religion_politics", "friends_status",
-					"friends_about_me", "friends_interests",
-					"user_relationship_details", "user_relationships",
-					"user_birthday", "user_location", "user_education_history",
-					"user_work_history", "user_photos", "user_likes",
-					"user_religion_politics", "user_status", "user_about_me",
-					"user_interests", "email", "user_hometown",
-					"friends_hometown", "friends_events", "friends_checkins",
-					"user_checkins", "user_events", "offline_access" }, new DialogListener() {
+			facebook.authorize(LoginBaseActivity.this, Constants.FACEBOOK_PERMISSION , new DialogListener() {
 
 				@Override
 				public void onComplete(Bundle values) {
+					
+					startProccess();
 					Log.v("onCompleteFacebook", "1");
 					// Log.v("onLoginSuccess", onLoginSuccess + "");
 					// if (onLoginSuccess)
-					{
-						(new Handler()).postDelayed(new Runnable() {
-							@Override
-							public void run() {
-
-								// Session.openActiveSession(LoginBaseActivity.this,
-								// false, null);
-
-								Editor editor = getSharedPreferences(
-										Constants.PREFERENCE_NAME, 0).edit();
-								editor.putBoolean(
-										Constants.PREFERENCE_LOGGINED, true);
-								editor.commit();
-								mLoginButton.setEnabled(false);
-								pd = new ProgressDialog(LoginBaseActivity.this);
-								pd.setMessage(getString(R.string.txt_loading));
-								pd.setCancelable(false);
-								pd.show();
-								getFacebookUserId();
-							}
-						}, 1000);
-					}
+					
 				}
 
 				@Override
@@ -211,7 +174,82 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			});
 		}
 	}
-
+	public void showTutorialActivity() {
+			
+		SharedPreferences pref = getApplicationContext()
+				.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+		Editor editor = pref.edit();
+		editor.putLong(Constants.HEADER_ACCESS_EXPIRES, facebook.getAccessExpires());
+		editor.commit();
+		
+		boolean isFirstJoin = pref.getBoolean(
+                Constants.PREFERENCE_SHOW_TUTORIAL, true);
+		if (isFirstJoin) {
+			intent = new Intent(getApplicationContext(),
+	                TutorialScreenActivity.class);
+	       LoginBaseActivity.this.startActivityForResult(intent, Constants.TUTORIAL);
+		}else{
+			showVerifiedActivity();
+		}
+    }
+	private void showVerifiedActivity(){
+		
+		if(!ProfileSettingFragment.profileInfoObj.isIs_verified()){
+				
+//				SharedPreferences pref = getApplicationContext()
+//						.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+//				boolean isSkip  =	pref.getBoolean(Constants.KEY_IS_SKIP, false);
+				
+				if(ProfileSettingFragment.profileInfoObj.isForce_verify()){
+					Intent verified = new Intent(this, ForceVerifiedActivity.class);
+					verified.putExtra(Constants.START_LOGIN, true);
+					verified.putExtra(Constants.FORCE_VERIFIED, true);
+					startActivity(verified);
+					finish();
+				}else if(ProfileSettingFragment.profileInfoObj.getGender() ==  Constants.MEN && (Integer.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.isSkip_verify())){
+//					if(Integer.parseInt(ProfileSettingFragment.error_Status) == -1){
+//						Editor editor = pref.edit();
+//						editor.putBoolean(Constants.KEY_IS_SKIP, false);
+//						editor.commit();
+//					}
+					Intent verified = new Intent(this, VerifiedActivity.class);
+			    	verified.putExtra(Constants.START_LOGIN, true);
+					this.startActivityForResult(verified, Constants.VERIFIED);
+					finish();
+				}else{
+					startSnapshot();
+				}			  					
+		}		
+		else {
+			startSnapshot();
+		}  	
+    }
+	private void startSnapshot() {
+		Intent intent = new Intent(LoginBaseActivity.this,
+				SlidingActivity.class);
+		startActivity(intent);
+		finish();
+	}
+	private void startProccess(){
+		(new Handler()).postDelayed(new Runnable() {
+			@Override
+			public void run() {
+			
+				Editor editor = getSharedPreferences(
+						Constants.PREFERENCE_NAME, 0).edit();
+				editor.putBoolean(
+						Constants.PREFERENCE_LOGGINED, true);
+				editor.commit();
+				mLoginButton.setEnabled(false);
+				pd = new ProgressDialog(LoginBaseActivity.this);
+				pd.setMessage(getString(R.string.txt_loading));
+				pd.setCancelable(false);
+				pd.show();
+				
+				getFacebookUserId();
+			}
+		}, 1000);
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -219,6 +257,9 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		// onLoginSuccess = true;
 		Log.v("onActivityResult", 1 + "");
 		facebook.authorizeCallback(requestCode, resultCode, data);
+		if(requestCode == Constants.TUTORIAL){			
+			showVerifiedActivity();
+		}
 	}
 
 	class SendRegisterRequest extends RequestUI {
@@ -260,7 +301,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_signin_failed));
 			} else {
 				ProfileSettingFragment.profileInfoObj = obj.getData();
-
+				ProfileSettingFragment.error_Status = obj.getError_status();
 				// Register custom Broadcast receiver to show messages on
 				// activity
 				registerGCM();
@@ -277,12 +318,9 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 											+ latitude, "" + longitude);
 							getRequestQueue().addRequest(loader);
 							
-							Intent intent = new Intent(LoginBaseActivity.this,
-									SlidingActivity.class);
-							startActivity(intent);
-							finish();
-							// }
-							finish();
+							
+							showTutorialActivity();
+
 						} else if (mGPS.isGPSEnabled) {
 							// showOpenGPSSettingsDialog(MainActivity.this);
 							OakClubUtil.enableDialogWarning(
