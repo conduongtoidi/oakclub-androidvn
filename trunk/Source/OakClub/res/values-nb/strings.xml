@@ -144,7 +144,10 @@
 	<string name="txt_verified_continue">Continue</string>
     <string name="txt_verified_skip">Skip</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
-    <string name="txt_sample_post">I have just joined OakClub - a cool app to make new connections. Check it out!</string>
+    <string name="txt_got_verified">I Got Verified!</string>
+    <string name="txt_sample_post">
+        I have just joined OakClub - a cool app to make new connections. Check it out!
+    </string>
     <string name="txt_btn_back">Back</string>
     <string name="txt_get_verified_now">Get Verified Now!</string>
     <string name="txt_dear">Dear</string>

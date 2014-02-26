@@ -150,7 +150,7 @@
 	</string>  
 	<string name="txt_verified_continue"> Devam et</string>
     <string name="txt_verified_skip">Atla</string>
-    
+    <string name="txt_got_verified">Kimliğim Doğrulandı!</string>
     <string name="txt_sample_post">Etraftaki harika insanlarla iletişim kurabilmeniz için harika bir uygulama olan Oakclub\'a katıldım. Siz de bir bakın!</string>
     <string name="txt_dear">Sevgili</string>
      <string name="txt_oakclub_team">OakClub Ekibi.</string>

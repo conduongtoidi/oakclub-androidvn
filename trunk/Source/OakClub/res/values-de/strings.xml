@@ -151,6 +151,7 @@
 	<string name="txt_verified_continue">Weiter</string>
     <string name="txt_verified_skip">Überspringen</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name="txt_got_verified">Ich wurde verifiziert!</string>
     <string name="txt_sample_post">Ich habe mich gerade bei OakClub angemeldet - eine coole App, um neue Beziehungen aufzubauen. Sieh sie dir an!</string>
     <string name="txt_dear">Sehr geehrte / Sehr geehrter</string>
      <string name="txt_oakclub_team">Ihr OakClub-Team.</string>
