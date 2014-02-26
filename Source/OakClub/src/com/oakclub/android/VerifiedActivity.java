@@ -219,7 +219,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		if(!first) return;
 		VerifiedActivity.this.first = false;
 		Bundle params = new Bundle();
-		params.putString("name", getString(R.string.app_name));
+		params.putString("name", getString(R.string.txt_got_verified));
 		params.putString("description", getString(R.string.txt_sample_post));
 		params.putString("link", getString(R.string.txt_share_url));		
 
@@ -241,7 +241,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								getRequestQueue().addRequest(loader);						        	   
 					        	  							        	   		
 							} else {
-								btn_continue.setEnabled(false);
+								btn_continue.setEnabled(true);
 								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 					        	startActivity(intent2);
@@ -249,7 +249,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									finish();
 							}
 						} else if (error instanceof FacebookOperationCanceledException) {
-							btn_continue.setEnabled(false);
+							btn_continue.setEnabled(true);
 							Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 							intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 							startActivity(intent2);
