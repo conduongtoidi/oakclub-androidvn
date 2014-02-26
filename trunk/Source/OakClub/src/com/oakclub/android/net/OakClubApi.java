@@ -59,6 +59,7 @@ import com.facebook.Session;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.model.ChatHistoryReturnObject;
 import com.oakclub.android.model.GetAccountSettingsReturnObject;
+import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.GetSnapshotSettingsReturnObject;
@@ -714,6 +715,19 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		
 	}
 
+	@Override
+	public GetConfigData GetConfig() {
+		GetConfigData data = null;
+		try {
+			String result = excuteGet(baseUrl + "/" + Constants.GETCONFIG, null);
+			return OakClubJsonParser.getJsonObjectByMapper(result, GetConfigData.class);
+		} catch (Exception ex){
+			
+		}
+		
+		return data;
+	}
+	
 	@Override
 	public VerifiedReturnObject VerifiedUser() {
 		try {			

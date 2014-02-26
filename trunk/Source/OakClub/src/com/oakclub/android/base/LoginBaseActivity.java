@@ -194,19 +194,19 @@ public class LoginBaseActivity extends OakClubBaseActivity {
     }
 	private void showVerifiedActivity(){
 		
-		if(!ProfileSettingFragment.profileInfoObj.isIs_verified()){
+		if(!ProfileSettingFragment.profileInfoObj.getIs_verify()){
 				
 //				SharedPreferences pref = getApplicationContext()
 //						.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
 //				boolean isSkip  =	pref.getBoolean(Constants.KEY_IS_SKIP, false);
 				
-				if(ProfileSettingFragment.profileInfoObj.isForce_verify()){
+				if(ProfileSettingFragment.profileInfoObj.getForce_verify()){
 					Intent verified = new Intent(this, ForceVerifiedActivity.class);
 					verified.putExtra(Constants.START_LOGIN, true);
 					verified.putExtra(Constants.FORCE_VERIFIED, true);
 					startActivity(verified);
 					finish();
-				}else if(ProfileSettingFragment.profileInfoObj.getGender() ==  Constants.MEN && (Integer.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.isSkip_verify())){
+				}else if(ProfileSettingFragment.profileInfoObj.getGender() ==  Constants.MEN && (Integer.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.getSkip_verify())){
 //					if(Integer.parseInt(ProfileSettingFragment.error_Status) == -1){
 //						Editor editor = pref.edit();
 //						editor.putBoolean(Constants.KEY_IS_SKIP, false);

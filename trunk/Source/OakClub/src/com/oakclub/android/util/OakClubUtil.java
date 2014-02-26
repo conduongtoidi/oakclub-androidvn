@@ -161,6 +161,14 @@ public class OakClubUtil {
 		}
 		return t;
 	}
+	
+	public static String getFullLinkSticker(Context c, String url) {
+		String t = url;
+		if (!url.contains("http")) {
+			t = "http://staging.oakclub.com/bundles/likevnblissdate/v3/chat/images/stickers/" + url;
+		} 
+		return t;
+	}
 
     public static String getFullLinkVideo(Context c, String url, String type) {
         String t = url;

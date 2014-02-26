@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.oakclub.android.model.ChatHistoryReturnObject;
 import com.oakclub.android.model.GetAccountSettingsReturnObject;
+import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.GetSnapshotSettingsReturnObject;
@@ -149,6 +150,8 @@ public interface IOakClubApi {
 	public VerifiedReturnObject SkipVerified();
 
 	public void UpdateLanguage(String key_language);
+	
+	public GetConfigData GetConfig();
 
 
 }
