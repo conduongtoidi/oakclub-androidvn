@@ -50,12 +50,9 @@ import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
+import com.oakclub.android.SlidingActivity.MenuOakclub;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.VideoViewActivity;
-
-import com.oakclub.android.SlidingActivity.MenuOakclub;
-import com.oakclub.android.base.SlidingMenuActivity;
-
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
