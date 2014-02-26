@@ -41,6 +41,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
+import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.view.CircleImageView;
 
@@ -88,6 +89,43 @@ public class OakClubUtil {
 				});
 	}
 
+	public static void loadStickerFromUrl(final Context context,
+			final String imageUrl, final ImageView imageView, final String key) {
+		Constants.imageLoader.displayImage(imageUrl, imageView,
+				new ImageLoadingListener() {
+					@Override
+					public void onLoadingStarted(String arg0, View arg1) {
+
+						final ImageView imageView = (ImageView) arg1;
+						imageView.setImageBitmap(null);
+						imageView
+								.setBackgroundResource(R.drawable.logo_splashscreen);
+					}
+
+					@Override
+					public void onLoadingFailed(String arg0, View arg1,
+							FailReason arg2) {
+						imageView
+								.setBackgroundResource(R.drawable.logo_splashscreen);
+					}
+
+					@Override
+					public void onLoadingComplete(String arg0, View arg1,
+							Bitmap arg2) {
+//                        imageView
+//                        .setBackgroundResource(R.drawable.logo_splashscreen);
+                        imageView
+                        .setBackgroundColor(Color.WHITE);
+						imageView.setImageBitmap(arg2);
+						ChatActivity.bitmapSticker.put(key, arg2);
+					}
+
+					@Override
+					public void onLoadingCancelled(String arg0, View arg1) {
+					}
+				});
+	}
+	
 	public static void clearCacheWithUrl(String imageUrl,
 			ImageLoader imageLoader) {
 		if (MemoryCacheUtil.findCachedBitmapsForImageUri(imageUrl,
@@ -165,7 +203,7 @@ public class OakClubUtil {
 	public static String getFullLinkSticker(Context c, String url) {
 		String t = url;
 		if (!url.contains("http")) {
-			t = "http://staging.oakclub.com/bundles/likevnblissdate/v3/chat/images/stickers/" + url;
+			t = c.getString(R.string.server_address_sticker) + "/" + url;
 		} 
 		return t;
 	}

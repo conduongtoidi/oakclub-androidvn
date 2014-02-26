@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -131,6 +132,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	private TabHost tabHost;
 	LocalActivityManager  mLocalActivityManager;
 	public static boolean isPressSticker = false;
+	public static HashMap<String, Bitmap> bitmapSticker = new HashMap<String, Bitmap>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -247,60 +249,44 @@ public class ChatActivity extends OakClubBaseActivity {
 		txt = (TextViewWithFont) findViewById(R.id.txt);
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
 		listSmile = (RelativeLayout) findViewById(R.id.activity_list_smile_rlt_center);
+		StickerActivity.chat = this;
 		
-        //tabHost =  (TabHost)findViewById(android.R.id.tabhost);
-        
         mLocalActivityManager = new LocalActivityManager(this, false);
         mLocalActivityManager.dispatchCreate(savedInstanceState);
         tabHost.setup(mLocalActivityManager);
         tabHost.getTabWidget().setDividerDrawable(null);
-        // Tab for Matched
-        TabSpec matchedspec = tabHost.newTabSpec("Matched");
-        View tabView1 = createTabView(this, "Smile");
-        matchedspec.setIndicator(tabView1);
+
+        TabSpec smileSpec = tabHost.newTabSpec("Smile");
+        View tabView1 = createTabView(this, 0);
+        smileSpec.setIndicator(tabView1);
         Intent matchedIntent = new Intent(this, SmileActivity.class);
-        matchedspec.setContent(matchedIntent);
-        tabHost.addTab(matchedspec); 
+        smileSpec.setContent(matchedIntent);
+        tabHost.addTab(smileSpec); 
         
-        // Tab for Non-matched
-        TabSpec nonMatchedspec = tabHost.newTabSpec("VIP");
-        View tabView2 = createTabView(this, "Sticker");
-        nonMatchedspec.setIndicator(tabView2);
+        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
+        View tabView2 = createTabView(this, 1);
+        stickerSpec.setIndicator(tabView2);
         Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
         
-        StickerActivity.chat = this;
-        nonMatchedspec.setContent(nonMatchedIntent);
-        tabHost.addTab(nonMatchedspec); 
         
-        // Tab for All
-//        TabSpec allspec = tabHost.newTabSpec("All");
-//        View tabView3 = createTabView(this, getString(R.string.txt_all));
-//        allspec.setIndicator(tabView3);
-//        Intent allIntent = new Intent(this, AllChatActivity.class);
-//        allspec.setContent(allIntent);
-//        tabHost.addTab(allspec); 
+        stickerSpec.setContent(nonMatchedIntent);
+        tabHost.addTab(stickerSpec); 
 
-        TextView tvLeft = (TextView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabTitleText);
-        tvLeft.setGravity(Gravity.CENTER);
-        tvLeft.setBackgroundResource(R.drawable.tab_right_selector);
-        TextView tvMiddle = (TextView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabTitleText);
-        tvMiddle.setGravity(Gravity.CENTER);
-        tvMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
-//        TextView tvRight = (TextView) tabHost.getTabWidget().getChildAt(2).findViewById(R.id.tabTitleText);
-//        tvRight.setGravity(Gravity.CENTER);
-//        tvRight.setBackgroundResource(R.drawable.tab_left_selector);
+        ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
+        imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
+        
+        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
 
         tabHost.setOnTabChangedListener(new OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
             	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                TextView tvLeft = (TextView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabTitleText);
-                tvLeft.setBackgroundResource(R.drawable.tab_right_selector);
-                TextView tvMiddle = (TextView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabTitleText);
-                tvMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
-//                TextView tvRight = (TextView) tabHost.getTabWidget().getChildAt(2).findViewById(R.id.tabTitleText);
-//                tvRight.setBackgroundResource(R.drawable.tab_left_selector);
+	            ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
+                imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
+                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
             }
         });
         
@@ -378,10 +364,17 @@ public class ChatActivity extends OakClubBaseActivity {
 
     }
 	
-	private static View createTabView(Context context, String tabText) {
+	private static View createTabView(Context context, int type) {
         View view = LayoutInflater.from(context).inflate(R.layout.tabhost_smile, null, false);
-        TextView tv = (TextView) view.findViewById(R.id.tabTitleText);
-        tv.setText(tabText);
+        ImageView img = (ImageView) view.findViewById(R.id.tabhost_smile_img);
+        
+        if (type == 0) {
+        	img.setImageResource(R.drawable.smile_icon);
+        } else {
+//	        String url = OakClubUtil.getFullLinkSticker(context, "angry.png");
+//	        OakClubUtil.loadImageFromUrl(context, img, url);
+        	img.setImageResource(R.drawable.egg_icon);
+        }
         return view;
     }
 
@@ -883,8 +876,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 		return builder;
 	}
-
-	
 
 	@Override
 	public void onBackPressed() {

@@ -94,19 +94,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 				Bundle bundle = new Bundle();
 				ImageView img = (ImageView) view
 						.findViewById(R.id.item_listview_listchat_imgright);
-//				Integer integer = (Integer) img.getTag();
-//				integer = integer == null ? 0 : integer;
-//				switch (integer) {
-//				case R.drawable.matchup_on:
-//					img.setImageResource(R.drawable.matchup_off);
-//					img.setTag(R.drawable.matchup_off);
-//					break;
-//				case R.drawable.chat_up_on:
-//					img.setImageResource(R.drawable.chat_up_off);
-//					img.setTag(R.drawable.chat_up_off);
-//					break;
-//				}
-				//
+
 				bundle.putString(Constants.BUNDLE_PROFILE_ID,
 						listChat.get(position).getProfile_id());
 				bundle.putString(Constants.BUNDLE_AVATAR, listChat
