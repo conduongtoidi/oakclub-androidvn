@@ -23,7 +23,7 @@ public class Constants {
 	public static final String VERIFY_USER = "verifyUser";
 	public static final String SKIP_VERIFIED = "skipVerifyUser";
 	public static final String UPDATE_LANGUAGE = "updateLanguage";
-
+	public static final String GETCONFIG = "getConfig";
 	/*
 	 * Key config request
 	 */

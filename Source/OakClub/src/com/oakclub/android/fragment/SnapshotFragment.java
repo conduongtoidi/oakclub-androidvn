@@ -172,6 +172,7 @@ public class SnapshotFragment{
     public JSONArray jsonArray = null;
     private RelativeLayout progressCircle;
 
+    private String chatProfile_id;
     private String nameProfile;
     private String avaProfile;
     private int status;
@@ -214,7 +215,8 @@ public class SnapshotFragment{
         isFirstNope = pref.getBoolean(
                 Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
        
-        urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
+        if (ProfileSettingFragment.profileInfoObj != null)
+        	urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
         init(START_RECORD);
         
     }
@@ -692,7 +694,7 @@ public class SnapshotFragment{
                 nameProfile = arrayListSnapshot.get(0).getName();
                 avaProfile = arrayListSnapshot.get(0).getAvatar();
                 match_time = arrayListSnapshot.get(0).getLike_time();
-                profileId = arrayListSnapshot.get(0)
+                chatProfile_id = arrayListSnapshot.get(0)
                         .getProfile_id();
                 arrayListSnapshot.remove(0);
                 String proId = profileId;
@@ -823,6 +825,7 @@ public class SnapshotFragment{
                                     .getAvatar());
                     nameProfile = arrayListSnapshot.get(0).getName();
                     avaProfile = arrayListSnapshot.get(0).getAvatar();
+                    chatProfile_id = arrayListSnapshot.get(0).getProfile_id();
                     arrayListSnapshot.remove(0);
                     String proId = profileId;
 
@@ -1153,7 +1156,7 @@ public class SnapshotFragment{
                         activity.getApplicationContext(),
                         ChatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.BUNDLE_PROFILE_ID, profileId);
+                bundle.putString(Constants.BUNDLE_PROFILE_ID, chatProfile_id);
                 bundle.putString(Constants.BUNDLE_AVATAR, avaProfile);
                 bundle.putString(Constants.BUNDLE_NAME, nameProfile);
             	bundle.putInt(Constants.BUNDLE_STATUS, status);
@@ -1366,68 +1369,67 @@ public class SnapshotFragment{
 
         @Override
         public void executeUI(Exception ex) {
-        	if (resultEvent != null && resultEvent.isStatus()) {
-        		for (int i = 0; i < Constants.SnapShotCounter.length; i++) {
-        			//resultEvent.getData().getSnapshot_counter() == Constants.SnapShotCounter[i]
-        			if (true) {
-        				AlertDialog.Builder builder;
-        		        builder = new AlertDialog.Builder(activity);
-        		        final AlertDialog dialog = builder.create();
-        		        LayoutInflater inflater = LayoutInflater
-        		                .from(activity);
-        		        View layout = inflater.inflate(R.layout.dialog_active_snapshot,
-        		                null);
-        		        dialog.setView(layout, 0, 0, 0, 0);
-        		        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        		        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvtitle);
-        		        tvTitle.setText("");
-        		        tvTitle.setVisibility(View.GONE);
-        		        TextView tvContent = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvcontent);
-        		        tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", Constants.SnapShotCounter[i]));
-        		        Button btnInvite = (Button)layout.findViewById(R.id.dialog_active_snapshot_btActive);
-        		        btnInvite.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
-        		        		android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-        		        		android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
-    							));
-
-        		        btnInvite.setText(activity.getString(R.string.txt_tell_your_friend));
-        		        btnInvite.setOnClickListener(new OnClickListener() {
-							
-							@Override
-							public void onClick(View arg0) {
-								activity.setMenu(MenuOakclub.INVITE_FRIEND);
-		        			    intent = new Intent();
-		                        intent.setAction(Intent.ACTION_SEND);
-		                        intent.putExtra(Intent.EXTRA_TEXT,
-		                                activity.getString(R.string.txt_share_title) + "\n"
-		                                        + activity.getString(R.string.txt_share_url));
-		                        intent.setType("text/plain");
-		                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-		                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		                        activity.startActivity(intent);
-							}
-						});        		        
-        		        
-        		        LinearLayout lltButton = (LinearLayout)layout.findViewById(R.id.dialog_active_snapshot_lltButton);
-        		        lltButton.setOrientation(LinearLayout.VERTICAL);
-        		        Button btCancel = (Button)layout.findViewById(R.id.dialog_active_snapshot_btCancel);
-        		        btnInvite.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-        		        btCancel.setLayoutParams(new android.widget.LinearLayout.LayoutParams(btnInvite.getMeasuredWidth(), btnInvite.getMeasuredHeight()));
-//        		        btCancel.setHeight(btnInvite.getMeasuredHeight());
-//        		        btCancel.setWidth(btnInvite.getMeasuredHeight());
-        		        btCancel.setOnClickListener(new OnClickListener() {
-        		            @Override
-        		            public void onClick(View v) {
-        		                dialog.dismiss();
-        		            }
-        		        });
-        		        dialog.setCancelable(false);
-        		        dialog.show();
-        		        
-        			}
-        		}
-        	}
+//        	if (resultEvent != null && resultEvent.isStatus()) {
+//        		for (int i = 0; i < Constants.SnapShotCounter.length; i++) {
+//        			if (resultEvent.getData().getSnapshot_counter() == Constants.SnapShotCounter[i]) {
+//        				AlertDialog.Builder builder;
+//        		        builder = new AlertDialog.Builder(activity);
+//        		        final AlertDialog dialog = builder.create();
+//        		        LayoutInflater inflater = LayoutInflater
+//        		                .from(activity);
+//        		        View layout = inflater.inflate(R.layout.dialog_active_snapshot,
+//        		                null);
+//        		        dialog.setView(layout, 0, 0, 0, 0);
+//        		        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        		        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvtitle);
+//        		        tvTitle.setText("");
+//        		        tvTitle.setVisibility(View.GONE);
+//        		        TextView tvContent = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvcontent);
+//        		        tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", Constants.SnapShotCounter[i]));
+//        		        Button btnInvite = (Button)layout.findViewById(R.id.dialog_active_snapshot_btActive);
+//        		        btnInvite.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
+//        		        		android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
+//        		        		android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+//    							));
+//
+//        		        btnInvite.setText(activity.getString(R.string.txt_tell_your_friend));
+//        		        btnInvite.setOnClickListener(new OnClickListener() {
+//							
+//							@Override
+//							public void onClick(View arg0) {
+//								activity.setMenu(MenuOakclub.INVITE_FRIEND);
+//		        			    intent = new Intent();
+//		                        intent.setAction(Intent.ACTION_SEND);
+//		                        intent.putExtra(Intent.EXTRA_TEXT,
+//		                                activity.getString(R.string.txt_share_title) + "\n"
+//		                                        + activity.getString(R.string.txt_share_url));
+//		                        intent.setType("text/plain");
+//		                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//		                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+//		                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		                        activity.startActivity(intent);
+//							}
+//						});        		        
+//        		        
+//        		        LinearLayout lltButton = (LinearLayout)layout.findViewById(R.id.dialog_active_snapshot_lltButton);
+//        		        lltButton.setOrientation(LinearLayout.VERTICAL);
+//        		        Button btCancel = (Button)layout.findViewById(R.id.dialog_active_snapshot_btCancel);
+//        		        btnInvite.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+//        		        btCancel.setLayoutParams(new android.widget.LinearLayout.LayoutParams(btnInvite.getMeasuredWidth(), btnInvite.getMeasuredHeight()));
+////        		        btCancel.setHeight(btnInvite.getMeasuredHeight());
+////        		        btCancel.setWidth(btnInvite.getMeasuredHeight());
+//        		        btCancel.setOnClickListener(new OnClickListener() {
+//        		            @Override
+//        		            public void onClick(View v) {
+//        		                dialog.dismiss();
+//        		            }
+//        		        });
+//        		        dialog.setCancelable(false);
+//        		        dialog.show();
+//        		        
+//        			}
+//        		}
+//        	}
         }
 
     }
@@ -1454,7 +1456,7 @@ public class SnapshotFragment{
     }
 
     class GetSnapShotLoader extends RequestUI {
-        GetSnapShot obj;
+    	GetSnapShot obj;
         String userId;
         int startIndex;
         int limitIndex;

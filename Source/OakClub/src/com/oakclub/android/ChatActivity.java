@@ -24,11 +24,13 @@ import org.jivesoftware.smack.packet.Packet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +41,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,6 +50,8 @@ import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabHost.TabSpec;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -58,6 +63,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +81,7 @@ import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.SendChatReturnObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SnapshotData;
+import com.oakclub.android.model.Sticker;
 import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.util.Constants;
@@ -97,7 +104,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	String target_name;
 	String target_avatar;
 	Button btnSend;
-	EditText tbMessage;
+	public static EditText tbMessage;
 	Chat chat;
 	ProgressBar progressBar;
 	public static boolean isActive = true;
@@ -109,7 +116,6 @@ public class ChatActivity extends OakClubBaseActivity {
 	TextView tvName;
 
 	private Button btShowSmile;
-	private GridView gvSmile;
 	private LinearLayout lltBottom;
 	private RelativeLayout.LayoutParams params;
 	private boolean isShowSmile = false;
@@ -120,6 +126,11 @@ public class ChatActivity extends OakClubBaseActivity {
 	private TextViewWithFont txt_chat_match_content;
 	private TextViewWithFont txt_chat_match_time;
 	private TextViewWithFont txt;
+	
+	private RelativeLayout listSmile;
+	private TabHost tabHost;
+	LocalActivityManager  mLocalActivityManager;
+	public static boolean isPressSticker = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +138,9 @@ public class ChatActivity extends OakClubBaseActivity {
 		
 		
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+		
 		View v = inflater.inflate(R.layout.activity_chat, null);
+		tabHost =  (TabHost)v.findViewById(android.R.id.tabhost);
 		setContentView(v);
 
 		Bundle bundleListChatData = getIntent().getExtras();
@@ -197,9 +210,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			
 		}
 		
-		init();
-		addSmileToEmoticons();
-		addItemGridView();
+		init(savedInstanceState);
 	}
 	
 	@Override
@@ -214,7 +225,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		isActive = false;
 	}
 
-	public void init() {
+	public void init(Bundle savedInstanceState) {
 		ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
 				profile_id, 0);
 		getRequestQueue().addRequest(loader);
@@ -228,7 +239,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		btnSend = (Button) findViewById(R.id.activity_chat_rtlbottom_btSend);
 		tbMessage = (EditText) findViewById(R.id.activity_chat_rtlbottom_tbMessage);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		gvSmile = (GridView) findViewById(R.id.activity_chat_rtlbottom_gvSmile);
 		btShowSmile = (Button) findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
 		lltBottom = (LinearLayout) findViewById(R.id.activity_chat_rtlbottom);
 		lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
@@ -236,6 +246,64 @@ public class ChatActivity extends OakClubBaseActivity {
 		txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
 		txt = (TextViewWithFont) findViewById(R.id.txt);
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
+		listSmile = (RelativeLayout) findViewById(R.id.activity_list_smile_rlt_center);
+		
+        //tabHost =  (TabHost)findViewById(android.R.id.tabhost);
+        
+        mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState);
+        tabHost.setup(mLocalActivityManager);
+        tabHost.getTabWidget().setDividerDrawable(null);
+        // Tab for Matched
+        TabSpec matchedspec = tabHost.newTabSpec("Matched");
+        View tabView1 = createTabView(this, "Smile");
+        matchedspec.setIndicator(tabView1);
+        Intent matchedIntent = new Intent(this, SmileActivity.class);
+        matchedspec.setContent(matchedIntent);
+        tabHost.addTab(matchedspec); 
+        
+        // Tab for Non-matched
+        TabSpec nonMatchedspec = tabHost.newTabSpec("VIP");
+        View tabView2 = createTabView(this, "Sticker");
+        nonMatchedspec.setIndicator(tabView2);
+        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
+        
+        StickerActivity.chat = this;
+        nonMatchedspec.setContent(nonMatchedIntent);
+        tabHost.addTab(nonMatchedspec); 
+        
+        // Tab for All
+//        TabSpec allspec = tabHost.newTabSpec("All");
+//        View tabView3 = createTabView(this, getString(R.string.txt_all));
+//        allspec.setIndicator(tabView3);
+//        Intent allIntent = new Intent(this, AllChatActivity.class);
+//        allspec.setContent(allIntent);
+//        tabHost.addTab(allspec); 
+
+        TextView tvLeft = (TextView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabTitleText);
+        tvLeft.setGravity(Gravity.CENTER);
+        tvLeft.setBackgroundResource(R.drawable.tab_right_selector);
+        TextView tvMiddle = (TextView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabTitleText);
+        tvMiddle.setGravity(Gravity.CENTER);
+        tvMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+//        TextView tvRight = (TextView) tabHost.getTabWidget().getChildAt(2).findViewById(R.id.tabTitleText);
+//        tvRight.setGravity(Gravity.CENTER);
+//        tvRight.setBackgroundResource(R.drawable.tab_left_selector);
+
+        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+            	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                TextView tvLeft = (TextView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabTitleText);
+                tvLeft.setBackgroundResource(R.drawable.tab_right_selector);
+                TextView tvMiddle = (TextView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabTitleText);
+                tvMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+//                TextView tvRight = (TextView) tabHost.getTabWidget().getChildAt(2).findViewById(R.id.tabTitleText);
+//                tvRight.setBackgroundResource(R.drawable.tab_left_selector);
+            }
+        });
+        
 		// status == 0 || status == 1
 		if (status == 0) {
 			chatLv.setVisibility(View.GONE);
@@ -279,7 +347,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 
-				gvSmile.setVisibility(View.GONE);
+				listSmile.setVisibility(View.GONE);
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
 				isShowSmile = false;
@@ -294,7 +362,7 @@ public class ChatActivity extends OakClubBaseActivity {
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.showSoftInput(tbMessage, InputMethodManager.SHOW_IMPLICIT);
 				if (hasFocus) {
-					gvSmile.setVisibility(View.GONE);
+					listSmile.setVisibility(View.GONE);
 					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 					lltBottom.setLayoutParams(params);
 					isShowSmile = false;
@@ -308,7 +376,14 @@ public class ChatActivity extends OakClubBaseActivity {
 		chatLv.setAdapter(adapter);
 
 
-    }		
+    }
+	
+	private static View createTabView(Context context, String tabText) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tabhost_smile, null, false);
+        TextView tv = (TextView) view.findViewById(R.id.tabTitleText);
+        tv.setText(tabText);
+        return view;
+    }
 
 	private OnClickListener listener = new OnClickListener() {
 		@Override
@@ -354,7 +429,21 @@ public class ChatActivity extends OakClubBaseActivity {
 				solveEditBtn();
 				break;
 			case R.id.activity_chat_rtlbottom_btshowsmile:
-				showSmile();
+				//showSmile();
+				if (!isShowSmile) {
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					listSmile.setVisibility(View.VISIBLE);
+	                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+	                params.addRule(RelativeLayout.ABOVE, R.id.activity_list_smile_rlt_center);
+	                lltBottom.setLayoutParams(params);
+	                isShowSmile = true;
+				} else {
+					listSmile.setVisibility(View.GONE);
+		            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		            lltBottom.setLayoutParams(params);
+		            isShowSmile = false;
+				}
 				break;
 			}
 
@@ -580,6 +669,43 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 	}
 
+	public void solveSendMessage(String content) {
+		try {
+			if (content.trim().equals(""))
+				return;
+			final Message xmppmessage = new Message("" + profile_id
+					+ "@oakclub.com", Message.Type.chat);
+			xmppmessage.setBody(content);
+			new Thread() {
+				@Override
+				public void run() {
+					if (xmpp != null && xmpp.getUser() != null) {
+						xmpp.sendPacket(xmppmessage);
+					}
+				}
+			}.start();
+			// chat.sendMessage(content);
+			ChatHistoryData message = new ChatHistoryData();
+			message.setBody(content);
+			message.setFrom(user_id);
+			message.setTo(profile_id);
+			SimpleDateFormat df = new SimpleDateFormat(
+					Constants.CHAT_TIME_FORMAT);
+			String formattedDate = df.format(new Date());
+			message.setTime_string(formattedDate);
+			messageArrayList.add(message);
+			adapter.notifyDataSetChanged();
+			chatLv.setSelection(chatLv.getCount() - 1);
+			SendMessageLoader loader = new SendMessageLoader("sendMessage",
+					ChatActivity.this, profile_id, content);
+			getRequestQueue().addRequest(loader);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private class ChatHistoryRequest extends RequestUI {
 
 		private ChatHistoryReturnObject obj;
@@ -708,73 +834,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 
 	}
-
-	
-	private void addItemGridView() {
-		SmileysAdapter adapter = new SmileysAdapter(arrayListSmileys,
-				ChatActivity.this, emoticons);
-		gvSmile.setAdapter(adapter);
-	}    
     
-    private static HashMap<String, Integer> emoticons = new HashMap<String, Integer>();
-    private ArrayList<String> arrayListSmileys = new ArrayList<String>();
-    
-    private void showSmile(){
-        gvSmile.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view,
-                    int position, long arg3) {
-                int pos = tbMessage.getSelectionStart();
-                String value = gvSmile.getAdapter().getItem(position).toString();
-                String text = tbMessage.getText().toString();
-                String textHead = text.substring(0, pos);
-                String textTail = text.substring(pos, text.length());
-                pos = (textHead +value).length();
-//                if (Html.fromHtml(value).toString().length() > 1)
-//        		{
-//                	pos = (textHead + Html.fromHtml(value).toString()).length();
-//        		}
-                value = textHead + value + textTail;
-                Spannable spannable = getSmiledText(ChatActivity.this, value);
-                tbMessage.setText(spannable);
-                tbMessage.setSelection(spannable.length());
-            }
-        });
-      
-        if(gvSmile.getVisibility() == View.GONE){
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            Handler handle = new Handler();
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    gvSmile.setVisibility(View.VISIBLE);
-                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-                    params.addRule(RelativeLayout.ABOVE, R.id.activity_chat_rtlbottom_gvSmile);
-                    lltBottom.setLayoutParams(params);
-                    isShowSmile = true;
-                }
-            };
-            handle.postDelayed(runnable, 100);
-        }
-        else{
-            gvSmile.setVisibility(View.GONE);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            lltBottom.setLayoutParams(params);
-            isShowSmile = false;
-        }
-    }
-
-	private void fillArrayList() {
-		Iterator<Entry<String, Integer>> iterator = emoticons.entrySet()
-				.iterator();
-		while (iterator.hasNext()) {
-			Entry<String, Integer> entry = iterator.next();
-			arrayListSmileys.add(entry.getKey());
-		}
-	}
-
-	public static Spannable getSmiledText(Context context, String text) {
+   	public static Spannable getSmiledText(Context context, String text) {
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		String path = "<img src=\"/bundles/likevnhangout/images/gift/";
 		boolean isGift = false;
@@ -784,9 +845,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			textGift = Html.fromHtml(text).toString();
 			builder = new SpannableStringBuilder(textGift);
 		}
-		if (path.length() > builder.length()) {
-			
-		} else if (text.subSequence(0, path.length()).equals(path)) {
+		if (textGift.contains(path)) {
 			try {
 				String img = textGift.replace(path, "").split("\"")[0].replace(
 						".png", "");
@@ -800,12 +859,13 @@ public class ChatActivity extends OakClubBaseActivity {
 			} catch (Exception e) {
 
 			}
-		} 
+		}
+
 		if (!isGift) {
 			builder = new SpannableStringBuilder(text);
 			int index;
 			for (index = 0; index < builder.length(); index++) {
-				for (Entry<String, Integer> entry : emoticons.entrySet()) {
+				for (Entry<String, Integer> entry : SmileActivity.emoticons.entrySet()) {
 					int length = entry.getKey().length();
 					if (index + length > builder.length())
 						continue;
@@ -824,42 +884,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		return builder;
 	}
 
-	private void addSmileToEmoticons() {
-		emoticons.put(":)", R.drawable.smile);
-		emoticons.put(";)", R.drawable.wink);
-		emoticons.put(":(", R.drawable.sad);
-		emoticons.put(":P", R.drawable.tongue);
-		emoticons.put(":-/", R.drawable.confused);
-		emoticons.put("x(", R.drawable.angry);
-		emoticons.put(":D", R.drawable.grin);
-		emoticons.put(":-o", R.drawable.amazed);
-		emoticons.put(":((", R.drawable.cry);
-		emoticons.put(":&quot;&gt;", R.drawable.shy);
-		emoticons.put("B-)", R.drawable.cool);
-		emoticons.put(":))", R.drawable.laugh);
-		emoticons.put("(bandit)", R.drawable.ninja);
-		emoticons.put(":-&amp;", R.drawable.sick);
-		emoticons.put("/:)", R.drawable.doubtful);
-		emoticons.put("&gt;:)", R.drawable.devil);
-		emoticons.put("O:-)", R.drawable.angel);
-		emoticons.put("(:|", R.drawable.nerd);
-		emoticons.put("=P~", R.drawable.love);
-		emoticons.put("&lt;:-P", R.drawable.party);
-		emoticons.put(":x", R.drawable.speechless);
-		emoticons.put(":O)", R.drawable.clown);
-		emoticons.put(":-&lt;", R.drawable.bored);
-		emoticons.put(";PX", R.drawable.pirate);
-		emoticons.put("(santa)", R.drawable.santa);
-		emoticons.put("(fight)", R.drawable.karate);
-		emoticons.put("(emo)", R.drawable.emo);
-		emoticons.put("(tribal)", R.drawable.indian);
-		emoticons.put("qB]", R.drawable.punk);
-		emoticons.put("p^^", R.drawable.beaten);
-		emoticons.put("&quot;vvv&quot;", R.drawable.wacky);
-		emoticons.put(":-&gt;", R.drawable.vampire);
-
-		fillArrayList();
-	}
+	
 
 	@Override
 	public void onBackPressed() {
@@ -868,7 +893,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		getRequestQueue().addRequest(loader3);
 
 		if (isShowSmile) {
-			gvSmile.setVisibility(View.GONE);
+			listSmile.setVisibility(View.GONE);
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			lltBottom.setLayoutParams(params);
 			isShowSmile = false;

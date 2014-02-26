@@ -236,7 +236,15 @@ public class ProfileInfoData implements Serializable {
         this.fb_id = fb_id;
     }
 
-	public boolean isForce_verify() {
+	public boolean getIs_verify() {
+		return is_verify;
+	}
+
+	public void setIs_verify(boolean is_verify) {
+		this.is_verify = is_verify;
+	}
+
+	public boolean getForce_verify() {
 		return force_verify;
 	}
 
@@ -244,7 +252,7 @@ public class ProfileInfoData implements Serializable {
 		this.force_verify = force_verify;
 	}
 
-	public boolean isSkip_verify() {
+	public boolean getSkip_verify() {
 		return skip_verify;
 	}
 
@@ -252,11 +260,5 @@ public class ProfileInfoData implements Serializable {
 		this.skip_verify = skip_verify;
 	}
 
-	public boolean isIs_verify() {
-		return is_verify;
-	}
 
-	public void setIs_verify(boolean is_verify) {
-		this.is_verify = is_verify;
-	}
 }
