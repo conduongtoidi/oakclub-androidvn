@@ -248,6 +248,12 @@ public class LeftMenuListFragment extends Fragment {
 						.getApplicationContext(),
 						ProfileSettingFragment.profileInfoObj.getAvatar());
 			}
+			
+			int loader = R.drawable.logo_splashscreen;
+			ImageLoader imgLoader = new ImageLoader(getActivity());
+	        imgLoader.DisplayImage(url, loader, avatarProfile);
+			OakClubUtil.loadImageFromUrl(this.getActivity().getApplicationContext(), avatarProfile ,url);
+			avatarProfile.getBackground();
 		}
 	}
 
