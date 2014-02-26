@@ -77,6 +77,7 @@ public class SnapshotFragment{
     private ImageView ivwMuatualFriendDisable;
     private ImageView ivwShareInterestedDisable;
     private ImageView ivwNumPhotoDisable;
+    private ImageView ivwVerifiedIcon;
     private ImageButton imgPlayVideo;
 
     private LinearLayout fltContent;
@@ -95,6 +96,7 @@ public class SnapshotFragment{
     private ImageView ivwSecondMuatualFriendDisable;
     private ImageView ivwSecondShareInterestedDisable;
     private ImageView ivwSecondNumPhotoDisable;
+    private ImageView ivwSecondVerifiedIcon;
     private ImageButton imgPlayVideoSecond;
 
     private LinearLayout fltContentSecond;
@@ -113,6 +115,7 @@ public class SnapshotFragment{
     private ImageView ivwThirdMuatualFriendDisable;
     private ImageView ivwThirdShareInterestedDisable;
     private ImageView ivwThirdNumPhotoDisable;
+    private ImageView ivwThirdVerifiedIcon;
     private ImageButton imgPlayVideoThird;
 
     private LinearLayout fltContentThird;
@@ -312,6 +315,8 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwNumPhotoDisable = (ImageView) fltContent
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        ivwVerifiedIcon = (ImageView) fltContent
+        		.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
         imgPlayVideo = (ImageButton)fltContent.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
 
         ivwSecondLikeStamp = (ImageView) fltContentSecond
@@ -340,6 +345,8 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwSecondNumPhotoDisable = (ImageView) fltContentSecond
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        ivwSecondVerifiedIcon =  (ImageView) fltContentSecond
+                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
         imgPlayVideoSecond = (ImageButton)fltContentSecond.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
 
         ivwThirdLikeStamp = (ImageView) fltContentThird
@@ -368,8 +375,10 @@ public class SnapshotFragment{
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
         ivwThirdNumPhotoDisable = (ImageView) fltContentThird
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
+        ivwThirdVerifiedIcon = (ImageView) fltContentThird
+                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
         imgPlayVideoThird = (ImageButton)fltContentThird.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
-
+        
         resetAll();
         getListSnapshotData(start);
     }
@@ -462,6 +471,9 @@ public class SnapshotFragment{
             tvwNumFriend.setText(numFriend);
             tvwNumShareInterested.setText(numLikePerson);
             tvwNumPicture.setText(numPicture);
+            if(arrayListSnapshot.get(index).getIs_verify()){
+            	ivwVerifiedIcon.setVisibility(View.GONE);
+            }
             if (numPicture.equals("0"))
                 ivwNumPhotoDisable.bringToFront();
             else
@@ -488,6 +500,9 @@ public class SnapshotFragment{
             tvwSecondNumFriend.setText(numFriend);
             tvwSecondNumShareInterested.setText(numLikePerson);
             tvwSecondNumPicture.setText(numPicture);
+            if(arrayListSnapshot.get(index).getIs_verify()){
+            	ivwSecondVerifiedIcon.setVisibility(View.GONE);
+            }
             if (numPicture.equals("0"))
                 ivwSecondNumPhotoDisable.bringToFront();
             else
@@ -514,6 +529,9 @@ public class SnapshotFragment{
             tvwThirdNumFriend.setText(numFriend);
             tvwThirdNumShareInterested.setText(numLikePerson);
             tvwThirdNumPicture.setText(numPicture);
+            if(arrayListSnapshot.get(index).getIs_verify()){
+            	ivwThirdVerifiedIcon.setVisibility(View.GONE);
+            }
             if (numPicture.equals("0"))
                 ivwThirdNumPhotoDisable.bringToFront();
             else

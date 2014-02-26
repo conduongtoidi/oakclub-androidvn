@@ -30,6 +30,7 @@ public class SnapshotData implements Serializable {
     private String school;
     private int work = 59 ;
     private int interested = 0;
+    private boolean is_verify;
     
     public int getAge() {
         return age;
@@ -168,5 +169,11 @@ public class SnapshotData implements Serializable {
 	}
 	public void setLike_time(String like_time) {
 		this.like_time = like_time;
+	}
+	public boolean getIs_verify() {
+		return is_verify;
+	}
+	public void setIs_verify(boolean is_verify) {
+		this.is_verify = is_verify;
 	}
 }
