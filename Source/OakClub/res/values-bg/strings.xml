@@ -157,6 +157,6 @@
     <string name="ok">OK</string>
     <string name="txt_thank_you">Thank you!</string>
     <string name="txt_op">Oooooops!</string>
-    <string name="txt_got_it">Ok, Got It!</string>
+    <string name="txt_got_it">Ok, I understand</string>
     <string name="txt_take_to_snapshot">Take me to Snapshot</string>
 </resources>

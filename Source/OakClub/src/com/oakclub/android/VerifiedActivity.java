@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,7 +42,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	private  boolean first;
 	private boolean start_login;
 	private TextView tvVerifiedWay2;
-	private boolean force_verified;
+	//private boolean force_verified;
 	private WebDialog feedDialog;
 
 	@Override
@@ -62,9 +61,9 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		tvVerifiedWay2.setText(styledText);
 		Intent intent = getIntent();
 		start_login = intent.getBooleanExtra(Constants.START_LOGIN, false);
-		force_verified = intent.getBooleanExtra(Constants.FORCE_VERIFIED, false);
+		//force_verified = intent.getBooleanExtra(Constants.FORCE_VERIFIED, false);
 		if(start_login){
-			btn_back.setVisibility(View.INVISIBLE);
+			btn_back.setVisibility(View.GONE);
 			line.setVisibility(View.GONE);
 			btn_skip.setVisibility(View.VISIBLE);
 		}
@@ -94,23 +93,27 @@ public class VerifiedActivity extends OakClubBaseActivity {
 				break;
 			}
 		} else {
-			AlertDialog.Builder builder;
-			builder = new AlertDialog.Builder(this);
-			final AlertDialog dialog = builder.create();
-			LayoutInflater inflater = LayoutInflater.from(this);
-			View layout = inflater.inflate(R.layout.dialog_warning_ok, null);
-			dialog.setView(layout, 0, 0, 0, 0);
-			Button btnOK = (Button) layout
-					.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-			btnOK.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-			});
-			dialog.setCancelable(false);
-			dialog.show();
+			if(start_login){
+				AlertDialog.Builder builder;
+				builder = new AlertDialog.Builder(this);
+				final AlertDialog dialog = builder.create();
+				LayoutInflater inflater = LayoutInflater.from(this);
+				View layout = inflater.inflate(R.layout.dialog_warning_ok, null);
+				dialog.setView(layout, 0, 0, 0, 0);
+				Button btnOK = (Button) layout
+						.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+				btnOK.setOnClickListener(new OnClickListener() {
+	
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
+				dialog.setCancelable(false);
+				dialog.show();
+			}else{
+				finish();
+			}
 		}
 	}
 
@@ -236,15 +239,21 @@ public class VerifiedActivity extends OakClubBaseActivity {
 							} else {
 								
 								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
-					        	   startActivity(intent2);
+								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
+					        	startActivity(intent2);
+					        	if(!start_login)
+									finish();
 							}
 						} else if (error instanceof FacebookOperationCanceledException) {
 							Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
-				        	   startActivity(intent2);
+							intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
+							startActivity(intent2);
+							if(!start_login)
+								finish();
 						} else {
 							// Generic, ex: network error
 							Toast.makeText(getApplicationContext(),
-									"Error posting story", Toast.LENGTH_SHORT)
+									"Error posting story", Toast.LENGTH_LONG)
 									.show();
 						}
 					}
@@ -340,7 +349,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-
+				ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
 				if(start_login){
 					startSnapshot();
 				}

@@ -136,7 +136,7 @@
 <string name = "value_active_dayago">%d days ago</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name="txt_get_verified">By "Getting Verified", you can:</string>
-    <string name="txt_verified_title">Get Verified</string>
+    <string name="txt_verified_title">Get\nVerified</string>
     <string name="txt_verified_content_1">See better people in snapshots</string>
     <string name="txt_verified_content_2">Get promoted to more users</string>
     <string name="txt_verified_way_1">To get verified, you have to post the following post on your FB wall through our system</string>
@@ -157,6 +157,6 @@
     <string name="ok">OK</string>
     <string name="txt_thank_you">Thank you!</string>
     <string name="txt_op">Oooooops!</string>
-    <string name="txt_got_it">Ok, Got It!</string>
+    <string name="txt_got_it">Ok, I understand</string>
     <string name="txt_take_to_snapshot">Take me to Snapshot</string>
 </resources>
