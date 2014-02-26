@@ -4,8 +4,18 @@
     android:layout_height="match_parent"
     android:gravity="right"
     android:paddingTop="5dp"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" >    
+    
+    <ImageView
+            android:id="@+id/image_content_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_bubble_greymain"
+            android:gravity="left"
+            android:visibility="gone"
+            android:layout_marginRight="50dp"
+            android:textColor="@android:color/black" />
+    
     <com.oakclub.android.view.TextViewWithFont
         android:id="@+id/message_content_right"
         android:layout_width="wrap_content"
