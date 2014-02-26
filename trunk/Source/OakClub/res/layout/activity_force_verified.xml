@@ -14,7 +14,7 @@
 
         <TextView
            android:layout_marginTop="5dp"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/verified_icon"
             android:drawablePadding="25dp"
@@ -37,14 +37,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
+                <com.oakclub.android.view.TextViewWithFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txt_dear"
                     android:textColor="@color/BlackMidium"
                     android:textSize="14sp" />
 
-                <TextView
+                <com.oakclub.android.view.TextViewWithFont
                     android:id="@+id/txt_dear_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <TextView
+            <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/txt_force_verified"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:textColor="@color/BlackMidium"
                 android:textSize="14sp" />
 
-            <TextView
+            <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -98,7 +98,7 @@
                 android:textSize="22sp" >
             </Button>
 
-            <TextView
+            <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/txt_sample_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:layout_marginTop="10dp"
                 android:src="@drawable/divider" />
 
-            <TextView
+            <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/txt_verified_way_2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

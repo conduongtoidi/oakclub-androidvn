@@ -151,6 +151,7 @@
 	<string name="txt_verified_continue"> ดำเนินการต่อ</string>
     <string name="txt_verified_skip">ข้ามขั้นตอนนี้</string>
     <string name="txt_got_verified">ฉันได้รับการยืนยัน!</string>
+     <string name="txt_oakclub_page">OakClub.com</string>
     <string name="txt_sample_post">ฉันได้รับการยืนยัน!OakClub.com ฉันเพิ่งเข้าร่วม OakClub – แอปที่ยอดเยี่ยม มอบการเชื่อมโยงกับผู้คนมากมาย ลองใช้ดูสิ!</string>
     <string name="txt_dear"> เรียนคุณ</string>
      <string name="txt_oakclub_team">ทีมงาน OakClub</string>
