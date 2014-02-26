@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 public class ChatHistoryAdapter extends BaseAdapter {
 
@@ -117,12 +118,20 @@ public class ChatHistoryAdapter extends BaseAdapter {
 				}
 				if (text.contains("type=\"sticker\"")) {
 					String img = text.replace(path2, "").split("\"")[0];
-					String urlImg = OakClubUtil
-							.getFullLinkSticker(context, img);
+					
 					holder.leftImg.setVisibility(View.VISIBLE);
 					holder.leftTv.setVisibility(View.GONE);
 					ImageView imgView = holder.leftImg;
-					OakClubUtil.loadImageFromUrl(context, urlImg, imgView);
+					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+						String urlImg = OakClubUtil
+								.getFullLinkSticker(context, img);
+			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
+			        } else {
+			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+			        }
+					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
+					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
+					imgView.setLayoutParams(params);
 				} else {
 					holder.leftImg.setVisibility(View.GONE);
 					holder.leftTv.setVisibility(View.VISIBLE);
@@ -138,13 +147,20 @@ public class ChatHistoryAdapter extends BaseAdapter {
 				}
 				if (text.contains("type=\"sticker\"")){
 					String img = text.replace(path2, "").split("\"")[0];
-					String urlImg = OakClubUtil
-							.getFullLinkSticker(context, img);
 					Log.v("img right", img + " " + position);
 					holder.rightImg.setVisibility(View.VISIBLE);
 					holder.rightTv.setVisibility(View.GONE);
 					ImageView imgView = holder.rightImg;
-					OakClubUtil.loadImageFromUrl(context, urlImg, imgView);
+					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+						String urlImg = OakClubUtil
+								.getFullLinkSticker(context, img);
+			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
+			        } else {
+			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+			        }
+					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
+					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
+					imgView.setLayoutParams(params);
 				} else {
 					holder.rightImg.setVisibility(View.GONE);
 					holder.rightTv.setVisibility(View.VISIBLE);

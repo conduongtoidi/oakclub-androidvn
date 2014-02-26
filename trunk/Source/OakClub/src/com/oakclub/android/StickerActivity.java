@@ -6,24 +6,17 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.oakclub.android.model.GetConfigData;
-import com.oakclub.android.model.Sticker;
-import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.model.adaptercustom.StickerAdapter;
 import com.oakclub.android.net.IOakClubApi;
 import com.oakclub.android.net.OakClubApi;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Spannable;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 
 public class StickerActivity extends Activity {
 	
@@ -31,7 +24,7 @@ public class StickerActivity extends Activity {
 	public IOakClubApi oakClubApi;
 	public static HashMap<String, String> stickers = new HashMap<String, String>();
 	
-    private ArrayList<String> arrayListSmileys = new ArrayList<String>();
+    public static ArrayList<String> arrayListSmileys = new ArrayList<String>();
     public static ChatActivity chat;
 	
 	@Override
@@ -42,6 +35,7 @@ public class StickerActivity extends Activity {
 		setContentView(R.layout.activity_smile);
 		
 		gvSticker = (GridView) findViewById(R.id.activity_chat_rtlbottom_gvSmile);
+		gvSticker.setNumColumns(3);
 		gvSticker.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view,
@@ -57,7 +51,7 @@ public class StickerActivity extends Activity {
             }
         });
 		
-		addSmileToEmoticons();
+		addStickerToStickers();
 	}
 	
 	private void addItemGridView() {
@@ -66,7 +60,7 @@ public class StickerActivity extends Activity {
 		gvSticker.setAdapter(adapter);
 	}
 
-    private void addSmileToEmoticons() {
+    private void addStickerToStickers() {
     	
     	AsyncTask<Void, Void, Void> mTask = new AsyncTask<Void, Void, Void>() {
     		GetConfigData getConfig;
