@@ -5,6 +5,7 @@
     <color name="Purple">#740051</color>
     <color name="Black">#000000</color>
     <color name="Gray">#f4f4f4</color>
+    <color name="DarkGray">#cccccc</color>
     <color name="EditProfileBlack">#222222</color>
     <color name="setting_checkbox">#ff2b2b2b</color>
     <color name="chat_background_gray">#e2e2e2</color>
