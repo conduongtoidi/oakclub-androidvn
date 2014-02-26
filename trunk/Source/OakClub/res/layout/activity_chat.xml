@@ -3,77 +3,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-      android:background="@drawable/navigation_base" >
+    android:background="@drawable/navigation_base" >
 
-    <FrameLayout 
+    <FrameLayout
         android:id="@+id/activity_chat_fltTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_chat_height_background"
-        android:layout_alignParentTop="true"
-        >
-        <LinearLayout 
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="left|center_vertical"
-            >
+            android:layout_gravity="left|center_vertical" >
+
             <ImageButton
                 android:id="@+id/activity_chat_fltTop_imgbtnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_chat_back"
                 android:background="@color/transparent"
-                />
+                android:src="@drawable/btn_chat_back" />
+
             <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/activty_chat_fltTop_tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="KHUONGNGOC"
-                />
+                android:text="KHUONGNGOC" />
         </LinearLayout>
-        <LinearLayout 
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="right|center_vertical"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal" >
+
             <ImageButton
                 android:id="@+id/activity_chat_fltTop_imgbtnInfoProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_profile"
-                android:background="@color/transparent" />
+                android:background="@color/transparent"
+                android:src="@drawable/btn_profile" />
+
             <ImageButton
                 android:id="@+id/activity_chat_fltTop_imgbtnReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_report_"
-                android:background="@color/transparent" />
+                android:background="@color/transparent"
+                android:src="@drawable/btn_report_" />
         </LinearLayout>
     </FrameLayout>
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/activity_chat_llt_match"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_chat_fltTop"
         android:layout_above="@+id/activity_chat_rtlbottom"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_below="@+id/activity_chat_fltTop"
+        android:gravity="center"
+        android:orientation="vertical" >
+
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/activity_chat_match_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="You matched with Khuong Ngoc"/>
-        
+            android:text="You matched with Khuong Ngoc" />
+
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/activity_chat_match_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="10 hours ago"/>
-        
+            android:text="10 hours ago" />
+
         <FrameLayout
             android:id="@+id/frameLayout1"
             android:layout_width="match_parent"
@@ -84,136 +86,136 @@
                 android:id="@+id/user_avatar"
                 android:layout_width="210dp"
                 android:layout_height="210dp"
-                android:layout_gravity="center_horizontal"
-                />
+                android:layout_gravity="center_horizontal" />
+
             <View
                 android:layout_width="210dp"
                 android:layout_height="210dp"
-                android:background="@drawable/avatarbase_chat_match"
                 android:layout_gravity="center_horizontal"
-                />
+                android:background="@drawable/avatarbase_chat_match" />
         </FrameLayout>
-        
+
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="15dp"
-            android:text="Start conversations are awkward, but not at OakClub"/>
-        
+            android:text="Start conversations are awkward, but not at OakClub" />
     </LinearLayout>
-    
+
     <ListView
-        
         android:id="@+id/chat_history_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_chat_fltTop"
         android:layout_above="@+id/activity_chat_rtlbottom"
+        android:layout_below="@+id/activity_chat_fltTop"
         android:background="@android:color/white"
         android:cacheColorHint="@android:color/transparent"
         android:divider="#000"
         android:listSelector="@android:color/transparent"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
-        android:visibility="gone"
-         >
+        android:visibility="gone" >
     </ListView>
-    
+
     <LinearLayout
         android:id="@+id/activity_chat_rtlbottom"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/activity_chat_height_background"
         android:layout_above="@+id/activity_list_smile_rlt_center"
-        android:orientation="horizontal" 
         android:layout_alignParentBottom="true"
         android:background="@color/chat_background_gray"
-        android:padding="5dp"
-        >
-        <Button 
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <Button
             android:id="@+id/activity_chat_rtlbottom_btshowsmile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
             android:background="@drawable/button_chat_send"
-            android:text="+"
-            />
+            android:text="+" />
+
         <EditText
             android:id="@+id/activity_chat_rtlbottom_tbMessage"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:layout_margin="5dp"
-            android:padding="5dp"
+            android:layout_weight="1"
             android:background="@drawable/edittext_chat_input"
             android:inputType="text"
+            android:padding="5dp"
             android:textColor="@android:color/black" />
+
         <Button
             android:id="@+id/activity_chat_rtlbottom_btSend"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
+            android:background="@drawable/button_chat_send"
             android:gravity="center"
             android:text="@string/txt_send_chat"
-            android:textColor="@color/button_chat_send_color"
-            android:background="@drawable/button_chat_send"
-            />
+            android:textColor="@color/button_chat_send_color" />
     </LinearLayout>
-    
-    <GridView 
+
+    <GridView
         android:id="@+id/activity_chat_rtlbottom_gvSmile"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:numColumns="8"
         android:columnWidth="60dp"
+        android:numColumns="8"
         android:stretchMode="columnWidth"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/activity_list_smile_rlt_center"
         android:layout_width="fill_parent"
-        android:layout_height="350dp"
-       	android:layout_alignParentBottom="true"
-       	android:visibility="gone" >
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" >
 
         <TabHost
             android:id="@android:id/tabhost"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="#fff" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:padding="10dp" >
+                    android:background="#fff" >
 
                     <TabWidget
                         android:id="@android:id/tabs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerInParent="false"
                         android:background="#fff"
                         android:gravity="center" >
                     </TabWidget>
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#d7d7d7" />
+
                 <FrameLayout
                     android:id="@android:id/tabcontent"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="wrap_content"
