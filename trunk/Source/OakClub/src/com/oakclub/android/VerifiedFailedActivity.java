@@ -1,6 +1,7 @@
 package com.oakclub.android;
 
 import com.oakclub.android.base.OakClubBaseActivity;
+import com.oakclub.android.util.Constants;
 
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,9 @@ public class VerifiedFailedActivity extends OakClubBaseActivity {
 		setContentView(R.layout.activity_verified_failed);
 		btnOk = (Button) findViewById(R.id.activity_failed_verify_btn_ok);
 		tvbottom = (TextView) findViewById(R.id.activity_failed_verify_bottom);
-		tvbottom.setVisibility(View.INVISIBLE);
+		boolean start = getIntent().getBooleanExtra(Constants.START_LOGIN, false);
+		if(start)
+			tvbottom.setVisibility(View.INVISIBLE);
 		btnOk.setOnClickListener(listener);
 	}
 	protected OnClickListener listener = new OnClickListener() {

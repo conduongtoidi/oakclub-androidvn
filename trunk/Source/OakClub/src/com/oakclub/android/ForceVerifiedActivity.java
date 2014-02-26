@@ -1,9 +1,7 @@
 package com.oakclub.android;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
