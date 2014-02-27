@@ -135,7 +135,7 @@
 <string name = "txt_signin_failed">لا يمكن الإتصال بالفيسبوك! تأكد من إتصالك بالإنترنت وحاول مرة اخري!</string>
 <string name = "value_active_dayago">%d منذ عدة أيام</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
-
+<string name = "txt_block_user">قم بحظر هذا المستخدم</string>
 <string name="txt_get_verified_now">  قم بعمل عملية التحقق الآن!</string>
 <string name="txt_verified_title"> قم بعملية التحقق</string>
 <string name="txt_get_verified"> عند قيامك "بعملية التحقق"، يمكنك:</string>    
