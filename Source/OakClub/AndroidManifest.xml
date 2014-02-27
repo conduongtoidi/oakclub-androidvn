@@ -48,7 +48,6 @@
 
         <service android:name="com.oakclub.android.net.AppService" >
         </service>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -141,6 +140,18 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.oakclub.android.SmileActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="com.oakclub.android.StickerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
@@ -179,7 +190,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.oakclub.android.GCMIntentService" />
+        <service android:name=".GCMIntentService" />
     </application>
 
 </manifest>
