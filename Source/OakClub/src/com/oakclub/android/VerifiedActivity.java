@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ import com.oakclub.android.util.RichTextHelper;
 
 public class VerifiedActivity extends OakClubBaseActivity {
 	private Button btn_skip;
-	private Button btn_back;
+	//private Button btn_back;
 	private TextView line;
 	private Session session;
 	private  boolean firstOpenSessonCall;
@@ -47,6 +48,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	private WebDialog feedDialog;
 	//private Button btn_continue;
 	private TextView tvSamplePost;
+	private LinearLayout layoutHeader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,8 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		if(ProfileSettingFragment.profileInfoObj == null) return;
 		setContentView(R.layout.activity_verified);
 		btn_skip = (Button) findViewById(R.id.btn_skip_verified);
-		btn_back = (Button) findViewById(R.id.btn_back);
+		//btn_back = (Button) findViewById(R.id.btn_back);
+		layoutHeader = (LinearLayout)findViewById(R.id.activity_verified_header);
 		//btn_continue = (Button) findViewById(R.id.btn_continue_verified);
 		line = (TextView) findViewById(R.id.underline_back);
 		tvVerifiedWay2 = (TextView) findViewById(R.id.txt_verified_way_2);
@@ -66,10 +69,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		Intent intent = getIntent();
 		start_login = intent.getBooleanExtra(Constants.START_LOGIN, false);
 		tvSamplePost = (TextView) findViewById(R.id.txt_sample_post);
-		tvSamplePost.setText(getString(R.string.txt_got_verified) + "\n" +getString(R.string.txt_share_url) + "\n" +getString(R.string.txt_sample_post));
+		tvSamplePost.setText(getString(R.string.txt_got_verified) + "\n" +getString(R.string.txt_oakclub_page) + "\n" +getString(R.string.txt_sample_post));
 		//force_verified = intent.getBooleanExtra(Constants.FORCE_VERIFIED, false);
 		if(start_login){
-			btn_back.setVisibility(View.GONE);
+			layoutHeader.setVisibility(View.GONE);
 			line.setVisibility(View.GONE);
 			btn_skip.setVisibility(View.VISIBLE);
 		}
@@ -311,9 +314,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 //       dialog.show();
 //	 }
 	@Override
-	protected void onDestroy() {
+	public void onBackPressed() {
+		//super.onBackPressed();
 		firstRequestCall = false;
-		super.onDestroy();
+		firstOpenSessonCall = false;
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
