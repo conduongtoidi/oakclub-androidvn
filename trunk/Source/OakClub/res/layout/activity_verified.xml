@@ -24,9 +24,10 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/txt_verification" 
-            android:layout_gravity="left"
-            android:gravity="center_vertical"
-           
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="25sp"
+           android:textColor="@color/Purple"
             />
     </LinearLayout>
 
@@ -119,7 +120,7 @@
                     <Button
                         android:id="@+id/btn_continue_verified"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@drawable/blue_btn"
                         android:drawableLeft="@drawable/check_icon"
@@ -135,7 +136,7 @@
                     <Button
                         android:id="@+id/btn_skip_verified"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/grey_btn"
