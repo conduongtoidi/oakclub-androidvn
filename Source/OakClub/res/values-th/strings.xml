@@ -135,6 +135,7 @@
 <string name = "txt_signin_failed">ไม่สามารถเชื่อมต่อกับ Facebook! ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองใหม่อีกครั้ง</string>
 <string name = "value_active_dayago">%d วันที่ผ่านมา</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
+<string name = "txt_block_user">บล็อกผู้ใช้คนนี้</string>
 
 <string name="txt_get_verified_now"> ยืนยันแล้ว</string>
 <string name="txt_verified_title"> ยืนยันแล้ว</string>

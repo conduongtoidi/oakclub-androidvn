@@ -135,6 +135,8 @@
 <string name = "txt_signin_failed">Không thể kết nối Facebook! Bạn vui lòng kiểm tra đường truyền internet và thử lại nha!</string>
 <string name = "value_active_dayago">%d ngày trước</string>
 <string name = "txt_get_location_failed">Không thể lấy vị trí của bạn từ GPS. Vui lòng thử lại sau.</string>
+<string name = "txt_block_user">Chặn người này</string>
+
 <string name="txt_get_verified"> Khi được "Xác Nhận", bạn sẽ:</string>
     <string name="txt_verified_title">Đăng ký\nXác Nhận</string>
     <string name="txt_verified_content_1"> Gặp gỡ nhiều đối tượng chọn lọc hơn trong "Tình cờ"</string>

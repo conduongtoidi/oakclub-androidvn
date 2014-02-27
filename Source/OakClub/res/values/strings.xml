@@ -240,6 +240,9 @@
         <item>@string/txt_language_el</item>
         <item>@string/txt_language_nl</item>
         <item>@string/txt_language_ar</item>
+        <item>@string/txt_language_ko</item>
+        <item>@string/txt_language_sw</item>
+        <item>@string/txt_language_ph</item>
     </string-array>
 
     <string name="txt_language_en">English</string>
@@ -262,5 +265,8 @@
     <string name="txt_language_el">Ελληνικά</string>
     <string name="txt_language_nl">Nederlands</string>
     <string name="txt_language_ar">العربية</string>
+    <string name="txt_language_ko">Korean</string>
+    <string name="txt_language_sw">Swahili</string>
+    <string name="txt_language_ph">Philipino</string>
     
 </resources>

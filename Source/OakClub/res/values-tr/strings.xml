@@ -135,6 +135,7 @@
 <string name = "txt_signin_failed">Facebook\'a bağlanılamıyor! Bağlantını kontrol edip tekrar dene!</string>
 <string name = "value_active_dayago">%d gün önce</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
+<string name = "txt_block_user">Bu kullanıcıyı blokla</string>
 
 <string name="txt_get_verified_now">  Kimliğinizi Şimdi Doğrulatın!</string>
 <string name="txt_verified_title"> Kimliğinizi Doğrulatın</string>
