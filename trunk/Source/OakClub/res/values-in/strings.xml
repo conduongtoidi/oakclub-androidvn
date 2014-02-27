@@ -160,7 +160,9 @@
     <string name="txt_btn_back">Back</string>
      <string name="txt_op"> Uuuuppss!</string>
     <string name="txt_not_complete_verified">Verifikasi tidak dapat diselesaikan</string>
-     
+     <string name="txt_verified_member">Kamu anggota terverifikasi sekarang</string>
+    <string name="txt_verified_via_email_title">Verifizieren Sie sich via Email</string> 
+    <string name="txt_verification">Verifikasi</string>
    
     
     <string name="txt_try_again">Silakan coba lagi!</string>
