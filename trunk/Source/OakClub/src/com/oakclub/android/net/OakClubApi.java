@@ -123,7 +123,6 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		HttpConnectionParams.setSoTimeout(hClient.getParams(), SOCKET_TIMEOUT);
 		try {
 			HttpGet hget = new HttpGet();
-			Log.v("token old", MainActivity.access_token);
 			String headerValue = "UsernameToken "
 								+"Username=\""+ MainActivity.facebook_user_id
 								+"\", AccessToken=\""+MainActivity.access_token
