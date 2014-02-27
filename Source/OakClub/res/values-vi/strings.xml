@@ -151,7 +151,7 @@
     <string name="txt_get_verified_now">Hãy đăng kí xác nhận nào!</string>
     <string name="txt_dear">Chào</string>
      <string name="txt_force_verified">
-	    Tài khoản của bạn đã được chọn để xác minh bắt buộc bởi một số vấn đề liên quan đến {{b}}Điều khoản và Điều kiện{{/b}} của chúng tôi. Chúng tôi hiểu và rất xin lỗi bạn cho sự bất tiện này. Chúng tôi đang cố gắng xây dựng OakClub thành một môi trường an toàn cho tất cả thành viên. Vì vậy, mời bạn vui lòng làm theo các bước dưới đây và hoàn tất việc Xác nhận bằng 1 trong 2 cách: Đăng bài do OakClub cung cấp lên Facebook hoặc gửi tài liệu nhận dạng của bạn qua email. Chúng tôi cảm ơn bạn rất nhiều và xin lỗi một lần nữa cho tất cả sự bất tiện này.
+	    Tài khoản của bạn đã được chọn để xác minh bắt buộc bởi một số vấn đề liên quan đến {{b}}Điều khoản và Điều kiện{{/b}} của chúng tôi. Chúng tôi hiểu và rất xin lỗi bạn cho sự bất tiện này. Chúng tôi đang cố gắng xây dựng OakClub thành một môi trường an toàn cho tất cả thành viên. Vì vậy, mời bạn vui lòng làm theo các bước dưới đây và hoàn tất việc Xác nhận bằng 1 trong 2 cách: Đăng bài do OakClub cung cấp lên Facebook hoặc gửi tài liệu nhận dạng của bạn qua email verification@oakclub.com. Chúng tôi cảm ơn bạn rất nhiều và xin lỗi một lần nữa cho tất cả sự bất tiện này.
 	    </string>  
     <string name="txt_oakclub_team">Đôi ngũ OakClub </string>
     <string name="txt_not_complete_verified">Việc Xác Nhận không thể hoàn thành được rồi…</string>
@@ -161,4 +161,7 @@
     <string name="txt_op"> Úi da!</string>
     <string name="txt_got_it"> Ok, tôi biết rồi!</string>
     <string name="txt_take_to_snapshot">Đưa tôi đến "Tình Cờ"</string>
+    <string name="txt_verified_member">Bạn đã trở thành 1 thành viên đã được xác nhận.</string>
+    <string name="txt_verified_via_email_title">Đăng ký Xác Nhận Qua Email</string> 
+    <string name="txt_verification">Xác Nhận</string>
 </resources>

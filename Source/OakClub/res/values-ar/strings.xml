@@ -150,7 +150,7 @@
 و نحن نتفهم أن عملية التحقق الإلزامية من الممكن أن تكون عملية غير مريحة. ولكننا نسعى جاهدين لجعل " OakClub " بيئة آمنة للمستخدمين لدينا على قدر الإمكان. ولذلك يُرجى اتباع الخطوات التالية واستكمال التحقق إما عن طريق مشاركة على الفيسبوك أو عن طريق إرسال نسخة من وثائق الهوية الخاصة بك عن طريق البريد الإلكتروني. شكراً جزيلاً لك ونأسف مرة أخرى للإزعاج.
 	</string>  
 	<string name="txt_verified_continue"> استمرار</string>
-    <string name="txt_verified_skip">تخطي</string>
+    <string name="txt_verified_skip">تخطي هذه الخطوة</string>
     <string name="txt_got_verified">لقد تم التحقق مني!</string>
     <string name="txt_oakclub_page">OakClub.com</string>
     <string name="txt_sample_post">لقد قمت للتو بالالتحاق بـ "OakClub" – و هو تطبيق رائع  للاتصال بأشخاص رائعين حولك. قم بتجرته!</string>
@@ -160,7 +160,9 @@
     <string name="txt_btn_back">Back</string>
      <string name="txt_op"> عذراً!</string>
     <string name="txt_not_complete_verified"> لم يتم إكمال عملية التحقق</string>
-     
+     <string name="txt_verified_member">أنت الآن عضو مُفعل</string>
+    <string name="txt_verified_via_email_title">قم بإتمام عملية التحقق عبر البريد الإلكتروني</string> 
+    <string name="txt_verification">التحقق</string>
    
     
     <string name="txt_try_again"> من فضلك حاول مرة أخرى</string>

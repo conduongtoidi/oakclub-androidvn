@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +45,8 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	private TextView tvVerifiedWay2;
 	//private boolean force_verified;
 	private WebDialog feedDialog;
-	//private Button btn_continue;
-	private TextView tvSamplePost;
+	private LinearLayout layoutHearder;
+	private Button btn_continue;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,17 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		setContentView(R.layout.activity_verified);
 		btn_skip = (Button) findViewById(R.id.btn_skip_verified);
 		btn_back = (Button) findViewById(R.id.btn_back);
-		//btn_continue = (Button) findViewById(R.id.btn_continue_verified);
+		btn_continue = (Button) findViewById(R.id.btn_continue_verified);
+		layoutHearder = (LinearLayout) findViewById(R.id.activity_verified_header);
 		line = (TextView) findViewById(R.id.underline_back);
 		tvVerifiedWay2 = (TextView) findViewById(R.id.txt_verified_way_2);
 		SpannableStringBuilder styledText = RichTextHelper.getRichText(getString(R.string.txt_verified_way_2));
 		tvVerifiedWay2.setText(styledText);
 		Intent intent = getIntent();
 		start_login = intent.getBooleanExtra(Constants.START_LOGIN, false);
-		tvSamplePost = (TextView) findViewById(R.id.txt_sample_post);
-		tvSamplePost.setText(getString(R.string.txt_got_verified) + "\n" +getString(R.string.txt_share_url) + "\n" +getString(R.string.txt_sample_post));
 		//force_verified = intent.getBooleanExtra(Constants.FORCE_VERIFIED, false);
 		if(start_login){
-			btn_back.setVisibility(View.GONE);
+			layoutHearder.setVisibility(View.GONE);
 			line.setVisibility(View.GONE);
 			btn_skip.setVisibility(View.VISIBLE);
 		}
@@ -79,8 +79,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
  
 			switch (v.getId()) {
 			case R.id.btn_continue_verified:
-				((Button) findViewById(R.id.btn_continue_verified)).setEnabled(false);
-				//btn_continue.setEnabled(false);
+				btn_continue.setEnabled(false);
 				publishStory();
 				break;
 			case R.id.btn_skip_verified:
@@ -224,9 +223,8 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		VerifiedActivity.this.first = false;
 		Bundle params = new Bundle();
 		params.putString("name", getString(R.string.txt_got_verified));
-		params.putString("caption", getString(R.string.txt_oakclub_page));
 		params.putString("description", getString(R.string.txt_sample_post));
-		params.putString("link", getString(R.string.txt_share_url));		
+		params.putString("link", getString(R.string.txt_oakclub_page));		
 
 		feedDialog = (new WebDialog.FeedDialogBuilder(this,
 				Session.getActiveSession(), params)).setOnCompleteListener(
@@ -246,8 +244,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								getRequestQueue().addRequest(loader);						        	   
 					        	  							        	   		
 							} else {
-								//btn_continue.setEnabled(true);
-								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+								btn_continue.setEnabled(true);
 								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 					        	startActivity(intent2);
@@ -255,8 +252,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									finish();
 							}
 						} else if (error instanceof FacebookOperationCanceledException) {
-							//btn_continue.setEnabled(true);
-							((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+							btn_continue.setEnabled(true);
 							Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 							intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 							startActivity(intent2);

@@ -83,7 +83,7 @@
 
             <Button
                 android:id="@+id/btn_continue_verified"
-                android:layout_width="170dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
@@ -91,7 +91,7 @@
                 android:drawableLeft="@drawable/check_icon"
                 android:drawablePadding="5dp"
                 android:onClick="VerifiedClick"
-                android:paddingLeft="20dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/txt_verified_continue"
                 android:textColor="@color/White"
@@ -117,7 +117,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/divider" />
-
+			<com.oakclub.android.view.TextViewWithFont
+				    android:id="@+id/txt_verified_way_2_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_verified_via_email_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/BlueLight"
+                    android:textSize="12sp"
+				 />
             <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/txt_verified_way_2"
                 android:layout_width="fill_parent"

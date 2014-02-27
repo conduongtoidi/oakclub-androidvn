@@ -3,19 +3,32 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:background="@color/transparent"
-        android:drawableLeft="@drawable/btn_chat_back"
-        android:gravity="center_vertical"
-        android:onClick="VerifiedClick"
-        android:text="@string/txt_btn_back"
-        android:textColor="@drawable/menu_textview_selector" />
+    <LinearLayout
+        android:id="@+id/activity_verified_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/btn_chat_back"
+            android:gravity="center_vertical"
+            android:onClick="VerifiedClick"/>
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/txt_verification" 
+            android:layout_gravity="left"
+            android:gravity="center_vertical"
+           
+            />
+    </LinearLayout>
 
     <com.oakclub.android.view.TextViewWithFont
         android:id="@+id/underline_back"
@@ -105,14 +118,15 @@
 
                     <Button
                         android:id="@+id/btn_continue_verified"
-                        android:layout_width="170dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:background="@drawable/blue_btn"
                         android:drawableLeft="@drawable/check_icon"
                         android:drawablePadding="5dp"
                         android:onClick="VerifiedClick"
-                        android:paddingLeft="20dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:text="@string/txt_verified_continue"
                         android:textColor="@color/White"
                         android:textSize="22sp" >
@@ -120,7 +134,7 @@
 
                     <Button
                         android:id="@+id/btn_skip_verified"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="15dp"
@@ -154,7 +168,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/divider" />
-
+				<com.oakclub.android.view.TextViewWithFont
+				    android:id="@+id/txt_verified_way_2_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_verified_via_email_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/BlueLight"
+                    android:textSize="12sp"
+				 />
                 <com.oakclub.android.view.TextViewWithFont
                     android:id="@+id/txt_verified_way_2"
                     android:layout_width="fill_parent"

@@ -149,7 +149,7 @@
 	Hesabınız {{b}}Şartlar ve Koşullar{{/b}} a uygunluk ile ilgili bazı problemler nedeniye zorunlu doğrulama için seçilmiştir.  Zorunlu doğrulamanın herkes için her zaman kabul edilebilir bir yol olmadığının farkındayız.  Ancak OakClub\'ı  kullanıcılarımız için mümkün olan en güvenli şekilde tutmaya özen gösteriyoruz.  Bu nedenle sizden ricamız lütfen aşağıdaki adımları takip edip Facebook iletisi veya kimlik bilgilerinizi e-posta yoluyla göndererek doğrulatmayı tamamlamanız.  Çok teşekkür eder, verdiğimiz rahatsızlıktan dolayı özür dileriz
 	</string>  
 	<string name="txt_verified_continue"> Devam et</string>
-    <string name="txt_verified_skip">Atla</string>
+    <string name="txt_verified_skip">Bu adımı Atla</string>
     <string name="txt_got_verified">Kimliğim Doğrulandı!</string>
      <string name="txt_oakclub_page">OakClub.com</string>
     <string name="txt_sample_post">Etraftaki harika insanlarla iletişim kurabilmeniz için harika bir uygulama olan Oakclub\'a katıldım. Siz de bir bakın!</string>
@@ -159,7 +159,9 @@
     <string name="txt_btn_back">Back</string>
      <string name="txt_op"> Hay Allah!</string>
     <string name="txt_not_complete_verified">Doğrulama tamamlanamadı</string>
-     
+   <string name="txt_verified_member">Artık kimliği doğrulanmış bir kullanıcımızsınız</string>
+    <string name="txt_verified_via_email_title">E-posta yoluyla Kimliğinizi Doğrulatın</string> 
+    <string name="txt_verification"> Doğrulama</string>  
    
     
     <string name="txt_try_again">Lütfen tekrar deneyin</string>

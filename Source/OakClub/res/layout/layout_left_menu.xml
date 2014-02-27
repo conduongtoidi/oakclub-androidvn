@@ -62,9 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/getverified_icon_profile" 
-                android:visibility="gone"
-                />
+                android:src="@drawable/getverified_icon_profile"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,35 +91,6 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="Snapshots1"
-                android:textColor="@drawable/menu_textview_selector"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/menu_item_llt_get_verified"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="19dp"
-            android:background="#00000000"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/menu_get_verified_selector" >
-            </FrameLayout>
-
-            <com.oakclub.android.view.TextViewWithFont
-                android:id="@+id/menu_item_text_getverified"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/txt_get_verified_now"
                 android:textColor="@drawable/menu_textview_selector"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -184,6 +154,35 @@
                 android:textColor="@drawable/menu_textview_selector"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_item_llt_get_verified"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/menu_get_verified_selector" >
+            </FrameLayout>
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/menu_item_text_getverified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/txt_get_verified_now"
+                android:textColor="@drawable/menu_textview_selector"
+                android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -191,7 +190,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-		android:layout_marginBottom="15dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="40dp"
         android:background="@drawable/logout_bg_selector"
         android:gravity="center_vertical|left"
