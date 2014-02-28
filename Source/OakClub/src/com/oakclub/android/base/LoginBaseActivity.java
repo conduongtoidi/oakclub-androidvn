@@ -80,7 +80,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			return;
 		}
 
-		if (savedInstanceState == null ) {
+		if (savedInstanceState == null) {
 			appVer = android.os.Build.VERSION.RELEASE;
 			nameDevice = android.os.Build.MODEL;
 			facebook = new Facebook(getString(R.string.app_id));
@@ -115,8 +115,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 		if (loggedIn) {
 			logInFacebook();
-		} else
-		if (facebook.isSessionValid()) {
+		} else if (facebook.isSessionValid()) {
 			try {
 				facebook.logout(LoginBaseActivity.this);
 			} catch (MalformedURLException e) {
@@ -126,122 +125,139 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else{
+		} else {
 
-			facebook.authorize(LoginBaseActivity.this, Constants.FACEBOOK_PERMISSION , new DialogListener() {
+			facebook.authorize(LoginBaseActivity.this,
+					Constants.FACEBOOK_PERMISSION, new DialogListener() {
 
-				@Override
-				public void onComplete(Bundle values) {
-					
-					startProccess();
-					Log.v("onCompleteFacebook", "1");
-					// Log.v("onLoginSuccess", onLoginSuccess + "");
-					// if (onLoginSuccess)
-					
-				}
+						@Override
+						public void onComplete(Bundle values) {
 
-				@Override
-				public void onFacebookError(FacebookError error) {
-					Log.e("FB:", "Facebook Error" + error);
-					OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
-							getResources().getString(R.string.txt_warning),
-							getResources()
-									.getString(R.string.txt_signin_failed));
-					if (OakClubUtil.isInternetAccess(LoginBaseActivity.this)) {
-						oakClubApi.sendRegister("", "", "3", appVer,
-								nameDevice, android_token);
-					}
-				}
+							startProccess();
+							Log.v("onCompleteFacebook", "1");
+							// Log.v("onLoginSuccess", onLoginSuccess + "");
+							// if (onLoginSuccess)
 
-				@Override
-				public void onError(DialogError e) {
-					Log.e("FB:", "Error");
-					OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
-							getResources().getString(R.string.txt_warning),
-							getResources()
-									.getString(R.string.txt_signin_failed));
-					if (OakClubUtil.isInternetAccess(LoginBaseActivity.this)) {
-						oakClubApi.sendRegister("", "", "3", appVer,
-								nameDevice, android_token);
-					}
-				}
+						}
 
-				@Override
-				public void onCancel() {
-					Log.v("onCancelFacebook", "1");
-					// onLoginSuccess = false;
-				}
-			});
+						@Override
+						public void onFacebookError(FacebookError error) {
+							Log.e("FB:", "Facebook Error" + error);
+							OakClubUtil.enableDialogWarning(
+									LoginBaseActivity.this,
+									getResources().getString(
+											R.string.txt_warning),
+									getResources().getString(
+											R.string.txt_signin_failed));
+							if (OakClubUtil
+									.isInternetAccess(LoginBaseActivity.this)) {
+								oakClubApi.sendRegister("", "", "3", appVer,
+										nameDevice, android_token);
+							}
+						}
+
+						@Override
+						public void onError(DialogError e) {
+							Log.e("FB:", "Error");
+							OakClubUtil.enableDialogWarning(
+									LoginBaseActivity.this,
+									getResources().getString(
+											R.string.txt_warning),
+									getResources().getString(
+											R.string.txt_signin_failed));
+							if (OakClubUtil
+									.isInternetAccess(LoginBaseActivity.this)) {
+								oakClubApi.sendRegister("", "", "3", appVer,
+										nameDevice, android_token);
+							}
+						}
+
+						@Override
+						public void onCancel() {
+							Log.v("onCancelFacebook", "1");
+							// onLoginSuccess = false;
+						}
+					});
 		}
 	}
+
 	public void showTutorialActivity() {
-			
-		SharedPreferences pref = getApplicationContext()
-				.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+
+		SharedPreferences pref = getApplicationContext().getSharedPreferences(
+				Constants.PREFERENCE_NAME, 0);
 		Editor editor = pref.edit();
-		editor.putLong(Constants.HEADER_ACCESS_EXPIRES, facebook.getAccessExpires());
+		editor.putLong(Constants.HEADER_ACCESS_EXPIRES,
+				facebook.getAccessExpires());
 		editor.commit();
-		
+
 		boolean isFirstJoin = pref.getBoolean(
-                Constants.PREFERENCE_SHOW_TUTORIAL, true);
+				Constants.PREFERENCE_SHOW_TUTORIAL, true);
 		if (isFirstJoin) {
 			intent = new Intent(getApplicationContext(),
-	                TutorialScreenActivity.class);
-	       LoginBaseActivity.this.startActivityForResult(intent, Constants.TUTORIAL);
-		}else{
+					TutorialScreenActivity.class);
+			LoginBaseActivity.this.startActivityForResult(intent,
+					Constants.TUTORIAL);
+		} else {
 			showVerifiedActivity();
 		}
-    }
-	private void showVerifiedActivity(){
-		
+	}
 
-		if(!ProfileSettingFragment.profileInfoObj.getIs_verify()){
-							
-				if(ProfileSettingFragment.profileInfoObj.getForce_verify()){
-					Intent verified = new Intent(this, ForceVerifiedActivity.class);
+	private void showVerifiedActivity() {
+
+		if (ProfileSettingFragment.profileInfoObj != null) {
+			if (!ProfileSettingFragment.profileInfoObj.getIs_verify()) {
+
+				if (ProfileSettingFragment.profileInfoObj.getForce_verify()) {
+					Intent verified = new Intent(this,
+							ForceVerifiedActivity.class);
 					verified.putExtra(Constants.START_LOGIN, true);
 					verified.putExtra(Constants.FORCE_VERIFIED, true);
 					startActivity(verified);
 					finish();
-				}else if(ProfileSettingFragment.profileInfoObj.getGender() ==  Constants.MEN && (Integer.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.getSkip_verify())){
+				} else if (ProfileSettingFragment.profileInfoObj.getGender() == Constants.MEN
+						&& (Integer
+								.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj
+								.getSkip_verify())) {
 					Intent verified = new Intent(this, VerifiedActivity.class);
-			    	verified.putExtra(Constants.START_LOGIN, true);
+					verified.putExtra(Constants.START_LOGIN, true);
 					this.startActivityForResult(verified, Constants.VERIFIED);
 					finish();
-				}else{
+				} else {
 					startSnapshot();
-				}			  					
-		}		
-		else {
-			startSnapshot();
-		}  	
-    }
+				}
+			} else {
+				startSnapshot();
+			}
+		}
+	}
+
 	private void startSnapshot() {
 		Intent intent = new Intent(LoginBaseActivity.this,
 				SlidingActivity.class);
 		startActivity(intent);
 		finish();
 	}
-	private void startProccess(){
+
+	private void startProccess() {
 		(new Handler()).postDelayed(new Runnable() {
 			@Override
 			public void run() {
-			
-				Editor editor = getSharedPreferences(
-						Constants.PREFERENCE_NAME, 0).edit();
-				editor.putBoolean(
-						Constants.PREFERENCE_LOGGINED, true);
+
+				Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME,
+						0).edit();
+				editor.putBoolean(Constants.PREFERENCE_LOGGINED, true);
 				editor.commit();
 				mLoginButton.setEnabled(false);
 				pd = new ProgressDialog(LoginBaseActivity.this);
 				pd.setMessage(getString(R.string.txt_loading));
 				pd.setCancelable(false);
 				pd.show();
-				
+
 				getFacebookUserId();
 			}
 		}, 1000);
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -249,7 +265,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		// onLoginSuccess = true;
 		Log.v("onActivityResult", 1 + "");
 		facebook.authorizeCallback(requestCode, resultCode, data);
-		if(requestCode == Constants.TUTORIAL){			
+		if (requestCode == Constants.TUTORIAL) {
 			showVerifiedActivity();
 		}
 	}
@@ -309,8 +325,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 									"sendLocation", LoginBaseActivity.this, ""
 											+ latitude, "" + longitude);
 							getRequestQueue().addRequest(loader);
-							
-							
+
 							showTutorialActivity();
 
 						} else if (mGPS.isGPSEnabled) {
@@ -473,7 +488,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		// registerGCM();
 
 		if (loggedIn) {
-			
+
 			pd = new ProgressDialog(LoginBaseActivity.this);
 			pd.setMessage(getString(R.string.txt_loading));
 			pd.setCancelable(false);
@@ -660,7 +675,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		System.gc();
 		super.onDestroy();
 	}
-	
+
 	class GetOtherProfile extends RequestUI {
 
 		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
@@ -694,7 +709,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				baseAllList.add(0, newMessage);
 				allList.add(0, newMessage);
 				vipList.add(0, newMessage);
-				
+
 				if (adapterAllListChatData != null) {
 					adapterAllListChatData.notifyDataSetChanged();
 				}
@@ -704,11 +719,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				if (adapterMatchListChatData != null) {
 					adapterMatchListChatData.notifyDataSetChanged();
 				}
+			} else {
+				OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
+						getString(R.string.txt_warning),
+						getString(R.string.txt_internet_message));
 			}
-			else {
-				OakClubUtil.enableDialogWarning(LoginBaseActivity.this, getString(R.string.txt_warning), getString(R.string.txt_internet_message));
-			}
-		} 
+		}
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.oakclub.android.model.adaptercustom;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
@@ -101,76 +103,63 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		String path1 = "<img src=\"/bundles/likevnhangout/images/gift/";
-		String path2 = "<img src=\"/bundles/likevnblissdate/v3/chat/images/stickers/";
 		String text = item.getBody();
 		Spannable spannable = ChatActivity.getSmiledText(context,
 				item.getBody());
+		String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
+		String pathImg = "<img src=\"([^\"]+)";
+		Matcher matcher = Pattern.compile(pathImg).matcher(text);
 		
 		if (type == 0) {
 			String url = OakClubUtil.getFullLink(context, target_avatar);
 			ImageView imgAva = holder.userAvatar;
 			OakClubUtil.loadImageFromUrl(context, url, imgAva);
 			holder.leftTv.setText(spannable);
-			try {
-				if (Html.fromHtml(item.getBody()).toString().length() > 1) {
-					text = Html.fromHtml(item.getBody()).toString();
-				}
-				if (text.contains("type=\"sticker\"")) {
-					String img = text.replace(path2, "").split("\"")[0];
-					
-					holder.leftImg.setVisibility(View.VISIBLE);
-					holder.leftTv.setVisibility(View.GONE);
-					ImageView imgView = holder.leftImg;
-					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
-						String urlImg = OakClubUtil
-								.getFullLinkSticker(context, img);
-			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
-			        } else {
-			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
-			        }
-					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
-					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
-					imgView.setLayoutParams(params);
-				} else {
-					holder.leftImg.setVisibility(View.GONE);
-					holder.leftTv.setVisibility(View.VISIBLE);
-				}
-			} catch (Exception ex) {
-
-			}
+			ImageView imgView = holder.leftImg;
+			TextView textView = holder.leftTv;
+			getSticker(position, item, text, pathSticker, matcher, imgView, textView);
 		} else {
 			holder.rightTv.setText(spannable);
-			try {
-				if (Html.fromHtml(item.getBody()).toString().length() > 1) {
-					text = Html.fromHtml(item.getBody()).toString();
-				}
-				if (text.contains("type=\"sticker\"")){
-					String img = text.replace(path2, "").split("\"")[0];
-					Log.v("img right", img + " " + position);
-					holder.rightImg.setVisibility(View.VISIBLE);
-					holder.rightTv.setVisibility(View.GONE);
-					ImageView imgView = holder.rightImg;
-					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
-						String urlImg = OakClubUtil
-								.getFullLinkSticker(context, img);
-			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
-			        } else {
-			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
-			        }
-					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
-					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
-					imgView.setLayoutParams(params);
-				} else {
-					holder.rightImg.setVisibility(View.GONE);
-					holder.rightTv.setVisibility(View.VISIBLE);
-				}
-			} catch (Exception ex) {
-
-			}
+			ImageView imgView = holder.rightImg;
+			TextView textView = holder.rightTv;
+			getSticker(position, item, text, pathSticker, matcher, imgView,
+					textView);
 		}
 		holder.timeTv.setText(item.getTime_string());
 		return convertView;
+	}
+
+	private void getSticker(int position, ChatHistoryData item, String text,
+			String pathSticker, Matcher matcher, ImageView imgView,
+			TextView textView) {
+		try {
+			if (Html.fromHtml(item.getBody()).toString().length() > 1) {
+				text = Html.fromHtml(item.getBody()).toString();
+			}
+			while (matcher.find()) {
+				if (text.contains("type=\"sticker\"")){
+					String img = matcher.group(1).replace(pathSticker, "").split("\"")[0];
+					Log.v("img right", img + " " + position);
+					imgView.setVisibility(View.VISIBLE);
+					textView.setVisibility(View.GONE);
+					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+						String urlImg = OakClubUtil
+								.getFullLinkSticker(context, img);
+			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
+			        } else {
+			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+			        }
+					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
+					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
+					imgView.setLayoutParams(params);
+				} else {
+					imgView.setVisibility(View.GONE);
+					textView.setVisibility(View.VISIBLE);
+				}
+			}
+		} catch (Exception ex) {
+
+		}
 	}
 
 	class ViewHolder {

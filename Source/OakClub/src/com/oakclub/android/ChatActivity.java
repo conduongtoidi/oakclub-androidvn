@@ -155,64 +155,66 @@ public class ChatActivity extends OakClubBaseActivity {
 		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);		
 		
 		if (xmpp == null) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-			SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
-			
-			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
-					null);
-			access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
-			GCMRegistrar.checkDevice(this);
-			GCMRegistrar.checkManifest(this);
-			android_token = GCMRegistrar.getRegistrationId(this);
-			
-			ConnectionConfiguration config = new ConnectionConfiguration(
-					getString(R.string.xmpp_server_address),
-					Constants.XMPP_SERVER_PORT, Constants.XMPP_SERVICE_NAME);
-			config.setSASLAuthenticationEnabled(true);
-			
-			xmpp = new XMPPConnection(config);
-			try {
-				SASLAuthentication.supportSASLMechanism("DIGEST-MD5", 0);
-				// SASLAuthentication.supportSASLMechanism("PLAIN", 0);
-				xmpp.connect();
-				String username = pref.getString("username", "");
-				String password = pref.getString("password", "");
-				xmpp.login(username, password);
-				Log.v("xmpp chat", username);
-				PacketFilter filter = new MessageTypeFilter(Message.Type.chat);
-				xmpp.addPacketListener(new org.jivesoftware.smack.PacketListener() {
-
-					@Override
-					public void processPacket(Packet packet) {
-						SharedPreferences pref = getSharedPreferences(
-								Constants.PREFERENCE_NAME, MODE_PRIVATE);
-						boolean isLogin = pref.getBoolean(
-								Constants.PREFERENCE_LOGGINED, false);
-						if (isLogin) {
-							Message message = (Message) packet;
-							if (message.getBody() != null) {
-								Log.v("Message chat", message.getBody());
-								solveReceiveNewMessage(message);
-							}
-						} else {
-							xmpp.disconnect();
-						}
-
-					}
-				}, filter);
-			} catch (XMPPException e) {
-				Toast.makeText(getApplicationContext(), "XMPP Error", 1).show();
-				e.printStackTrace();
-			} catch (Exception e) {
-				Toast.makeText(getApplicationContext(), "XMPP Error 2", 1).show();
-				e.printStackTrace();
-			}
-			
-			
+			startXMPP();
 		}
 		
 		init(savedInstanceState);
+	}
+
+	private void startXMPP() {
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
+		
+		facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
+				null);
+		access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		android_token = GCMRegistrar.getRegistrationId(this);
+		
+		ConnectionConfiguration config = new ConnectionConfiguration(
+				getString(R.string.xmpp_server_address),
+				Constants.XMPP_SERVER_PORT, Constants.XMPP_SERVICE_NAME);
+		config.setSASLAuthenticationEnabled(true);
+		
+		xmpp = new XMPPConnection(config);
+		try {
+			SASLAuthentication.supportSASLMechanism("DIGEST-MD5", 0);
+			// SASLAuthentication.supportSASLMechanism("PLAIN", 0);
+			xmpp.connect();
+			String username = pref.getString("username", "");
+			String password = pref.getString("password", "");
+			xmpp.login(username, password);
+			Log.v("xmpp chat", username);
+			PacketFilter filter = new MessageTypeFilter(Message.Type.chat);
+			xmpp.addPacketListener(new org.jivesoftware.smack.PacketListener() {
+
+				@Override
+				public void processPacket(Packet packet) {
+					SharedPreferences pref = getSharedPreferences(
+							Constants.PREFERENCE_NAME, MODE_PRIVATE);
+					boolean isLogin = pref.getBoolean(
+							Constants.PREFERENCE_LOGGINED, false);
+					if (isLogin) {
+						Message message = (Message) packet;
+						if (message.getBody() != null) {
+							Log.v("Message chat", message.getBody());
+							solveReceiveNewMessage(message);
+						}
+					} else {
+						xmpp.disconnect();
+					}
+
+				}
+			}, filter);
+		} catch (XMPPException e) {
+			//Toast.makeText(getApplicationContext(), "XMPP Error", 1).show();
+			e.printStackTrace();
+		} catch (Exception e) {
+			//Toast.makeText(getApplicationContext(), "XMPP Error 2", 1).show();
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -263,20 +265,18 @@ public class ChatActivity extends OakClubBaseActivity {
         smileSpec.setContent(matchedIntent);
         tabHost.addTab(smileSpec); 
         
-        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
-        View tabView2 = createTabView(this, 1);
-        stickerSpec.setIndicator(tabView2);
-        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
-        
-        
-        stickerSpec.setContent(nonMatchedIntent);
-        tabHost.addTab(stickerSpec); 
+//        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
+//        View tabView2 = createTabView(this, 1);
+//        stickerSpec.setIndicator(tabView2);
+//        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
+//        stickerSpec.setContent(nonMatchedIntent);
+//        tabHost.addTab(stickerSpec); 
 
         ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
         imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
         
-        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+//        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+//        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
 
         tabHost.setOnTabChangedListener(new OnTabChangeListener() {
             @Override
@@ -285,8 +285,8 @@ public class ChatActivity extends OakClubBaseActivity {
 	            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	            ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
                 imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
-                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+//                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+//                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
             }
         });
         
@@ -831,6 +831,7 @@ public class ChatActivity extends OakClubBaseActivity {
    	public static Spannable getSmiledText(Context context, String text) {
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		String path = "<img src=\"/bundles/likevnhangout/images/gift/";
+		String path2 = "<img src=\"/bundles/likevnblissdate/v3/chat/images/gifts/";
 		boolean isGift = false;
 		String textGift = text;
 		if (Html.fromHtml(text).toString().length() > 1)
@@ -838,10 +839,18 @@ public class ChatActivity extends OakClubBaseActivity {
 			textGift = Html.fromHtml(text).toString();
 			builder = new SpannableStringBuilder(textGift);
 		}
-		if (textGift.contains(path)) {
+		if (textGift.contains(path) || textGift.contains(path2)) {
 			try {
-				String img = textGift.replace(path, "").split("\"")[0].replace(
+				String img = "";
+				if (textGift.contains(path)) {
+					img = textGift.replace(path, "").split("\"")[0].replace(
 						".png", "");
+				}
+				
+				if (textGift.contains(path2)) {
+					img = textGift.replace(path2, "").split("\"")[0].replace(
+						".png", "");
+				}
 
 				builder.setSpan(
 						new ImageSpan(context, context.getResources()
