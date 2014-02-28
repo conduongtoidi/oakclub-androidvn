@@ -383,6 +383,15 @@ public class SettingFragment{
                     case 19:
                         setLocale("ar");
                         break;
+                    case 20:
+                        setLocale("ko");
+                        break;
+                    case 21:
+                        setLocale("sw");
+                        break;
+                    case 22:
+                        setLocale("ph");
+                        break;
                     default:
                         setLocale("en");
                         break;

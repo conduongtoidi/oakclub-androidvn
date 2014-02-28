@@ -220,7 +220,6 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 		pager = (ViewPager) findViewById(R.id.activity_profile_info_other_header_fltSnapshot_vpr_list_images);
 		pager.getLayoutParams().height = profile_info_other_image_height;
 		pager.getLayoutParams().width = LayoutParams.MATCH_PARENT;
-		Log.v("pageWidth", pager.getLayoutParams().width + "");
 		pager.requestLayout();
 		
 		pager.setAdapter(new ImagePagerAdapter());
@@ -713,7 +712,6 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	
 	protected void assignInfo() {
 		if (snapShotData != null) {
-			Log.v("SnapShotData", "true");
 			Log.v("profile_id", snapShotData.getProfile_id());
 			HashMap<String, String> t = ParseDataProfileInfo.getDataOtherProfile(getApplicationContext(),snapShotData);
             int age = snapShotData.getAge();
@@ -728,10 +726,8 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 			if (snapShotData.getAbout_me() != null && !snapShotData.getAbout_me().isEmpty()){
 				Log.v("visible About Me", "1");
 				tvwAbout.setText(snapShotData.getAbout_me()+"");
-				Log.v("About me:", snapShotData.getAbout_me() + "");
 			}
 			else {
-				Log.v("visible About Me", "0");
 				tvAbout.setVisibility(View.GONE);
 				tvwAbout.setVisibility(View.GONE);
 				imgAboutme.setVisibility(View.GONE);
@@ -739,82 +735,66 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 			
 			if (snapShotData.getShare_interests() != null && !snapShotData.getShare_interests().isEmpty()){
 				
-				Log.v("visible Share interests", "1");
 				vpShareInterests.setListForView(snapShotData.getShare_interests());
 				vpShareInterests.init();
 				vpShareInterests.assignInfo();
 			}
 			else {
-				Log.v("visible", "0");
 				tvShareInterest.setVisibility(View.GONE);
 				vpShareInterests.setVisibility(View.GONE);
 				imgShareInterests.setVisibility(View.GONE);
 			}
 			
             if (snapShotData.getMutual_friends() != null && !snapShotData.getMutual_friends().isEmpty()){
-            	Log.v("visible Mutual friends", "1");
 				vpMutualFriends.setListForView(snapShotData.getMutual_friends());
 				vpMutualFriends.init();
 				vpMutualFriends.assignInfo();
             }
             else {
-            	Log.v("visible Mutual friends", "0");
             	tvMutualMatch.setVisibility(View.GONE);
             	vpMutualFriends.setVisibility(View.GONE);
             	imgMutualFriends.setVisibility(View.GONE);
             }
             
             if (snapShotData.getLocation_name() != null && snapShotData.getLocation_name() != null) {
-            	Log.v("visible Location", "1");
             	tvLocation.setText(snapShotData.getLocation_name());
             }
             else {
-            	Log.v("visible Location", "0");
             	tvLocation.setVisibility(View.GONE);
             	imgLocation.setVisibility(View.GONE);
             }
             if (snapShotData.getHometown_name() != null && snapShotData.getHometown_name() != null) {
-            	Log.v("visible Home", "1");
             	tvHome.setText(snapShotData.getHometown_name());
             }
             else {
-            	Log.v("visible Home", "0");
             	tvHome.setVisibility(View.GONE);
             	imgHome.setVisibility(View.GONE);
             }
             if (snapShotData.getBirthday_date() != null && !snapShotData.getBirthday_date().isEmpty()) {
-            	Log.v("visible Birthday", "1");
             	tvBirthday.setText(snapShotData.getBirthday_date());
             }
             else {
-            	Log.v("visible Birhtday", "0");
             	tvBirthday.setVisibility(View.GONE);
             	imgBirthday.setVisibility(View.GONE);
             }
             if (snapShotData.getSchool() != null && !snapShotData.getSchool().isEmpty()) {
-            	Log.v("visible School", "1");
             	tvSchool.setText(snapShotData.getSchool());
             }
             else {
-            	Log.v("visible School", "0");
             	tvSchool.setVisibility(View.GONE);
             	imgSchool.setVisibility(View.GONE);
             }
             if (snapShotData.getWork()>0) {
-            	Log.v("visible Work", "1");
             	tvWork.setText(getWorkString(snapShotData.getWork()));
             }
             else {
-            	Log.v("visible Work", "0");
             	tvWork.setVisibility(View.GONE);
             	imgWork.setVisibility(View.GONE);
             }
             if (snapShotData.getInterested()>0) {
-            	Log.v("visible Interested In", "1");
             	tvInterested_In.setText(ParseDataProfileInfo.getInterested(getApplicationContext(), snapShotData.getInterested()));
             }
             else {
-            	Log.v("visible Interested in", "0");
             	tvInterested_In.setVisibility(View.GONE);
             	imgInterested_In.setVisibility(View.GONE);
             }

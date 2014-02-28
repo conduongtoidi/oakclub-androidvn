@@ -1026,28 +1026,31 @@ public class SnapshotFragment{
             }else if(v.getId() == R.id.activity_snapshot_flt_footer_ibn_chat){
             	SnapshotData chatAccount = arrayListSnapshot.get(0);
             	if(chatAccount != null){
-            		if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
-            			Toast.makeText(activity, activity.getString(R.string.txt_non_VIP_message), Toast.LENGTH_LONG).show();
-            		}else{
-            			Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(Constants.BUNDLE_PROFILE_ID,
-                        		chatAccount.getProfile_id());
-                        bundle.putString(Constants.BUNDLE_AVATAR, chatAccount
-                                .getAvatar());
-                        bundle.putString(Constants.BUNDLE_NAME, chatAccount
-                                .getName());
-                        int status = 1;
-                        if (chatAccount.getIs_like())
-                        	status = 0;
-                        bundle.putInt(Constants.BUNDLE_STATUS, status);
-                        bundle.putString(Constants.BUNDLE_MATCH_TIME, chatAccount.getLike_time());
-                        
-                        
-                        chatHistoryActivity.putExtras(bundle);
-                        chatHistoryActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                        activity.startActivity(chatHistoryActivity);
+            		if (ProfileSettingFragment.profileInfoObj != null) {
+	            		if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
+	
+	            		}else{
+	            			Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
+	                        Bundle bundle = new Bundle();
+	                        bundle.putString(Constants.BUNDLE_PROFILE_ID,
+	                        		chatAccount.getProfile_id());
+	                        bundle.putString(Constants.BUNDLE_AVATAR, chatAccount
+	                                .getAvatar());
+	                        bundle.putString(Constants.BUNDLE_NAME, chatAccount
+	                                .getName());
+	                        bundle.putBoolean(Constants.BUNDLE_NOTI, false);
+	                        int status = 1;
+	                        if (chatAccount.getIs_like())
+	                        	status = 0;
+	                        bundle.putInt(Constants.BUNDLE_STATUS, status);
+	                        bundle.putString(Constants.BUNDLE_MATCH_TIME, chatAccount.getLike_time());
+	                        
+	                        
+	                        chatHistoryActivity.putExtras(bundle);
+	                        chatHistoryActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+	                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+	                        activity.startActivity(chatHistoryActivity);
+	            		}
             		}
             	}
             }

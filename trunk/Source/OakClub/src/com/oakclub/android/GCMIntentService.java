@@ -72,6 +72,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 			if (isLoad && isLogin) {
 				MutualMatchNotification(context, notificationContent);
 			}
+		} else if (intent.getExtras().getString("type").equals("total_like")) {
+			
+			
+			if (isLoad && isLogin) {
+				MutualMatchNotification(context, notificationContent);
+			}
 		}
 	}
 
