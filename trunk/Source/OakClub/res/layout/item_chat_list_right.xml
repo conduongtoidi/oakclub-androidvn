@@ -10,7 +10,6 @@
             android:id="@+id/image_content_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_bubble_bluemain"
             android:gravity="right"
             android:visibility="gone"
             android:layout_marginRight="50dp"
