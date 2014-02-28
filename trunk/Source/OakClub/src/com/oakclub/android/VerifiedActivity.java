@@ -257,6 +257,17 @@ public class VerifiedActivity extends OakClubBaseActivity {
 			
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		if(!OakClubUtil.isInternetAccess(VerifiedActivity.this)){
+            OakClubUtil.enableDialogWarning(this, 
+                    this.getString(R.string.txt_warning), 
+                    this.getString(R.string.txt_internet_message));
+            finish();
+        }
+		super.onResume();
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
