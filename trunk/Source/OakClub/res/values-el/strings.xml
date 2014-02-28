@@ -136,36 +136,4 @@
 <string name = "value_active_dayago">%d ημέρες πριν</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Μπλοκάρισμα χρήστη</string>
-
-<string name="txt_get_verified">By "Getting Verified", you can:</string>
-    <string name="txt_verified_title">Get\nVerified</string>
-    <string name="txt_verified_content_1">See better people in snapshots</string>
-    <string name="txt_verified_content_2">Get promoted to more users</string>
-    <string name="txt_verified_way_1">To get verified, you have to post the following post on your FB wall through our system</string>  
-	<string name="txt_verified_way_2">Alternatively, you can {{b}}get verified by emailing{{/b}} us a {{b}}screenshot of your profile + a copy of your passport{{/b}} from the email account you use for Facebook to {{b}}verification@oakclub.com{{/b}}</string>    
-	<string name="txt_verified_continue">Continue</string>
-    <string name="txt_verified_skip">Skip This Step</string>
-    <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
-   <string name="txt_got_verified">I Got Verified!</string>
-   <string name="txt_oakclub_page">OakClub.com</string>
-    <string name="txt_sample_post">
-        I have just joined OakClub - a cool app to make new connections. Check it out!
-    </string>
-    
-    <string name="txt_get_verified_now">Get Verified Now!</string>
-    <string name="txt_dear">Dear</string>
-     <string name="txt_force_verified">
-	Your account has been selected for a mandatory verification because of some issues concerning with compliance to our {{b}}Terms and Conditions{{/b}}. We understand that mandatory verification might be inconvenient. But we strive to make OakClub as a safe an environment for our users as possible. So please follow these steps below and complete the verification either by Facebook post or sending your identification documents by email. Thanks a lot and sorry again for all inconvenience caused	
-     </string>  
-    <string name="txt_oakclub_team">The OakClub team.</string>
-    <string name="txt_not_complete_verified">Verification could not be completed</string>
-    <string name="txt_try_again">Please try again</string>
-    <string name="ok">OK</string>
-    <string name="txt_thank_you">Thank you!</string>
-    <string name="txt_op">Oooooops!</string>
-    <string name="txt_got_it">Ok, I understand</string>
-    <string name="txt_take_to_snapshot">Take me to Snapshot</string>
-    <string name="txt_verified_member">You are now a verified member</string>
-    <string name="txt_verified_via_email_title">Get Verified Via Email</string> 
-    <string name="txt_verification">Verification</string>
 </resources>

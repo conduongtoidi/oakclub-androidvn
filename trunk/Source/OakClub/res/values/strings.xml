@@ -152,7 +152,7 @@
     <string name="txt_verified_way_1">To get verified, you have to post the following post on your FB wall through our system</string>  
 	<string name="txt_verified_way_2">Alternatively, you can {{b}}get verified by emailing{{/b}} us a {{b}}screenshot of your profile + a copy of your passport{{/b}} from the email account you use for Facebook to {{b}}verification@oakclub.com{{/b}}</string>    
 	<string name="txt_verified_continue">Continue</string>
-    <string name="txt_verified_skip">Skip This Step</string>
+    <string name="txt_verified_skip">Skip</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
    <string name="txt_got_verified">I Got Verified!</string>
    <string name="txt_oakclub_page">OakClub.com</string>
