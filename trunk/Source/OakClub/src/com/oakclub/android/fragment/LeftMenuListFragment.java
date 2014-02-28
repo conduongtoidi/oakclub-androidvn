@@ -25,6 +25,7 @@ import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.ImageLoader;
 
+import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.VerifiedActivity;
 import com.oakclub.android.R;
@@ -251,27 +252,10 @@ public class LeftMenuListFragment extends Fragment {
 			tvSettings.setText(menuTextList[2]);
 			tvIncludeFriends.setText(menuTextList[3]);
 			tvVerified.setText(menuTextList[4]);
-			String url = ProfileSettingFragment.profileInfoObj.getAvatar();
-			if (!ProfileSettingFragment.profileInfoObj.getAvatar().contains(
-					"http")) {
-				url = OakClubUtil.getFullLink(this.getActivity()
-						.getApplicationContext(),
-						ProfileSettingFragment.profileInfoObj.getAvatar());
-
-				int loader = R.drawable.logo_splashscreen;
-				ImageLoader imgLoader = new ImageLoader(getActivity());
-				imgLoader.DisplayImage(url, loader, avatarProfile);
-				OakClubUtil.loadImageFromUrl(this.getActivity()
-						.getApplicationContext(), url, avatarProfile);
-				avatarProfile.getBackground();
-			}
-
-			int loader = R.drawable.logo_splashscreen;
-			ImageLoader imgLoader = new ImageLoader(getActivity());
-			imgLoader.DisplayImage(url, loader, avatarProfile);
-			OakClubUtil.loadImageFromUrl(this.getActivity()
-					.getApplicationContext(), url, avatarProfile);
-			avatarProfile.getBackground();
+			
+			String imageUrl = OakClubUtil.getFullLink(this.getActivity(), ProfileSettingFragment.profileInfoObj.getAvatar());
+            OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile);
+            
 		}
 	}
 
