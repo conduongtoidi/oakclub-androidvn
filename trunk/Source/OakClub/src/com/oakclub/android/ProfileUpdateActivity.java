@@ -182,7 +182,7 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 	private void initInfo(){
 		if (profileInfoObj != null) {
 			String url = OakClubUtil.getFullLink(getApplicationContext(), profileInfoObj.getAvatar(),100,100,1);
-			OakClubUtil.loadImageFromUrl(getApplicationContext(), avatar,url);
+			OakClubUtil.loadImageFromUrl(getApplicationContext(),url, avatar);
 			userNameTv.setText(profileInfoObj.getName());
 			userBriefInfoTv.setText(profileInfoObj.getLocation().getName());
 			profileTvName.setText("" + profileInfoObj.getName());

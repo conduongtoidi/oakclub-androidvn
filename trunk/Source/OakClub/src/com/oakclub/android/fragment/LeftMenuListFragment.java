@@ -262,7 +262,7 @@ public class LeftMenuListFragment extends Fragment {
 				ImageLoader imgLoader = new ImageLoader(getActivity());
 				imgLoader.DisplayImage(url, loader, avatarProfile);
 				OakClubUtil.loadImageFromUrl(this.getActivity()
-						.getApplicationContext(), avatarProfile, url);
+						.getApplicationContext(), url, avatarProfile);
 				avatarProfile.getBackground();
 			}
 
@@ -270,7 +270,7 @@ public class LeftMenuListFragment extends Fragment {
 			ImageLoader imgLoader = new ImageLoader(getActivity());
 			imgLoader.DisplayImage(url, loader, avatarProfile);
 			OakClubUtil.loadImageFromUrl(this.getActivity()
-					.getApplicationContext(), avatarProfile, url);
+					.getApplicationContext(), url, avatarProfile);
 			avatarProfile.getBackground();
 		}
 	}

@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.nostra13.universalimageloader.cache.memory.MemoryCacheAware;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -43,50 +42,52 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.view.CircleImageView;
 
 public class OakClubUtil {
-	public static void loadImageFromUrl(final Context context,
-			final ImageView image, final String imageUrl) {
-	    int loader = R.drawable.logo_splashscreen;
-	    com.oakclub.android.view.ImageLoader imgLoader = new com.oakclub.android.view.ImageLoader(context);
-        imgLoader.DisplayImage(imageUrl, loader, image);
-	}
+//	public static void loadImageFromUrl(final Context context,
+//			final ImageView image, final String imageUrl) {
+//	    int loader = R.drawable.logo_splashscreen;
+//	    com.oakclub.android.view.ImageLoader imgLoader = new com.oakclub.android.view.ImageLoader(context);
+//        imgLoader.DisplayImage(imageUrl, loader, image);
+//	}
 
 	public static void loadImageFromUrl(final Context context,
-			final String imageUrl, final ImageView imageView) {
-		Constants.imageLoader.displayImage(imageUrl, imageView,
-				new ImageLoadingListener() {
-					@Override
-					public void onLoadingStarted(String arg0, View arg1) {
-
-						final ImageView imageView = (ImageView) arg1;
-						imageView.setImageBitmap(null);
-						imageView
-								.setBackgroundResource(R.drawable.logo_splashscreen);
-					}
-
-					@Override
-					public void onLoadingFailed(String arg0, View arg1,
-							FailReason arg2) {
-						imageView
-								.setBackgroundResource(R.drawable.logo_splashscreen);
-					}
-
-					@Override
-					public void onLoadingComplete(String arg0, View arg1,
-							Bitmap arg2) {
-//                        imageView
-//                        .setBackgroundResource(R.drawable.logo_splashscreen);
-//                        imageView
-//                        .setBackgroundColor(Color.WHITE);
-						imageView.setImageBitmap(arg2);
-					}
-
-					@Override
-					public void onLoadingCancelled(String arg0, View arg1) {
-					}
-				});
+			final String imageUrl, final SmartImageView imageView) {
+	    imageView.setImageUrl(imageUrl);
+//		Constants.imageLoader.displayImage(imageUrl, imageView,
+//				new ImageLoadingListener() {
+//					@Override
+//					public void onLoadingStarted(String arg0, View arg1) {
+//
+//						final ImageView imageView = (ImageView) arg1;
+//						imageView.setImageBitmap(null);
+//						imageView
+//								.setBackgroundResource(R.drawable.logo_splashscreen);
+//					}
+//
+//					@Override
+//					public void onLoadingFailed(String arg0, View arg1,
+//							FailReason arg2) {
+//						imageView
+//								.setBackgroundResource(R.drawable.logo_splashscreen);
+//					}
+//
+//					@Override
+//					public void onLoadingComplete(String arg0, View arg1,
+//							Bitmap arg2) {
+////                        imageView
+////                        .setBackgroundResource(R.drawable.logo_splashscreen);
+////                        imageView
+////                        .setBackgroundColor(Color.WHITE);
+//						imageView.setImageBitmap(arg2);
+//					}
+//
+//					@Override
+//					public void onLoadingCancelled(String arg0, View arg1) {
+//					}
+//				});
 	}
 
 	public static void loadStickerFromUrl(final Context context,
@@ -353,32 +354,32 @@ public class OakClubUtil {
 		return true;
 	}
 	
-	public static void recycleImagesFromView(View view) {
-        if(view instanceof ImageView)
-        {
-            Drawable drawable = ((ImageView)view).getDrawable();
-            if(drawable instanceof BitmapDrawable)
-            {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable;
-                bitmapDrawable.getBitmap().recycle();
-                System.gc();
-            }
-        }
-
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                recycleImagesFromView(((ViewGroup) view).getChildAt(i));
-            }
-        }
-    }
-	
-	public static void releaseImagePager(ViewPager pager){
-        if(pager!=null && pager.getChildCount()>0){
-            for(int i = 0; i<pager.getChildCount(); i++){
-                recycleImagesFromView(pager.getChildAt(i));
-            }
-        }
-    }
+//	public static void recycleImagesFromView(View view) {
+//        if(view instanceof ImageView)
+//        {
+//            Drawable drawable = ((ImageView)view).getDrawable();
+//            if(drawable instanceof BitmapDrawable)
+//            {
+//                BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable;
+//                bitmapDrawable.getBitmap().recycle();
+//                System.gc();
+//            }
+//        }
+//
+//        if (view instanceof ViewGroup) {
+//            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+//                recycleImagesFromView(((ViewGroup) view).getChildAt(i));
+//            }
+//        }
+//    }
+//	
+//	public static void releaseImagePager(ViewPager pager){
+//        if(pager!=null && pager.getChildCount()>0){
+//            for(int i = 0; i<pager.getChildCount(); i++){
+//                recycleImagesFromView(pager.getChildAt(i));
+//            }
+//        }
+//    }
 	
 	public static File getFileStore(Context context){
 	    File file;

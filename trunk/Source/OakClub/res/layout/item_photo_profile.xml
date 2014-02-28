@@ -10,7 +10,7 @@
 	    android:id="@+id/item_photo_profile_ciwPhoto"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent"
-	    android:src="@drawable/img_snapshot_temp"
+	    android:src="@drawable/logo_splashscreen"
 	    />
 	
 	<ImageView 

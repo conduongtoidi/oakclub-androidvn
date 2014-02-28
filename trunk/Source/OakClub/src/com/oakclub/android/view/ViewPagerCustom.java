@@ -57,13 +57,13 @@ public class ViewPagerCustom extends HorizontalScrollView{
 			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			//layout.weight = 1;
 			view.setLayoutParams(layout);
-			ImageView imgAvatar = (CircleImageView) view.findViewById(R.id.rltFacebookObjectProfile_fltImageParent_imgPicture);
+			CircleImageView imgAvatar = (CircleImageView) view.findViewById(R.id.rltFacebookObjectProfile_fltImageParent_imgPicture);
             TextView tvName = (TextView)  view.findViewById(R.id.rltFacebookObjectProfile_tvName);
             tvName.setGravity(Gravity.CENTER);
             String url = listFacebookObject.get(i).getAvatar();
             String name = listFacebookObject.get(i).getName();
             name = OakClubUtil.getFirstName(name);
-            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(), imgAvatar,url);
+            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar);
             tvName.setText(name);
             linear.addView(view);
 		}
@@ -101,12 +101,12 @@ public class ViewPagerCustom extends HorizontalScrollView{
 			layout.weight = 1;
 			view = (RelativeLayout)convertView;
 			view.setLayoutParams(layout);
-			ImageView imgAvatar = (CircleImageView) view.findViewById(R.id.rltFacebookObjectProfile_fltImageParent_imgPicture);
+			CircleImageView imgAvatar = (CircleImageView) view.findViewById(R.id.rltFacebookObjectProfile_fltImageParent_imgPicture);
             TextView tvName = (TextView)  view.findViewById(R.id.rltFacebookObjectProfile_tvName);
             String url = listItem.get(position).getAvatar();
             String name = listItem.get(position).getName();
             name = OakClubUtil.getFirstName(name);
-            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(), imgAvatar,url);
+            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar);
             tvName.setText(name);
 			return view;
 		}

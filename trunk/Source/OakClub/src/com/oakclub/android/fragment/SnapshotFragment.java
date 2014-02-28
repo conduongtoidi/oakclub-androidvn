@@ -65,70 +65,32 @@ import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.net.OnBootReceiver;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
+import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.ProgressCircle;
 import com.oakclub.android.view.SnapshotMain;
 import com.oakclub.android.view.TextViewWithFont;
 
 public class SnapshotFragment{
     // First
-    private ImageView ivwAvatar;
     private ImageView ivwLikeStamp;
     private ImageView ivwNopeStamp;
-    private ImageView ivwMuatualFriend;
-    private ImageView ivwShareInterested;
-    private ImageView ivwNumPhoto;
-    private ImageView ivwMuatualFriendDisable;
-    private ImageView ivwShareInterestedDisable;
-    private ImageView ivwNumPhotoDisable;
-    private ImageView ivwVerifiedIcon;
-    private ImageButton imgPlayVideo;
 
     private SnapshotMain fltContent;
-    private TextView tvwInfo;
-    private TextView tvwNumFriend;
-    private TextView tvwNumShareInterested;
-    private TextView tvwNumPicture;
 
     // Second
-    private ImageView ivwAvatarSecond;
     private ImageView ivwSecondLikeStamp;
     private ImageView ivwSecondNopeStamp;
-    private ImageView ivwSecondMuatualFriend;
-    private ImageView ivwSecondShareInterested;
-    private ImageView ivwSecondNumPhoto;
-    private ImageView ivwSecondMuatualFriendDisable;
-    private ImageView ivwSecondShareInterestedDisable;
-    private ImageView ivwSecondNumPhotoDisable;
-    private ImageView ivwSecondVerifiedIcon;
-    private ImageButton imgPlayVideoSecond;
 
     private SnapshotMain fltContentSecond;
-    private TextView tvwSecondInfo;
-    private TextView tvwSecondNumFriend;
-    private TextView tvwSecondNumShareInterested;
-    private TextView tvwSecondNumPicture;
 
     // Third
-    private ImageView ivwAvatarThird;
     private ImageView ivwThirdLikeStamp;
     private ImageView ivwThirdNopeStamp;
-    private ImageView ivwThirdMuatualFriend;
-    private ImageView ivwThirdShareInterested;
-    private ImageView ivwThirdNumPhoto;
-    private ImageView ivwThirdMuatualFriendDisable;
-    private ImageView ivwThirdShareInterestedDisable;
-    private ImageView ivwThirdNumPhotoDisable;
-    private ImageView ivwThirdVerifiedIcon;
-    private ImageButton imgPlayVideoThird;
 
     private SnapshotMain fltContentThird;
-    private TextView tvwThirdInfo;
-    private TextView tvwThirdNumFriend;
-    private TextView tvwThirdNumShareInterested;
-    private TextView tvwThirdNumPicture;
 
-    private ImageView ivwMutualMe;
-    private ImageView ivwMutualYou;
+    private CircleImageView ivwMutualMe;
+    private CircleImageView ivwMutualYou;
     private ImageButton btnNope;
     private ImageButton btnLike;
     private ImageButton btnInfo;
@@ -292,97 +254,19 @@ public class SnapshotFragment{
         
         btnChat = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_chat);
         btnChat.setOnClickListener(snapEvent);
-
-
-        ivwAvatar = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_avatar);
+        
         ivwLikeStamp = (ImageView) fltContent
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwNopeStamp = (ImageView) fltContent
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
-        tvwInfo = (TextView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_info);
-        tvwNumFriend = (TextView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_mutual_friend);
-        tvwNumShareInterested = (TextView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_shareinterest);
-        tvwNumPicture = (TextView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_photo);
-        ivwMuatualFriend = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_normal);
-        ivwShareInterested = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_normal);
-        ivwNumPhoto = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_normal);
-        ivwMuatualFriendDisable = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_disable);
-        ivwShareInterestedDisable = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
-        ivwNumPhotoDisable = (ImageView) fltContent
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
-        ivwVerifiedIcon = (ImageView) fltContent
-        		.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
-        imgPlayVideo = (ImageButton)fltContent.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
-
         ivwSecondLikeStamp = (ImageView) fltContentSecond
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwSecondNopeStamp = (ImageView) fltContentSecond
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
-        ivwAvatarSecond = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_avatar);
-        tvwSecondInfo = (TextView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_info);
-        tvwSecondNumFriend = (TextView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_mutual_friend);
-        tvwSecondNumShareInterested = (TextView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_shareinterest);
-        tvwSecondNumPicture = (TextView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_photo);
-        ivwSecondMuatualFriend = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_normal);
-        ivwSecondShareInterested = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_normal);
-        ivwSecondNumPhoto = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_normal);
-        ivwSecondMuatualFriendDisable = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_disable);
-        ivwSecondShareInterestedDisable = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
-        ivwSecondNumPhotoDisable = (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
-        ivwSecondVerifiedIcon =  (ImageView) fltContentSecond
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
-        imgPlayVideoSecond = (ImageButton)fltContentSecond.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
-
         ivwThirdLikeStamp = (ImageView) fltContentThird
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwThirdNopeStamp = (ImageView) fltContentThird
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
-        ivwAvatarThird = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_avatar);
-        tvwThirdInfo = (TextView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_info);
-        tvwThirdNumFriend = (TextView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_mutual_friend);
-        tvwThirdNumShareInterested = (TextView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_shareinterest);
-        tvwThirdNumPicture = (TextView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_tvw_photo);
-        ivwThirdMuatualFriend = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_normal);
-        ivwThirdShareInterested = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_normal);
-        ivwThirdNumPhoto = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_normal);
-        ivwThirdMuatualFriendDisable = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend_disable);
-        ivwThirdShareInterestedDisable = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest_disable);
-        ivwThirdNumPhotoDisable = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_disable);
-        ivwThirdVerifiedIcon = (ImageView) fltContentThird
-                .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
-        imgPlayVideoThird = (ImageButton)fltContentThird.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
         
         resetAll();
         getListSnapshotData(start);
@@ -447,114 +331,16 @@ public class SnapshotFragment{
     }
     
     protected void assignInfo(int index) {
-        int age = arrayListSnapshot.get(index).getAge();
-        if (age <= 1)
-            Log.e("Error", "Error:SnapshotActivity:age is wrong");
-        String name = arrayListSnapshot.get(index).getName();
-        name = OakClubUtil.getFirstName(name);
-        String info = name + ", " + age;
-        String numFriend = arrayListSnapshot.get(index).getMutual_friends()
-                .size()
-                + "";
-        String numLikePerson = arrayListSnapshot.get(index)
-                .getShare_interests().size()
-                + "";
-        String numPicture = arrayListSnapshot.get(index).getPhotos().size()
-                + "";
-        String urlVideo = arrayListSnapshot.get(index).getVideo_link();
+        SnapshotData data = arrayListSnapshot.get(index);
         switch (contentSnapshot) {
         case 1:
-            ivwAvatar.setBackgroundResource(R.drawable.logo_splashscreen);
-            if(!urlVideo.equals("")){
-                imgPlayVideo.setVisibility(View.VISIBLE);
-                imgPlayVideo.setOnClickListener(clickPlayVideo(urlVideo));
-            }
-            else{ 
-                imgPlayVideo.setVisibility(View.GONE);
-            }
-            tvwInfo.setText(info);
-            tvwNumFriend.setText(numFriend);
-            tvwNumShareInterested.setText(numLikePerson);
-            tvwNumPicture.setText(numPicture);
-            if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwVerifiedIcon.setVisibility(View.VISIBLE);
-            }
-            if (numPicture.equals("0"))
-                ivwNumPhotoDisable.bringToFront();
-            else
-                ivwNumPhoto.bringToFront();
-            if (numFriend.equals("0"))
-                ivwMuatualFriendDisable.bringToFront();
-            else
-                ivwMuatualFriend.bringToFront();
-            if (numLikePerson.equals("0"))
-                ivwShareInterestedDisable.bringToFront();
-            else
-                ivwShareInterested.bringToFront();
-            
-            fltContent.loadData(null);
+            fltContent.loadData(data);
             break;
         case 2:
-            ivwAvatarSecond.setBackgroundResource(R.drawable.logo_splashscreen);
-            if(!urlVideo.equals("")){
-                imgPlayVideoSecond.setVisibility(View.INVISIBLE);
-                imgPlayVideoSecond.setOnClickListener(clickPlayVideo(urlVideo));
-            }
-            else{
-                imgPlayVideoSecond.setVisibility(View.GONE);
-            }
-            tvwSecondInfo.setText(info);
-            tvwSecondNumFriend.setText(numFriend);
-            tvwSecondNumShareInterested.setText(numLikePerson);
-            tvwSecondNumPicture.setText(numPicture);
-            if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwSecondVerifiedIcon.setVisibility(View.VISIBLE);
-            }
-            if (numPicture.equals("0"))
-                ivwSecondNumPhotoDisable.bringToFront();
-            else
-                ivwSecondNumPhoto.bringToFront();
-            if (numFriend.equals("0"))
-                ivwSecondMuatualFriendDisable.bringToFront();
-            else
-                ivwSecondMuatualFriend.bringToFront();
-            if (numLikePerson.equals("0"))
-                ivwSecondShareInterestedDisable.bringToFront();
-            else
-                ivwSecondShareInterested.bringToFront();
-
-            fltContentSecond.loadData(null);
+            fltContentSecond.loadData(data);
             break;
         case 3:
-            ivwAvatarThird.setBackgroundResource(R.drawable.logo_splashscreen);
-            if(!urlVideo.equals("")){
-                imgPlayVideoThird.setVisibility(View.INVISIBLE);
-                imgPlayVideoThird.setOnClickListener(clickPlayVideo(urlVideo));
-            }
-            else{
-                imgPlayVideoThird.setVisibility(View.GONE);
-            }
-            tvwThirdInfo.setText(info);
-            tvwThirdNumFriend.setText(numFriend);
-            tvwThirdNumShareInterested.setText(numLikePerson);
-            tvwThirdNumPicture.setText(numPicture);
-            if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwThirdVerifiedIcon.setVisibility(View.VISIBLE);
-            }
-            if (numPicture.equals("0"))
-                ivwThirdNumPhotoDisable.bringToFront();
-            else
-                ivwThirdNumPhoto.bringToFront();
-            if (numFriend.equals("0"))
-                ivwThirdMuatualFriendDisable.bringToFront();
-            else
-                ivwThirdMuatualFriend.bringToFront();
-            if (numLikePerson.equals("0"))
-                ivwThirdShareInterestedDisable.bringToFront();
-            else
-                ivwThirdShareInterested.bringToFront();
-            
-            fltContentThird.loadData(null);
+            fltContentThird.loadData(data);
             break;
         default:
             break;
@@ -762,29 +548,9 @@ public class SnapshotFragment{
         btnLike.setEnabled(false);
         btnNope.setEnabled(false);
 
-        ivwAvatar.setImageBitmap(null);
-        ivwAvatar.setBackgroundColor(Color.WHITE);
-        ivwAvatar.setBackgroundResource(R.drawable.logo_splashscreen);
-        tvwInfo.setText("");
-        tvwNumFriend.setText("0");
-        tvwNumShareInterested.setText("0");
-        tvwNumPicture.setText("0");
-
-        ivwAvatarSecond.setImageBitmap(null);
-        ivwAvatarSecond.setBackgroundColor(Color.WHITE);
-        ivwAvatarSecond.setBackgroundResource(R.drawable.logo_splashscreen);
-        tvwSecondInfo.setText("");
-        tvwSecondNumFriend.setText("0");
-        tvwSecondNumShareInterested.setText("0");
-        tvwSecondNumPicture.setText("0");
-
-        ivwAvatarThird.setImageBitmap(null);
-        ivwAvatarThird.setBackgroundColor(Color.WHITE);
-        ivwAvatarThird.setBackgroundResource(R.drawable.logo_splashscreen);
-        tvwThirdInfo.setText("");
-        tvwThirdNumFriend.setText("0");
-        tvwThirdNumShareInterested.setText("0");
-        tvwThirdNumPicture.setText("0");
+        fltContent.resetData();
+        fltContentSecond.resetData();
+        fltContentThird.resetData();
     }
 
     private void animationForActionLikeOrNope(float x, float y, int w,
@@ -1237,30 +1003,17 @@ public class SnapshotFragment{
         if (OakClubUtil.isInternetAccess(activity)) {
             if (index < arrayListSnapshot.size()) {
                 assignInfo(index);
-                changeImage(index);
             } else {
                 getCurrentContentView().setEnabled(false);
                 switch (contentSnapshot) {
                 case 1:
-                    ivwAvatar.setBackgroundColor(Color.WHITE);
-                    tvwInfo.setText("");
-                    tvwNumFriend.setText("0");
-                    tvwNumShareInterested.setText("0");
-                    tvwNumPicture.setText("0");
+                    fltContent.resetData();
                     break;
                 case 2:
-                    ivwAvatarSecond.setBackgroundColor(Color.WHITE);
-                    tvwSecondInfo.setText("");
-                    tvwSecondNumFriend.setText("0");
-                    tvwSecondNumShareInterested.setText("0");
-                    tvwSecondNumPicture.setText("0");
+                    fltContentSecond.resetData();
                     break;
                 case 3:
-                    ivwAvatarThird.setBackgroundColor(Color.WHITE);
-                    tvwThirdInfo.setText("");
-                    tvwThirdNumFriend.setText("0");
-                    tvwThirdNumShareInterested.setText("0");
-                    tvwThirdNumPicture.setText("0");
+                    fltContentThird.resetData();
                     break;
                 default:
                     break;
@@ -1297,23 +1050,7 @@ public class SnapshotFragment{
         }
     }
 
-    private ImageView imgAva = null;
-    private void changeImage(final int index) {
-        final String imageUrl = OakClubUtil.getFullLink(activity, 
-                arrayListSnapshot.get(index).getAvatar(), Constants.widthImage, Constants.heightImage, 1);
-        handler = new Handler();
-        switch (contentSnapshot) {
-            case 1: imgAva = ivwAvatar;
-                break;
-            case 2: imgAva = ivwAvatarSecond;
-                break;
-            case 3: imgAva = ivwAvatarThird;
-                break;
-            }
-        OakClubUtil.loadImageFromUrl(activity,imageUrl, imgAva);
-//      OakClubUtil.loadImageFromUrl(SnapshotActivity.activity,imgAva, imageUrl);
-    }
-
+    
     private void setEnableAll(boolean b) {
         btnInfo.setEnabled(b);
         btnChat.setEnabled(b);
@@ -1349,9 +1086,9 @@ public class SnapshotFragment{
 
         TextViewWithFont tvTitle = (TextViewWithFont)view.findViewById(R.id.tvw_text);
         tvTitle.setFont("helveticaneueultralight.ttf");
-        ivwMutualMe = (ImageView) view
+        ivwMutualMe = (CircleImageView) view
                 .findViewById(R.id.popup_mutual_match_layout_image_my);
-        ivwMutualYou = (ImageView) view
+        ivwMutualYou = (CircleImageView) view
                 .findViewById(R.id.popup_mutual_match_layout_image_you);
         txtMutualMatch = (TextView) view.findViewById(R.id.tvw_text_notice);
         dialogMutual.setContentView(view);
@@ -1362,10 +1099,10 @@ public class SnapshotFragment{
                 .findViewById(R.id.popup_mutual_match_layout_btn_chat);
         btnDialogChat.setOnClickListener(onDialogEvent);
 
-        OakClubUtil.loadImageFromUrl(activity, ivwMutualMe,
-                urlAvatar);
+        OakClubUtil.loadImageFromUrl(activity,
+                urlAvatar, ivwMutualMe);
         OakClubUtil
-                .loadImageFromUrl(activity, ivwMutualYou, url);
+                .loadImageFromUrl(activity, url, ivwMutualYou);
         txtMutualMatch
                 .setText(String.format(
                         activity.getString(
@@ -1514,25 +1251,9 @@ public class SnapshotFragment{
                 fltContent.setEnabled(false);
                 fltContentSecond.setEnabled(false);
 
-                ivwAvatar.setImageResource(R.drawable.logo_splashscreen);
-                tvwInfo.setText("");
-                tvwNumFriend.setText("0");
-                tvwNumShareInterested.setText("0");
-                tvwNumPicture.setText("0");
-
-                ivwAvatarSecond
-                        .setImageResource(R.drawable.logo_splashscreen);
-                tvwSecondInfo.setText("");
-                tvwSecondNumFriend.setText("0");
-                tvwSecondNumShareInterested.setText("0");
-                tvwSecondNumPicture.setText("0");
-
-                ivwAvatarThird
-                        .setImageResource(R.drawable.logo_splashscreen);
-                tvwThirdInfo.setText("");
-                tvwThirdNumFriend.setText("0");
-                tvwThirdNumShareInterested.setText("0");
-                tvwThirdNumPicture.setText("0");
+                fltContent.resetData();
+                fltContentSecond.resetData();
+                fltContentThird.resetData();
 
                 progressCircle.setVisibility(View.GONE);
                 progressFinder.setVisibility(View.VISIBLE);
@@ -1601,12 +1322,4 @@ public class SnapshotFragment{
         setEnableAll(true);
 
     }
-
-//    public void releaseBitmap(){
-//        OakClubUtil.recycleImage(ivwAvatar);
-//        OakClubUtil.recycleImage(ivwAvatarSecond);
-//        OakClubUtil.recycleImage(ivwAvatarThird);
-//        progCir.recycleAvatar();
-//        progFin.recycleAvatar();
-//    }
 }
