@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -313,6 +314,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				// Register custom Broadcast receiver to show messages on
 				// activity
 				registerGCM();
+				
 				runOnUiThread(new Runnable() {
 
 					@Override
@@ -325,9 +327,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 									"sendLocation", LoginBaseActivity.this, ""
 											+ latitude, "" + longitude);
 							getRequestQueue().addRequest(loader);
-
 							showTutorialActivity();
-
 						} else if (mGPS.isGPSEnabled) {
 							// showOpenGPSSettingsDialog(MainActivity.this);
 							OakClubUtil.enableDialogWarning(
@@ -347,6 +347,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						"getDataLanguage", LoginBaseActivity.this);
 				loader2.setPriority(RequestUI.PRIORITY_LOW);
 				getRequestQueue().addRequest(loader2);
+				
 			}
 		}
 	}
@@ -567,6 +568,14 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 	private void updateNewMessage(final ChatHistoryData message) {
 		boolean needToShowNotification = false;
+		if (matchedList == null)
+			matchedList = new ArrayList<ListChatData>();
+		if (vipList == null)
+			vipList = new ArrayList<ListChatData>();
+		if (allList == null)
+			allList = new ArrayList<ListChatData>();
+		if (baseAllList == null)
+			baseAllList = new ArrayList<ListChatData>();
 		if (ChatActivity.profile_id != null
 				&& ChatActivity.profile_id.equals(message.getFrom())) {
 			runOnUiThread(new Runnable() {
