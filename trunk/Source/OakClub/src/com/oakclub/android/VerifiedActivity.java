@@ -37,16 +37,12 @@ import com.oakclub.android.util.RichTextHelper;
 
 public class VerifiedActivity extends OakClubBaseActivity {
 	private Button btn_skip;
-	//private Button btn_back;
 	private TextView line;
-	private Session session;
 	private  boolean firstOpenSessonCall;
 	private  boolean firstRequestCall;
 	private boolean start_login;
 	private TextView tvVerifiedWay2;
-	//private boolean force_verified;
 	private WebDialog feedDialog;
-	//private Button btn_continue;
 	private TextView tvSamplePost;
 	private LinearLayout layoutHeader;
 
@@ -59,9 +55,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		if(ProfileSettingFragment.profileInfoObj == null) return;
 		setContentView(R.layout.activity_verified);
 		btn_skip = (Button) findViewById(R.id.btn_skip_verified);
-		//btn_back = (Button) findViewById(R.id.btn_back);
 		layoutHeader = (LinearLayout)findViewById(R.id.activity_verified_header);
-		//btn_continue = (Button) findViewById(R.id.btn_continue_verified);
 		line = (TextView) findViewById(R.id.underline_back);
 		tvVerifiedWay2 = (TextView) findViewById(R.id.txt_verified_way_2);
 		SpannableStringBuilder styledText = RichTextHelper.getRichText(getString(R.string.txt_verified_way_2));
@@ -70,7 +64,6 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		start_login = intent.getBooleanExtra(Constants.START_LOGIN, false);
 		tvSamplePost = (TextView) findViewById(R.id.txt_sample_post);
 		tvSamplePost.setText(getString(R.string.txt_got_verified) + "\n" +getString(R.string.txt_oakclub_page) + "\n" +getString(R.string.txt_sample_post));
-		//force_verified = intent.getBooleanExtra(Constants.FORCE_VERIFIED, false);
 		if(start_login){
 			layoutHeader.setVisibility(View.GONE);
 			line.setVisibility(View.GONE);
@@ -84,15 +77,9 @@ public class VerifiedActivity extends OakClubBaseActivity {
 			switch (v.getId()) {
 			case R.id.btn_continue_verified:
 				((Button) findViewById(R.id.btn_continue_verified)).setEnabled(false);
-				//btn_continue.setEnabled(false);
 				publishStory();
 				break;
 			case R.id.btn_skip_verified:
-//				SharedPreferences pref = getApplicationContext()
-//				.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-//				Editor editor = pref.edit();
-//				editor.putBoolean(Constants.KEY_IS_SKIP, true);
-//				editor.commit();
 				btn_skip.setEnabled(false);
 				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(Constants.SKIP_VERIFIED, VerifiedActivity.this);
 				getRequestQueue().addRequest(loader);
@@ -140,8 +127,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 
 		firstOpenSessonCall = true;
 		firstRequestCall = true;
-		session = Session.getActiveSession();
-		if (session == null) {
+		
 			SharedPreferences pref = getSharedPreferences(
 					Constants.PREFERENCE_NAME, 0);
 			Long expirationTime = pref.getLong(Constants.HEADER_ACCESS_EXPIRES,
@@ -192,60 +178,8 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								}								
 						}
 					});
-		} else {
-
-			List<String> permissions = session.getPermissions();
-			firstOpenSessonCall = false;
-				if (!isSubsetOf(Constants.VERIFIED_PERMISSIONS,
-						permissions)) {
-					Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
-							VerifiedActivity.this,
-							Constants.VERIFIED_PERMISSIONS);
-					session.requestNewPublishPermissions(newPermissionsRequest);
-					session.addCallback(new StatusCallback() {
-						
-						@Override
-						public void call(Session session, SessionState state, Exception exception) {
-							if(session.isOpened() && firstRequestCall)
-							{
-								firstRequestCall = false;
-								VerifiedActivity.this.publishFeedDialog();
-								return;
-							}							
-						}
-					});
-				}else
-					{
-						VerifiedActivity.this.publishFeedDialog();
-					}
-		}
 	}
 	
-//	@Override
-//	protected void onPause() {
-//		// TODO Auto-generated method stub
-//		super.onPause();
-//	}
-//
-//	@Override
-//	protected void onStart() {
-//		// TODO Auto-generated method stub
-//		super.onStart();
-//	}
-//
-//	@Override
-//	protected void onStop() {
-//		firstRequestCall = false;
-//		firstOpenSessonCall = false;
-//		super.onStop();
-//	}
-//
-//	@Override
-//	protected void onResume() {
-//		firstRequestCall = false;
-//		firstOpenSessonCall = false;
-//		super.onResume();
-//	}
 
 	private void startSnapshot() {
 		Intent intent = new Intent(VerifiedActivity.this,
@@ -277,7 +211,6 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									getRequestQueue().addRequest(loader);						        	   
 						        	  							        	   		
 								} else {
-									//btn_continue.setEnabled(true);
 									((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 									Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 									intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
@@ -286,7 +219,6 @@ public class VerifiedActivity extends OakClubBaseActivity {
 										finish();
 								}
 							} else if (error instanceof FacebookOperationCanceledException) {
-								//btn_continue.setEnabled(true);
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
@@ -304,7 +236,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 					}).build();
 			  feedDialog.show();
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 		
 	}
