@@ -1,10 +1,15 @@
 package com.oakclub.android;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.util.RichTextHelper;
@@ -38,5 +43,9 @@ public class ForceVerifiedActivity extends VerifiedActivity{
 	@Override
 	public void VerifiedClick(View v) {
 		super.VerifiedClick(v);
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 }

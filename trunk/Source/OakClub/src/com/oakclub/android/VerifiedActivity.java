@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 			line.setVisibility(View.GONE);
 			btn_skip.setVisibility(View.VISIBLE);
 		}
+		
 	}
 
 	public void VerifiedClick(View v) {
@@ -245,7 +248,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								if (!start_login)
 									finish();
 							} else {
-								// Generic, ex: network error
+								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Toast.makeText(getApplicationContext(),
 										"Error posting story",
 										Toast.LENGTH_LONG).show();
@@ -260,12 +263,13 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	
 	@Override
 	protected void onResume() {
-		if(!OakClubUtil.isInternetAccess(VerifiedActivity.this)){
-            OakClubUtil.enableDialogWarning(this, 
-                    this.getString(R.string.txt_warning), 
-                    this.getString(R.string.txt_internet_message));
-            finish();
-        }
+		if(!OakClubUtil.isInternetAccess(this)){
+			((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+			firstOpenSessonCall = false;
+			firstRequestCall = false;
+			if(!start_login)
+				finish();
+		}
 		super.onResume();
 	}
 
