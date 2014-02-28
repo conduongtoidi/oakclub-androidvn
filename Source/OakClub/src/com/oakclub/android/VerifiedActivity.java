@@ -220,6 +220,33 @@ public class VerifiedActivity extends OakClubBaseActivity {
 					}
 		}
 	}
+	
+//	@Override
+//	protected void onPause() {
+//		// TODO Auto-generated method stub
+//		super.onPause();
+//	}
+//
+//	@Override
+//	protected void onStart() {
+//		// TODO Auto-generated method stub
+//		super.onStart();
+//	}
+//
+//	@Override
+//	protected void onStop() {
+//		firstRequestCall = false;
+//		firstOpenSessonCall = false;
+//		super.onStop();
+//	}
+//
+//	@Override
+//	protected void onResume() {
+//		firstRequestCall = false;
+//		firstOpenSessonCall = false;
+//		super.onResume();
+//	}
+
 	private void startSnapshot() {
 		Intent intent = new Intent(VerifiedActivity.this,
 				SlidingActivity.class);
@@ -230,95 +257,58 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		params.putString("name", getString(R.string.txt_got_verified));
 		params.putString("caption", getString(R.string.txt_oakclub_page));
 		params.putString("description", getString(R.string.txt_sample_post));
-		params.putString("link", getString(R.string.txt_share_url));		
-		feedDialog = (new WebDialog.FeedDialogBuilder(this,
-				Session.getActiveSession(), params)).setOnCompleteListener(
-				new OnCompleteListener() {
+		params.putString("link", getString(R.string.txt_share_url));	
+		try {
+			feedDialog = (new WebDialog.FeedDialogBuilder(this,
+					Session.getActiveSession(), params)).setOnCompleteListener(
+					new OnCompleteListener() {
 
-					@Override
-					public void onComplete(Bundle values,
-							FacebookException error) {
-							
-						if (error == null) {				
-							// When the story is posted, echo the success
-							// and the post Id.
-							final String postId = values.getString("post_id");
-							if (postId != null) {
-								SendVerifiedRequest loader = new SendVerifiedRequest(
-										Constants.VERIFY_USER, VerifiedActivity.this);
-								getRequestQueue().addRequest(loader);						        	   
-					        	  							        	   		
-							} else {
+						@Override
+						public void onComplete(Bundle values,
+								FacebookException error) {
+								
+							if (error == null) {				
+								// When the story is posted, echo the success
+								// and the post Id.
+								final String postId = values.getString("post_id");
+								if (postId != null) {
+									SendVerifiedRequest loader = new SendVerifiedRequest(
+											Constants.VERIFY_USER, VerifiedActivity.this);
+									getRequestQueue().addRequest(loader);						        	   
+						        	  							        	   		
+								} else {
+									//btn_continue.setEnabled(true);
+									((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+									Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
+									intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
+						        	startActivity(intent2);
+						        	if(!start_login)
+										finish();
+								}
+							} else if (error instanceof FacebookOperationCanceledException) {
 								//btn_continue.setEnabled(true);
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
 								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
-					        	startActivity(intent2);
-					        	if(!start_login)
+								startActivity(intent2);
+								if(!start_login)
 									finish();
+							} else {
+								// Generic, ex: network error
+								Toast.makeText(getApplicationContext(),
+										"Error posting story", Toast.LENGTH_LONG)
+										.show();
 							}
-						} else if (error instanceof FacebookOperationCanceledException) {
-							//btn_continue.setEnabled(true);
-							((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-							Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
-							intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
-							startActivity(intent2);
-							if(!start_login)
-								finish();
-						} else {
-							// Generic, ex: network error
-							Toast.makeText(getApplicationContext(),
-									"Error posting story", Toast.LENGTH_LONG)
-									.show();
 						}
-					}
 
-				}).build();
-		if(this.isFinishing()) return;
-		  feedDialog.show();
+					}).build();
+			  feedDialog.show();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
-//	public void enableDialogWarning(final Context context, String title, final String message)
-//	 {
-//       AlertDialog.Builder builder;
-//       builder = new AlertDialog.Builder(context);
-//       final AlertDialog dialog = builder.create();
-//       LayoutInflater inflater = LayoutInflater
-//               .from(context);
-//       View layout = inflater.inflate(R.layout.dialog_warning_ok,
-//               null);
-//       dialog.setView(layout, 0, 0, 0, 0);
-//       TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-//       tvTitle.setText(title);
-//       TextView tvQuestion = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-//       tvQuestion.setText(message);
-//       Button btnOK = (Button) layout
-//               .findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-//       btnOK.setOnClickListener(new OnClickListener() {
-//
-//           @Override
-//           public void onClick(View v) {
-//        	   first = true;
-//        	   String success = context.getString(R.string.txt_you_have_verified);
-//               if(success.equals(message)){
-//            	   if(VerifiedActivity.this.force_verified || VerifiedActivity.this.start_login){
-//            		   startSnapshot();
-//            	   }
-//            	   ((Activity) context).finish();
-//               }
-//               else{
-//                   dialog.dismiss();
-//               }
-//           }
-//       });
-//       dialog.setCancelable(false);
-//       dialog.show();
-//	 }
-	@Override
-	public void onBackPressed() {
-		//super.onBackPressed();
-		firstRequestCall = false;
-		firstOpenSessonCall = false;
-	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
