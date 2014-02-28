@@ -1,5 +1,7 @@
 package com.oakclub.android.view;
 
+import com.oakclub.android.image.SmartImageView;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,7 +15,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 
-public class XImageview extends ImageView {
+public class XImageview extends SmartImageView {
 
 	private Bitmap framedPhoto;
 	private float radius = 1000.0f;

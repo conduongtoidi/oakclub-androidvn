@@ -49,6 +49,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
@@ -57,6 +58,7 @@ import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.util.ParseDataProfileInfo;
+import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;
 import com.oakclub.android.view.ViewPagerCustom;
 
@@ -325,7 +327,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	}
 	
 	private void finishAct(){
-	    OakClubUtil.releaseImagePager(pager);
+	    //OakClubUtil.releaseImagePager(pager);
 	    finish();
 	}
 	
@@ -834,7 +836,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
             android.widget.FrameLayout.LayoutParams params;
 		    if(position< imageCache.size()){
-		        ImageView imageView = new ImageView(InfoProfileOtherActivity.this);
+		        SmartImageView imageView = new SmartImageView(InfoProfileOtherActivity.this);
                 imageView.setBackgroundColor(Color.BLACK);
                 imageView.setOnClickListener(zoomEvent);
                 params = new  android.widget.FrameLayout.LayoutParams(
@@ -844,12 +846,12 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
                 imageView.setLayoutParams(params);
             
     			String imageUrl = OakClubUtil.getFullLink(InfoProfileOtherActivity.this, imageCache.get(position).getTweet_image_link(), Constants.widthImage,Constants.heightImage,1);
-    			OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageView, imageUrl);
+    			OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageUrl, imageView);
     			fltImage.addView(imageView);
 		    }
 		    else {
                 if(!urlVideo.equals("")){
-                    ImageView imageView = new ImageView(InfoProfileOtherActivity.this);
+                    CircleImageView imageView = new CircleImageView(InfoProfileOtherActivity.this);
                     imageView.setBackgroundColor(Color.BLACK);
                     params = new  android.widget.FrameLayout.LayoutParams(
                             android.widget.FrameLayout.LayoutParams.MATCH_PARENT, 
@@ -857,7 +859,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
                     params.gravity = Gravity.CENTER;
                     imageView.setLayoutParams(params);
                     String imageUrl = OakClubUtil.getFullLinkVideo(InfoProfileOtherActivity.this, urlVideo, Constants.PHOTO_EXTENSION);
-                    OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageView, imageUrl);
+                    OakClubUtil.loadImageFromUrl(InfoProfileOtherActivity.this, imageUrl, imageView);
                     fltImage.addView(imageView);
                     
                     ImageView imageViewVideo = new ImageView(InfoProfileOtherActivity.this);

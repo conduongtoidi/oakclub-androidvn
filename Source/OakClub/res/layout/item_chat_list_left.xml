@@ -35,7 +35,7 @@
         android:orientation="vertical" 
         android:paddingTop="10dp">
 
-        <ImageView
+        <com.oakclub.android.image.SmartImageView
             android:id="@+id/image_content_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

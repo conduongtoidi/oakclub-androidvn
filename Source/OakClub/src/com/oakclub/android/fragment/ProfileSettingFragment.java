@@ -45,6 +45,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.oakclub.android.image.SmartImageView;
 import com.netcompss.loader.LoadJNI;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
@@ -244,11 +245,11 @@ public class ProfileSettingFragment{
                     R.layout.item_photo_profile, null);
             view.setLayoutParams(layoutView);
             view.setId(0);
-            ImageView imgPhoto = (CircleImageView) view
+            CircleImageView imgPhoto = (CircleImageView) view
                     .findViewById(R.id.item_photo_profile_ciwPhoto);
             url = arrListPhoto.get(i).getTweet_image_link();
             url = OakClubUtil.getFullLink(activity, url, 100, 100, 1);
-            OakClubUtil.loadImageFromUrl(activity, imgPhoto, url);
+            OakClubUtil.loadImageFromUrl(activity, url, imgPhoto);
             
             TextView tvId = new TextView(activity);
             tvId.setId(2);

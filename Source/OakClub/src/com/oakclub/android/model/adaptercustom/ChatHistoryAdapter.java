@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.model.ChatHistoryData;
@@ -80,7 +81,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			if (type == 0) {
 				convertView = LayoutInflater.from(context).inflate(
 						R.layout.item_chat_list_left, null);
-				holder.userAvatar = (ImageView) convertView
+				holder.userAvatar = (SmartImageView) convertView
 						.findViewById(R.id.user_avatar_left);
 				holder.leftTv = (TextView) convertView
 						.findViewById(R.id.message_content_left);
@@ -112,7 +113,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 		
 		if (type == 0) {
 			String url = OakClubUtil.getFullLink(context, target_avatar);
-			ImageView imgAva = holder.userAvatar;
+			SmartImageView imgAva = holder.userAvatar;
 			OakClubUtil.loadImageFromUrl(context, url, imgAva);
 			holder.leftTv.setText(spannable);
 			ImageView imgView = holder.leftImg;
@@ -163,7 +164,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
-		ImageView userAvatar;
+	    SmartImageView userAvatar;
 		TextView leftTv;
 		TextView rightTv;
 		TextView timeTv;

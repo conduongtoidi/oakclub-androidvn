@@ -207,7 +207,7 @@ public class MainActivity extends LoginBaseActivity {
 
     @Override
     protected void onDestroy(){
-        OakClubUtil.releaseImagePager(mPager);
+        //OakClubUtil.releaseImagePager(mPager);
         System.gc();
         super.onDestroy();
     }

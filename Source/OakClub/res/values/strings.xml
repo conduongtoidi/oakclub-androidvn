@@ -181,7 +181,7 @@
     <string name = "txt_share_url">www.oakclub.com</string>
     <string name = "app_id">537613816294876</string>
     
-    
+    <string name="build_version">Version 1.4</string>
     <string-array name="gender_list">
         <item>@string/txt_female</item>
         <item>@string/txt_male</item>
