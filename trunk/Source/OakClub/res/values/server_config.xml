@@ -2,8 +2,8 @@
 <resources>
 
 
-    <string name="default_server_address">http://oakclub.com/service</string>
-    <string name="server_address_image">http://oakclub.com/load_photo.php</string>
+    <string name="default_server_address">http://staging.oakclub.com/service</string>
+    <string name="server_address_image">http://staging.oakclub.com/load_photo.php</string>
     <string name="server_address_video">http://oakclub.com/data</string>
     <string name="server_address_sticker">http://oakclub.com/bundles/likevnblissdate/v3/chat/images/stickers</string>
     <string name="xmpp_server_address">xmpp.oakclub.com</string>
