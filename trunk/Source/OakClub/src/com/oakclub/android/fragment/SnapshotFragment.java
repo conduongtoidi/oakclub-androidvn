@@ -472,7 +472,7 @@ public class SnapshotFragment{
             tvwNumShareInterested.setText(numLikePerson);
             tvwNumPicture.setText(numPicture);
             if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwVerifiedIcon.setVisibility(View.GONE);
+            	ivwVerifiedIcon.setVisibility(View.VISIBLE);
             }
             if (numPicture.equals("0"))
                 ivwNumPhotoDisable.bringToFront();
@@ -501,7 +501,7 @@ public class SnapshotFragment{
             tvwSecondNumShareInterested.setText(numLikePerson);
             tvwSecondNumPicture.setText(numPicture);
             if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwSecondVerifiedIcon.setVisibility(View.GONE);
+            	ivwSecondVerifiedIcon.setVisibility(View.VISIBLE);
             }
             if (numPicture.equals("0"))
                 ivwSecondNumPhotoDisable.bringToFront();
@@ -530,7 +530,7 @@ public class SnapshotFragment{
             tvwThirdNumShareInterested.setText(numLikePerson);
             tvwThirdNumPicture.setText(numPicture);
             if(arrayListSnapshot.get(index).getIs_verify()){
-            	ivwThirdVerifiedIcon.setVisibility(View.GONE);
+            	ivwThirdVerifiedIcon.setVisibility(View.VISIBLE);
             }
             if (numPicture.equals("0"))
                 ivwThirdNumPhotoDisable.bringToFront();
