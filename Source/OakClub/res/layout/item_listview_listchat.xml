@@ -32,29 +32,28 @@
         android:id="@+id/item_listview_listchat_lltcontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/item_listview_listchat_fltAvatar"
-        android:layout_centerVertical="true"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        >
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_listview_listchat_fltAvatar"
+        android:orientation="horizontal" >
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:gravity="left"
             android:orientation="vertical"
-            android:padding="5dp"
-            android:layout_weight="10"
-             >
-    
+            android:padding="5dp" >
+
             <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/item_listview_listchat_lltcontent_tvname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:text="Hieu Pham"
                 android:textColor="#740353"
-                android:textSize="18sp"
-                android:lines="1" />
-    
+                android:textSize="18sp" />
+
             <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/item_listview_listchat_lltcontent_tvmatches"
                 android:layout_width="wrap_content"
@@ -63,21 +62,25 @@
                 android:text="Last message on 10/07"
                 android:textColor="#5a5a5a"
                 android:textSize="13sp" />
-            
+
             <com.oakclub.android.view.TextViewWithFont
                 android:id="@+id/item_listview_listchat_lltcontent_tvlastchat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:text="WWWWWWWwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-                android:textStyle="italic"
                 android:textColor="#5a5a5a"
                 android:textSize="12sp"
-                android:lines="1"
-                 />
-            
-    
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/item_listview_listchat_lltcontent_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="2dp"
+                android:visibility="gone" />
         </LinearLayout>
-    
+
         <ImageView
             android:id="@+id/item_listview_listchat_imgright"
             android:layout_width="wrap_content"
@@ -86,4 +89,5 @@
             android:contentDescription="chat"
             android:src="@drawable/chat_up_off" />
     </LinearLayout>
+
 </RelativeLayout>
