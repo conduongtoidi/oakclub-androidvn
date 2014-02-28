@@ -137,7 +137,7 @@
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Diesen Nutzer blocken</string>
 
-<string name="txt_get_verified_now">Get Verified Now!</string>
+<string name="txt_get_verified_now">Jetzt verifizieren</string>
 <string name="txt_verified_title">Lassen Sie sich verifizieren</string>
 <string name="txt_get_verified">Nachdem Sie sich verifiziert haben, werden Sie:</string>    
     <string name="txt_verified_content_1">Bessere Leute in den Snapshots zu sehen bekommen</string>
@@ -150,7 +150,7 @@
 	Ihr Konto wurde für eine obligatorische Überprüfung aufgrund von Zweifeln bezüglich der {{b}} Einhaltung unserer Allgemeinen{{/b}} Geschäftsbedingungen ausgewählt. Wir verstehen, dass eine obligatorische Überprüfung eine Unannehmlichkeit sein kann. Aber wir sind bestrebt, OakClub für unsere Nutzer so sicher wie möglich zu machen. Also bitte wir Sie, die unten aufgeführten Schritte zu befolgen und die Überprüfung entweder durch einen Facebook-Post oder die Übersendung Ihrer Ausweisdokumente per E-Mail zu vervollständigen. Vielen Dank und Entschuldigung für etwaige Unannehmlichkeiten,
 	</string>  
 	<string name="txt_verified_continue">Weiter</string>
-    <string name="txt_verified_skip">ÜberspringenÜberspringen</string>
+    <string name="txt_verified_skip">Überspringen</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
     <string name="txt_got_verified">Ich wurde verifiziert!</string>
      <string name="txt_oakclub_page">OakClub.com</string>
