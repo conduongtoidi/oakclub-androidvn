@@ -166,7 +166,7 @@
 
             <ImageView
                 android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_photo_verified"
-                android:padding="5dp"
+                android:padding="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:layout_toRightOf="@+id/activity_snapshot_flt_body_flt_content_tvw_info"
