@@ -314,7 +314,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				// Register custom Broadcast receiver to show messages on
 				// activity
 				registerGCM();
-				
+
 				runOnUiThread(new Runnable() {
 
 					@Override
@@ -347,7 +347,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						"getDataLanguage", LoginBaseActivity.this);
 				loader2.setPriority(RequestUI.PRIORITY_LOW);
 				getRequestQueue().addRequest(loader2);
-				
+
 			}
 		}
 	}
@@ -623,6 +623,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					matchedList.get(i).setUnread_count(
 							matchedList.get(i).getUnread_count() + 1);
 					matchedList.get(i).setStatus(2);
+					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+						if (matchedList.get(i).getProfile_id()
+								.equals(message.getFrom())) {
+							matchedList.get(i).setStatus(3);
+						}
+					}
 				}
 			}
 			for (int i = 0; i < allList.size(); i++) {
@@ -632,6 +638,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					allList.get(i).setUnread_count(
 							allList.get(i).getUnread_count() + 1);
 					allList.get(i).setStatus(2);
+					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+						if (allList.get(i).getProfile_id()
+								.equals(message.getFrom())) {
+							allList.get(i).setStatus(3);
+						}
+					}
 				}
 			}
 			for (int i = 0; i < vipList.size(); i++) {
@@ -641,6 +653,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					vipList.get(i).setUnread_count(
 							vipList.get(i).getUnread_count() + 1);
 					vipList.get(i).setStatus(2);
+					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+						if (vipList.get(i).getProfile_id()
+								.equals(message.getFrom())) {
+							vipList.get(i).setStatus(3);
+						}
+					}
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="default_server_address">http://oakclub.com/service</string>
     <string name="server_address_image">http://oakclub.com/load_photo.php</string>
     <string name="server_address_video">http://oakclub.com/data</string>
