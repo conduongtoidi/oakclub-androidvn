@@ -48,7 +48,9 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.oakclub.android.ChatActivity;
+import com.oakclub.android.ChooseLanguageActivity;
 import com.oakclub.android.ForceVerifiedActivity;
+import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.TutorialScreenActivity;
@@ -229,6 +231,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			} else {
 				startSnapshot();
 			}
+		} else {
+			Intent intent = new Intent(LoginBaseActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 

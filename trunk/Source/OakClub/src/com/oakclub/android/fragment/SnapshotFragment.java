@@ -48,6 +48,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oakclub.android.ChatActivity;
+import com.oakclub.android.ChooseLanguageActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
@@ -177,8 +178,13 @@ public class SnapshotFragment{
         isFirstNope = pref.getBoolean(
                 Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
        
-        if (ProfileSettingFragment.profileInfoObj != null)
+        if (ProfileSettingFragment.profileInfoObj != null) {
         	urlAvatar = OakClubUtil.getFullLink(activity, ProfileSettingFragment.profileInfoObj.getAvatar());
+        } else {
+        	Intent intent = new Intent(activity, MainActivity.class);
+        	activity.startActivity(intent);
+        	activity.finish();
+        }
         init(START_RECORD);
         
     }
@@ -817,6 +823,10 @@ public class SnapshotFragment{
 	                                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 	                        activity.startActivity(chatHistoryActivity);
 	            		}
+            		} else {
+            			Intent intent = new Intent(activity, MainActivity.class);
+                    	activity.startActivity(intent);
+                    	activity.finish();
             		}
             	}
             }
