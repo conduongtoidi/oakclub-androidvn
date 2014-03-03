@@ -984,7 +984,21 @@ public class ChatActivity extends OakClubBaseActivity {
 				snapShotData.setAvatar(data.getData().getAvatar());
 				snapShotData
 						.setBirthday_date(data.getData().getBirthday_date());
-				snapShotData.setDistance(data.getData().getDistance());
+				
+				float lat = Float.parseFloat(data.getData().getLocation().getCoordinates().latitude);
+				float lon = Float.parseFloat(data.getData().getLocation().getCoordinates().longitude);
+				
+				float latitude = Float.parseFloat(ProfileSettingFragment.profileInfoObj.getLocation().getCoordinates().latitude);
+				float longitude = Float.parseFloat(ProfileSettingFragment.profileInfoObj.getLocation().getCoordinates().longitude);
+				
+				float distance = 0;
+				try {
+					distance = (float) (6371 * Math.acos(Math.cos(Math.toRadians(lat)) * Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(longitude) - Math.toRadians(lon) ) + Math.sin(Math.toRadians(lat)) * Math.sin(Math.toRadians(latitude))));
+				} catch (Exception e) {
+					
+				}
+				
+				snapShotData.setDistance(distance);
 				snapShotData
 						.setHometown_name(data.getData().getHometown_name());
 				snapShotData.setInterested(data.getData().getInterested());
