@@ -124,17 +124,19 @@ public class SnapshotMain extends FrameLayout {
         ivwLikeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwNopeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
         
+        this.setOnTouchListener(onSlideTouch);
     }
     
     public void loadData(SnapshotData data){
-        ViewTreeObserver vto = view.getViewTreeObserver();
+        final FrameLayout fltParent = this;
+        ViewTreeObserver vto = fltParent.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                view.getViewTreeObserver()
+                fltParent.getViewTreeObserver()
                         .removeGlobalOnLayoutListener(this);
-                widthT = view.getMeasuredWidth();
-                heightT = view.getMeasuredHeight();
+                widthT = fltParent.getMeasuredWidth();
+                heightT = fltParent.getMeasuredHeight();
             }
         });
         vto = rltInfo.getViewTreeObserver();
@@ -236,35 +238,37 @@ public class SnapshotMain extends FrameLayout {
         float angle = (distance / widthScreen) * ORIGIN_ROTATE;
         return angle;
     }
-//
-//
-//    private OnTouchListener onSlideTouch = new OnTouchListener() {
-//        @Override
-//        public boolean onTouch(final View v, MotionEvent event) {
-//            final int action = event.getAction();
-//            switch (action) {
-//            case MotionEvent.ACTION_DOWN: {
-//                tempX = 0;
-//                tempY = 0;
-//                fltParams = (FrameLayout.LayoutParams) v.getLayoutParams();
-//
-//                dx = event.getRawX() - fltParams.leftMargin;
-//                dy = event.getRawY() - fltParams.topMargin;
+
+
+    private OnTouchListener onSlideTouch = new OnTouchListener() {
+        @Override
+        public boolean onTouch(final View v, MotionEvent event) {
+            final int action = event.getAction();
+            switch (action) {
+            case MotionEvent.ACTION_DOWN: {
+                tempX = 0;
+                tempY = 0;
+                fltParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+
+                dx = event.getRawX() - fltParams.leftMargin;
+                dy = event.getRawY() - fltParams.topMargin;
 //                widthT = -9999;
 //                heightT = -9999;
-//                break;
-//            }
-//            case MotionEvent.ACTION_MOVE: {
-//                x = event.getRawX();
-//                y = event.getRawY();
-//                tempX = (int) (x - dx);
-//                tempY = (int) (y - dy);
-//                fltParams.leftMargin = (int) (tempX);
-//                if (Math.abs(tempY) <= OakClubUtil
-//                        .getWidthScreen(getContext()))
-//                    fltParams.topMargin = (int) tempY;//
-//                v.setLayoutParams(fltParams);
-////
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                x = event.getRawX();
+                y = event.getRawY();
+                tempX = (int) (x - dx);
+                tempY = (int) (y - dy);
+                fltParams.leftMargin = (int) (tempX);
+                if (Math.abs(tempY) <= OakClubUtil
+                        .getWidthScreen(getContext()))
+                    fltParams.topMargin = (int) tempY;//
+                fltParams.width = (int) widthT;
+                fltParams.height = (int) heightT;
+                v.setLayoutParams(fltParams);
+//
 //                if (widthT == -9999 || heightT == -9999) {
 //                    ViewTreeObserver vto = v.getViewTreeObserver();
 //                    vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -280,22 +284,22 @@ public class SnapshotMain extends FrameLayout {
 //                        }
 //                    });
 //                }
-//                float tempAlpha = tempX / 100;
-//                angle = getAngle(tempX);
-//
-//                v.setRotation(angle);
-//                ImageView imgLike = null, imgNope = null; 
-//                if (tempX > 0) {
-//                    ivwLikeStamp.setAlpha(tempAlpha);
-//                    ivwNopeStamp.setAlpha(0.0f);
-//                } else {
-//                    ivwNopeStamp.setAlpha(-tempAlpha);
-//                    ivwLikeStamp.setAlpha(0.0f);
-//                }
-//                break;
-//
-//            }
-//            case MotionEvent.ACTION_UP: {
+                float tempAlpha = tempX / 100;
+                angle = getAngle(tempX);
+
+                v.setRotation(angle);
+                ImageView imgLike = null, imgNope = null; 
+                if (tempX > 0) {
+                    ivwLikeStamp.setAlpha(tempAlpha);
+                    ivwNopeStamp.setAlpha(0.0f);
+                } else {
+                    ivwNopeStamp.setAlpha(-tempAlpha);
+                    ivwLikeStamp.setAlpha(0.0f);
+                }
+                break;
+
+            }
+            case MotionEvent.ACTION_UP: {
 //                if (Math.abs(tempX) <= 15 && Math.abs(tempY) <= 15) {
 //                    Intent intent = new Intent(getContext(), InfoProfileOtherActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -331,14 +335,14 @@ public class SnapshotMain extends FrameLayout {
 //                    animationForActionLikeOrNope(tempX, tempY, widthScreen,
 //                            "-1");
 //                }
-//                break;
-//            }
-//            }
-//            return true;
-//        }
-//
-//    };
-//    
+                break;
+            }
+            }
+            return true;
+        }
+
+    };
+    
 //    private void showDialogFirst(String title, String content, final boolean isDrag, boolean isLike){
 //        isActive = false;
 //        AlertDialog.Builder builder;

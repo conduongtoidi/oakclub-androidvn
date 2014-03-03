@@ -20,7 +20,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_snapshot_temp"/>
+            android:src="@drawable/logo_splashscreen"/>
         </FrameLayout>
         <com.oakclub.android.view.TextViewWithFont android:id="@+id/rltFacebookObjectProfile_tvName"
             android:layout_width="80dp"
