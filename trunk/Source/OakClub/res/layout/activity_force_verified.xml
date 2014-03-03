@@ -95,7 +95,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/txt_verified_continue"
                 android:textColor="@color/White"
-                android:textSize="22sp" >
+                android:textSize="20sp" >
             </Button>
 
             <com.oakclub.android.view.TextViewWithFont
