@@ -93,8 +93,8 @@
 <string name = "txt_tutorial_snapshots_swipe_photo_left">Bökd meg a képet Balra az adatlap MELLŐZÉS érdekében</string>
 <string name = "txt_tutorial_snapshots_or_just_use_button">Vagy csak használd az MELLŐZÉS/ LÁJK gombot alul</string>
 <string name = "pass_string">Mellőzés</string>
-<string name = "txt_privacy_title">Komolyan vesszük a magánéletét</string>
-<string name = "txt_privacy_content1">• Leellenőrzünk minden felhasználót, a Hamis és gyanús fiókokat töröljük</string>
+<string name = "txt_privacy_title">Komolyan vesszük az adataid védelmét</string>
+<string name = "txt_privacy_content1">• Minden felhasználót leellenőrzünk, a Hamis és gyanús fiókokat töröljük</string>
 <string name = "txt_privacy_content2">• SOHA semmit nem fogunk megjeleníteni a Facebookon</string>
 <string name = "txt_privacy_content3">• Más felhasználó SOHA nem fogja tudni, hogy lájkoltad csak ha ő is lájkolt téged</string>
 <string name = "txt_privacy_content4">• Más felhasználó nem tud kapcsolatba lépi veled csak ha összeilletek</string>

@@ -6,7 +6,7 @@
 <string name = "txt_thailand">타이어</string>
 <string name = "txt_cancel">취소</string>
 <string name = "txt_s1_bg">OakClub이 제안한 사람들을 익명으로 \"좋아하기\" 또는 \"패스하기\"</string>
-<string name = "txt_sign_in_with_facebook">페이스북 로그인</string>
+<string name = "txt_sign_in_with_facebook">페이스북으로 로그인</string>
 <string name = "txt_welcome_bottom_message">저희는 귀하의 Facebook에 절대 글을 남기지 않습니다</string>
 <string name = "txt_s3_bg">당신이 좋아하는 사람이 당신을 좋아하는 일이 생기면…</string>
 <string name = "txt_it_a_match">짝이 됩니다!</string>
@@ -100,8 +100,8 @@
 <string name = "txt_privacy_title">저희는 귀하의 개인정보를 신중하게 관리합니다</string>
 <string name = "txt_privacy_content1">• 모든 사용자들을 확인하며, 사기나 의심이가는 계정은 삭제합니다</string>
 <string name = "txt_privacy_content2">• 저희는 Facebook에 어떠한 글도 등록하지 않습니다.</string>
-<string name = "txt_privacy_content3">• 당신이 좋아하는 이들이 당신에게 좋아해요를 보내도 다른 사용자들을 볼 수 없습니다</string>
-<string name = "txt_privacy_content4">• 당신이 이미 짝이 되었더라도 다른 사용자들이 당신에게 연락할 수 없습니다</string>
+<string name = "txt_privacy_content3">• 그 사람이 귀하를 좋아하지 않는한 그 사람은 귀하가 자신을 좋아하는지 절대 알 수 없습니다.</string>
+<string name = "txt_privacy_content4">• 귀하와 짝이되지 않는 한 그 사람은 귀하에게 연락할 수 없습니다</string>
 <string name = "txt_privacy_content5">• 다른사용자들에게 귀하의 위치는 절대 보이지 않습니다</string>
 <string name = "txt_matched">짝이 됩니다!</string>
 <string name = "txt_vips">VIP</string>

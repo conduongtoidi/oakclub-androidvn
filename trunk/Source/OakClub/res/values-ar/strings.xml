@@ -94,9 +94,9 @@
 <string name = "txt_tutorial_snapshots_or_just_use_button">او فقط إستخدم التمرير \ إعجاب \ الزر بالإسفل</string>
 <string name = "pass_string">تمرير</string>
 <string name = "txt_privacy_title">نأخذ السرية علي محمل الجد</string>
-<string name = "txt_privacy_content1">• نقوم بفحص حساب كل مستخدم, ويتم حذف الحسابات المزيفة والمشبوهة</string>
+<string name = "txt_privacy_content1">• نقوم بفحص حساب كل مستخدم, ويتم حذف الحسابات المزيفة والمشبوهة	</string>
 <string name = "txt_privacy_content2">• لن نقوم بوضع أي إعلانات علي حسابك الفيسبوك</string>
-<string name = "txt_privacy_content3">• لن يعرف أي شخص إذا ما قمت بوضع إعجاب علي صفحته إلا إذا قام بوضع اعجاب علي صفحتك أيضا</string>
+<string name = "txt_privacy_content3">• لن يعرف أي شخص إذا ما قمت بوضع إعجاب علي صفحته إلا إذا قام بوضع اعجاب علي صفحتك أيضاً</string>
 <string name = "txt_privacy_content4">• لن يتمكن أي شخص من التواصل معك إلا إذا تم التطابق بينكما من قبل</string>
 <string name = "txt_privacy_content5">• لن يتم عرض موقعك للمستخدمين الأخرين</string>
 <string name = "txt_matched">التطابقات</string>

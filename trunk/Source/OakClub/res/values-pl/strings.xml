@@ -96,7 +96,7 @@
 <string name = "txt_privacy_title">Traktujemy Twoją prywatność poważnie</string>
 <string name = "txt_privacy_content1">• Sprawdzamy każdego użytkownika. Fałszywe i podejrzane konto zostanie usunięte</string>
 <string name = "txt_privacy_content2">• NIGDY nie zamieścimy niczego na Facebooku</string>
-<string name = "txt_privacy_content3">• Inni użytkownicy NIGDY nie dowiedzą się, czy ich polubiłeś, chyba że polubią Cię również</string>
+<string name = "txt_privacy_content3">• Inni użytkownicy NIGDY nie dowiedzą się, że ich polubiłeś, jeśli sami Ciebie nie polubią.</string>
 <string name = "txt_privacy_content4">• Inni użytkownicy nie mogą skontaktować się z Tobą, chyba że zostaliście dopasowani</string>
 <string name = "txt_privacy_content5">• Twoja lokalizacja NIGDY nie będzie widoczna dla innych użytkowników</string>
 <string name = "txt_matched">Dopasowania</string>

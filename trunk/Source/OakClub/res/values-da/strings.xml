@@ -6,7 +6,7 @@
 <string name = "txt_thailand">Thai</string>
 <string name = "txt_cancel">Aflys</string>
 <string name = "txt_s1_bg">Brug \"lider\" eller \"ignorer\" anonymt når OakClub sender dig forslag</string>
-<string name = "txt_sign_in_with_facebook">Long ind med Facebook</string>
+<string name = "txt_sign_in_with_facebook">Log ind med Facebook</string>
 <string name = "txt_welcome_bottom_message">Vi skriver aldrig på din Facebook</string>
 <string name = "txt_s3_bg">hvis en person du har sat som \"kan lide\" også kan \"lide\" dig …</string>
 <string name = "txt_it_a_match">Der er en Match!</string>
@@ -96,7 +96,7 @@
 <string name = "txt_privacy_title">Vi tager dit privatliv seriøst</string>
 <string name = "txt_privacy_content1">• Vi tjekker alle brugere. Falske og mistænksomme kontoer bliver slettet</string>
 <string name = "txt_privacy_content2">• Vi sætter ALDRIG noget på Facebook</string>
-<string name = "txt_privacy_content3">• Andre brugere kan ALDRIG vide om du kan lide dem med mindre de kan lide dig tilbage</string>
+<string name = "txt_privacy_content3">• Andre brugere kommer ALDRIG til at vide, om du kan lide dem med mindre, at de kan lide dig tilbage</string>
 <string name = "txt_privacy_content4">• Andre brugere kan ikke kontakte dig med mindre du allerede er blevet matchet</string>
 <string name = "txt_privacy_content5">• Din placering bliver ALDRIG vist til andre brugere</string>
 <string name = "txt_matched">Matcher</string>
