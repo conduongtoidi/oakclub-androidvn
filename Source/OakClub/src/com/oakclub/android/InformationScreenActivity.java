@@ -16,6 +16,7 @@ public class InformationScreenActivity extends LoginBaseActivity {
 	private TextViewWithFont txtContent2;
 	private TextViewWithFont txtContent3;
 	private TextViewWithFont txtContent4;
+	private TextViewWithFont txtContent5;
 	private ImageButton btnCancel;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class InformationScreenActivity extends LoginBaseActivity {
 		txtContent2 = (TextViewWithFont) findViewById(R.id.activity_infomation_txtContent2);
 		txtContent3 = (TextViewWithFont) findViewById(R.id.activity_infomation_txtContent3);
 		txtContent4 = (TextViewWithFont) findViewById(R.id.activity_infomation_txtContent4);
+		txtContent5 = (TextViewWithFont) findViewById(R.id.activity_infomation_txtContent5);
 		btnCancel = (ImageButton) findViewById(R.id.activity_infomation_screen_btnCancel);
 		btnCancel.setOnClickListener(new OnClickListener() {
 			@Override
@@ -36,7 +38,7 @@ public class InformationScreenActivity extends LoginBaseActivity {
 			}
 		});
 		
-		int fontSize = (int) OakClubUtil.convertPixelsToDp(OakClubUtil.getWidthScreen(this)/10, this);
+		int fontSize = (int) OakClubUtil.convertPixelsToDp(OakClubUtil.getWidthScreen(this)/15, this);
         txtTitle.setTextSize(fontSize);
         txtTitle.setFont("helveticaneuelight.ttf");
         fontSize = (int) OakClubUtil.convertPixelsToDp(OakClubUtil.getWidthScreen(this)/25, this);
@@ -51,6 +53,8 @@ public class InformationScreenActivity extends LoginBaseActivity {
         txtContent3.setPadding(paddingLeft, 0, paddingRight, 0);
         txtContent4.setTextSize(fontSize);
         txtContent4.setPadding(paddingLeft, 0, paddingRight, 0);
+        txtContent5.setTextSize(fontSize);
+        txtContent5.setPadding(paddingLeft, 0, paddingRight, 0);
         
 		mLoginButton = (LinearLayout) findViewById(R.id.activity_information_screen_lltlogin);
 		mLoginButton.setOnClickListener(listener);
