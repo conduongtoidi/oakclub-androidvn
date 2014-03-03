@@ -1,5 +1,6 @@
 package com.oakclub.android.view;
 
+import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.util.Constants;
@@ -7,6 +8,7 @@ import com.oakclub.android.util.OakClubUtil;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -72,6 +74,10 @@ public class ProgressCircle extends FrameLayout{
         
 		if(ProfileSettingFragment.profileInfoObj!=null && !ProfileSettingFragment.profileInfoObj.getAvatar().equals("")){
 		    url = OakClubUtil.getFullLink(getContext(), ProfileSettingFragment.profileInfoObj.getAvatar());
+		} else {
+			Intent intent = new Intent(getContext(), MainActivity.class);
+        	getContext().startActivity(intent);
+        	//finish();
 		}
 		
 		civAvatar = new CircleImageView(getContext());   

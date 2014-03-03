@@ -55,8 +55,11 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		if (!OakClubUtil.isInternetAccess(VerifiedActivity.this)) {
 			return;
 		}
-		if (ProfileSettingFragment.profileInfoObj == null)
-			return;
+		if (ProfileSettingFragment.profileInfoObj == null) {
+			Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
+        	startActivity(intent);
+        	finish();
+		}
 		setContentView(R.layout.activity_verified);
 		btn_skip = (Button) findViewById(R.id.btn_skip_verified);
 
@@ -309,6 +312,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 						VerifiedActivity.this.start_login);
 				startActivity(intent2);
 				finish();
+			} else {
+				Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
+	        	startActivity(intent);
+	        	finish();
 			}
 		}
 
@@ -334,6 +341,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 					startSnapshot();
 				}
 				finish();
+			} else {
+				Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
+	        	startActivity(intent);
+	        	finish();
 			}
 
 		}

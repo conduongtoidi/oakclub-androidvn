@@ -25,6 +25,7 @@ import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.ImageLoader;
 
+import com.oakclub.android.ChooseLanguageActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.VerifiedActivity;
@@ -100,6 +101,10 @@ public class LeftMenuListFragment extends Fragment {
 					ProfileSettingFragment.profileInfoObj.getAvatar());
 			OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl,
 					avatarProfile);
+		} else {
+			Intent intent = new Intent(this.getActivity(), MainActivity.class);
+			startActivity(intent);
+			//finish();
 		}
 	}
 
@@ -256,6 +261,10 @@ public class LeftMenuListFragment extends Fragment {
 			String imageUrl = OakClubUtil.getFullLink(this.getActivity(), ProfileSettingFragment.profileInfoObj.getAvatar());
             OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile);
             
+		} else {
+			Intent intent = new Intent(this.getActivity(), MainActivity.class);
+			startActivity(intent);
+			//finish();
 		}
 	}
 

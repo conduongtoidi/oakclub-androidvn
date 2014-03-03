@@ -1,6 +1,7 @@
 package com.oakclub.android;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -25,7 +26,11 @@ public class ForceVerifiedActivity extends VerifiedActivity{
 		if (!OakClubUtil.isInternetAccess(ForceVerifiedActivity.this)) {
 			return;
 		}
-		if(ProfileSettingFragment.profileInfoObj == null) return;
+		if(ProfileSettingFragment.profileInfoObj == null) {
+			Intent intent = new Intent(ForceVerifiedActivity.this, MainActivity.class);
+        	startActivity(intent);
+        	finish();
+		}
 		setContentView(R.layout.activity_force_verified);
 		tvVerifiedWay2 = (TextView) findViewById(R.id.txt_verified_way_2);
 		tvDearName = (TextView) findViewById(R.id.txt_dear_name);
