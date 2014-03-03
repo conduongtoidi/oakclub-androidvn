@@ -6,7 +6,7 @@
 <string name = "txt_thailand">Тайландски</string>
 <string name = "txt_cancel">Изход</string>
 <string name = "txt_s1_bg">Анонимно харесай или подмини хора, които OakClub предлага</string>
-<string name = "txt_sign_in_with_facebook">Влез чрез Facebook</string>
+<string name = "txt_sign_in_with_facebook">Влез чрез Фейсбук</string>
 <string name = "txt_welcome_bottom_message">Ние не публикуваме никога в твоя Facebook</string>
 <string name = "txt_s3_bg">ако някой, когото си харесал, те хареса също ...</string>
 <string name = "txt_it_a_match">Имаме Съвпадение!</string>
@@ -93,7 +93,7 @@
 <string name = "txt_tutorial_snapshots_swipe_photo_left">Премести снимката в ляво за да ПОДМИНЕШ профил</string>
 <string name = "txt_tutorial_snapshots_or_just_use_button">Или просто изполвай ПОДМИНИ / ХАРЕСАЙ бутона долу</string>
 <string name = "pass_string">Подмини</string>
-<string name = "txt_privacy_title">Ние приемаме твоята сигурност сериозно</string>
+<string name = "txt_privacy_title">Ние приемаме личното ти пространство сериозно</string>
 <string name = "txt_privacy_content1">• Ние проверяваме всеки потребител, Фалшиви и подозрителни акаунти биват изтрити</string>
 <string name = "txt_privacy_content2">• Ние никога няма да публикуваме във Facebook.</string>
 <string name = "txt_privacy_content3">• Други потребители НИКОГА няма да знаят дали си ги харесал, освен ако и те не са те харесали</string>
