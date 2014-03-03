@@ -130,7 +130,7 @@
                         android:paddingRight="10dp"
                         android:text="@string/txt_verified_continue"
                         android:textColor="@color/White"
-                        android:textSize="22sp" >
+                        android:textSize="20sp" >
                     </Button>
 
                     <Button
@@ -138,15 +138,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/grey_btn"
                         android:onClick="VerifiedClick"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="@string/txt_verified_skip"
                         android:textColor="@color/White"
-                        android:textSize="22sp"
-                        android:visibility="gone" >
+                        android:textSize="20sp"
+                        android:visibility="visible" >
                     </Button>
                 </LinearLayout>
 
