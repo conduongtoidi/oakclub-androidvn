@@ -6,11 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -92,9 +91,25 @@ public class VerifiedActivity extends OakClubBaseActivity {
 				break;
 			case R.id.btn_skip_verified:
 				btn_skip.setEnabled(false);
-				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
-						Constants.SKIP_VERIFIED, VerifiedActivity.this);
-				getRequestQueue().addRequest(loader);
+				SharedPreferences pref = getApplicationContext().getSharedPreferences(
+						Constants.PREFERENCE_NAME, 0);
+				Editor editor = pref.edit();
+				editor.putBoolean(Constants.KEY_IS_SKIP, true);
+				editor.commit();
+				if (ProfileSettingFragment.profileInfoObj != null) {
+					ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
+					if (start_login) {
+						startSnapshot();
+					}
+					finish();
+				} else {
+					Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
+		        	startActivity(intent);
+		        	finish();
+				}
+//				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
+//						Constants.SKIP_VERIFIED, VerifiedActivity.this);
+//				getRequestQueue().addRequest(loader);
 
 				break;
 			case R.id.btn_back:
