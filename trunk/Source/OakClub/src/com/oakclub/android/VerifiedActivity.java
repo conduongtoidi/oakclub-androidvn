@@ -249,6 +249,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									finish();
 							} else {
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+							    ((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Toast.makeText(getApplicationContext(),
 										"Error posting story",
 										Toast.LENGTH_LONG).show();
