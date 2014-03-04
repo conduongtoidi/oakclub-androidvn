@@ -41,10 +41,12 @@ public class LeftMenuListFragment extends Fragment {
 	LinearLayout menuIncludeFriends;
 	LinearLayout logoutBtn;
 	LinearLayout menuVerified;
+	LinearLayout menuVIPRoom;
 
 	CircleImageView avatarProfile;
 	TextView tvProfile;
 	TextView tvSnapshot;
+	TextView tvVipRoom;
 	TextView tvSettings;
 	TextView tvVerified;
 	TextView tvIncludeFriends;
@@ -68,6 +70,8 @@ public class LeftMenuListFragment extends Fragment {
 				.findViewById(R.id.menu_item_llt_include_friends);
 		menuVerified = (LinearLayout) rootView
 				.findViewById(R.id.menu_item_llt_get_verified);
+		menuVIPRoom = (LinearLayout)  rootView
+				.findViewById(R.id.menu_item_llt_vip_room);
 		logoutBtn = (LinearLayout) rootView.findViewById(R.id.linear_logout);
 
 		ivVerified = (ImageView) rootView
@@ -77,6 +81,8 @@ public class LeftMenuListFragment extends Fragment {
 				.findViewById(R.id.menu_item_text_profile);
 		tvSnapshot = (TextView) rootView
 				.findViewById(R.id.menu_item_text_snapshot);
+		tvVipRoom = (TextView) rootView
+				.findViewById(R.id.menu_item_text_vip_room);
 		tvSettings = (TextView) rootView
 				.findViewById(R.id.menu_item_text_setting);
 		tvVerified = (TextView) rootView
@@ -202,6 +208,14 @@ public class LeftMenuListFragment extends Fragment {
 					nMgr.cancelAll();
 					activity.finish();
 					break;
+					case R.id.menu_item_llt_vip_room:
+						if (activity.getMenu() != MenuOakclub.VIPROOM) {
+							activity.setMenu(MenuOakclub.VIPROOM);
+							GetVIPFragment getVIP = new GetVIPFragment(
+									activity);
+							getVIP.initGetVIP();
+						}
+						break;
 				}
 				activity.getSlidingMenu().toggle();
 			} else {
@@ -250,6 +264,7 @@ public class LeftMenuListFragment extends Fragment {
 			menuSetting.setOnClickListener(layoutClick);
 			menuIncludeFriends.setOnClickListener(layoutClick);
 			menuVerified.setOnClickListener(layoutClick);
+			menuVIPRoom.setOnClickListener(layoutClick);
 			logoutBtn.setOnClickListener(layoutClick);
 
 			tvProfile.setText(menuTextList[0]);
@@ -257,6 +272,7 @@ public class LeftMenuListFragment extends Fragment {
 			tvSettings.setText(menuTextList[2]);
 			tvIncludeFriends.setText(menuTextList[3]);
 			tvVerified.setText(menuTextList[4]);
+			tvVipRoom.setText(menuTextList[5]);
 			
 			String imageUrl = OakClubUtil.getFullLink(this.getActivity(), ProfileSettingFragment.profileInfoObj.getAvatar());
             OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile);

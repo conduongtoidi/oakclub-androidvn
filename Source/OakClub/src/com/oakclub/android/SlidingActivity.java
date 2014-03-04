@@ -56,6 +56,8 @@ public class SlidingActivity extends SlidingMenuActivity {
                 break;
             case INVITE_FRIEND:
                 break;
+            case VIPROOM:
+                break;
             default: 
                 break;
         }
@@ -91,6 +93,8 @@ public class SlidingActivity extends SlidingMenuActivity {
                 break;
             case INVITE_FRIEND:
                 break;
+            case VIPROOM:
+                break;
             default: 
                 break;
         }
@@ -121,7 +125,8 @@ public class SlidingActivity extends SlidingMenuActivity {
         PROFILE(0), 
         SNAPSHOT(1), 
         SETTING(2), 
-        INVITE_FRIEND(3);
+        INVITE_FRIEND(3),
+        VIPROOM(4);
         
         private final int menuChose;
         
