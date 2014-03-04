@@ -3,6 +3,9 @@ package com.oakclub.android.base;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
 
@@ -67,6 +70,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	TextView titleTv;
 	public static TextView mNotificationTv;
 	public static int totalUnreadMessage = 0;
+	public static List<String> listProfileSendMessage = new ArrayList<String>();   
 	public static GetDataLanguageReturnDataObject mDataLanguageObj;
 
     private LayoutInflater inflater;

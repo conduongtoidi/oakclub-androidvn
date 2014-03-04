@@ -103,18 +103,18 @@ public class MatchChatActivity extends ChatBaseActivity {
 				}
 				// arrayList.addAll(obj.getData());
 				adapterMatchListChatData.notifyDataSetChanged();
-				int count = 0 ; 
-				for (int i = 0 ; i < baseAllList.size();i++){
-					count = count+baseAllList.get(i).getUnread_count();
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(ChatActivity.profile_id)) {
+					SlidingMenuActivity.listProfileSendMessage.add(ChatActivity.profile_id);
 				}
-				SlidingMenuActivity.totalUnreadMessage = count;
-				if (SlidingMenuActivity.mNotificationTv!=null){
-					SlidingMenuActivity.mNotificationTv.setText(""+SlidingMenuActivity.totalUnreadMessage);
-					if (SlidingMenuActivity.totalUnreadMessage>0){
-						SlidingMenuActivity.mNotificationTv.setVisibility(View.VISIBLE);	
-					} else {
-						SlidingMenuActivity.mNotificationTv.setVisibility(View.GONE);
-					}
+				
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+					SlidingMenuActivity.mNotificationTv
+					.setVisibility(View.GONE);
+				} else {
+					SlidingMenuActivity.mNotificationTv.setText(""
+							+ SlidingMenuActivity.listProfileSendMessage.size());
+						SlidingMenuActivity.mNotificationTv
+								.setVisibility(View.VISIBLE);
 				}
 			}
 		}
