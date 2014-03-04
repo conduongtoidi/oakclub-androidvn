@@ -25,4 +25,6 @@
     <color name="Red">#FF0000</color>
     <color name="button_cancel_active">#747474</color>
     <color name="button_cancel_inactive">#747474</color>
+    <color name="Gold">#c49a40</color>
+    <color name="GoldLight">#c49a00</color>
 </resources>

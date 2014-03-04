@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:drawable="@drawable/skip_btn_normal" android:state_focused="true" android:state_pressed="false"/>
     <item android:drawable="@drawable/skip_btn_pressed" android:state_focused="true" android:state_pressed="true"/>
     <item android:drawable="@drawable/skip_btn_pressed" android:state_focused="false" android:state_pressed="true"/>
     <item android:drawable="@drawable/skip_btn_normal"/>
-</animation-list>
+</selector>

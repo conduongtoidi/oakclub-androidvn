@@ -4,99 +4,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    tools:context=".MainActivity">
-    
-    <include layout="@layout/progress_snapshot_layout"
+    tools:context=".MainActivity" >
+
+    <include
         android:id="@+id/activity_snapshot_flt_process"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/progress_snapshot_layout"
         android:background="@color/White"
-        android:visibility="gone"/>
-    <include layout="@layout/progress_snapshot_finder_layout"
+        android:visibility="gone" />
+
+    <include
         android:id="@+id/activity_snapshot_flt_process_finder"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/progress_snapshot_finder_layout"
         android:background="@color/White"
-        android:visibility="gone"/>
-    
+        android:visibility="gone" />
+
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
         <FrameLayout
             android:id="@+id/activity_snapshot_flt_body"
-            android:layout_height="fill_parent"
             android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/polaroid_back"
-            >
+            android:background="@drawable/polaroid_back" >
+
             <com.oakclub.android.view.SnapshotMain
                 android:id="@+id/activity_snapshot_flt_body_flt_content_third"
-                layout="@layout/layout_snapshot_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                layout="@layout/layout_snapshot_main" />
+
             <com.oakclub.android.view.SnapshotMain
                 android:id="@+id/activity_snapshot_flt_body_flt_content_second"
-                layout="@layout/layout_snapshot_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                layout="@layout/layout_snapshot_main" />
+
             <com.oakclub.android.view.SnapshotMain
                 android:id="@+id/activity_snapshot_flt_body_flt_content"
-                layout="@layout/layout_snapshot_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"/>
-    
+                android:layout_gravity="center"
+                layout="@layout/layout_snapshot_main" />
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/activity_snapshot_flt_footer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center"
             android:layout_weight="3"
-            >
-    
-            <ImageButton
-                android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginRight="70dp"
-                android:background="@drawable/btn_pass_pressed" />
-    		<LinearLayout 
-    		    android:id="@+id/vip_layout_snapshot"
-    		    android:layout_width="wrap_content"
-    		    android:layout_height="wrap_content"
-    		    android:layout_gravity="center"
-    		    android:orientation="vertical"
-    		    >
-    			<ImageButton
-                android:id="@+id/activity_snapshot_flt_footer_ibn_info"
+            android:gravity="center" >
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/btn_info_pressed" />
-    		    <ImageButton
-                android:id="@+id/activity_snapshot_flt_footer_ibn_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/btn_chat_" 
-                android:visibility="gone"
-                />
-    		</LinearLayout>
-            
-            <ImageButton
-                android:id="@+id/activity_snapshot_flt_footer_ibn_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginLeft="68dp"
-                android:background="@drawable/like_btn_pressed" />
-    
+                android:background="@drawable/buttonbase"
+                android:gravity="center" >
+
+                <ImageButton
+                    android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="1.5dp"
+                    android:background="@drawable/foot_btn_pass_selector" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/activity_snapshot_flt_footer_ibn_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/foot_btn_info_selector" />
+
+                    <ImageButton
+                        android:id="@+id/activity_snapshot_flt_footer_ibn_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/foot_btn_chat_selector" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/activity_snapshot_flt_footer_ibn_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:background="@drawable/foot_btn_like_selector" />
+            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+
 </RelativeLayout>

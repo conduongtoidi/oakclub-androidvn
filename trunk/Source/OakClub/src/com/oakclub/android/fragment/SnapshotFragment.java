@@ -258,11 +258,16 @@ public class SnapshotFragment{
         btnLike = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_like);
         btnLike.setOnClickListener(snapEvent);
 
+        btnChat = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_chat);
+        btnChat.setOnClickListener(snapEvent);
+        if(ProfileSettingFragment.profileInfoObj != null && !ProfileSettingFragment.profileInfoObj.isIs_vip()){
+        	btnChat.setBackgroundResource(R.drawable.vipchat_inactive);// (activity.getResources().getDrawable(R.drawable.vipchat_inactive));
+        }
+        
         btnInfo = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_info);
         btnInfo.setOnClickListener(snapEvent);
         
-        btnChat = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_chat);
-        btnChat.setOnClickListener(snapEvent);
+        
         
         ivwLikeStamp = (ImageView) fltContent
                 .findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
@@ -818,8 +823,8 @@ public class SnapshotFragment{
             	SnapshotData chatAccount = arrayListSnapshot.get(0);
             	if(chatAccount != null){
             		if (ProfileSettingFragment.profileInfoObj != null) {
-	            		if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
-	
+	            		if(!ProfileSettingFragment.profileInfoObj.isIs_vip()){
+	            			Toast.makeText(activity, activity.getString(R.string.txt_non_VIP_message), Toast.LENGTH_SHORT).show();
 	            		}else{
 	            			Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
 	                        Bundle bundle = new Bundle();
