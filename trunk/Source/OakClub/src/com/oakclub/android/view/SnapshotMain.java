@@ -5,6 +5,7 @@ import com.oakclub.android.R;
 import com.oakclub.android.VideoViewActivity;
 import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.model.SnapshotData;
+import com.oakclub.android.net.OnBootReceiver;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
@@ -94,6 +95,9 @@ public class SnapshotMain extends FrameLayout {
     private float widthT = -9999, heightT = -9999;
     
     private boolean flag = false;
+
+    private boolean isFirstLike = false;
+    private boolean isFirstNope = false;
     private void init(){
         widthScreen = (int) OakClubUtil.getWidthScreen(getContext());
         paddingView = (int)OakClubUtil.convertDpToPixel(10, getContext());
@@ -124,7 +128,15 @@ public class SnapshotMain extends FrameLayout {
         ivwLikeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwNopeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
         
-        this.setOnTouchListener(onSlideTouch);
+        SharedPreferences pref = getContext().getSharedPreferences(
+                "oakclub_pref", getContext().MODE_PRIVATE);
+        pref = getContext().getSharedPreferences(
+                Constants.PREFERENCE_NAME, 0);
+        isFirstLike = pref.getBoolean(
+                Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
+        isFirstNope = pref.getBoolean(
+                Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
+        
     }
     
     public void loadData(SnapshotData data){
@@ -252,8 +264,6 @@ public class SnapshotMain extends FrameLayout {
 
                 dx = event.getRawX() - fltParams.leftMargin;
                 dy = event.getRawY() - fltParams.topMargin;
-//                widthT = -9999;
-//                heightT = -9999;
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
@@ -268,22 +278,7 @@ public class SnapshotMain extends FrameLayout {
                 fltParams.width = (int) widthT;
                 fltParams.height = (int) heightT;
                 v.setLayoutParams(fltParams);
-//
-//                if (widthT == -9999 || heightT == -9999) {
-//                    ViewTreeObserver vto = v.getViewTreeObserver();
-//                    vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-//                        @Override
-//                        public void onGlobalLayout() {
-//                            v.getViewTreeObserver()
-//                                    .removeGlobalOnLayoutListener(this);
-//                            widthT = v.getMeasuredWidth();
-//                            heightT = v.getMeasuredHeight();
-//                            fltParams.width = (int) widthT;
-//                            fltParams.height = (int) heightT;
-//                            v.setLayoutParams(fltParams);
-//                        }
-//                    });
-//                }
+
                 float tempAlpha = tempX / 100;
                 angle = getAngle(tempX);
 
@@ -300,41 +295,40 @@ public class SnapshotMain extends FrameLayout {
 
             }
             case MotionEvent.ACTION_UP: {
-//                if (Math.abs(tempX) <= 15 && Math.abs(tempY) <= 15) {
-//                    Intent intent = new Intent(getContext(), InfoProfileOtherActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-//                    Bundle b = new Bundle();
-//                    b.putSerializable("SnapshotDataBundle",
-//                            data);
-//                    b.putString("Activity", "SnapshotActivity");
-//                    intent.putExtras(b);
-//                    ((FragmentActivity) getContext()).startActivityForResult(intent, 1);
-//                    System.gc();
-//                    return true;
-//                }
-//                
-//                String target_name = OakClubUtil.getFirstName(data.getName());
-//                if (Math.abs(tempX) > widthScreen / 4) {
-//                    if(tempX>0 && isFirstLike){
-//                        String title = getContext().getString(R.string.like_string) + "?";
-//                        String content =  getContext().getString(R.string.snapshot_popup_like_info) + " " + target_name;
-//                        showDialogFirst(title, content, true, true);
-//                    }
-//                    if(tempX<0 && isFirstNope){
-//                        String title =  getContext().getString(R.string.snapshot_not_interested) + "?";
-//                        String content =  getContext().getString(R.string.snapshot_popup_dislike_info) + " " + target_name;
-//                        showDialogFirst(title, content, true, false);
-//                    }
+                if (Math.abs(tempX) <= 15 && Math.abs(tempY) <= 15) {
+                    Intent intent = new Intent(getContext(), InfoProfileOtherActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                    Bundle b = new Bundle();
+                    b.putSerializable("SnapshotDataBundle",
+                            data);
+                    b.putString("Activity", "SnapshotActivity");
+                    intent.putExtras(b);
+                    ((FragmentActivity) getContext()).startActivityForResult(intent, 1);
+                    System.gc();
+                    return true;
+                }
+                
+                String target_name = OakClubUtil.getFirstName(data.getName());
+                if (Math.abs(tempX) > widthScreen / 4) {
+                    if(tempX>0 && isFirstLike){
+                        String title = getContext().getString(R.string.like_string) + "?";
+                        String content =  getContext().getString(R.string.snapshot_popup_like_info) + " " + target_name;
+                        //showDialogFirst(title, content, true, true);
+                    }
+                    if(tempX<0 && isFirstNope){
+                        String title =  getContext().getString(R.string.snapshot_not_interested) + "?";
+                        String content =  getContext().getString(R.string.snapshot_popup_dislike_info) + " " + target_name;
+                        //showDialogFirst(title, content, true, false);
+                    }
 //                    if(isActive){
 //                        activeSnapshotAnimation();
 //                    }
-//                    
 //                    isActive = true;
-//                } else {
+                } else {
 //                    isAction = false;
 //                    animationForActionLikeOrNope(tempX, tempY, widthScreen,
 //                            "-1");
-//                }
+                }
                 break;
             }
             }
@@ -411,7 +405,7 @@ public class SnapshotMain extends FrameLayout {
 //        dialog.show();
 //    }
 //    
-//
+
 //    private void activeSnapshotAnimation(){
 //        AnimationSet animationSet = new AnimationSet(true); 
 //        Animation rotate = new RotateAnimation(0, -2 * angle,
@@ -467,7 +461,7 @@ public class SnapshotMain extends FrameLayout {
 //        isAction = true;
 //        getCurrentContentView().startAnimation(animationSet);
 //    }
-//    
+    
 //    private void animationForActionLikeOrNope(float x, float y, int w,
 //            final String action) {
 //        AnimationSet animationSet = new AnimationSet(true);
