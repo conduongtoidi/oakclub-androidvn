@@ -636,7 +636,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					matchedList.get(i).setUnread_count(
 							matchedList.get(i).getUnread_count() + 1);
 					matchedList.get(i).setStatus(2);
-					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+					if (ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())) {
 						if (matchedList.get(i).getProfile_id()
 								.equals(message.getFrom())) {
 							matchedList.get(i).setStatus(3);
@@ -651,7 +651,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					allList.get(i).setUnread_count(
 							allList.get(i).getUnread_count() + 1);
 					allList.get(i).setStatus(2);
-					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+					if (ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())) {
 						if (allList.get(i).getProfile_id()
 								.equals(message.getFrom())) {
 							allList.get(i).setStatus(3);
@@ -666,7 +666,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					vipList.get(i).setUnread_count(
 							vipList.get(i).getUnread_count() + 1);
 					vipList.get(i).setStatus(2);
-					if (ChatActivity.isActive && ChatActivity.profile_id.equals(message.getFrom())) {
+					if (ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())) {
 						if (vipList.get(i).getProfile_id()
 								.equals(message.getFrom())) {
 							vipList.get(i).setStatus(3);
@@ -679,18 +679,31 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 			@Override
 			public void run() {
-				SlidingMenuActivity.totalUnreadMessage += 1;
-				if (SlidingMenuActivity.mNotificationTv != null) {
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(message.getFrom())) {
+					SlidingMenuActivity.listProfileSendMessage.add(message.getFrom());
+				}
+				
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+					SlidingMenuActivity.mNotificationTv
+					.setVisibility(View.GONE);
+				} else {
 					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.totalUnreadMessage);
-					if (SlidingMenuActivity.totalUnreadMessage > 0) {
+							+ SlidingMenuActivity.listProfileSendMessage.size());
 						SlidingMenuActivity.mNotificationTv
 								.setVisibility(View.VISIBLE);
-					} else {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.GONE);
-					}
 				}
+//				SlidingMenuActivity.totalUnreadMessage += 1;
+//				if (SlidingMenuActivity.mNotificationTv != null) {
+//					SlidingMenuActivity.mNotificationTv.setText(""
+//							+ SlidingMenuActivity.totalUnreadMessage);
+//					if (SlidingMenuActivity.totalUnreadMessage > 0) {
+//						SlidingMenuActivity.mNotificationTv
+//								.setVisibility(View.VISIBLE);
+//					} else {
+//						SlidingMenuActivity.mNotificationTv
+//								.setVisibility(View.GONE);
+//					}
+//				}
 				if (adapterAllListChatData != null) {
 					adapterAllListChatData.notifyDataSetChanged();
 				}

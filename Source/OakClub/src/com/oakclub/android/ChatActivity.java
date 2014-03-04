@@ -25,6 +25,7 @@ import org.jivesoftware.smack.packet.Packet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,6 +70,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.oakclub.android.base.LoginBaseActivity;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
@@ -133,6 +135,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	LocalActivityManager  mLocalActivityManager;
 	public static boolean isPressSticker = false;
 	public static HashMap<String, Bitmap> bitmapSticker = new HashMap<String, Bitmap>();
+	protected ProgressDialog pd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -384,6 +387,10 @@ public class ChatActivity extends OakClubBaseActivity {
 			switch (v.getId()) {
 			case R.id.activity_chat_fltTop_imgbtnInfoProfile:
 				if (!isPressInfoProfile) {
+					pd = new ProgressDialog(ChatActivity.this);
+					pd.setMessage(getString(R.string.txt_loading));
+					pd.setCancelable(false);
+					pd.show();
 					isPressInfoProfile = true;
 					GetOtherProfile loader2 = new GetOtherProfile(
 							Constants.GET_HANGOUT_PROFILE, ChatActivity.this,
@@ -400,6 +407,18 @@ public class ChatActivity extends OakClubBaseActivity {
 						Constants.SET_READ_MESSAGES, ChatActivity.this,
 						profile_id);
 				getRequestQueue().addRequest(loader3);
+				if (!SlidingMenuActivity.listProfileSendMessage.isEmpty() && SlidingMenuActivity.listProfileSendMessage.contains(profile_id)) {
+					SlidingMenuActivity.listProfileSendMessage.remove(profile_id);
+				}
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+					SlidingMenuActivity.mNotificationTv
+					.setVisibility(View.GONE);
+				} else {
+					SlidingMenuActivity.mNotificationTv.setText(""
+							+ SlidingMenuActivity.listProfileSendMessage.size());
+						SlidingMenuActivity.mNotificationTv
+								.setVisibility(View.VISIBLE);
+				}
 				if (isLoadFromNoti) {
 					appVer = android.os.Build.VERSION.RELEASE;
 					nameDevice = android.os.Build.MODEL;
@@ -888,6 +907,18 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (!SlidingMenuActivity.listProfileSendMessage.isEmpty() && SlidingMenuActivity.listProfileSendMessage.contains(profile_id)) {
+			SlidingMenuActivity.listProfileSendMessage.remove(profile_id);
+		}
+		if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+			SlidingMenuActivity.mNotificationTv
+			.setVisibility(View.GONE);
+		} else {
+			SlidingMenuActivity.mNotificationTv.setText(""
+					+ SlidingMenuActivity.listProfileSendMessage.size());
+				SlidingMenuActivity.mNotificationTv
+						.setVisibility(View.VISIBLE);
+		}
 		SetReadMessages loader3 = new SetReadMessages(
 				Constants.SET_READ_MESSAGES, ChatActivity.this, profile_id);
 		getRequestQueue().addRequest(loader3);
@@ -967,6 +998,9 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
+			if (pd != null && pd.isShowing()) {
+				pd.dismiss();
+			}
 			if (data != null) {
 				snapShotData.setFromChat(true);
 				snapShotData.setAbout_me(data.getData().getAbout_me());
@@ -1049,55 +1083,39 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-			ListChatRequest loader3 = new ListChatRequest("getListChat",
-					ChatActivity.this);
-			getRequestQueue().addRequest(loader3);
+//			ListChatRequest loader3 = new ListChatRequest("getListChat",
+//					ChatActivity.this);
+//			getRequestQueue().addRequest(loader3);
 		}
 	}
 
-	protected class ListChatRequest extends RequestUI {
-		private ListChatReturnObject obj;
-
-		public ListChatRequest(Object key, Activity activity) {
-			super(key, activity);
-		}
-
-		@Override
-		public void execute() throws Exception {
-			obj = oakClubApi.getListChat();
-		}
-
-		@Override
-		public void executeUI(Exception ex) {
-			if (obj == null || !obj.isStatus()) {
-				// Toast.makeText(MatchChatActivity.this,
-				// getString(R.string.abnormal_error_message),
-				// Toast.LENGTH_SHORT).show();
-			} else {
-				baseAllList.clear();
-				for (int i = 0; i < obj.getData().size(); i++) {
-					baseAllList.add(obj.getData().get(i));
-				}
-				int count = 0;
-				for (int i = 0; i < baseAllList.size(); i++) {
-					count = count + baseAllList.get(i).getUnread_count();
-				}
-				SlidingMenuActivity.totalUnreadMessage = count;
-				if (SlidingMenuActivity.mNotificationTv != null) {
-					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.totalUnreadMessage);
-					if (SlidingMenuActivity.totalUnreadMessage > 0) {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.VISIBLE);
-					} else {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.GONE);
-					}
-				}
-			}
-		}
-
-	}
+//	protected class ListChatRequest extends RequestUI {
+//		private ListChatReturnObject obj;
+//
+//		public ListChatRequest(Object key, Activity activity) {
+//			super(key, activity);
+//		}
+//
+//		@Override
+//		public void execute() throws Exception {
+//			obj = oakClubApi.getListChat();
+//		}
+//
+//		@Override
+//		public void executeUI(Exception ex) {
+//			if (obj == null || !obj.isStatus()) {
+//				// Toast.makeText(MatchChatActivity.this,
+//				// getString(R.string.abnormal_error_message),
+//				// Toast.LENGTH_SHORT).show();
+//			} else {
+////				baseAllList.clear();
+////				for (int i = 0; i < obj.getData().size(); i++) {
+////					baseAllList.add(obj.getData().get(i));
+////				}
+//			}
+//		}
+//
+//	}
 	
 	protected void solveReceiveNewMessage(Message msg) {
 		ChatHistoryData message = new ChatHistoryData();
@@ -1196,17 +1214,18 @@ public class ChatActivity extends OakClubBaseActivity {
 
 			@Override
 			public void run() {
-				SlidingMenuActivity.totalUnreadMessage += 1;
-				if (SlidingMenuActivity.mNotificationTv != null) {
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(ChatActivity.profile_id)) {
+					SlidingMenuActivity.listProfileSendMessage.add(ChatActivity.profile_id);
+				}
+				
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+					SlidingMenuActivity.mNotificationTv
+					.setVisibility(View.GONE);
+				} else {
 					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.totalUnreadMessage);
-					if (SlidingMenuActivity.totalUnreadMessage > 0) {
+							+ SlidingMenuActivity.listProfileSendMessage.size());
 						SlidingMenuActivity.mNotificationTv
 								.setVisibility(View.VISIBLE);
-					} else {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.GONE);
-					}
 				}
 				if (adapterAllListChatData != null) {
 					adapterAllListChatData.notifyDataSetChanged();

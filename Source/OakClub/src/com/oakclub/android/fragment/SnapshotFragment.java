@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -56,6 +57,8 @@ import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.SlidingActivity.MenuOakclub;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.VideoViewActivity;
+import com.oakclub.android.base.LoginBaseActivity;
+import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
@@ -519,12 +522,28 @@ public class SnapshotFragment{
 
                 SnapshotEvent snapEvent = new SnapshotEvent(
                         Constants.SET_FAVORITE, activity,
-                        proId, action);
+                        proId, action, isLike, url);
                 activity.getRequestQueue().addRequest(snapEvent);
+
                 if (arrayListSnapshot.size() > 0) {
                     swapData(2);
                     if (action == Constants.ACTION_LIKE && isLike) {
                     	status = 0;
+                    	
+                    	if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(chatProfile_id)) {
+        					SlidingMenuActivity.listProfileSendMessage.add(chatProfile_id);
+        				}
+        				
+        				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+        					SlidingMenuActivity.mNotificationTv
+        					.setVisibility(View.GONE);
+        				} else {
+        					SlidingMenuActivity.mNotificationTv.setText(""
+        							+ SlidingMenuActivity.listProfileSendMessage.size());
+        						SlidingMenuActivity.mNotificationTv
+        								.setVisibility(View.VISIBLE);
+        				}
+        				
                         showDialog(url);
                     } else {
                         setEnableAll(true);
@@ -631,7 +650,7 @@ public class SnapshotFragment{
 
                     SnapshotEvent snapEvent = new SnapshotEvent(
                             Constants.SET_FAVORITE, activity,
-                            proId, action);
+                            proId, action, isLike, url);
                     activity.getRequestQueue().addRequest(snapEvent);
 
                     if (arrayListSnapshot.size() > 0) {
@@ -952,7 +971,7 @@ public class SnapshotFragment{
 
                 SetViewMuatualEvent loader = new SetViewMuatualEvent(
                         Constants.SET_VIEW_MUTUAL_MATCH, activity,
-                        profileId);
+                        chatProfile_id);
                 activity.getRequestQueue().addRequest(loader);
                 intent = new Intent(
                         activity.getApplicationContext(),
@@ -1127,23 +1146,84 @@ public class SnapshotFragment{
         private String proId = "";
         private String numberSet = "";
         private SetLikeMessageReturnObject resultEvent;
+        protected ProgressDialog pd;
 
         public SnapshotEvent(Object key, Activity activity, String proId,
-                String numberSet) {
+                String numberSet, boolean isLike, String url) {
             super(key, activity);
             this.proId = proId;
             this.numberSet = numberSet;
+            if (numberSet == Constants.ACTION_LIKE && isLike) {
+            	status = 0;
+            	
+            	if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(chatProfile_id)) {
+					SlidingMenuActivity.listProfileSendMessage.add(chatProfile_id);
+				}
+				
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+					SlidingMenuActivity.mNotificationTv
+					.setVisibility(View.GONE);
+				} else {
+					SlidingMenuActivity.mNotificationTv.setText(""
+							+ SlidingMenuActivity.listProfileSendMessage.size());
+						SlidingMenuActivity.mNotificationTv
+								.setVisibility(View.VISIBLE);
+				}
+				
+                showDialog(url);
+                pd = new ProgressDialog(activity);
+				pd.setMessage(activity.getString(R.string.txt_loading));
+				pd.setCancelable(false);
+				pd.show();
+
+                
+            } else {
+                setEnableAll(true);
+                profileId = arrayListSnapshot.get(0)
+                        .getProfile_id();
+            }
         }
 
         @Override
         public void execute() throws Exception {
             resultEvent = activity.oakClubApi.SetFavoriteInSnapshot(proId, numberSet);
+
         }
 
         @Override
         public void executeUI(Exception ex) {
         	if (resultEvent != null && resultEvent.isStatus()) {
-        		
+        		if (pd != null && pd.isShowing()) {
+    				pd.dismiss();
+    			}
+        	} else {
+        		AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(activity);
+                final AlertDialog dialog = builder.create();
+                LayoutInflater inflater = LayoutInflater
+                        .from(activity);
+                View layout = inflater.inflate(R.layout.dialog_warning_ok,
+                        null);
+                dialog.setView(layout, 0, 0, 0, 0);
+                TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+                tvTitle.setText(activity.getString(R.string.txt_warning));
+                TextView tvQuestion = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+                tvQuestion.setText(activity.getString(R.string.txt_internet_message));
+                Button btnOK = (Button) layout
+                        .findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+                btnOK.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                    	dialog.dismiss();
+                    	setEnableAll(false);
+                    	resetAll();
+                    	arrayListSnapshot.clear();
+                        getListSnapshotData(START_RECORD);
+                    }
+                });
+                dialog.setCancelable(false);
+                dialog.show();
         	}
         }
 

@@ -185,36 +185,24 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 					if (baseAllList.get(i).isIs_vip()) {
 						vipList.add(baseAllList.get(i));
 					}
+					if (baseAllList.get(i).getUnread_count() > 0 && (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(baseAllList.get(i).getProfile_id()))) {
+						SlidingMenuActivity.listProfileSendMessage.add(baseAllList.get(i).getProfile_id());
+					}
+					
+					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+						SlidingMenuActivity.mNotificationTv
+						.setVisibility(View.GONE);
+					} else {
+						SlidingMenuActivity.mNotificationTv.setText(""
+								+ SlidingMenuActivity.listProfileSendMessage.size());
+							SlidingMenuActivity.mNotificationTv
+									.setVisibility(View.VISIBLE);
+					}
 				}
 				// arrayList.addAll(obj.getData());
 				adapterListChatData.notifyDataSetChanged();
-				// switch (chat) {
-				// case CHAT_ALL :
-				// adapterListChatData.notifyDataSetChanged();
-				// break;
-				// case CHAT_MATCHES :
-				// adapterMatchListChatData.notifyDataSetChanged();
-				// break;
-				// case CHAT_VIP:
-				// adapterVIPListChatData.notifyDataSetChanged();
-				// break;
-				// }
-				int count = 0;
-				for (int i = 0; i < baseAllList.size(); i++) {
-					count = count + baseAllList.get(i).getUnread_count();
-				}
-				SlidingMenuActivity.totalUnreadMessage = count;
-				if (SlidingMenuActivity.mNotificationTv != null) {
-					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.totalUnreadMessage);
-					if (SlidingMenuActivity.totalUnreadMessage > 0) {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.VISIBLE);
-					} else {
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.GONE);
-					}
-				}
+
+				
 			}
 		}
 
