@@ -6,7 +6,7 @@ public class GetConfigData {
 	private boolean status;
 	private String msg;
 	private String error_code;
-	private DataSticker data;
+	private DataConfig data;
 	
 	public boolean getStatus() {
 		return status;
@@ -26,10 +26,10 @@ public class GetConfigData {
 	public void setError_code(String error_code) {
 		this.error_code = error_code;
 	}
-	public DataSticker getData() {
+	public DataConfig getData() {
 		return data;
 	}
-	public void setData(DataSticker data) {
+	public void setData(DataConfig data) {
 		this.data = data;
 	}
 	

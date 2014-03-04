@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class GetSnapShot implements Serializable{
 	private boolean status;
     private ArrayList<SnapshotData> data;
+    private int snapshot_counter;
     
     public boolean isStatus() {
         return status;
@@ -19,6 +20,12 @@ public class GetSnapShot implements Serializable{
     public void setData(ArrayList<SnapshotData> data) {
         this.data = data;
     }
+	public int getSnapshot_counter() {
+		return snapshot_counter;
+	}
+	public void setSnapshot_counter(int snapshot_counter) {
+		this.snapshot_counter = snapshot_counter;
+	}
 	
 }
 
