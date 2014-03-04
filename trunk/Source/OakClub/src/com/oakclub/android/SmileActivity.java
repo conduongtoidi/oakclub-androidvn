@@ -63,54 +63,10 @@ public class SmileActivity extends Activity {
     
     public static HashMap<String, Integer> emoticons = new HashMap<String, Integer>();
     private ArrayList<String> arrayListSmileys = new ArrayList<String>();
-    
-    private void showSmile(){
-        gvSmile.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view,
-                    int position, long arg3) {
-                int pos = ChatActivity.tbMessage.getSelectionStart();
-                String value = gvSmile.getAdapter().getItem(position).toString();
-                String text = ChatActivity.tbMessage.getText().toString();
-                String textHead = text.substring(0, pos);
-                String textTail = text.substring(pos, text.length());
-                pos = (textHead +value).length();
-//                if (Html.fromHtml(value).toString().length() > 1)
-//        		{
-//                	pos = (textHead + Html.fromHtml(value).toString()).length();
-//        		}
-                value = textHead + value + textTail;
-                Spannable spannable = ChatActivity.getSmiledText(SmileActivity.this, value);
-                ChatActivity.tbMessage.setText(spannable);
-                ChatActivity.tbMessage.setSelection(spannable.length());
-            }
-        });
-      
-        if(gvSmile.getVisibility() == View.GONE){
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            Handler handle = new Handler();
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    gvSmile.setVisibility(View.VISIBLE);
-//                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-//                    params.addRule(RelativeLayout.ABOVE, R.id.activity_chat_rtlbottom_gvSmile);
-//                    lltBottom.setLayoutParams(params);
-//                    isShowSmile = true;
-                }
-            };
-            handle.postDelayed(runnable, 100);
-        }
-        else{
-            gvSmile.setVisibility(View.GONE);
-//            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//            lltBottom.setLayoutParams(params);
-//            isShowSmile = false;
-        }
-    }
 
     private void addSmileToEmoticons() {
+    	emoticons.put(":))", R.drawable.laugh);
+    	emoticons.put(":((", R.drawable.cry);
 		emoticons.put(":)", R.drawable.smile);
 		emoticons.put(";)", R.drawable.wink);
 		emoticons.put(":(", R.drawable.sad);
@@ -119,10 +75,8 @@ public class SmileActivity extends Activity {
 		emoticons.put("x(", R.drawable.angry);
 		emoticons.put(":D", R.drawable.grin);
 		emoticons.put(":-o", R.drawable.amazed);
-		emoticons.put(":((", R.drawable.cry);
 		emoticons.put(":&quot;&gt;", R.drawable.shy);
 		emoticons.put("B-)", R.drawable.cool);
-		emoticons.put(":))", R.drawable.laugh);
 		emoticons.put("(bandit)", R.drawable.ninja);
 		emoticons.put(":-&amp;", R.drawable.sick);
 		emoticons.put("/:)", R.drawable.doubtful);

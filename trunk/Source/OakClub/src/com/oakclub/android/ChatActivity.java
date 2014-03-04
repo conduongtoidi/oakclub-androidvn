@@ -282,6 +282,7 @@ public class ChatActivity extends OakClubBaseActivity {
 //        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
 
         tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+        	
             @Override
             public void onTabChanged(String tabId) {
             	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -292,6 +293,7 @@ public class ChatActivity extends OakClubBaseActivity {
 //                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
             }
         });
+        
         
 		// status == 0 || status == 1
 		if (status == 0) {
@@ -885,20 +887,30 @@ public class ChatActivity extends OakClubBaseActivity {
 		if (!isGift) {
 			builder = new SpannableStringBuilder(text);
 			int index;
-			for (index = 0; index < builder.length(); index++) {
+			for (index = builder.length(); index >= 0; index--) {
+				int length = 0;
+				boolean flag = false;
+				ImageSpan imageSpan = null;
 				for (Entry<String, Integer> entry : SmileActivity.emoticons.entrySet()) {
-					int length = entry.getKey().length();
-					if (index + length > builder.length())
+					int lengthEntry = entry.getKey().length();
+					if (index - lengthEntry < 0)
 						continue;
-					if (builder.subSequence(index, index + length).toString()
+					if (builder.subSequence(index - lengthEntry, index).toString()
 							.equals(entry.getKey())) {
-						builder.setSpan(
-								new ImageSpan(context, entry.getValue()),
-								index, index + length,
-								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						index += length - 1;
-						break;
+						if (length < lengthEntry) {
+							builder.removeSpan(imageSpan);
+							imageSpan = new ImageSpan(context, entry.getValue());
+							builder.setSpan(imageSpan,
+									index - lengthEntry, index,
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							flag = true;
+							length = entry.getKey().length();
+						}
+						//break;
 					}
+				}
+				if (flag) {
+					index -= length - 1;
 				}
 			}
 		}
