@@ -60,6 +60,9 @@ import com.oakclub.android.VideoViewActivity;
 import com.oakclub.android.base.LoginBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
+import com.oakclub.android.fragment.ProfileSettingFragment.DeleteUserPhotoLoader;
+import com.oakclub.android.model.DataConfig;
+import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
 import com.oakclub.android.model.SetViewMutualReturnObject;
@@ -156,6 +159,8 @@ public class SnapshotFragment{
     private boolean isActive=true;
     
     private TextView tvFindPeople;
+    private DataConfig dataConfig;
+    private int counter = 0;
 
     
     SlidingActivity activity;
@@ -284,6 +289,10 @@ public class SnapshotFragment{
         
         resetAll();
         getListSnapshotData(start);
+        
+        GetConfig loader = new GetConfig(Constants.GETCONFIG, activity);
+        activity.getRequestQueue().addRequest(loader);
+        
     }
     
     public void showTutorialActivity() {
@@ -1153,11 +1162,59 @@ public class SnapshotFragment{
         private SetLikeMessageReturnObject resultEvent;
         protected ProgressDialog pd;
 
-        public SnapshotEvent(Object key, Activity activity, String proId,
+        public SnapshotEvent(Object key, final Activity activity, String proId,
                 String numberSet, boolean isLike, String url) {
             super(key, activity);
             this.proId = proId;
             this.numberSet = numberSet;
+            
+            counter++;
+            for (int i = 0; i < dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
+            	if (objSnapshot.getSnapshot_counter() + counter == dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
+            		AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(activity);
+                    final AlertDialog dialog = builder.create();
+                    LayoutInflater inflater = LayoutInflater.from(activity);
+                    View layout = inflater.inflate(R.layout.dialog_warning, null);
+                    dialog.setView(layout, 0, 0, 0, 0);
+                    
+                    TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+                    tvTitle.setText(activity.getString(R.string.txt_warning));
+                    
+                    TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+                    tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
+                    Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
+                    btOk.setText(activity.getString(R.string.txt_tell_your_friend));
+                    Button btCancel = (Button) layout
+                            .findViewById(R.id.dialog_warning_lltfooter_btCancel);
+                    
+                    btOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View arg0) {
+                        	dialog.dismiss();
+        					intent = new Intent();
+        					intent.setAction(Intent.ACTION_SEND);
+        					intent.putExtra(Intent.EXTRA_TEXT,
+        							activity.getString(R.string.txt_share_title) + "\n"
+        									+ activity.getString(R.string.txt_share_url));
+        					intent.setType("text/plain");
+        					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        							| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+        							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        					activity.startActivity(intent);
+                        }
+                    });
+                    btCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View arg0) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+            	}
+            }
+            
+            
             if (numberSet == Constants.ACTION_LIKE && isLike) {
             	status = 0;
             	
@@ -1279,6 +1336,7 @@ public class SnapshotFragment{
             if (obj != null && obj.getData() != null
                     && obj.getData().size() > 0) {
                 objSnapshot = obj;
+                counter  = 0;
                 arrayListSnapshot.addAll(obj.getData());
                 initData();
                 hideProgress();
@@ -1293,6 +1351,26 @@ public class SnapshotFragment{
 
                 progressCircle.setVisibility(View.GONE);
                 progressFinder.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+    
+    class GetConfig extends RequestUI {
+    	GetConfigData obj;
+
+        public GetConfig(Object key, Activity activity) {
+            super(key, activity);
+        }
+
+        @Override
+        public void execute() throws Exception {
+            obj = activity.oakClubApi.GetConfig();
+        }
+
+        @Override
+        public void executeUI(Exception ex) {
+            if (obj != null && obj.getData() != null) {
+            	dataConfig = obj.getData();
             }
         }
     }
