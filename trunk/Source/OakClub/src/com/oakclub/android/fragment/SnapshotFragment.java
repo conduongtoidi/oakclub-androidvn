@@ -8,11 +8,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -55,6 +57,7 @@ import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.SlidingActivity.MenuOakclub;
+import com.oakclub.android.StickerActivity;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.VideoViewActivity;
 import com.oakclub.android.base.LoginBaseActivity;
@@ -160,7 +163,9 @@ public class SnapshotFragment{
     
     private TextView tvFindPeople;
     private DataConfig dataConfig;
+    
     private int counter = 0;
+    private int RATEAPP = 0;
 
     
     SlidingActivity activity;
@@ -1168,52 +1173,9 @@ public class SnapshotFragment{
             this.proId = proId;
             this.numberSet = numberSet;
             
-            counter++;
-            for (int i = 0; i < dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
-            	if (objSnapshot.getSnapshot_counter() + counter == dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
-            		AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(activity);
-                    final AlertDialog dialog = builder.create();
-                    LayoutInflater inflater = LayoutInflater.from(activity);
-                    View layout = inflater.inflate(R.layout.dialog_warning, null);
-                    dialog.setView(layout, 0, 0, 0, 0);
-                    
-                    TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-                    tvTitle.setText(activity.getString(R.string.txt_warning));
-                    
-                    TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-                    tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
-                    Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
-                    btOk.setText(activity.getString(R.string.txt_tell_your_friend));
-                    Button btCancel = (Button) layout
-                            .findViewById(R.id.dialog_warning_lltfooter_btCancel);
-                    
-                    btOk.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View arg0) {
-                        	dialog.dismiss();
-        					intent = new Intent();
-        					intent.setAction(Intent.ACTION_SEND);
-        					intent.putExtra(Intent.EXTRA_TEXT,
-        							activity.getString(R.string.txt_share_title) + "\n"
-        									+ activity.getString(R.string.txt_share_url));
-        					intent.setType("text/plain");
-        					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-        							| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-        							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        					activity.startActivity(intent);
-                        }
-                    });
-                    btCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View arg0) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-            	}
-            }
+            showDialogSnapshotCounter(activity);
             
+            launchMarket();
             
             if (numberSet == Constants.ACTION_LIKE && isLike) {
             	status = 0;
@@ -1371,6 +1333,9 @@ public class SnapshotFragment{
         public void executeUI(Exception ex) {
             if (obj != null && obj.getData() != null) {
             	dataConfig = obj.getData();
+            	for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+					StickerActivity.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+				}
             }
         }
     }
@@ -1436,4 +1401,95 @@ public class SnapshotFragment{
         setEnableAll(true);
 
     }
+
+    private void launchMarket() {
+//    	objSnapshot.getSnapshot_counter() + counter == RATEAPP
+    	if (true) {
+    		AlertDialog.Builder builder;
+            builder = new AlertDialog.Builder(activity);
+            final AlertDialog dialog = builder.create();
+            LayoutInflater inflater = LayoutInflater.from(activity);
+            View layout = inflater.inflate(R.layout.dialog_warning, null);
+            dialog.setView(layout, 0, 0, 0, 0);
+            
+            TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+            tvTitle.setText(activity.getString(R.string.txt_warning));
+            
+            TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+            tvContent.setText(String.format("text"));
+            Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
+            btOk.setText("Rate this app");
+            Button btCancel = (Button) layout
+                    .findViewById(R.id.dialog_warning_lltfooter_btCancel);
+            
+            btOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                	dialog.dismiss();
+                	Uri uri = Uri.parse("market://details?id=" + activity.getPackageName());
+        	        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        	        try {
+        	        	activity.startActivity(myAppLinkToMarket);
+        	        } catch (ActivityNotFoundException e) {
+        	            Toast.makeText(activity, " unable to find market app", Toast.LENGTH_LONG).show();
+        	        }
+                }
+            });
+            btCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+    	}
+    }
+
+	private void showDialogSnapshotCounter(final Activity activity) {
+		counter++;
+        for (int i = 0; i < dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
+        	if (objSnapshot.getSnapshot_counter() + counter == dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
+        		AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(activity);
+                final AlertDialog dialog = builder.create();
+                LayoutInflater inflater = LayoutInflater.from(activity);
+                View layout = inflater.inflate(R.layout.dialog_warning, null);
+                dialog.setView(layout, 0, 0, 0, 0);
+                
+                TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+                tvTitle.setText(activity.getString(R.string.txt_warning));
+                
+                TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+                tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
+                Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
+                btOk.setText(activity.getString(R.string.txt_tell_your_friend));
+                Button btCancel = (Button) layout
+                        .findViewById(R.id.dialog_warning_lltfooter_btCancel);
+                
+                btOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                    	dialog.dismiss();
+    					intent = new Intent();
+    					intent.setAction(Intent.ACTION_SEND);
+    					intent.putExtra(Intent.EXTRA_TEXT,
+    							activity.getString(R.string.txt_share_title) + "\n"
+    									+ activity.getString(R.string.txt_share_url));
+    					intent.setType("text/plain");
+    					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+    							| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+    							| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    					activity.startActivity(intent);
+                    }
+                });
+                btCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+        	}
+        }
+	}
 }

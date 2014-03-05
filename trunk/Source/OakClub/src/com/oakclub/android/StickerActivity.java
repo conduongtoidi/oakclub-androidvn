@@ -61,37 +61,8 @@ public class StickerActivity extends Activity {
 	}
 
     private void addStickerToStickers() {
-    	
-    	AsyncTask<Void, Void, Void> mTask = new AsyncTask<Void, Void, Void>() {
-    		GetConfigData getConfig;
-			@Override
-			protected Void doInBackground(Void... params) {
-				oakClubApi = OakClubApi.createInstance(
-						getApplicationContext(),
-						getString(R.string.default_server_address));
-				getConfig = oakClubApi.GetConfig();
-				
-				return null;
-			}
-			
-			@Override
-			protected void onPostExecute(Void result) {
-				// TODO Auto-generated method stub
-				super.onPostExecute(result);
-				if (getConfig != null && getConfig.getStatus()) {
-					for (int i = 0; i < getConfig.getData().getStickers().size(); i++) {
-						stickers.put(getConfig.getData().getStickers().get(i).getSymbol_name(), getConfig.getData().getStickers().get(i).getImage());
-					}
-					fillArrayList();
-					addItemGridView();
-				}
-			}
-			
-    		
-    	};
-    	
-    	if (stickers != null)
-    		mTask.execute(null, null, null);
+    	fillArrayList();
+		addItemGridView();
 	}
     
 	private void fillArrayList() {

@@ -268,18 +268,18 @@ public class ChatActivity extends OakClubBaseActivity {
         smileSpec.setContent(matchedIntent);
         tabHost.addTab(smileSpec); 
         
-//        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
-//        View tabView2 = createTabView(this, 1);
-//        stickerSpec.setIndicator(tabView2);
-//        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
-//        stickerSpec.setContent(nonMatchedIntent);
-//        tabHost.addTab(stickerSpec); 
+        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
+        View tabView2 = createTabView(this, 1);
+        stickerSpec.setIndicator(tabView2);
+        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
+        stickerSpec.setContent(nonMatchedIntent);
+        tabHost.addTab(stickerSpec); 
 
         ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
         imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
         
-//        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-//        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
 
         tabHost.setOnTabChangedListener(new OnTabChangeListener() {
         	
@@ -289,8 +289,8 @@ public class ChatActivity extends OakClubBaseActivity {
 	            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	            ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
                 imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
-//                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-//                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
+                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
+                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
             }
         });
         
