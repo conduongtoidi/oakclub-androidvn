@@ -1,32 +1,33 @@
 package com.oakclub.android.view;
 
+import com.oakclub.android.ChatActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.VideoViewActivity;
+import com.oakclub.android.fragment.SnapshotFragment;
 import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.model.SnapshotData;
-import com.oakclub.android.net.OnBootReceiver;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -43,22 +44,45 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.FrameLayout.LayoutParams;
 
 public class SnapshotMain extends FrameLayout {
 
-    public SnapshotMain(Context context) {
+    private SnapshotFragment snapshot;
+    public SnapshotFragment getSnapshot() {
+        return snapshot;
+    }
+    public void setSnapshot(SnapshotFragment snapshot) {
+        this.snapshot = snapshot;
+    }
+
+    private SnapshotData data;
+    public SnapshotData getData() {
+        return data;
+    }
+    public void setData(SnapshotData data) {
+        this.data = data;
+    }
+
+    private String profileId;
+    public String getProfileId() {
+        return profileId;
+    }
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
+    }
+    
+    private boolean loadingAnim=false;
+    public boolean isLoadingAnim() {
+        return loadingAnim;
+    }
+    public void setLoadingAnim(boolean loadingAnim) {
+        this.loadingAnim = loadingAnim;
+    }
+    
+    public SnapshotMain(Context context, SnapshotFragment snapshot, SnapshotData data) {
         super(context);
-        init();
-    }
-
-    public SnapshotMain(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public SnapshotMain(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        setSnapshot(snapshot);
+        setData(data);
         init();
     }
     private View view;
@@ -83,7 +107,6 @@ public class SnapshotMain extends FrameLayout {
 
     private ImageView ivwLikeStamp;
     private ImageView ivwNopeStamp;
-    private SnapshotData data;
     
     private float dx = 0, dy = 0, x = 0, y = 0;
     private float tempX;
@@ -91,11 +114,11 @@ public class SnapshotMain extends FrameLayout {
     private float angle = 0;
     private int widthScreen = 0;
     private static final int ORIGIN_ROTATE = 25;
-    private static final int TIMER = 200;
+    private static final int TIMER = 100;
+    private static final int TIMER_DRAG = 50;
     private float widthT = -9999, heightT = -9999;
     
-    private boolean flag = false;
-
+    private SharedPreferences pref;
     private boolean isFirstLike = false;
     private boolean isFirstNope = false;
     private void init(){
@@ -106,7 +129,8 @@ public class SnapshotMain extends FrameLayout {
         view.setPadding(paddingView, paddingView, paddingView, paddingView);
         fltParams = (LayoutParams) view.getLayoutParams();
         this.addView(view);
-//        this.setOnTouchListener(onSlideTouch);
+        int paddingBody = widthScreen/12; 
+        this.setPadding(paddingBody, paddingBody, paddingBody, paddingBody);
         
         fltImage = (FrameLayout)view.findViewById(R.id.activity_snapshot_flt_body_flt_content_flt_image);
         fltParams = (LayoutParams) fltImage.getLayoutParams();
@@ -128,21 +152,20 @@ public class SnapshotMain extends FrameLayout {
         ivwLikeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_like);
         ivwNopeStamp = (ImageView)fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_nope);
         
-        SharedPreferences pref = getContext().getSharedPreferences(
-                "oakclub_pref", getContext().MODE_PRIVATE);
         pref = getContext().getSharedPreferences(
                 Constants.PREFERENCE_NAME, 0);
-        isFirstLike = pref.getBoolean(
-                Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
-        isFirstNope = pref.getBoolean(
-                Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
         
+        loadData(data);
+        this.setOnTouchListener(onSlideTouch);
     }
     
-    public void loadData(SnapshotData data){
+    private String nameProfile;
+    private String imageUrl;
+    private void loadData(SnapshotData data){
         final FrameLayout fltParent = this;
         ViewTreeObserver vto = fltParent.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
                 fltParent.getViewTreeObserver()
@@ -153,6 +176,7 @@ public class SnapshotMain extends FrameLayout {
         });
         vto = rltInfo.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
                 rltInfo.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -166,20 +190,21 @@ public class SnapshotMain extends FrameLayout {
         });
         
         if(data!=null){
-            this.data = data;
+            setProfileId(data.getProfile_id());
             int age = data.getAge();
             if (age <= 1)
                 Log.e("Error", "Error:SnapshotActivity:age is wrong");
-            String name = data.getName();
-            name = OakClubUtil.getFirstName(name);
-            String info = name + ", " + age;
+            nameProfile = data.getName();
+            nameProfile = OakClubUtil.getFirstName(nameProfile);
+            String info = nameProfile + ", " + age;
             String numFriend = data.getMutual_friends().size() + "";
             String numLikePerson = data.getShare_interests().size() + "";
             String numPicture = data.getPhotos().size() + "";
             String urlVideo = data.getVideo_link();
-            String imageUrl = OakClubUtil.getFullLink(getContext(), 
+            imageUrl = OakClubUtil.getFullLink(getContext(), 
                    data.getAvatar(), Constants.widthImage, Constants.heightImage, 1);
             imgAvatar.setBackgroundResource(R.drawable.logo_splashscreen);
+            imgAvatar.setImageBitmap(null);
             OakClubUtil.loadImageFromUrl(getContext(),imageUrl, imgAvatar);
             if(!urlVideo.equals("")){
                 imgPlayVideo.setVisibility(View.VISIBLE);
@@ -226,36 +251,21 @@ public class SnapshotMain extends FrameLayout {
         };
         return listener;
     }
-    
-    public void resetData(){
-        imgAvatar.setImageResource(R.drawable.logo_splashscreen);
-        tvName.setText("");
-        tvMutualFriend.setText("0");
-        tvShareInterest.setText("0");
-        tvCountPhoto.setText("0");
-    }
 
-    protected void resetLayout() {
-        FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        p.gravity = Gravity.CENTER;
-        this.clearAnimation();
-        this.setLayoutParams(p);
-        this.setRotation(0);
-        ivwLikeStamp.setAlpha(0.0f);
-        ivwNopeStamp.setAlpha(0.0f);
-    }
-    
     private float getAngle(float distance) {
         float angle = (distance / widthScreen) * ORIGIN_ROTATE;
         return angle;
     }
-
-
+    
     private OnTouchListener onSlideTouch = new OnTouchListener() {
         @Override
         public boolean onTouch(final View v, MotionEvent event) {
             final int action = event.getAction();
+            isFirstLike = pref.getBoolean(
+                    Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
+            isFirstNope = pref.getBoolean(
+                    Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
+            
             switch (action) {
             case MotionEvent.ACTION_DOWN: {
                 tempX = 0;
@@ -281,9 +291,7 @@ public class SnapshotMain extends FrameLayout {
 
                 float tempAlpha = tempX / 100;
                 angle = getAngle(tempX);
-
                 v.setRotation(angle);
-                ImageView imgLike = null, imgNope = null; 
                 if (tempX > 0) {
                     ivwLikeStamp.setAlpha(tempAlpha);
                     ivwNopeStamp.setAlpha(0.0f);
@@ -295,7 +303,7 @@ public class SnapshotMain extends FrameLayout {
 
             }
             case MotionEvent.ACTION_UP: {
-                if (Math.abs(tempX) <= 15 && Math.abs(tempY) <= 15) {
+                if (Math.abs(tempX) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE && Math.abs(tempY) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE) {
                     Intent intent = new Intent(getContext(), InfoProfileOtherActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                     Bundle b = new Bundle();
@@ -308,26 +316,16 @@ public class SnapshotMain extends FrameLayout {
                     return true;
                 }
                 
-                String target_name = OakClubUtil.getFirstName(data.getName());
                 if (Math.abs(tempX) > widthScreen / 4) {
                     if(tempX>0 && isFirstLike){
-                        String title = getContext().getString(R.string.like_string) + "?";
-                        String content =  getContext().getString(R.string.snapshot_popup_like_info) + " " + target_name;
-                        //showDialogFirst(title, content, true, true);
+                        showDialogFirst(true, true);
                     }
-                    if(tempX<0 && isFirstNope){
-                        String title =  getContext().getString(R.string.snapshot_not_interested) + "?";
-                        String content =  getContext().getString(R.string.snapshot_popup_dislike_info) + " " + target_name;
-                        //showDialogFirst(title, content, true, false);
+                    else if(tempX<0 && isFirstNope){
+                        showDialogFirst(true, false);
                     }
-//                    if(isActive){
-//                        activeSnapshotAnimation();
-//                    }
-//                    isActive = true;
+                    else dragSnapshotAnimation();
                 } else {
-//                    isAction = false;
-//                    animationForActionLikeOrNope(tempX, tempY, widthScreen,
-//                            "-1");
+                    returnSnapshot(tempX, tempY);
                 }
                 break;
             }
@@ -337,311 +335,335 @@ public class SnapshotMain extends FrameLayout {
 
     };
     
-//    private void showDialogFirst(String title, String content, final boolean isDrag, boolean isLike){
-//        isActive = false;
-//        AlertDialog.Builder builder;
-//        builder = new AlertDialog.Builder(getContext());
-//        final AlertDialog dialog = builder.create();
-//        LayoutInflater inflater = LayoutInflater
-//                .from(getContext());
-//        View layout = inflater.inflate(R.layout.dialog_active_snapshot,
-//                null);
-//        dialog.setView(layout, 0, 0, 0, 0);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvtitle);
-//        tvTitle.setText(title);
-//        TextView tvContent = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvcontent);
-//        tvContent.setText(content);
-//        Button btActive = (Button)layout.findViewById(R.id.dialog_active_snapshot_btActive);
-//        SharedPreferences pref = getContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-//        Editor editor = pref.edit();
-//        if(isLike){
-//            editor.putBoolean(Constants.PREFERENCE_SHOW_LIKE_DIALOG, false);
-//            isFirstLike = false;
-//            tvTitle.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_like));
-//            btActive.setText(getContext().getString(R.string.like_string));
-//            btActive.setBackgroundResource(R.drawable.dialog_snapshot_like);
-//            btActive.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_text_like));
-//            btActive.setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(!isDrag)
-//                        handleLikeButton();
-//                    else activeSnapshotAnimation();
-//                    dialog.cancel();
-//                }
-//            });
-//        }
-//        else{
-//            editor.putBoolean(Constants.PREFERENCE_SHOW_NOPE_DIALOG, false);
-//            isFirstNope = false;
-//            tvTitle.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_pass));
-//            btActive.setText(getContext().getString(R.string.pass_string));
-//            btActive.setBackgroundResource(R.drawable.dialog_snapshot_pass);
-//            btActive.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_text_pass));
-//            btActive.setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(!isDrag)
-//                        handleNopeButton();
-//                    else activeSnapshotAnimation();
-//                    dialog.cancel();
-//                }
-//            }); 
-//        }
-//        editor.commit();
-//        Button btCancel = (Button)layout.findViewById(R.id.dialog_active_snapshot_btCancel);
-//        btCancel.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isDrag){
-//                    isAction = false;
-//                    animationForActionLikeOrNope(tempX, tempY, widthScreen, "-1");
-//                }
-//                dialog.cancel();
-//            }
-//        });
-//        dialog.setCancelable(false);
-//        dialog.show();
-//    }
-//    
+    public void showDialogMutualMatch(){
+        final Dialog dialogMutual = new Dialog(getContext());//, android.R.style.Theme_Translucent);
+        dialogMutual.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-//    private void activeSnapshotAnimation(){
-//        AnimationSet animationSet = new AnimationSet(true); 
-//        Animation rotate = new RotateAnimation(0, -2 * angle,
-//                RotateAnimation.RELATIVE_TO_SELF, 0,
-//                RotateAnimation.RELATIVE_TO_SELF, 0);
-//        rotate.setDuration(TIMER);
-//        rotate.setFillAfter(true);
-//
-//        Animation translate = new TranslateAnimation(0,
-//                tempX > 0 ? (int) (widthScreen - tempX)
-//                        : (int) (-widthScreen - tempX), 0, 0);
-//        translate.setDuration(TIMER);
-//        translate.setFillAfter(true);
-//
-//        translate.setAnimationListener(new AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                resetLayout();
-//                isAction = false;
-//                String url = OakClubUtil.getFullLink(
-//                        getContext(),
-//                        data.getAvatar());
-//                boolean isLike = data.getIs_like();
-//                nameProfile = data.getName();
-//                avaProfile = data.getAvatar();
-//                match_time = data.getLike_time();
-//                chatProfile_id = data
-//                        .getProfile_id();
-////                arrayListSnapshot.remove(0);
-//                String proId = profileId;
-//                String action = Constants.ACTION_LIKE;
-//                if (tempX < -widthScreen / 4)
-//                    action = Constants.ACTION_NOPE;
-//
-//                SnapshotEvent snapEvent = new SnapshotEvent(
-//                        Constants.SET_FAVORITE, activity,
-//                        proId, action);
-//                activity.getRequestQueue().addRequest(snapEvent);
-//            }
-//        });
-//        animationSet.addAnimation(rotate);
-//        animationSet.addAnimation(translate);
-//
-//        isAction = true;
-//        getCurrentContentView().startAnimation(animationSet);
-//    }
+        WindowManager.LayoutParams params = dialogMutual.getWindow().getAttributes();
+        params.gravity = Gravity.CENTER;       
+        dialogMutual.getWindow().setAttributes(params); 
+        
+        dialogMutual.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        View view = ((Activity) getContext()).getLayoutInflater().inflate(
+                R.layout.popup_mutual_match_layout, null);
+
+        TextViewWithFont tvTitle = (TextViewWithFont)view.findViewById(R.id.tvw_text);
+        tvTitle.setFont("helveticaneueultralight.ttf");
+        CircleImageView  ivwMutualMe = (CircleImageView) view
+                .findViewById(R.id.popup_mutual_match_layout_image_my);
+        CircleImageView ivwMutualYou = (CircleImageView) view
+                .findViewById(R.id.popup_mutual_match_layout_image_you);
+        TextViewWithFont txtMutualMatch = (TextViewWithFont) view.findViewById(R.id.tvw_text_notice);
+        dialogMutual.setContentView(view);
+        RelativeLayout btnDialogKeepSwiping = (RelativeLayout) view
+                .findViewById(R.id.popup_mutual_match_layout_btn_keep_swiping);
+        btnDialogKeepSwiping.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogMutual.dismiss();
+                dialogMutual.setCancelable(true);
+            }
+        });
+        RelativeLayout btnDialogChat = (RelativeLayout) view
+                .findViewById(R.id.popup_mutual_match_layout_btn_chat);
+        btnDialogChat.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapshot.setMutualMatch(data.getProfile_id());
+                
+                Intent intent = new Intent(
+                    getContext(),
+                    ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.BUNDLE_PROFILE_ID, data.getProfile_id());
+                bundle.putString(Constants.BUNDLE_AVATAR, data.getAvatar());
+                bundle.putString(Constants.BUNDLE_NAME, nameProfile);
+                bundle.putInt(Constants.BUNDLE_STATUS, 0);
+                bundle.putString(Constants.BUNDLE_MATCH_TIME, data.getLike_time());
+                bundle.putBoolean(Constants.BUNDLE_NOTI, false);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                getContext().startActivity(intent);
+                dialogMutual.dismiss();
+                dialogMutual.setCancelable(true);
+            }
+        });
+        OakClubUtil.loadImageFromUrl(getContext(), snapshot.urlAvatar, ivwMutualMe);
+        OakClubUtil.loadImageFromUrl(getContext(), imageUrl, ivwMutualYou);
+        txtMutualMatch.setText(String.format(
+                        getContext().getString(
+                                R.string.txt_you_and_have_like_each_other),
+                        nameProfile));
+        dialogMutual.setCancelable(false);
+        dialogMutual.show();
+    }
     
-//    private void animationForActionLikeOrNope(float x, float y, int w,
-//            final String action) {
-//        AnimationSet animationSet = new AnimationSet(true);
-//        TranslateAnimation translateAnim = null;
-//        RotateAnimation rotateAnim = null;
-//        if (!isAction) {
-//            translateAnim = new TranslateAnimation(Animation.ABSOLUTE, -x,
-//                    Animation.ABSOLUTE, -y);
-//            rotateAnim = new RotateAnimation(RotateAnimation.ABSOLUTE,
-//                    getAngle(x), RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-//                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-//            rotateAnim.setAnimationListener(new AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-////                    resetLayout();
-//                }
-//            });
-//        } else {
-//            translateAnim = new TranslateAnimation(Animation.ABSOLUTE, x,
-//                    Animation.ABSOLUTE, y);
-//            rotateAnim = new RotateAnimation(RotateAnimation.ABSOLUTE,
-//                    -getAngle(-x), RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-//                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-//
-//            translateAnim.setStartOffset(TIMER);
-//            rotateAnim.setStartOffset(TIMER);
-//
-//            Animation fadeOut = new AlphaAnimation(1, 0);
-//            fadeOut.setInterpolator(new AccelerateInterpolator());
-//            fadeOut.setStartOffset(TIMER);
-//            fadeOut.setFillAfter(true);
-//            fadeOut.setDuration(TIMER);
-//            animationSet.addAnimation(fadeOut);
-//
-//            fadeOut.setAnimationListener(new AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    resetLayout();
-//                    boolean isLike = arrayListSnapshot.get(0).getIs_like();
-//                    String url = OakClubUtil.getFullLink(
-//                            activity, arrayListSnapshot.get(0)
-//                                    .getAvatar());
-//                    nameProfile = arrayListSnapshot.get(0).getName();
-//                    avaProfile = arrayListSnapshot.get(0).getAvatar();
-//                    chatProfile_id = arrayListSnapshot.get(0).getProfile_id();
-//                    arrayListSnapshot.remove(0);
-//                    String proId = profileId;
-//
-//                    String action = Constants.ACTION;
-//                    if (tempX < -widthScreen / 4) {
-//                        action = Constants.ACTION_NOPE;
-//                    }
-//
-//                    SnapshotEvent snapEvent = new SnapshotEvent(
-//                            Constants.SET_FAVORITE, activity,
-//                            proId, action);
-//                    activity.getRequestQueue().addRequest(snapEvent);
-//
-//                    if (arrayListSnapshot.size() > 0) {
-//                        swapData(2);
-//                        if (action == Constants.ACTION_LIKE && isLike) {
-//                            status = 0;
-//                            match_time = arrayListSnapshot.get(0).getLike_time();
-//                            showDialog(url);
-//                        } else {
-//                            // OakClubUtil.clearCacheWithUrl(url, imageLoader);
-//                            setEnableAll(true);
-//                            profileId = arrayListSnapshot.get(0)
-//                                    .getProfile_id();
-//                        }
-//                    } else {
-//                        setEnableAll(false);
-//                        resetAll();
-//                        getListSnapshotData(SEG_RECORD);
-//                    }
-//                    isAction = false;
-//                }
-//            });
-//            ScaleAnimation animButton;
-//            switch (contentSnapshot) {
-//            case 1:
-//                if (action == Constants.ACTION_LIKE) {
-//                    ivwLikeStamp.setAlpha(1.0f);
-//                    ivwNopeStamp.setAlpha(0.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwLikeStamp.getWidth() / 2, Animation.ABSOLUTE,
-//                            ivwLikeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwLikeStamp.setAnimation(animButton);
-//                    ivwLikeStamp.startAnimation(animButton);
-//                } else {
-//                    ivwLikeStamp.setAlpha(0.0f);
-//                    ivwNopeStamp.setAlpha(1.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwNopeStamp.getWidth() / 2, Animation.ABSOLUTE,
-//                            ivwNopeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwNopeStamp.setAnimation(animButton);
-//                    ivwNopeStamp.startAnimation(animButton);
-//                }
-//                break;
-//            case 2:
-//                if (action == Constants.ACTION_LIKE) {
-//                    ivwSecondLikeStamp.setAlpha(1.0f);
-//                    ivwSecondNopeStamp.setAlpha(0.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwSecondLikeStamp.getWidth() / 2,
-//                            Animation.ABSOLUTE,
-//                            ivwSecondLikeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwSecondLikeStamp.setAnimation(animButton);
-//                    ivwSecondLikeStamp.startAnimation(animButton);
-//                } else {
-//                    ivwSecondLikeStamp.setAlpha(0.0f);
-//                    ivwSecondNopeStamp.setAlpha(1.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwSecondNopeStamp.getWidth() / 2,
-//                            Animation.ABSOLUTE,
-//                            ivwSecondNopeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwSecondNopeStamp.setAnimation(animButton);
-//                    ivwSecondNopeStamp.startAnimation(animButton);
-//                }
-//                break;
-//            case 3:
-//                if (action == Constants.ACTION_LIKE) {
-//                    ivwThirdLikeStamp.setAlpha(1.0f);
-//                    ivwThirdNopeStamp.setAlpha(0.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwThirdLikeStamp.getWidth() / 2,
-//                            Animation.ABSOLUTE,
-//                            ivwThirdLikeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwThirdLikeStamp.setAnimation(animButton);
-//                    ivwThirdLikeStamp.startAnimation(animButton);
-//                } else {
-//                    ivwThirdLikeStamp.setAlpha(0.0f);
-//                    ivwThirdNopeStamp.setAlpha(1.0f);
-//                    animButton = new ScaleAnimation(1.5f, 1f,
-//                            1.5f, 1f, Animation.ABSOLUTE,
-//                            ivwThirdNopeStamp.getWidth() / 2,
-//                            Animation.ABSOLUTE,
-//                            ivwThirdNopeStamp.getHeight() / 2);
-//                    animButton.setDuration(TIMER);
-//                    ivwThirdNopeStamp.setAnimation(animButton);
-//                    ivwThirdNopeStamp.startAnimation(animButton);
-//                }
-//                break;
-//            default:
-//                break;
-//            }
-//
-//        }
-//        translateAnim.setDuration(TIMER);
-//        rotateAnim.setInterpolator(new LinearInterpolator());
-//        rotateAnim.setDuration(TIMER);
-//
-//        animationSet.addAnimation(rotateAnim);
-//        animationSet.addAnimation(translateAnim);
-//        getCurrentContentView().startAnimation(animationSet);
-//    }
+    private void showDialogFirst(final boolean isDrag, final boolean isLike){
+        String title ="";
+        String content="";
+        if(isLike){
+            title = getContext().getString(R.string.like_string) + "?";
+            content =  getContext().getString(R.string.snapshot_popup_like_info) + " " + nameProfile;
+        }
+        else{
+            title =  getContext().getString(R.string.snapshot_not_interested) + "?";
+            content =  getContext().getString(R.string.snapshot_popup_dislike_info) + " " + nameProfile;
+        }
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(getContext());
+        final AlertDialog dialog = builder.create();
+        LayoutInflater inflater = LayoutInflater
+                .from(getContext());
+        View layout = inflater.inflate(R.layout.dialog_active_snapshot,
+                null);
+        dialog.setView(layout, 0, 0, 0, 0);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvtitle);
+        tvTitle.setText(title);
+        TextView tvContent = (TextView)layout.findViewById(R.id.dialog_active_snapshot_tvcontent);
+        tvContent.setText(content);
+        Button btActive = (Button)layout.findViewById(R.id.dialog_active_snapshot_btActive);
+        SharedPreferences pref = getContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        Editor editor = pref.edit();
+        if(isLike){
+            editor.putBoolean(Constants.PREFERENCE_SHOW_LIKE_DIALOG, false);
+            isFirstLike = false;
+            tvTitle.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_like));
+            btActive.setText(getContext().getString(R.string.like_string));
+            btActive.setBackgroundResource(R.drawable.dialog_snapshot_like);
+            btActive.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_text_like));
+            btActive.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isDrag){
+                        buttonSnapshotAnimation(Constants.ACTION_LIKE);
+                    }
+                    else dragSnapshotAnimation();
+                    dialog.cancel();
+                }
+            });
+        }
+        else{
+            editor.putBoolean(Constants.PREFERENCE_SHOW_NOPE_DIALOG, false);
+            isFirstNope = false;
+            tvTitle.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_pass));
+            btActive.setText(getContext().getString(R.string.pass_string));
+            btActive.setBackgroundResource(R.drawable.dialog_snapshot_pass);
+            btActive.setTextColor(getContext().getResources().getColor(R.color.dialog_snapshot_text_pass));
+            btActive.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isDrag){
+                            buttonSnapshotAnimation(Constants.ACTION_NOPE);
+                    }
+                    else dragSnapshotAnimation();
+                    dialog.cancel();
+                }
+            }); 
+        }
+        editor.commit();
+        Button btCancel = (Button)layout.findViewById(R.id.dialog_active_snapshot_btCancel);
+        btCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isDrag){
+                    returnSnapshot(tempX, tempY);
+                }
+                dialog.cancel();
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    
+
+    private void dragSnapshotAnimation(){
+        if(isLoadingAnim())
+            return;
+        setLoadingAnim(true);
+        AnimationSet animationSet = new AnimationSet(true); 
+        Animation rotate = new RotateAnimation(0, -2 * angle,
+                RotateAnimation.RELATIVE_TO_SELF, 0,
+                RotateAnimation.RELATIVE_TO_SELF, 0);
+        rotate.setDuration(TIMER_DRAG);
+        rotate.setFillAfter(true);
+
+        Animation translate = new TranslateAnimation(0,
+                tempX > 0 ? (int) (widthScreen - tempX)
+                        : (int) (-widthScreen - tempX), 0, 0);
+        translate.setDuration(TIMER_DRAG);
+        translate.setFillAfter(true);
+
+        translate.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setLoadingAnim(false);
+                String isLike=Constants.ACTION_LIKE;
+                if(tempX<0)
+                    isLike=Constants.ACTION_NOPE;
+                snapshot.setFavoriteSnapshot(profileId, isLike, data.getIs_like());
+                if(snapshot.fltBody.getChildCount()==1)
+                    snapshot.fltBody.removeViewAt(0);
+                else snapshot.fltBody.removeViewAt(1);
+                snapshot.addDataIntoSnapshotLayout();
+//                if(Constants.ACTION_LIKE.equals(isLike) && data.getIs_like())
+//                    showDialogMutualMatch();
+            }
+        });
+        animationSet.addAnimation(rotate);
+        animationSet.addAnimation(translate);
+        this.startAnimation(animationSet);
+    }
+    
+    private void returnSnapshot(float x, float y) {
+        if(isLoadingAnim())
+            return;
+        setLoadingAnim(true);
+        AnimationSet animationSet = new AnimationSet(true);
+        
+        TranslateAnimation translateAnim = new TranslateAnimation(Animation.ABSOLUTE, -x,
+                Animation.ABSOLUTE, -y);
+        RotateAnimation rotateAnim = new RotateAnimation(0, 
+                -angle, 
+                0, 0,
+                0, 0);
+        rotateAnim.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setLoadingAnim(false);
+                FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                p.gravity = Gravity.CENTER;
+                
+                SnapshotMain.this.clearAnimation();
+                SnapshotMain.this.setLayoutParams(p);
+                SnapshotMain.this.ivwLikeStamp.setAlpha(0.0f);
+                SnapshotMain.this.ivwNopeStamp.setAlpha(0.0f);
+                SnapshotMain.this.setRotation(0);
+            }
+        });
+        
+        translateAnim.setDuration(TIMER_DRAG);
+        rotateAnim.setInterpolator(new LinearInterpolator());
+        rotateAnim.setDuration(TIMER_DRAG);
+
+        animationSet.addAnimation(rotateAnim);
+        animationSet.addAnimation(translateAnim);
+        this.startAnimation(animationSet);
+    }
+    
+    public void setPressButtonAction(String action){
+        isFirstLike = pref.getBoolean(
+                Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
+        isFirstNope = pref.getBoolean(
+                Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
+        if(Constants.ACTION_LIKE.equals(action) && isFirstLike){
+            showDialogFirst(false, true);
+        }
+        else if(Constants.ACTION_NOPE.equals(action) && isFirstNope){
+            showDialogFirst(false, false);
+        }
+        else buttonSnapshotAnimation(action);
+        
+    }
+    
+    private void buttonSnapshotAnimation(final String action) {
+        if(isLoadingAnim())
+            return;
+        setLoadingAnim(true);
+        AnimationSet animationSet = new AnimationSet(true);
+        TranslateAnimation translateAnim = null;
+        RotateAnimation rotateAnim=null;
+        ScaleAnimation animButton =null;
+
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setStartOffset(TIMER);
+        fadeOut.setFillAfter(true);
+        fadeOut.setDuration(TIMER);
+        animationSet.addAnimation(fadeOut);
+
+        if (Constants.ACTION_LIKE.equals(action)) {
+            translateAnim = new TranslateAnimation(Animation.ABSOLUTE, widthScreen,
+                    Animation.ABSOLUTE, Animation.ABSOLUTE);
+            translateAnim.setStartOffset(TIMER);
+            rotateAnim = new RotateAnimation(RotateAnimation.ABSOLUTE,
+                    -getAngle(-widthScreen), RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnim.setStartOffset(TIMER);
+            
+            ivwLikeStamp.setAlpha(1.0f);
+            ivwNopeStamp.setAlpha(0.0f);
+            animButton = new ScaleAnimation(1.5f, 1f,
+                    1.5f, 1f, Animation.ABSOLUTE,
+                    ivwLikeStamp.getWidth() / 2, Animation.ABSOLUTE,
+                    ivwLikeStamp.getHeight() / 2);
+            animButton.setDuration(TIMER);
+            ivwLikeStamp.setAnimation(animButton);
+            ivwLikeStamp.startAnimation(animButton);
+        } else {
+            translateAnim = new TranslateAnimation(Animation.ABSOLUTE, -widthScreen,
+                    Animation.ABSOLUTE, Animation.ABSOLUTE);
+            translateAnim.setStartOffset(TIMER);
+            rotateAnim = new RotateAnimation(RotateAnimation.ABSOLUTE,
+                    -getAngle(widthScreen), RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnim.setStartOffset(TIMER);
+            
+            ivwLikeStamp.setAlpha(0.0f);
+            ivwNopeStamp.setAlpha(1.0f);
+            animButton = new ScaleAnimation(1.5f, 1f,
+                    1.5f, 1f, Animation.ABSOLUTE,
+                    ivwNopeStamp.getWidth() / 2, Animation.ABSOLUTE,
+                    ivwNopeStamp.getHeight() / 2);
+            animButton.setDuration(TIMER);
+            ivwNopeStamp.setAnimation(animButton);
+            ivwNopeStamp.startAnimation(animButton);
+        }
+        
+        fadeOut.setAnimationListener(new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setLoadingAnim(false);
+                snapshot.setFavoriteSnapshot(profileId, action, data.getIs_like());
+                if(snapshot.fltBody.getChildCount()==1)
+                    snapshot.fltBody.removeViewAt(0);
+                else snapshot.fltBody.removeViewAt(1);
+                snapshot.addDataIntoSnapshotLayout();
+//                if(Constants.ACTION_LIKE.equals(action) && data.getIs_like())
+//                    showDialogMutualMatch();
+            }
+        });    
+        translateAnim.setDuration(TIMER);
+        rotateAnim.setInterpolator(new LinearInterpolator());
+        rotateAnim.setDuration(TIMER);
+        
+        animationSet.addAnimation(rotateAnim);
+        animationSet.addAnimation(translateAnim);
+        this.startAnimation(animationSet);
+    }
 }

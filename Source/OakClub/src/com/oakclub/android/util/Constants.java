@@ -11,6 +11,7 @@ public class Constants {
 	public static String ACTION = "";
 	public static String ACTION_LIKE = "1";
 	public static String ACTION_NOPE = "0";
+	public static final int DISTANCE_MIN_TO_INTO_PROFILE = 15;
 	/*
 	 * Query
 	 */
