@@ -91,25 +91,25 @@ public class VerifiedActivity extends OakClubBaseActivity {
 				break;
 			case R.id.btn_skip_verified:
 				btn_skip.setEnabled(false);
-				SharedPreferences pref = getApplicationContext().getSharedPreferences(
-						Constants.PREFERENCE_NAME, 0);
-				Editor editor = pref.edit();
-				editor.putBoolean(Constants.KEY_IS_SKIP, true);
-				editor.commit();
-				if (ProfileSettingFragment.profileInfoObj != null) {
-					ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
-					if (start_login) {
-						startSnapshot();
-					}
-					finish();
-				} else {
-					Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
-		        	startActivity(intent);
-		        	finish();
-				}
-//				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
-//						Constants.SKIP_VERIFIED, VerifiedActivity.this);
-//				getRequestQueue().addRequest(loader);
+//				SharedPreferences pref = getApplicationContext().getSharedPreferences(
+//						Constants.PREFERENCE_NAME, 0);
+//				Editor editor = pref.edit();
+//				editor.putBoolean(Constants.KEY_IS_SKIP, true);
+//				editor.commit();
+//				if (ProfileSettingFragment.profileInfoObj != null) {
+//					ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
+//					if (start_login) {
+//						startSnapshot();
+//					}
+//					finish();
+//				} else {
+//					Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
+//		        	startActivity(intent);
+//		        	finish();
+//				}
+				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
+						Constants.SKIP_VERIFIED, VerifiedActivity.this);
+				getRequestQueue().addRequest(loader);
 
 				break;
 			case R.id.btn_back:
@@ -240,8 +240,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								FacebookException error) {
 
 							if (error == null) {
-								// When the story is posted, echo the success
-								// and the post Id.
+								
 								final String postId = values
 										.getString("post_id");
 								if (postId != null) {
@@ -267,7 +266,6 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									finish();
 							} else {
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-							    ((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Toast.makeText(getApplicationContext(),
 										"Error posting story",
 										Toast.LENGTH_LONG).show();
@@ -281,15 +279,16 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	}
 	
 	@Override
-	protected void onResume() {
-		if(!OakClubUtil.isInternetAccess(this)){
-			((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+	protected void onResume() {		
+		if(!OakClubUtil.isInternetAccess(this)){			
 			firstOpenSessonCall = false;
 			firstRequestCall = false;
 			if(!start_login)
 				finish();
 		}
 		super.onResume();
+		((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+		btn_skip.setEnabled(true);
 	}
 
 	@Override
@@ -318,9 +317,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 				ProfileSettingFragment.profileInfoObj.setIs_verify(true);
 				Intent intent = VerifiedActivity.this.getIntent();
 				intent.putExtra(Constants.VERIFIED_SUCCESS, true);
-				setResult(RESULT_OK, intent);
-				// Log.v("token new",
-				// Session.getActiveSession().getAccessToken());
+				setResult(RESULT_OK, intent);				
 				Intent intent2 = new Intent(VerifiedActivity.this,
 						VerifiedSecceedActivity.class);
 				intent2.putExtra(Constants.START_LOGIN,
@@ -352,11 +349,13 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		public void executeUI(Exception ex) {
 			if (ProfileSettingFragment.profileInfoObj != null) {
 				ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
+				btn_skip.setEnabled(true);
 				if (start_login) {
 					startSnapshot();
 				}
 				finish();
 			} else {
+				Toast.makeText(VerifiedActivity.this, "Error", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
 	        	startActivity(intent);
 	        	finish();
