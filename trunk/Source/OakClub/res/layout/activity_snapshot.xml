@@ -1,68 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    tools:context=".MainActivity" >
-
-    <include
+    tools:context=".MainActivity">
+    
+    <include layout="@layout/progress_snapshot_layout"
         android:id="@+id/activity_snapshot_flt_process"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/progress_snapshot_layout"
+        android:layout_width="match_parent"
         android:background="@color/White"
-        android:visibility="gone" />
-
-    <include
+        android:visibility="gone"/>
+    <include layout="@layout/progress_snapshot_finder_layout"
         android:id="@+id/activity_snapshot_flt_process_finder"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/progress_snapshot_finder_layout"
+        android:layout_width="match_parent"
         android:background="@color/White"
-        android:visibility="gone" />
-
+        android:visibility="gone"/>
+    
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/activity_snapshot_llt_main"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
         <FrameLayout
             android:id="@+id/activity_snapshot_flt_body"
-            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/polaroid_back" >
-
-            <com.oakclub.android.view.SnapshotMain
-                android:id="@+id/activity_snapshot_flt_body_flt_content_third"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                layout="@layout/layout_snapshot_main" />
-
-            <com.oakclub.android.view.SnapshotMain
-                android:id="@+id/activity_snapshot_flt_body_flt_content_second"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                layout="@layout/layout_snapshot_main" />
-
-            <com.oakclub.android.view.SnapshotMain
-                android:id="@+id/activity_snapshot_flt_body_flt_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                layout="@layout/layout_snapshot_main" />
+            android:background="@drawable/polaroid_back"
+            >
+    
         </FrameLayout>
-
         <FrameLayout
             android:id="@+id/activity_snapshot_flt_footer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="3"
-            android:gravity="center" >
-
+            android:gravity="center"
+            >
+    
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,5 +89,4 @@
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
-
-</RelativeLayout>
+</FrameLayout>
