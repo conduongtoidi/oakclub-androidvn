@@ -98,6 +98,8 @@ public class SnapshotMain extends FrameLayout {
     private ImageView imgMutualFriend;
     private ImageView imgShareInterest;
     private ImageView imgPhoto;
+    private ImageView imgVip;
+    private ImageView imgVipFrame;
     private ImageView imgVerified;
     private TextView tvName;
     private TextView tvNumFriend;
@@ -121,6 +123,7 @@ public class SnapshotMain extends FrameLayout {
     private SharedPreferences pref;
     private boolean isFirstLike = false;
     private boolean isFirstNope = false;
+    private FrameLayout fltContent;
     private void init(){
         widthScreen = (int) OakClubUtil.getWidthScreen(getContext());
         paddingView = (int)OakClubUtil.convertDpToPixel(10, getContext());
@@ -128,7 +131,13 @@ public class SnapshotMain extends FrameLayout {
         view = inflater.inflate(R.layout.layout_snapshot, null);
         view.setPadding(paddingView, paddingView, paddingView, paddingView);
         fltParams = (LayoutParams) view.getLayoutParams();
-        this.addView(view);
+        
+        fltContent = new FrameLayout(getContext());
+        paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
+        fltContent.setPadding(paddingView, paddingView, paddingView, paddingView);
+        fltContent.addView(view);
+        fltContent.setBackgroundResource(R.drawable.back_polaroid);
+        this.addView(fltContent);
         int paddingBody = widthScreen/12; 
         this.setPadding(paddingBody, paddingBody, paddingBody, paddingBody);
         
@@ -139,6 +148,8 @@ public class SnapshotMain extends FrameLayout {
         rltParams = (RelativeLayout.LayoutParams) rltInfoRight.getLayoutParams();
         imgAvatar = (SmartImageView) fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_avatar);
         imgPlayVideo = (ImageButton) fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgPlayvideo);
+        imgVip = (ImageView) fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_imgVip);
+        imgVipFrame = (ImageView) fltImage.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivwVipFrame);
         imgMutualFriend = (ImageView) rltInfoRight.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_mutual_friend);
         imgShareInterest = (ImageView) rltInfoRight.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_shareinterest);
         imgVerified = (ImageView)rltInfo.findViewById(R.id.activity_snapshot_flt_body_flt_content_ivw_photo_verified);
@@ -221,20 +232,51 @@ public class SnapshotMain extends FrameLayout {
             if(data.getIs_verify()){
                 imgVerified.setVisibility(View.VISIBLE);
             }
-            if (numFriend.equals("0"))
-                imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_disable);
-            else 
-                imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_normal);
-    
-            if (numLikePerson.equals("0"))
-                imgShareInterest.setBackgroundResource(R.drawable.ico_sharedinterest_disable);
-            else
-                imgShareInterest.setBackgroundResource(R.drawable.ico_sharedinterest_normal);
-            
-            if (numPicture.equals("0"))
-                imgPhoto.setBackgroundResource(R.drawable.ico_photo_disable);
-            else
-                imgPhoto.setBackgroundResource(R.drawable.ico_photonormal);
+            if(data.isIs_vip()){
+                if (numFriend.equals("0"))
+                    imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_disable);
+                else 
+                    imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_normal);
+        
+                if (numLikePerson.equals("0"))
+                    imgShareInterest.setBackgroundResource(R.drawable.ico_sharedinterest_disable);
+                else
+                    imgShareInterest.setBackgroundResource(R.drawable.ico_sharedinterest_normal);
+                
+                if (numPicture.equals("0"))
+                    imgPhoto.setBackgroundResource(R.drawable.ico_photo_disable);
+                else
+                    imgPhoto.setBackgroundResource(R.drawable.ico_photonormal);
+            }
+            else {
+                imgVip.setVisibility(View.VISIBLE);
+                imgVipFrame.setVisibility(View.VISIBLE);
+                tvName.setTextColor(getResources().getColor(R.color.text_vip));
+                if (numFriend.equals("0")){
+                    tvMutualFriend.setTextColor(getResources().getColor(R.color.text_vip_disable));
+                    imgMutualFriend.setBackgroundResource(R.drawable.multual_friends_inactivated);
+                }
+                else{
+                    tvMutualFriend.setTextColor(getResources().getColor(R.color.text_vip));
+                    imgMutualFriend.setBackgroundResource(R.drawable.multual_friends_activated);
+                }
+                if (numLikePerson.equals("0")){
+                    tvShareInterest.setTextColor(getResources().getColor(R.color.text_vip_disable));
+                    imgShareInterest.setBackgroundResource(R.drawable.interests_inactivated);
+                }
+                else{
+                    tvShareInterest.setTextColor(getResources().getColor(R.color.text_vip));
+                    imgShareInterest.setBackgroundResource(R.drawable.interests_activated);
+                }
+                if (numPicture.equals("0")){
+                    tvCountPhoto.setTextColor(getResources().getColor(R.color.text_vip_disable));
+                    imgPhoto.setBackgroundResource(R.drawable.total_image_inactivated);
+                }
+                else{
+                    tvCountPhoto.setTextColor(getResources().getColor(R.color.text_vip));
+                    imgPhoto.setBackgroundResource(R.drawable.total_image_activated);
+                }
+            }
         }
     }
     
@@ -277,6 +319,7 @@ public class SnapshotMain extends FrameLayout {
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
+                fltContent.setBackgroundDrawable(null);
                 x = event.getRawX();
                 y = event.getRawY();
                 tempX = (int) (x - dx);
@@ -325,6 +368,7 @@ public class SnapshotMain extends FrameLayout {
                     }
                     else dragSnapshotAnimation();
                 } else {
+                    fltContent.setBackgroundResource(R.drawable.back_polaroid);
                     returnSnapshot(tempX, tempY);
                 }
                 break;
@@ -589,6 +633,7 @@ public class SnapshotMain extends FrameLayout {
         if(isLoadingAnim())
             return;
         setLoadingAnim(true);
+        fltContent.setBackgroundDrawable(null);
         AnimationSet animationSet = new AnimationSet(true);
         TranslateAnimation translateAnim = null;
         RotateAnimation rotateAnim=null;
