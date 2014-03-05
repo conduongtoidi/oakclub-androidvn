@@ -51,6 +51,9 @@ public class MainActivity extends LoginBaseActivity {
 		setContentView(R.layout.activity_main);
 		
         //view = getWindow().getDecorView().findViewById(android.R.id.content);
+		Bundle bundleListChatData = getIntent().getExtras();
+		if (bundleListChatData != null)
+			isLoadListMutualMatch = bundleListChatData.getBoolean(Constants.isLoadListMutualMatch);
         
 		mPager = (ViewPager) findViewById(R.id.welcome_pager);
 		mIndicator = (PageIndicator) findViewById(R.id.welcome_indicator);

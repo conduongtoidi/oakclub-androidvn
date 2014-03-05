@@ -60,23 +60,20 @@ public class GCMIntentService extends GCMBaseIntentService {
 			
 			dataChat = OakClubJsonParser.getJsonObjectByMapper(intent.getExtras()
 					.getString("info"), DataChatNotification.class);
-			
 			if (isLoad && isLogin) {
 				ChatNotification(context, notificationContent);
 			}
 			
 			
 		} else if (intent.getExtras().getString("type").equals("mutual_match")) {
-			
-			
 			if (isLoad && isLogin) {
+				dataChat = OakClubJsonParser.getJsonObjectByMapper(intent.getExtras()
+						.getString("info"), DataChatNotification.class);
 				MutualMatchNotification(context, notificationContent);
 			}
-		} else if (intent.getExtras().getString("type").equals("total_like")) {
-			
-			
+		} else if (intent.getExtras().getString("type").equals("total_like")) {			
 			if (isLoad && isLogin) {
-				MutualMatchNotification(context, notificationContent);
+				TotalLikeNotification(context, notificationContent);
 			}
 		}
 	}
@@ -179,6 +176,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		Intent intent = new Intent(context, MainActivity.class);
 		
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(Constants.isLoadListMutualMatch, true);
+		intent.putExtras(bundle);
+		
         intent.setAction(Intent.ACTION_VIEW);
 		intent.setAction(Intent.ACTION_MAIN);
 		intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -216,5 +217,49 @@ public class GCMIntentService extends GCMBaseIntentService {
 		noti.ledOffMS = 1000;
 		
 		notiMgr.notify(dataChat.getProfile_id().hashCode(), noti);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void TotalLikeNotification(Context context, String content) {
+
+		Intent intent = new Intent(context, MainActivity.class);
+		
+        intent.setAction(Intent.ACTION_VIEW);
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+				| Intent.FLAG_ACTIVITY_CLEAR_TOP
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+		Random rd = new Random();
+		PendingIntent pI = PendingIntent.getActivity(context, rd.nextInt(10), intent,
+				PendingIntent.FLAG_ONE_SHOT);
+
+		NotificationManager notiMgr = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification noti = new Notification(R.drawable.logo_oakclub,
+				context.getString(R.string.app_name),
+				System.currentTimeMillis());
+		// layout
+		RemoteViews view = new RemoteViews(context.getPackageName(),
+				R.layout.layout_notification);
+		view.setTextViewText(R.id.titleNotify, content);
+
+		noti.contentView = view;
+		noti.contentIntent = pI;
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+		// Play default notification sound
+		noti.defaults |= Notification.DEFAULT_SOUND;
+
+		// Vibrate if vibrate is enabled
+		noti.defaults |= Notification.DEFAULT_VIBRATE;
+		
+		noti.flags |= Notification.FLAG_SHOW_LIGHTS;
+		noti.ledARGB = 0xff00ff00;
+		noti.ledOnMS = 300;
+		noti.ledOffMS = 1000;
+		
+		notiMgr.notify(1, noti);
 	}
 }

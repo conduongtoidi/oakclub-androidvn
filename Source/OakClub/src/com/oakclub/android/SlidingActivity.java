@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 
 import com.google.android.gms.internal.fm;
 import com.oakclub.android.base.SlidingMenuActivity;
+import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.fragment.SnapshotFragment;
 import com.oakclub.android.util.Constants;
@@ -34,9 +35,13 @@ public class SlidingActivity extends SlidingMenuActivity {
         super.onCreate(savedInstanceState);
         
         if (OakClubUtil.isInternetAccess(SlidingActivity.this)) {
+        	Bundle bundleListChatData = getIntent().getExtras();
+			if (bundleListChatData != null)
+				isLoadListMutualMatch = bundleListChatData.getBoolean(Constants.isLoadListMutualMatch);
 	        snapshot = new SnapshotFragment(this);
 	        snapshot.initSnapshot();
 	        this.setMenu(MenuOakclub.SNAPSHOT);
+	        
         }
     }
     

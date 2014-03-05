@@ -264,15 +264,15 @@ public class ChatActivity extends OakClubBaseActivity {
         TabSpec smileSpec = tabHost.newTabSpec("Smile");
         View tabView1 = createTabView(this, 0);
         smileSpec.setIndicator(tabView1);
-        Intent matchedIntent = new Intent(this, SmileActivity.class);
-        smileSpec.setContent(matchedIntent);
+        Intent smileIntent = new Intent(this, SmileActivity.class);
+        smileSpec.setContent(smileIntent);
         tabHost.addTab(smileSpec); 
         
         TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
         View tabView2 = createTabView(this, 1);
         stickerSpec.setIndicator(tabView2);
-        Intent nonMatchedIntent = new Intent(this, StickerActivity.class);
-        stickerSpec.setContent(nonMatchedIntent);
+        Intent stickerIntent = new Intent(this, StickerActivity.class);
+        stickerSpec.setContent(stickerIntent);
         tabHost.addTab(stickerSpec); 
 
         ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
@@ -373,13 +373,16 @@ public class ChatActivity extends OakClubBaseActivity {
         View view = LayoutInflater.from(context).inflate(R.layout.tabhost_smile, null, false);
         ImageView img = (ImageView) view.findViewById(R.id.tabhost_smile_img);
         
-        if (type == 0) {
-        	img.setImageResource(R.drawable.smile_icon);
-        } else {
-//	        String url = OakClubUtil.getFullLinkSticker(context, "angry.png");
-//	        OakClubUtil.loadImageFromUrl(context, img, url);
-        	img.setImageResource(R.drawable.egg_icon);
-        }
+        switch (type) {
+		case 0:
+			img.setImageResource(R.drawable.smile_icon);
+			break;
+		case 1:
+			img.setImageResource(R.drawable.egg_icon);
+			break;
+		default:
+			break;
+		}
         return view;
     }
 

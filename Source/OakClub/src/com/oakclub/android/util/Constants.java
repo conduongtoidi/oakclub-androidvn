@@ -91,6 +91,7 @@ public class Constants {
     public static int heightImage = 0;
     public static String isLoadChat = "isLoadChat";
     public static String IS_LOAD_CHAT_AGAIN = "isLoadChatAgain";
+    public static String isLoadListMutualMatch = "isLoadListMutualMatch";
 
     public static final String PHOTO_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "flv"; 
