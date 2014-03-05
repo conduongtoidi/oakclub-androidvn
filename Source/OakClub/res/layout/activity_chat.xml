@@ -172,7 +172,7 @@
     <RelativeLayout
         android:id="@+id/activity_list_smile_rlt_center"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="gone" >
 
@@ -180,17 +180,28 @@
             android:id="@android:id/tabhost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#fff" >
+            android:background="#fff">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp" >
+                </FrameLayout>
+                
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#d7d7d7" />
+                
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#fff" >
+                    android:background="#fff">
 
                     <TabWidget
                         android:id="@android:id/tabs"
@@ -201,17 +212,7 @@
                         android:gravity="center" >
                     </TabWidget>
                 </RelativeLayout>
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#d7d7d7" />
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </FrameLayout>
+                
             </LinearLayout>
         </TabHost>
     </RelativeLayout>

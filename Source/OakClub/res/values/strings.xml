@@ -191,6 +191,10 @@
     <string name="txt_save">{{b}}( Save %s%%){{/b}}</string>
     <string name="txt_vip_room">V.I.P Room</string>
     <string name="txt_vip_room_message">Sorry! This feature not available!</string>
+    <string name="txt_rate_app">Rate OakClub</string>
+    <string name="txt_content_rate_app">Please take 1 minute to let us know what you think about OakClub. Thank you for your support!</string>
+    <string name="txt_leave_us_a_message">Leave us a message</string>
+    <string name="txt_ask_me_later">Aske me later</string>
     
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>
