@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/dialog_warning_lltheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_base"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/dialog_warning_lltheader_imgLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_profile_logo" />
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/dialog_warning_lltheader_tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="@string/txt_rate_app"
+            android:textColor="@color/Purple"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:id="@+id/dialog_warning_tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="@string/txt_content_rate_app"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black" 
+        />
+	<View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#d7d7d7"/>
+    <LinearLayout
+        android:id="@+id/dialog_warning_lltfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/dialog_warning_lltfooter_btRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/white_purple_btn_"
+            android:text="@string/txt_rate_app"
+            android:textColor="@color/Purple" />
+        
+        
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="fill_parent"
+            android:background="#d7d7d7"/>
+
+        <Button
+            android:id="@+id/dialog_warning_lltfooter_btLeave_us_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/white_purple_btn_"
+            android:text="@string/txt_leave_us_a_message"
+            android:textColor="@color/Purple" />
+        
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="fill_parent"
+            android:background="#d7d7d7"/>
+
+        <Button
+            android:id="@+id/dialog_warning_lltfooter_btAsk_me_later"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/white_purple_btn_"
+            android:text="@string/txt_ask_me_later"
+            android:textColor="@color/Purple" />
+    </LinearLayout>
+
+</LinearLayout>
