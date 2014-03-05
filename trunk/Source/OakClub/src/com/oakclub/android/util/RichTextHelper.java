@@ -21,8 +21,8 @@ public class RichTextHelper {
 	            builder.append(boldText);
 
 	            myText=myText.substring(bIndex+6);
-	            int start=builder.length()-bIndex-1;
-	            int end =builder.length();//-1;
+	            int start=builder.length()-boldText.length();
+	            int end =builder.length();
 	            if((start>=0) && (end>start)){
 	                builder.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 	            }

@@ -103,7 +103,7 @@
                     android:layout_weight=".3"
                     android:text="@string/txt_month"
                     android:textColor="@color/Black"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -127,7 +127,7 @@
                         android:layout_toRightOf="@+id/radio_get_vip_package_1"
                         android:text="@string/txt_USD"
                         android:textColor="@color/Black"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -155,7 +155,7 @@
                     android:layout_weight=".3"
                     android:text="@string/txt_months"
                     android:textColor="@color/Black"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -178,7 +178,7 @@
                         android:layout_toRightOf="@+id/radio_get_vip_package_2"
                         android:text="@string/txt_USD"
                         android:textColor="@color/Black"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
 
                     <com.oakclub.android.view.TextViewWithFont
                         android:id="@+id/txt_billed_package_2"
@@ -226,7 +226,7 @@
                     android:layout_weight=".3"
                     android:text="@string/txt_months"
                     android:textColor="@color/Black"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -249,7 +249,7 @@
                         android:layout_toRightOf="@+id/radio_get_vip_package_3"
                         android:text="@string/txt_USD"
                         android:textColor="@color/Black"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
 
                     <com.oakclub.android.view.TextViewWithFont
                         android:id="@+id/txt_billed_package_3"
@@ -297,7 +297,7 @@
                     android:layout_weight=".3"
                     android:text="@string/txt_months"
                     android:textColor="@color/Black"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -320,7 +320,7 @@
                         android:layout_toRightOf="@+id/radio_get_vip_package_4"
                         android:text="@string/txt_USD"
                         android:textColor="@color/Black"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
 
                     <com.oakclub.android.view.TextViewWithFont
                         android:id="@+id/txt_billed_package_4"

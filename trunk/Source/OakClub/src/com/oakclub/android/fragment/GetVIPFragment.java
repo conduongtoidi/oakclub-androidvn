@@ -70,6 +70,7 @@ public class GetVIPFragment{
 				.findViewById(R.id.radio_get_vip_package_4);
 		btn_cancel.setOnClickListener(buttonClick);
 		btn_get_vip_package.setOnClickListener(buttonClick);
+		btn_get_vip_package.setEnabled(false);
 		int padding = (int) OakClubUtil.convertDpToPixel(12, activity);
 		
 		vip_logo = (ImageView) activity.findViewById(R.id.vip_logo);
@@ -222,7 +223,30 @@ public class GetVIPFragment{
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_get_vip:
-				enableDialogWarning(activity, activity.getString(R.string.txt_vip_room), activity.getString(R.string.txt_vip_room_message));
+				btn_get_vip_package.setEnabled(false);
+				if (OakClubUtil.isInternetAccess(activity)) {
+					enableDialogWarning(activity, activity.getString(R.string.txt_vip_room), activity.getString(R.string.txt_vip_room_message));
+					
+				}else{
+					AlertDialog.Builder builder;
+					builder = new AlertDialog.Builder(activity);
+					final AlertDialog dialog = builder.create();
+					LayoutInflater inflater = LayoutInflater.from(activity);
+					View layout = inflater
+							.inflate(R.layout.dialog_warning_ok, null);
+					dialog.setView(layout, 0, 0, 0, 0);
+					Button btnOK = (Button) layout
+							.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+					btnOK.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							activity.finish();
+						}
+					});
+					dialog.setCancelable(false);
+					dialog.show();
+				}
 				break;
 
 			case R.id.btn_cencel_get_vip:
@@ -230,18 +254,22 @@ public class GetVIPFragment{
 			case R.id.radio_get_vip_package_1:
 				SetUnCheck();
 				rd_package_1.setChecked(true);
+				btn_get_vip_package.setEnabled(true);
 				break;
 			case R.id.radio_get_vip_package_2:
 				SetUnCheck();
 				rd_package_2.setChecked(true);
+				btn_get_vip_package.setEnabled(true);
 				break;
 			case R.id.radio_get_vip_package_3:
 				SetUnCheck();
 				rd_package_3.setChecked(true);
+				btn_get_vip_package.setEnabled(true);
 				break;
 			case R.id.radio_get_vip_package_4:
 				SetUnCheck();
 				rd_package_4.setChecked(true);
+				btn_get_vip_package.setEnabled(true);
 				break;
 			default:
 				break;
