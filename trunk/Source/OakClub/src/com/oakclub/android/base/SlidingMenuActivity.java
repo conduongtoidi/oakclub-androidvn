@@ -77,6 +77,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
     private View v;
     protected Intent intent;
     public boolean isChangedAvatar = false;
+    public boolean isLoadListMutualMatch = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -159,6 +160,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.drawer_shadow);
 		getSupportFragmentManager().beginTransaction()
@@ -173,7 +175,6 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 			mNotificationTv.setText("" + totalUnreadMessage);
 			mNotificationTv.setVisibility(View.GONE);
 		}
-		
 	}
 
     private void setConfigImage() {
@@ -253,16 +254,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
             e.printStackTrace();
         }
         super.onDestroy();
-    }
-
-
-    
-    
-    public static void setTextmNotification(String str) {
-    	mNotificationTv.setText(str);
-    }
-
-    
+    }    
     
     @Override
     protected void onResume() {
@@ -285,8 +277,6 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	            editor.commit();
 	        }
         }
-        
-        
         super.onResume();
     }
 

@@ -75,6 +75,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	protected ProgressDialog pd;
 	public static Facebook facebook;
 	public static AsyncFacebookRunner mAsyncRunner;
+	protected boolean isLoadListMutualMatch = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -246,8 +247,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	}
 
 	private void startSnapshot() {
+		
 		Intent intent = new Intent(LoginBaseActivity.this,
 				SlidingActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(Constants.isLoadListMutualMatch, isLoadListMutualMatch);
+		intent.putExtras(bundle);
 		startActivity(intent);
 		finish();
 	}

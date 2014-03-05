@@ -82,6 +82,7 @@ public class SnapshotFragment{
     private DataConfig dataConfig;
     private int counter = 0;
     private int RATEAPP = 70;
+
     
     SlidingActivity activity;
     public SnapshotFragment(SlidingActivity activity){
@@ -101,7 +102,6 @@ public class SnapshotFragment{
         	activity.finish();
         }
         init(START_RECORD);
-
     }
     
     private View findViewById(int id){
@@ -154,6 +154,9 @@ public class SnapshotFragment{
         btnChat = (ImageButton) findViewById(R.id.activity_snapshot_flt_footer_ibn_chat);
         btnChat.setOnClickListener(snapEvent);
         
+        if(ProfileSettingFragment.profileInfoObj != null && !ProfileSettingFragment.profileInfoObj.isIs_vip()){
+        	btnChat.setBackgroundResource(R.drawable.vipchat_inactive);
+        }
         getListSnapshotData(start);
         
         GetConfig loader = new GetConfig(Constants.GETCONFIG, activity);
@@ -330,6 +333,7 @@ public class SnapshotFragment{
         private String proId = "";
         private String numberSet = "";
         private SetLikeMessageReturnObject resultEvent;
+        private boolean isLike;
         protected ProgressDialog pd;
 
         public SnapshotEvent(Object key, Activity activity, String profileId,
@@ -337,28 +341,14 @@ public class SnapshotFragment{
             super(key, activity);
             this.proId = profileId;
             this.numberSet = numberSet;
-
-            showDialogSnapshotCounter(activity);
-            launchMarket();
+            this.isLike = isLikedMe;
             
             if (Constants.ACTION_LIKE.equals(numberSet) && isLikedMe) {
-                if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(profileId)) {
-                    SlidingMenuActivity.listProfileSendMessage.add(profileId);
-                }
-                if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
-                    SlidingMenuActivity.mNotificationTv
-                    .setVisibility(View.GONE);
-                } else {
-                    SlidingMenuActivity.mNotificationTv.setText(""
-                            + SlidingMenuActivity.listProfileSendMessage.size());
-                        SlidingMenuActivity.mNotificationTv
-                                .setVisibility(View.VISIBLE);
-                }
                 getContentMain().showDialogMutualMatch();
                 pd = new ProgressDialog(activity);
-                pd.setMessage(activity.getString(R.string.txt_loading));
-                pd.setCancelable(false);
-                pd.show();   
+				pd.setMessage(activity.getString(R.string.txt_loading));
+				pd.setCancelable(false);
+				pd.show();
             }
         }
 
@@ -369,12 +359,31 @@ public class SnapshotFragment{
 
         @Override
         public void executeUI(Exception ex) {
-            if (resultEvent != null && resultEvent.isStatus()) {
-                if (pd != null && pd.isShowing()) {
-                    pd.dismiss();
+        	if (resultEvent != null && resultEvent.isStatus()) {
+        		if (pd != null && pd.isShowing()) {
+    				pd.dismiss();
+    			}
+        		counter++;
+        		showDialogSnapshotCounter(activity);
+                launchMarket();
+                
+                if (numberSet == Constants.ACTION_LIKE && isLike) {
+	                if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(proId)) {
+						SlidingMenuActivity.listProfileSendMessage.add(proId);
+					}
+					
+					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+						SlidingMenuActivity.mNotificationTv
+						.setVisibility(View.GONE);
+					} else {
+						SlidingMenuActivity.mNotificationTv.setText(""
+								+ SlidingMenuActivity.listProfileSendMessage.size());
+							SlidingMenuActivity.mNotificationTv
+									.setVisibility(View.VISIBLE);
+					}
                 }
-            } else {
-                AlertDialog.Builder builder;
+        	} else {
+        		AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(activity);
                 final AlertDialog dialog = builder.create();
                 LayoutInflater inflater = LayoutInflater
@@ -488,6 +497,7 @@ public class SnapshotFragment{
                 arrSnapshotMain.add(snapshotLayout);
                 data.remove(0);
             }
+
             addDataIntoSnapshotLayout();
         }
     }
@@ -515,26 +525,27 @@ public class SnapshotFragment{
     }
     
     private void launchMarket() {
-//      objSnapshot.getSnapshot_counter() + counter == RATEAPP
-        if (counter == RATEAPP) {
-            AlertDialog.Builder builder;
+//    	objSnapshot.getSnapshot_counter() + counter == RATEAPP
+    	if (objSnapshot.getSnapshot_counter() + counter == RATEAPP) {
+    		AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(activity);
             final AlertDialog dialog = builder.create();
             LayoutInflater inflater = LayoutInflater.from(activity);
-            View layout = inflater.inflate(R.layout.dialog_warning, null);
+            View layout = inflater.inflate(R.layout.dialog_rate_app, null);
             dialog.setView(layout, 0, 0, 0, 0);
             
-            TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-            tvTitle.setText(activity.getString(R.string.txt_warning));
+//            TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+//            tvTitle.setText(activity.getString(R.string.txt_warning));
             
-            TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-            tvContent.setText(String.format("text"));
-            Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
-            btOk.setText("Rate this app");
-            Button btCancel = (Button) layout
-                    .findViewById(R.id.dialog_warning_lltfooter_btCancel);
+//            TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvContent);
+//            tvContent.setText(String.format("Please, rate our app"));
+            Button btRate = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btRate);
+            Button btLeaveUsMessage = (Button) layout
+                    .findViewById(R.id.dialog_warning_lltfooter_btLeave_us_message);
+            Button btAskMeLater = (Button) layout
+                    .findViewById(R.id.dialog_warning_lltfooter_btAsk_me_later);
             
-            btOk.setOnClickListener(new View.OnClickListener() {
+            btRate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
                     dialog.dismiss();
@@ -547,7 +558,27 @@ public class SnapshotFragment{
                     }
                 }
             });
-            btCancel.setOnClickListener(new View.OnClickListener() {
+            
+            btLeaveUsMessage.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+					intent = new Intent(Intent.ACTION_SEND);
+	                intent.setType("message/rfc822");
+	                intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{activity.getString(R.string.mail_server_address)});
+	                intent.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.txt_subject_mail_contact));
+	                intent.putExtra(Intent.EXTRA_TEXT   , "");
+	                try {
+	                    activity.startActivity(Intent.createChooser(intent, "Send mail..."));
+	                } catch (android.content.ActivityNotFoundException ex) {
+	                    //Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+	                }
+					
+				}
+			});
+            
+            btAskMeLater.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
                     dialog.dismiss();
@@ -556,8 +587,8 @@ public class SnapshotFragment{
             dialog.show();
         }
     }
-    private void showDialogSnapshotCounter(final Activity activity) {
-        counter++;
+
+	private void showDialogSnapshotCounter(final Activity activity) {
         for (int i = 0; i < dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
             if (objSnapshot.getSnapshot_counter() + counter == dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
                 AlertDialog.Builder builder;
