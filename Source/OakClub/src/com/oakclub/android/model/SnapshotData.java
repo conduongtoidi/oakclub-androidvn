@@ -31,6 +31,7 @@ public class SnapshotData implements Serializable {
     private int work = 59 ;
     private int interested = 0;
     private boolean is_verify;
+    private boolean is_vip=false;
     
     public int getAge() {
         return age;
@@ -176,4 +177,10 @@ public class SnapshotData implements Serializable {
 	public void setIs_verify(boolean is_verify) {
 		this.is_verify = is_verify;
 	}
+    public boolean isIs_vip() {
+        return is_vip;
+    }
+    public void setIs_vip(boolean is_vip) {
+        this.is_vip = is_vip;
+    }
 }

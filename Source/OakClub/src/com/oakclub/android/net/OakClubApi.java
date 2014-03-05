@@ -126,7 +126,6 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			String headerValue = "UsernameToken "
 								+"Username=\""+ MainActivity.facebook_user_id
 								+"\", AccessToken=\""+MainActivity.access_token
-
 								+"\", Nonce=\"1ifn7s\", Created=\"2013-10-19T07:12:43.407Z\"";
 			hget.setHeader(Constants.HEADER_X_WSSE,headerValue);
 			hget.setHeader(Constants.HEADER_ACCEPT,"application/json");

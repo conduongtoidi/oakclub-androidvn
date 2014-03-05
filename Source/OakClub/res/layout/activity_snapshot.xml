@@ -24,14 +24,12 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:visibility="gone"
         >
         <FrameLayout
             android:id="@+id/activity_snapshot_flt_body"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/polaroid_back"
             >
     
         </FrameLayout>
@@ -39,6 +37,7 @@
             android:id="@+id/activity_snapshot_flt_footer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_weight="3"
             android:gravity="center"
             >
     
