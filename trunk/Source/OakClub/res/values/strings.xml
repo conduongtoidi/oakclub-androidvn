@@ -202,7 +202,7 @@
     <string name="txt_month_ago">month(s) ago</string>
     <string name="txt_year_ago">year(s) ago</string>
     <string name="txt_start_conversations_are_awkward_but_not_at_OakClub">Start conversations are awkward, but not at OakClub</string>
-    
+    <string name="txt_you_rated_snapshots">You rated %d SnapShots. Sharing is caring. Invite your friends!</string>
     
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>
