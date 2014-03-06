@@ -75,7 +75,6 @@ public class SnapshotFragment{
     public JSONArray jsonArray = null;
     private RelativeLayout progressCircle;
 
-    /* HieuPham */
     private Handler handler;
     private Runnable runnable;
 
