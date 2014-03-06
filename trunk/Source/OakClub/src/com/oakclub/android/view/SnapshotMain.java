@@ -140,11 +140,12 @@ public class SnapshotMain extends FrameLayout {
         int paddingBody = widthScreen/12; 
         this.setPadding(paddingBody, paddingBody, paddingBody, paddingBody);
 
-        paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
         fltImage = (FrameLayout)view.findViewById(R.id.activity_snapshot_flt_body_flt_content_flt_image);
+        paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
         fltImage.setPadding(paddingView, paddingView, paddingView, paddingView);
         fltParams = (LayoutParams) fltImage.getLayoutParams();
         rltInfo = (RelativeLayout) view.findViewById(R.id.activity_snapshot_flt_body_flt_content_rlt_info);
+        paddingView = (int)OakClubUtil.convertDpToPixel(10, getContext());
         rltInfo.setPadding(paddingView, paddingView, paddingView, paddingView);
         rltInfoRight = (RelativeLayout)rltInfo.findViewById(R.id.activity_snapshot_flt_body_flt_content_rlt_info_right);
         rltParams = (RelativeLayout.LayoutParams) rltInfoRight.getLayoutParams();
@@ -186,6 +187,16 @@ public class SnapshotMain extends FrameLayout {
                 heightT = fltParent.getMeasuredHeight();
             }
         });
+        vto = fltImage.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onGlobalLayout() {
+            	fltImage.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            	int width = fltImage.getMeasuredWidth();
+            	fltParams = new LayoutParams(width, width);
+            }
+        });
         vto = rltInfo.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @SuppressWarnings("deprecation")
@@ -200,6 +211,7 @@ public class SnapshotMain extends FrameLayout {
                 fltImage.setLayoutParams(fltParams);
             }
         });
+
         
         if(data!=null){
             setProfileId(data.getProfile_id());
@@ -360,7 +372,7 @@ public class SnapshotMain extends FrameLayout {
                     return true;
                 }
                 
-                if (Math.abs(tempX) > widthScreen / 4) {
+                if (Math.abs(tempX) > widthScreen / 6) {
                     if(tempX>0 && isFirstLike){
                         showDialogFirst(true, true);
                     }
@@ -369,7 +381,6 @@ public class SnapshotMain extends FrameLayout {
                     }
                     else dragSnapshotAnimation();
                 } else {
-                    fltContent.setBackgroundResource(R.drawable.back_polaroid);
                     returnSnapshot(tempX, tempY);
                 }
                 break;
@@ -594,15 +605,16 @@ public class SnapshotMain extends FrameLayout {
             @Override
             public void onAnimationEnd(Animation animation) {
                 setLoadingAnim(false);
+                
                 FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 p.gravity = Gravity.CENTER;
-                
                 SnapshotMain.this.clearAnimation();
                 SnapshotMain.this.setLayoutParams(p);
                 SnapshotMain.this.ivwLikeStamp.setAlpha(0.0f);
                 SnapshotMain.this.ivwNopeStamp.setAlpha(0.0f);
                 SnapshotMain.this.setRotation(0);
+                fltContent.setBackgroundResource(R.drawable.back_polaroid);
             }
         });
         
