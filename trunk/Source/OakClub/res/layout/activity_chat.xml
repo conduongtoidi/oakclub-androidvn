@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="You matched with Khuong Ngoc" />
+            android:text="@string/txt_chat_match_content" />
 
         <com.oakclub.android.view.TextViewWithFont
             android:id="@+id/activity_chat_match_time"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="15dp"
-            android:text="Start conversations are awkward, but not at OakClub" />
+            android:text="@string/txt_start_conversations_are_awkward_but_not_at_OakClub" />
     </LinearLayout>
 
     <ListView
