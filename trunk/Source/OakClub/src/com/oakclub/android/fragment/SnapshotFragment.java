@@ -609,7 +609,7 @@ public class SnapshotFragment{
 	                tvTitle.setText(activity.getString(R.string.txt_warning));
 	                
 	                TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-	                tvContent.setText(String.format("You rated %d SnapShots. Sharing is caring. Invite your friends!", dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
+	                tvContent.setText(String.format(activity.getString(R.string.txt_you_rated_snapshots), dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
 	                Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
 	                btOk.setText(activity.getString(R.string.txt_tell_your_friend));
 	                Button btCancel = (Button) layout
