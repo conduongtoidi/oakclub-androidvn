@@ -215,7 +215,7 @@ public class SnapshotFragment{
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.activity_snapshot_flt_footer_ibn_like
-                    && !isAction) {
+                    && !isAction && getContentMain()!=null) {
                 getContentMain().setPressButtonAction(Constants.ACTION_LIKE);
             } else if (v.getId() == R.id.activity_snapshot_flt_footer_ibn_info) {
                 intent = new Intent(activity,
@@ -229,7 +229,7 @@ public class SnapshotFragment{
                 activity.startActivityForResult(intent, 1);
                 System.gc();
             } else if (v.getId() == R.id.activity_snapshot_flt_footer_ibn_nope
-                    && !isAction) {
+                    && !isAction && getContentMain()!=null) {
                 getContentMain().setPressButtonAction(Constants.ACTION_NOPE);
             }else if(v.getId() == R.id.activity_snapshot_flt_footer_ibn_chat){
             	SnapshotData chatAccount = getContentMain().getData();
@@ -344,11 +344,10 @@ public class SnapshotFragment{
             this.isLike = isLikedMe;
             
             if (Constants.ACTION_LIKE.equals(numberSet) && isLikedMe) {
-                getContentMain().showDialogMutualMatch();
                 pd = new ProgressDialog(activity);
-				pd.setMessage(activity.getString(R.string.txt_loading));
-				pd.setCancelable(false);
-				pd.show();
+                pd.setMessage(activity.getString(R.string.txt_loading));
+                pd.setCancelable(false);
+                pd.show();  
             }
         }
 
@@ -481,10 +480,12 @@ public class SnapshotFragment{
     }
 
     private SnapshotMain getContentMain(){
-        SnapshotMain snapshot;
+        SnapshotMain snapshot =null;
         if(fltBody.getChildCount()==1)
             snapshot = (SnapshotMain) fltBody.getChildAt(0);
-        else snapshot = (SnapshotMain) fltBody.getChildAt(1);
+        else if(fltBody.getChildCount()>=1)
+            snapshot = (SnapshotMain) fltBody.getChildAt(1);
+        else snapshot=null;
         return snapshot;
     }
     
