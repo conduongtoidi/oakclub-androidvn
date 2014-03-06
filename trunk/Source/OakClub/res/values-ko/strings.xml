@@ -136,8 +136,17 @@
 <string name = "txt_signin_failed">Facebook에 연결 할 수 없습니다! 인터넷 연결을 확인하시고 다시 시도해주세요!</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">이 사용자 차단</string>
-<string name = "app_name">OakClub</string>
-<string name = "txt_share_url">www.oakclub.com</string>
-<string name = "app_id">537613816294876</string>
-<string name = "txt_new_friend_code">make_friend</string>
+<string name = "txt_chat_match_content">귀하는 %s 님과 연결되었습니다</string>
+<string name = "txt_one_minutes_ago">1 분 전</string>
+<string name = "txt_minutes_ago">%d 분 전</string>
+<string name = "txt_one_hour_ago">1 시간 전</string>
+<string name = "txt_hour_ago">%d 시간 전</string>
+<string name = "txt_one_day_ago">1 일 전</string>
+<string name = "txt_day_ago">%d 일 전</string>
+<string name = "txt_one_month_ago">1 개월 전</string>
+<string name = "txt_month_ago">%d 개월 전</string>
+<string name = "txt_one_year_ago">1 년 전</string>
+<string name = "txt_year_ago">%d 년 전</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">대화를 시작하는게 어색하세요, 하지만 OakClub에서는 괜찮아요!</string>
+
 </resources>

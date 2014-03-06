@@ -136,4 +136,17 @@
 <string name = "value_active_dayago">%d дней назад</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Блокировать этого пользователя</string>
+<string name = "txt_chat_match_content">Вы сочетается с %s</string>
+<string name = "txt_one_minutes_ago">1 минуту назад</string>
+<string name = "txt_minutes_ago">минут назад: %d</string>
+<string name = "txt_one_hour_ago">1 час назад</string>
+<string name = "txt_hour_ago">часов назад: %d</string>
+<string name = "txt_one_day_ago">1 день назад</string>
+<string name = "txt_day_ago">дней назад: %d</string>
+<string name = "txt_one_month_ago">1 месяц назад</string>
+<string name = "txt_month_ago">месяцев назад: %d</string>
+<string name = "txt_one_year_ago">1 год назад</string>
+<string name = "txt_year_ago">лет назад: %d</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Начало разговоров неудобно, но не на OakClub!</string>
+
 </resources>

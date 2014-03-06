@@ -170,4 +170,17 @@
       <string name="txt_take_to_snapshot"> พาฉันไปที่ภาพหน้าจอ</string>
     <string name="txt_thank_you"> ขอบคุณ!</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name = "txt_chat_match_content">คุณจับคู่กับ %s</string>
+<string name = "txt_one_minutes_ago">1 นาทีที่แล้ว</string>
+<string name = "txt_minutes_ago">%d นาทีที่แล้ว</string>
+<string name = "txt_one_hour_ago">1 ชั่วโมงที่แล้ว</string>
+<string name = "txt_hour_ago">%d ชั่วโมงที่แล้ว</string>
+<string name = "txt_one_day_ago">1 วันที่แล้ว</string>
+<string name = "txt_day_ago">%d วันที่แล้ว</string>
+<string name = "txt_one_month_ago">1 เดือนที่แล้ว</string>
+<string name = "txt_month_ago">%d เดือนที่แล้ว</string>
+<string name = "txt_one_year_ago">1 ปีที่แล้ว</string>
+<string name = "txt_year_ago">%d ปีที่แล้ว</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">การเริ่มต้นพูดคุยอาจเป็นเรื่องยาก แต่ไม่ใช่ที่ Oakclub!</string>
+    
 </resources>

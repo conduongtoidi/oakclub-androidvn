@@ -170,4 +170,17 @@
       <string name="txt_take_to_snapshot">  قم بتحويلي لشاشة التقاط الصور!</string>
     <string name="txt_thank_you">   شكراً لك!</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name = "txt_chat_match_content">لقد تطابقت مع %s</string>
+<string name = "txt_one_minutes_ago">منذ 1 دقيقة</string>
+<string name = "txt_minutes_ago">%d منذ دقائق</string>
+<string name = "txt_one_hour_ago">منذ 1 ساعة</string>
+<string name = "txt_hour_ago">%d منذ ساعات</string>
+<string name = "txt_one_day_ago">منذ 1 يوم</string>
+<string name = "txt_day_ago">%d منذ أيام</string>
+<string name = "txt_one_month_ago">منذ 1 شهر</string>
+<string name = "txt_month_ago">%d منذ شهور</string>
+<string name = "txt_one_year_ago">منذ 1 سنة</string>
+<string name = "txt_year_ago">%d منذ سنوات</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">بدء المحادثات يعتبر شيئ صعب, ولكن هذا ليس في أوكلوب</string>
+    
 </resources>

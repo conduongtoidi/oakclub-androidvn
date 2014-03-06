@@ -170,6 +170,18 @@
       <string name="txt_take_to_snapshot"> Weiter zu den SnapShots</string>
     <string name="txt_thank_you"> Vielen Dank!</string>
    
+    <string name = "txt_chat_match_content">Du passt perfekt zu %s</string>
+<string name = "txt_one_minutes_ago">Vor 1 Minute</string>
+<string name = "txt_minutes_ago">%d Vor einigen Minuten</string>
+<string name = "txt_one_hour_ago">Vor 1 Stunde</string>
+<string name = "txt_hour_ago">%d Vor einigen Stunden</string>
+<string name = "txt_one_day_ago">Vor 1 Tag</string>
+<string name = "txt_day_ago">%d Vor einigen Tagen</string>
+<string name = "txt_one_month_ago">Vor 1 Monat</string>
+<string name = "txt_month_ago">%d Vor einigen Monaten</string>
+<string name = "txt_one_year_ago">Vor 1 Jahr</string>
+<string name = "txt_year_ago">%d Vor einigen Jahren</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Ein Gespräch zu starten ist immer etwas komisch, aber nicht bei OakClub!</string>
     
 
 </resources>

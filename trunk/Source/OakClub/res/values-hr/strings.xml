@@ -136,4 +136,17 @@
 <string name = "value_active_dayago">%d dana prije</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Blokiraj ovog korisnika</string>
+<string name = "txt_chat_match_content">Spojen si sa %s</string>
+<string name = "txt_one_minutes_ago">prije 1 minute</string>
+<string name = "txt_minutes_ago">%d prije minuta</string>
+<string name = "txt_one_hour_ago">prije sat vremena</string>
+<string name = "txt_hour_ago">%d prije sati</string>
+<string name = "txt_one_day_ago">jučer</string>
+<string name = "txt_day_ago">%d prije dana</string>
+<string name = "txt_one_month_ago">prije mjesec dana</string>
+<string name = "txt_month_ago">%d prije mjeseci</string>
+<string name = "txt_one_year_ago">prije godinu dana</string>
+<string name = "txt_year_ago">%d prije godinu</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Početak razgovora može biti neugodan, ali ne na Oakclub-u!</string>
+
 </resources>

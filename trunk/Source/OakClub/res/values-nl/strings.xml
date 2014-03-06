@@ -136,4 +136,17 @@
 <string name = "value_active_dayago">%d dagen geleden</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Blokkeer deze gebruiker</string>
+<string name = "txt_chat_match_content">Je hebt een match met %s</string>
+<string name = "txt_one_minutes_ago">1 minuut geleden</string>
+<string name = "txt_minutes_ago">%d minuten geleden</string>
+<string name = "txt_one_hour_ago">1 uur geleden</string>
+<string name = "txt_hour_ago">%d uur geleden</string>
+<string name = "txt_one_day_ago">1 dag geleden</string>
+<string name = "txt_day_ago">%d dagen geleden</string>
+<string name = "txt_one_month_ago">1 maand geleden</string>
+<string name = "txt_month_ago">%d maanden geleden</string>
+<string name = "txt_one_year_ago">1 jaar geleden</string>
+<string name = "txt_year_ago">%d jaar geleden</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Een gesprek starten is moeilijk, maar niet bij Oakclub!</string>
+
 </resources>

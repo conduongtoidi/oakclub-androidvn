@@ -136,4 +136,16 @@
 <string name = "value_active_dayago">%d zile în urmă</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Blochează utilizatorul acesta</string>
+<string name = "txt_chat_match_content">Te-ai potrivit cu %s</string>
+<string name = "txt_one_minutes_ago">acum 1 minut</string>
+<string name = "txt_minutes_ago">%d minute in urmă</string>
+<string name = "txt_one_hour_ago">acum 1 oră</string>
+<string name = "txt_hour_ago">%d ore în urmă</string>
+<string name = "txt_one_day_ago">acum 1 zi</string>
+<string name = "txt_day_ago">%d zile în urmă</string>
+<string name = "txt_one_month_ago">acum 1 lună</string>
+<string name = "txt_month_ago">%d luni în urmă</string>
+<string name = "txt_one_year_ago">acum 1 an</string>
+<string name = "txt_year_ago">%d ani în urmă</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Să începi conversații este incomod, dar nu şi la Oakclub!</string>
 </resources>

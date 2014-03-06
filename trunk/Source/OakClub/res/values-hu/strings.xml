@@ -136,4 +136,17 @@
 <string name = "value_active_dayago">%d napja</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Zárold ezt a felhasználót</string>
+<string name = "txt_chat_match_content">Összepárosítottak %s -val/vel</string>
+<string name = "txt_one_minutes_ago">1 perce</string>
+<string name = "txt_minutes_ago">%d perce</string>
+<string name = "txt_one_hour_ago">1 órája</string>
+<string name = "txt_hour_ago">%d órája</string>
+<string name = "txt_one_day_ago">1 napja</string>
+<string name = "txt_day_ago">%d napja</string>
+<string name = "txt_one_month_ago">1 hónapja</string>
+<string name = "txt_month_ago">%d hónapja</string>
+<string name = "txt_one_year_ago">1 éve</string>
+<string name = "txt_year_ago">%d éve</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Beszélgetést kezdeményezni kényelmetlen, de nem az Oakclubon!</string>
+
 </resources>
