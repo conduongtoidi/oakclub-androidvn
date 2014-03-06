@@ -185,7 +185,8 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 					if (baseAllList.get(i).isIs_vip()) {
 						vipList.add(baseAllList.get(i));
 					}
-					if (baseAllList.get(i).getUnread_count() > 0 && (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(baseAllList.get(i).getProfile_id()))) {
+					
+					if ((baseAllList.get(i).getUnread_count() > 0 || baseAllList.get(i).getStatus() == 0) && (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(baseAllList.get(i).getProfile_id()))) {
 						SlidingMenuActivity.listProfileSendMessage.add(baseAllList.get(i).getProfile_id());
 					}
 					

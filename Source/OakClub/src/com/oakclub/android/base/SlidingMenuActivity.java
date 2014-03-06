@@ -78,6 +78,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
     protected Intent intent;
     public boolean isChangedAvatar = false;
     public boolean isLoadListMutualMatch = false;
+    public String profileIdMultualMatch = "";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

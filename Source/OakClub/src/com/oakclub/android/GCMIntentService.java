@@ -178,6 +178,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 		Bundle bundle = new Bundle();
 		bundle.putBoolean(Constants.isLoadListMutualMatch, true);
+		bundle.putString(Constants.BUNDLE_PROFILE_ID, dataChat.getProfile_id());
 		intent.putExtras(bundle);
 		
         intent.setAction(Intent.ACTION_VIEW);

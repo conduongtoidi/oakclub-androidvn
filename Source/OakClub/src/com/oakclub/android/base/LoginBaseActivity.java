@@ -76,6 +76,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	public static Facebook facebook;
 	public static AsyncFacebookRunner mAsyncRunner;
 	protected boolean isLoadListMutualMatch = false;
+	protected String profileIdMultualMatch = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -252,6 +253,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				SlidingActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putBoolean(Constants.isLoadListMutualMatch, isLoadListMutualMatch);
+		bundle.putString(Constants.BUNDLE_PROFILE_ID, profileIdMultualMatch);
 		intent.putExtras(bundle);
 		startActivity(intent);
 		finish();
