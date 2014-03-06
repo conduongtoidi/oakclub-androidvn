@@ -195,6 +195,14 @@
     <string name="txt_content_rate_app">Please take 1 minute to let us know what you think about OakClub. Thank you for your support!</string>
     <string name="txt_leave_us_a_message">Leave us a message</string>
     <string name="txt_ask_me_later">Aske me later</string>
+    <string name="txt_chat_match_content">You matched with %s</string>
+    <string name="txt_minutes_ago">minute(s) ago</string>
+    <string name="txt_hour_ago">hour(s) ago</string>
+    <string name="txt_day_ago">day(s) ago</string>
+    <string name="txt_month_ago">month(s) ago</string>
+    <string name="txt_year_ago">year(s) ago</string>
+    <string name="txt_start_conversations_are_awkward_but_not_at_OakClub">Start conversations are awkward, but not at OakClub</string>
+    
     
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>
