@@ -170,4 +170,17 @@
       <string name="txt_take_to_snapshot"> Beni Anlık Öneriler\'e  yönlendir</string>
     <string name="txt_thank_you"> Teşekkür ederiz!</string>
     <string name="txt_non_VIP_message">This feature is only for VIP users.</string>
+    <string name = "txt_chat_match_content">%s ile</string>
+<string name = "txt_one_minutes_ago">1 dakika önce</string>
+<string name = "txt_minutes_ago">%d dakika önce</string>
+<string name = "txt_one_hour_ago">1 saat önce</string>
+<string name = "txt_hour_ago">%d saat önce</string>
+<string name = "txt_one_day_ago">1 gün önce</string>
+<string name = "txt_day_ago">%d gün önce</string>
+<string name = "txt_one_month_ago">1 ay önce</string>
+<string name = "txt_month_ago">%d ay önce</string>
+<string name = "txt_one_year_ago">1 yıl önce</string>
+<string name = "txt_year_ago">%d yıl önce eşleştin</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Konuşmaların başı gariptir ama OakClub\'da değil!</string>
+    
 </resources>

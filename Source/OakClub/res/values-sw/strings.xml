@@ -136,8 +136,17 @@
 <string name = "txt_signin_failed">Haiwezi kuungana kwa Facebook!Angalia muunganisho wako wa intaneti na ujaribu tena!</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Zuia mtumiaji huyu</string>
-<string name = "app_name">OakClub</string>
-<string name = "txt_share_url">www.oakclub.com</string>
-<string name = "app_id">537613816294876</string>
-<string name = "txt_new_friend_code">make_friend</string>
+<string name = "txt_chat_match_content">Umelinganiswha na %s</string>
+<string name = "txt_one_minutes_ago">dakika 1 iliyopita</string>
+<string name = "txt_minutes_ago">%d dakika zilizopita</string>
+<string name = "txt_one_hour_ago">Saa 1 iliyopita</string>
+<string name = "txt_hour_ago">%d masaa yaliyopita</string>
+<string name = "txt_one_day_ago">Siku 1 iliyopita</string>
+<string name = "txt_day_ago">%d siku zilizopita</string>
+<string name = "txt_one_month_ago">mwezi 1 iliyopita</string>
+<string name = "txt_month_ago">%d miezi yaliyopita</string>
+<string name = "txt_one_year_ago">mwaka 1 iliyopita</string>
+<string name = "txt_year_ago">%d miaka yaliyopita</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Kuanza mazungumzo inafedhehesha,lakini si kwa OakClub!</string>
+
 </resources>

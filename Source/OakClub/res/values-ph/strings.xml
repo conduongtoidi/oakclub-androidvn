@@ -136,8 +136,17 @@
 <string name = "txt_signin_failed">Hindi makakonekta sa Facebook! Tingnan ang iyong koneksyon sa internet at subukan muli!</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">I-block ang user na ito</string>
-<string name = "app_name">OakClub</string>
-<string name = "txt_share_url">www.oakclub.com</string>
-<string name = "app_id">537613816294876</string>
-<string name = "txt_new_friend_code">make_friend</string>
+<string name = "txt_chat_match_content">Nag-match ka kay %s</string>
+<string name = "txt_one_minutes_ago">1 minuto na ang nakalipas</string>
+<string name = "txt_minutes_ago">%d minuto na ang nakalipas</string>
+<string name = "txt_one_hour_ago">1 oras na ang nakalipas</string>
+<string name = "txt_hour_ago">%d oras na ang nakalipas</string>
+<string name = "txt_one_day_ago">1 araw na ang nakalipas</string>
+<string name = "txt_day_ago">%d araw na ang nakalipas</string>
+<string name = "txt_one_month_ago">1 buwan na ang nakalipas</string>
+<string name = "txt_month_ago">%d buwan na ang nakalipas</string>
+<string name = "txt_one_year_ago">1 taon na ang nakalipas</string>
+<string name = "txt_year_ago">%d taon na ang nakalipas</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Ang pagpapasimula ng pag-uusap ay nakakailang, ngunit hindi sa OakClub!</string>
+
 </resources>

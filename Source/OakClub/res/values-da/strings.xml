@@ -136,4 +136,17 @@
 <string name = "value_active_dayago">%d dage siden</string>
 <string name = "txt_get_location_failed">Can\'t get location from GPS. Please try again later.</string>
 <string name = "txt_block_user">Blokér denne bruger</string>
+<string name = "txt_chat_match_content">Du er blevet matched med %s</string>
+<string name = "txt_one_minutes_ago">1 minut siden</string>
+<string name = "txt_minutes_ago">%d minutter siden</string>
+<string name = "txt_one_hour_ago">1 time siden</string>
+<string name = "txt_hour_ago">%d timer siden</string>
+<string name = "txt_one_day_ago">1 dag siden</string>
+<string name = "txt_day_ago">%d dage siden</string>
+<string name = "txt_one_month_ago">1 måned siden</string>
+<string name = "txt_month_ago">%d måneder siden</string>
+<string name = "txt_one_year_ago">1 år siden</string>
+<string name = "txt_year_ago">%d år siden</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Det kan være akavet at starte en samtale, men ikke hos Oakclub!</string>
+
 </resources>

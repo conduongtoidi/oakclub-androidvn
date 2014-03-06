@@ -168,5 +168,17 @@
     <string name="txt_content_rate_app">Chỉ cần 1 phút, xin mời bạn đánh giá OakClub của chúng tôi. Cảm ơn rất nhiều.</string>
     <string name="txt_leave_us_a_message">Góp ý</string>
     <string name="txt_ask_me_later">Để sau</string>
-
+	<string name = "txt_chat_match_content">Bạn đã được kết đôi với %s</string>
+<string name = "txt_one_minutes_ago">1 phút trước</string>
+<string name = "txt_minutes_ago">%d phút trước</string>
+<string name = "txt_one_hour_ago">1 giờ trước</string>
+<string name = "txt_hour_ago">%d giờ trước</string>
+<string name = "txt_one_day_ago">1 ngày trước</string>
+<string name = "txt_day_ago">%d ngày trước</string>
+<string name = "txt_one_month_ago">1 tháng trước</string>
+<string name = "txt_month_ago">%d tháng trước</string>
+<string name = "txt_one_year_ago">1 năm trước</string>
+<string name = "txt_year_ago">%d năm trước</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Đừng mắc cỡ, làm quen với người ta đi nào!</string>
+    
 </resources>

@@ -170,4 +170,17 @@
   <string name="txt_got_it">Oke, saya mengerti</string>
       <string name="txt_take_to_snapshot"> Bawalah saya ke layar Cuplikan!</string>
     <string name="txt_thank_you"> Terima kasih!</string>
+    <string name = "txt_chat_match_content">Anda cocok dengan%</string>
+<string name = "txt_one_minutes_ago">1 menit yang lalu</string>
+<string name = "txt_minutes_ago">%d menit yang lalu</string>
+<string name = "txt_one_hour_ago">1 jam yang lalu</string>
+<string name = "txt_hour_ago">%d jam yang lalu</string>
+<string name = "txt_one_day_ago">1 hari yang lalu</string>
+<string name = "txt_day_ago">%d hari yang lalu</string>
+<string name = "txt_one_month_ago">1 bulan yang lalu</string>
+<string name = "txt_month_ago">%d bulan yang lalu</string>
+<string name = "txt_one_year_ago">1 tahun yang lalu</string>
+<string name = "txt_year_ago">%d tahun yang lalu</string>
+<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Memulai obrolan memang canggung, tapi tidak di OakClub!</string>
+    
 </resources>
