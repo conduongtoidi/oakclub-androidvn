@@ -226,7 +226,7 @@ public class GetVIPFragment{
 				btn_get_vip_package.setEnabled(false);
 				if (OakClubUtil.isInternetAccess(activity)) {
 					enableDialogWarning(activity, activity.getString(R.string.txt_vip_room), activity.getString(R.string.txt_vip_room_message));
-					
+					btn_get_vip_package.setEnabled(true);
 				}else{
 					AlertDialog.Builder builder;
 					builder = new AlertDialog.Builder(activity);

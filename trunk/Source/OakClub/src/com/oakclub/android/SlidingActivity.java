@@ -36,8 +36,10 @@ public class SlidingActivity extends SlidingMenuActivity {
         
         if (OakClubUtil.isInternetAccess(SlidingActivity.this)) {
         	Bundle bundleListChatData = getIntent().getExtras();
-			if (bundleListChatData != null)
+			if (bundleListChatData != null) {
 				isLoadListMutualMatch = bundleListChatData.getBoolean(Constants.isLoadListMutualMatch);
+				profileIdMultualMatch = bundleListChatData.getString(Constants.BUNDLE_PROFILE_ID);
+			}
 	        snapshot = new SnapshotFragment(this);
 	        snapshot.initSnapshot();
 	        this.setMenu(MenuOakclub.SNAPSHOT);
