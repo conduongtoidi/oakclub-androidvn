@@ -982,15 +982,15 @@ public class ChatActivity extends OakClubBaseActivity {
 			time = 1;
 
 		if (time < 59)
-			result = time + " minute(s) ago";
+			result = time + " " + getString(R.string.txt_minutes_ago);
 		else if (time < 60 * 60)
-			result = time / 60 + " hour(s) ago";
+			result = time / 60 + " " + getString(R.string.txt_hour_ago);
 		else if (time < 60 * 60 * 24)
-			result = time / (60 * 24) + " day(s) ago";
+			result = time / (60 * 24) + " " + getString(R.string.txt_day_ago);
 		else if (time < 60 * 60 * 24 * 30)
-			result = time / (60 * 24 * 30) + " month(s) ago";
+			result = time / (60 * 24 * 30) + " " + getString(R.string.txt_month_ago);
 		else
-			result = time / (60 * 24 * 30 * 12) + " year(s) ago";
+			result = time / (60 * 24 * 30 * 12) + " " + getString(R.string.txt_year_ago);
 		
 		return result;
 	}
