@@ -48,12 +48,4 @@ public class TextViewWithFont extends TextView {
 	public void setFont(String font) {
 		this.font = font;
 	}
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 }
