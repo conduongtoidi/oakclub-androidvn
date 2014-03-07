@@ -838,6 +838,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 		    if(position< imageCache.size()){
 		        SmartImageView imageView = new SmartImageView(InfoProfileOtherActivity.this);
                 imageView.setBackgroundColor(Color.BLACK);
+                imageView.setBackgroundResource(R.drawable.logo_splashscreen);
                 imageView.setOnClickListener(zoomEvent);
                 params = new  android.widget.FrameLayout.LayoutParams(
                                 android.widget.FrameLayout.LayoutParams.MATCH_PARENT, 
