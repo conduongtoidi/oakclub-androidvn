@@ -525,6 +525,17 @@ public class SnapshotFragment{
                 fltBody.addView(arrSnapshotMain.get(0));
                 arrSnapshotMain.remove(0);
                 fltBody.getChildAt(0).bringToFront();
+                if(i==1){
+                	handler = new Handler();
+                	runnable = new Runnable() {
+						@Override
+						public void run() {
+		                	fltBody.getChildAt(0).setVisibility(View.VISIBLE);
+						}
+					};
+					handler.postDelayed(runnable, TIMER);
+                	fltBody.getChildAt(0).setVisibility(View.INVISIBLE);
+                }
             }            
         }
     }

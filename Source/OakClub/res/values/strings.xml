@@ -293,6 +293,7 @@
         <item>@string/txt_language_ko</item>
         <item>@string/txt_language_sw</item>
         <item>@string/txt_language_ph</item>
+        <item>@string/txt_language_hi</item>
     </string-array>
 
     <string name="txt_language_en">English</string>
@@ -318,5 +319,6 @@
     <string name="txt_language_ko">Korean</string>
     <string name="txt_language_sw">Swahili</string>
     <string name="txt_language_ph">Philipino</string>
+    <string name="txt_language_hi">Hindi</string>
     
 </resources>

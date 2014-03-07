@@ -129,12 +129,14 @@ public class SnapshotMain extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         view = inflater.inflate(R.layout.layout_snapshot, null);
         //view.setPadding(paddingView, paddingView, paddingView, paddingView);
-        fltParams = (LayoutParams) view.getLayoutParams();
+        fltParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(fltParams);
         
         fltContent = new FrameLayout(getContext());
         paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
         fltContent.setPadding(paddingView, paddingView, paddingView, paddingView);
         fltContent.addView(view);
+        fltContent.setLayoutParams(fltParams);
         fltContent.setBackgroundResource(R.drawable.back_polaroid);
         this.addView(fltContent);
         int paddingBody = widthScreen/12; 
@@ -187,28 +189,36 @@ public class SnapshotMain extends FrameLayout {
                 heightT = fltParent.getMeasuredHeight();
             }
         });
-        vto = fltImage.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-            	fltImage.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            	int width = fltImage.getMeasuredWidth();
-            	fltParams = new LayoutParams(width, width);
-            }
-        });
+//        vto = fltImage.getViewTreeObserver();
+//        vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+//            @SuppressWarnings("deprecation")
+//            @Override
+//            public void onGlobalLayout() {
+//            	fltImage.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//            	int width = fltImage.getMeasuredWidth();
+//            	int height = fltImage.getMeasuredHeight();
+//            	if(width<height)
+//            		fltParams = new LayoutParams(width, width);
+//            	else fltParams = new LayoutParams(height, height);
+//                fltImage.setLayoutParams(fltParams);
+//            }
+//        });
         vto = rltInfo.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
                 rltInfo.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                rltParams = new RelativeLayout.LayoutParams(imgMutualFriend.getMeasuredWidth()*6, LayoutParams.WRAP_CONTENT);
+                rltParams = new RelativeLayout.LayoutParams(imgMutualFriend.getMeasuredWidth()*8, imgMutualFriend.getMeasuredWidth()*8);
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                rltParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rltInfoRight.setLayoutParams(rltParams);
                 
                 fltParams.bottomMargin = imgMutualFriend.getMeasuredHeight() + tvMutualFriend.getMeasuredHeight() + paddingView;
                 fltImage.setLayoutParams(fltParams);
+                fltParams = new LayoutParams(LayoutParams.MATCH_PARENT, rltInfoRight.getMeasuredHeight());
+                fltParams.gravity = Gravity.BOTTOM;
+                rltInfo.setLayoutParams(fltParams);
             }
         });
 
@@ -320,7 +330,9 @@ public class SnapshotMain extends FrameLayout {
                     Constants.PREFERENCE_SHOW_LIKE_DIALOG, true);
             isFirstNope = pref.getBoolean(
                     Constants.PREFERENCE_SHOW_NOPE_DIALOG, true);
-            
+
+        	if(snapshot.fltBody.getChildCount()>1)
+        		snapshot.fltBody.getChildAt(0).setVisibility(View.VISIBLE);
             switch (action) {
             case MotionEvent.ACTION_DOWN: {
                 tempX = 0;
@@ -359,6 +371,7 @@ public class SnapshotMain extends FrameLayout {
 
             }
             case MotionEvent.ACTION_UP: {
+                fltContent.setBackgroundDrawable(null);
                 if (Math.abs(tempX) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE && Math.abs(tempY) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE) {
                     Intent intent = new Intent(getContext(), InfoProfileOtherActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -646,7 +659,7 @@ public class SnapshotMain extends FrameLayout {
         if(isLoadingAnim())
             return;
         setLoadingAnim(true);
-        fltContent.setBackgroundDrawable(null);
+        
         AnimationSet animationSet = new AnimationSet(true);
         TranslateAnimation translateAnim = null;
         RotateAnimation rotateAnim=null;
@@ -722,6 +735,10 @@ public class SnapshotMain extends FrameLayout {
         
         animationSet.addAnimation(rotateAnim);
         animationSet.addAnimation(translateAnim);
+
+    	if(snapshot.fltBody.getChildCount()>1)
+    		snapshot.fltBody.getChildAt(0).setVisibility(View.VISIBLE);
+        fltContent.setBackgroundDrawable(null);
         this.startAnimation(animationSet);
     }
 }
