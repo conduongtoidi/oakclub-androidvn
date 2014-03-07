@@ -88,81 +88,10 @@ public class ChooseLanguageActivity extends Activity {
 					}
 				}
 				if (currentId!=selectedId){
-					switch (selectedId){
-				    case 0:
-                        setLocale("en");
-                        break;
-                    case 1:
-                        setLocale("vi");
-                        break;
-                    case 2:
-                        setLocale("de");
-                        break;
-                    case 3:
-                        setLocale("id");
-                        break;
-                    case 4:
-                        setLocale("th");
-                        break;
-                    case 5:
-                        setLocale("ru");
-                        break;
-                    case 6:
-                        setLocale("es");
-                        break;
-                    case 7:
-                        setLocale("fr");
-                        break;
-                    case 8:
-                        setLocale("tr");
-                        break;
-                    case 9:
-                        setLocale("da");
-                        break;
-                    case 10:
-                        setLocale("nb");
-                        break;
-                    case 11:
-                        setLocale("sv");
-                        break;
-                    case 12:
-                        setLocale("ro");
-                        break;
-                    case 13:
-                        setLocale("pl");
-                        break;
-                    case 14:
-                        setLocale("bg");
-                        break;
-                    case 15:
-                        setLocale("hu");
-                        break;
-                    case 16:
-                        setLocale("hr");
-                        break;
-                    case 17:
-                        setLocale("el");
-                        break;
-                    case 18:
-                        setLocale("nl");
-                        break;
-                    case 19:
-                        setLocale("ar");
-                        break;
-                    case 20:
-                        setLocale("ko");
-                        break;
-                    case 21:
-                        setLocale("sw");
-                        break;
-                    case 22:
-                        setLocale("ph");
-                        break;
-                    default:
-                        setLocale("en");
-                        break;
-                    }
-                    
+
+					if(selectedId<Constants.LANGUAGE_LOCALE.length-1)
+						setLocale(Constants.LANGUAGE_LOCALE[selectedId]);
+					else setLocale(Constants.LANGUAGE_LOCALE[0]);
 					Editor editor = getSharedPreferences(
 							Constants.PREFERENCE_NAME, 0)
 							.edit();

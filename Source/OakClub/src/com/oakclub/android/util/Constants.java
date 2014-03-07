@@ -121,6 +121,10 @@ public class Constants {
     
 	public static final String SENDER_ID = "105826272497";//"377367791749";//"857951122835";
 	public static final int[] SnapShotCounter = {50, 250, 500, 1000};
-	
+	public static final String[] LANGUAGE_LOCALE = {"en", "vi", "de", "id", "th",
+													   "ru", "es", "fr", "tr", "da",
+													   "nb", "sv", "ro", "pl", "bg",
+													   "hu", "hr", "el", "nl", "ar",
+													   "ko", "sw", "ph", "hi"};
     
 }

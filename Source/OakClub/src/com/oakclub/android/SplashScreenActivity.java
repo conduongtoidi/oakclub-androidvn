@@ -132,71 +132,9 @@ public class SplashScreenActivity extends Activity {
 				} else {
 					int lang = pref.getInt(Constants.PREFERENCE_LANGUAGE, 0);
 					Log.v("LangId: ", lang + "");
-					switch (lang){
-				    case 0:
-                        setLocale("en");
-                        break;
-                    case 1:
-                        setLocale("vi");
-                        break;
-                    case 2:
-                        setLocale("de");
-                        break;
-                    case 3:
-                        setLocale("id");
-                        break;
-                    case 4:
-                        setLocale("th");
-                        break;
-                    case 5:
-                        setLocale("ru");
-                        break;
-                    case 6:
-                        setLocale("es");
-                        break;
-                    case 7:
-                        setLocale("fr");
-                        break;
-                    case 8:
-                        setLocale("tr");
-                        break;
-                    case 9:
-                        setLocale("da");
-                        break;
-                    case 10:
-                        setLocale("nb");
-                        break;
-                    case 11:
-                        setLocale("sv");
-                        break;
-                    case 12:
-                        setLocale("ro");
-                        break;
-                    case 13:
-                        setLocale("pl");
-                        break;
-                    case 14:
-                        setLocale("bg");
-                        break;
-                    case 15:
-                        setLocale("hu");
-                        break;
-                    case 16:
-                        setLocale("hr");
-                        break;
-                    case 17:
-                        setLocale("el");
-                        break;
-                    case 18:
-                        setLocale("nl");
-                        break;
-                    case 19:
-                        setLocale("ar");
-                        break;
-                    default:
-                        setLocale("en");
-                        break;
-                    }
+					if(lang<Constants.LANGUAGE_LOCALE.length-1)
+						setLocale(Constants.LANGUAGE_LOCALE[lang]);
+					else setLocale(Constants.LANGUAGE_LOCALE[0]);
 					Constants.country = getResources().getConfiguration().locale.getLanguage();
 					
 					Intent intent = new Intent(SplashScreenActivity.this,MainActivity.class);
