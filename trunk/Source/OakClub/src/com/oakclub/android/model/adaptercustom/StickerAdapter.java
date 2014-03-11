@@ -8,7 +8,6 @@ import com.oakclub.android.R;
 import com.oakclub.android.util.OakClubUtil;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ public class StickerAdapter extends BaseAdapter {
     private ArrayList<String> arrayListStickers = new ArrayList<String>();
     private Context context;
     private HashMap<String, String> stickers = new HashMap<String, String>();
-    private ArrayList<String> showListStickers = new ArrayList<String>();
-    private int imageWidth = 0;
     private int widthScreen = 0;
     
     public StickerAdapter(ArrayList<String> arraylistSmileys, Context context, HashMap<String, String> emoticons) {
@@ -62,8 +59,9 @@ public class StickerAdapter extends BaseAdapter {
         LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
         if (!ChatActivity.bitmapSticker.containsKey(arrayListStickers.get(position))) {
-        	String url = OakClubUtil.getFullLinkSticker(context,
-                    stickers.get(arrayListStickers.get(position)));
+        	String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
+        	String url = OakClubUtil.getFullLinkStickerOrGift(context,
+                    pathSticker + stickers.get(arrayListStickers.get(position)));
             OakClubUtil.loadStickerFromUrl(context, url, imageView, arrayListStickers.get(position));
         } else {
         	imageView.setImageBitmap(ChatActivity.bitmapSticker.get(arrayListStickers.get(position)));

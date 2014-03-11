@@ -133,6 +133,8 @@ public class ChatHistoryAdapter extends BaseAdapter {
 	private void getSticker(int position, ChatHistoryData item, String text,
 			String pathSticker, Matcher matcher, ImageView imgView,
 			TextView textView) {
+		imgView.setVisibility(View.GONE);
+		textView.setVisibility(View.VISIBLE);
 		try {
 			if (Html.fromHtml(item.getBody()).toString().length() > 1) {
 				text = Html.fromHtml(item.getBody()).toString();
@@ -145,7 +147,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 					textView.setVisibility(View.GONE);
 					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
 						String urlImg = OakClubUtil
-								.getFullLinkSticker(context, img);
+								.getFullLinkStickerOrGift(context, pathSticker + img);
 			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
 			        } else {
 			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
@@ -154,8 +156,41 @@ public class ChatHistoryAdapter extends BaseAdapter {
 					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
 					imgView.setLayoutParams(params);
 				} else {
-					imgView.setVisibility(View.GONE);
-					textView.setVisibility(View.VISIBLE);
+					String giftOld = "/bundles/likevnhangout/images/gift/";
+					String giftNew = "/bundles/likevnblissdate/v3/chat/images/gifts/";
+					if (matcher.group(1).contains(giftOld) || matcher.group(1).contains(giftNew)) {
+						try {
+							String img = "";
+							if (matcher.group(1).contains(giftOld)) {
+								img = matcher.group(1).replace(giftOld, "").split("\"")[0].replace(
+									".png", "");
+								
+								textView.setVisibility(View.GONE);
+								imgView.setVisibility(View.VISIBLE);
+								imgView.setImageResource(context.getResources()
+										.getIdentifier(img.toLowerCase(), "drawable",
+												context.getPackageName()));
+							} else if (matcher.group(1).contains(giftNew)) {
+								img = matcher.group(1).replace(giftNew, "").split("\"")[0];
+								textView.setVisibility(View.GONE);
+								imgView.setVisibility(View.VISIBLE);
+								
+								if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+									String urlImg = OakClubUtil
+											.getFullLinkStickerOrGift(context, giftNew + img);
+						            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
+						        } else {
+						        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+						        }
+								int widthScreen = (int) OakClubUtil.getWidthScreen(context);
+								LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
+								imgView.setLayoutParams(params);
+
+							} 
+						} catch (Exception e) {
+
+						}
+					}
 				}
 			}
 		} catch (Exception ex) {
