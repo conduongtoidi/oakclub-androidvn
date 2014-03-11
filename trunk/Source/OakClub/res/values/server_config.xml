@@ -4,7 +4,7 @@
     <string name="default_server_address">http://staging.oakclub.com/service</string>
     <string name="server_address_image">http://staging.oakclub.com/load_photo.php</string>
     <string name="server_address_video">http://staging.oakclub.com/data</string>
-    <string name="server_address_sticker">http://staging.oakclub.com/bundles/likevnblissdate/v3/chat/images/stickers</string>
+    <string name="server_address_sticker">http://staging.oakclub.com</string>
     <string name="xmpp_server_address">staging.oakclub.com</string>
     <string name="mail_server_address">help@Oakclub.com</string>
     <string name="default_port_server">5222</string>
