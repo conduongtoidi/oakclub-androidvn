@@ -28,7 +28,6 @@ import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
-import com.oakclub.android.StickerActivity;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
@@ -38,6 +37,7 @@ import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
 import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.model.adaptercustom.AdapterSnapShot;
+import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.net.OnBootReceiver;
 import com.oakclub.android.util.Constants;
@@ -322,7 +322,7 @@ public class SnapshotFragment{
             if (obj != null && obj.getData() != null) {
                 dataConfig = obj.getData();
                 for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    StickerActivity.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                    StickerScreenAdapter.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
                 }
             }
             if (activity.isLoadListMutualMatch) {
