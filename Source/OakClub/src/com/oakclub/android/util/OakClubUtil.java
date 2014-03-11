@@ -201,10 +201,10 @@ public class OakClubUtil {
 		return t;
 	}
 	
-	public static String getFullLinkSticker(Context c, String url) {
+	public static String getFullLinkStickerOrGift(Context c, String url) {
 		String t = url;
 		if (!url.contains("http")) {
-			t = c.getString(R.string.server_address_sticker) + "/" + url;
+			t = c.getString(R.string.server_address_sticker) + url;
 		} 
 		return t;
 	}

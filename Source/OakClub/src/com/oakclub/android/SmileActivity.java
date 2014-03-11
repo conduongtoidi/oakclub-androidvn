@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SmileActivity extends Activity {
 	
 	protected GridView gvSmile;
+	float lastX;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class SmileActivity extends Activity {
 		
 		gvSmile = (GridView) findViewById(R.id.activity_chat_rtlbottom_gvSmile);
 		
-		addSmileToEmoticons();
+		fillArrayList();
 		addItemGridView();
 		gvSmile.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -39,32 +41,43 @@ public class SmileActivity extends Activity {
                     int position, long arg3) {
                 int pos = ChatActivity.tbMessage.getSelectionStart();
                 String value = gvSmile.getAdapter().getItem(position).toString();
+                String keyEntry = value;
                 String text = ChatActivity.tbMessage.getText().toString();
                 String textHead = text.substring(0, pos);
                 String textTail = text.substring(pos, text.length());
                 pos = (textHead +value).length();
-//                if (Html.fromHtml(value).toString().length() > 1)
-//        		{
-//                	pos = (textHead + Html.fromHtml(value).toString()).length();
-//        		}
                 value = textHead + value + textTail;
                 Spannable spannable = ChatActivity.getSmiledText(SmileActivity.this, value);
                 ChatActivity.tbMessage.setText(spannable);
                 ChatActivity.tbMessage.setSelection(spannable.length());
+                
+                Iterator<Entry<String, Integer>> iterator = emoticons.entrySet()
+        				.iterator();
+                int valueEntry = 0;
+        		while (iterator.hasNext()) {
+        			Entry<String, Integer> entry = iterator.next();
+        			if (entry.getKey().equals(keyEntry)) {
+        				valueEntry = entry.getValue();
+        			}
+        		}
+    			if (OftenSmileActivity.oftenEmoticons != null && !OftenSmileActivity.oftenEmoticons.containsKey(keyEntry)) {
+    				OftenSmileActivity.oftenEmoticons.put(keyEntry, valueEntry);
+    			}
+                
             }
         });
 	}
 	
 	private void addItemGridView() {
-		SmileysAdapter adapter = new SmileysAdapter(arrayListSmileys,
-				SmileActivity.this, emoticons);
-		gvSmile.setAdapter(adapter);
+//		SmileysAdapter adapter = new SmileysAdapter(arrayListSmileys,
+//				SmileActivity.this, emoticons);
+//		gvSmile.setAdapter(adapter);
 	}    
     
     public static HashMap<String, Integer> emoticons = new HashMap<String, Integer>();
     private ArrayList<String> arrayListSmileys = new ArrayList<String>();
 
-    private void addSmileToEmoticons() {
+    public static void addSmileToEmoticons() {
     	emoticons.put(":))", R.drawable.laugh);
     	emoticons.put(":((", R.drawable.cry);
 		emoticons.put(":)", R.drawable.smile);
@@ -97,8 +110,6 @@ public class SmileActivity extends Activity {
 		emoticons.put("p^^", R.drawable.beaten);
 		emoticons.put("&quot;vvv&quot;", R.drawable.wacky);
 		emoticons.put(":-&gt;", R.drawable.vampire);
-
-		fillArrayList();
 	}
     
 	private void fillArrayList() {

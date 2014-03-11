@@ -24,7 +24,6 @@ import org.jivesoftware.smack.packet.Packet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,31 +31,31 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,10 +66,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
-import com.oakclub.android.base.LoginBaseActivity;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
@@ -80,18 +77,19 @@ import com.oakclub.android.model.ChatHistoryReturnObject;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
-import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.SendChatReturnObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SnapshotData;
-import com.oakclub.android.model.Sticker;
 import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
+import com.oakclub.android.view.ButtonCustom;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;
 import com.oakclub.android.view.TextViewWithFont;
+import com.viewpagerindicator.IconPagerAdapter;
+import com.viewpagerindicator.PageIndicator;
 
 public class ChatActivity extends OakClubBaseActivity {
 
@@ -118,10 +116,16 @@ public class ChatActivity extends OakClubBaseActivity {
 	ImageButton btnReport;
 	TextView tvName;
 
-	private Button btShowSmile;
+	// private Button btShowSmile;
+	// private Button btShowKeyboard;
+
+	private ButtonCustom btShowSmile;
+	private ButtonCustom btShowKeyboard;
+	private ButtonCustom btShowGift;
+
 	private LinearLayout lltBottom;
 	private RelativeLayout.LayoutParams params;
-	private boolean isShowSmile = false;
+
 	private boolean isPressInfoProfile = false;
 
 	public static LinearLayout lltMatch;
@@ -129,23 +133,23 @@ public class ChatActivity extends OakClubBaseActivity {
 	private TextViewWithFont txt_chat_match_content;
 	private TextViewWithFont txt_chat_match_time;
 	private TextViewWithFont txt;
-	
-	private RelativeLayout listSmile;
-	private TabHost tabHost;
-	LocalActivityManager  mLocalActivityManager;
+
 	public static boolean isPressSticker = false;
 	public static HashMap<String, Bitmap> bitmapSticker = new HashMap<String, Bitmap>();
 	protected ProgressDialog pd;
 
+	ViewPager mPager;
+	PageIndicator mIndicator;
+	EmoticonScreenPagerAdapter adapterEmoticon;
+	LinearLayout bottomLayout;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
+
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-		
+
 		View v = inflater.inflate(R.layout.activity_chat, null);
-		tabHost =  (TabHost)v.findViewById(android.R.id.tabhost);
 		setContentView(v);
 
 		Bundle bundleListChatData = getIntent().getExtras();
@@ -155,32 +159,33 @@ public class ChatActivity extends OakClubBaseActivity {
 		target_avatar = bundleListChatData.getString(Constants.BUNDLE_AVATAR);
 		status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);
 		match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
-		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);		
-		
+		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);
+
 		if (xmpp == null) {
 			startXMPP();
 		}
-		
+
 		init(savedInstanceState);
 	}
 
 	private void startXMPP() {
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
-		
-		facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
-				null);
+		SharedPreferences pref = getSharedPreferences(
+				Constants.PREFERENCE_NAME, MODE_PRIVATE);
+
+		facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID, null);
 		access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
 		android_token = GCMRegistrar.getRegistrationId(this);
-		
+
 		ConnectionConfiguration config = new ConnectionConfiguration(
 				getString(R.string.xmpp_server_address),
 				Constants.XMPP_SERVER_PORT, Constants.XMPP_SERVICE_NAME);
 		config.setSASLAuthenticationEnabled(true);
-		
+
 		xmpp = new XMPPConnection(config);
 		try {
 			SASLAuthentication.supportSASLMechanism("DIGEST-MD5", 0);
@@ -212,14 +217,15 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 			}, filter);
 		} catch (XMPPException e) {
-			//Toast.makeText(getApplicationContext(), "XMPP Error", 1).show();
+			// Toast.makeText(getApplicationContext(), "XMPP Error", 1).show();
 			e.printStackTrace();
 		} catch (Exception e) {
-			//Toast.makeText(getApplicationContext(), "XMPP Error 2", 1).show();
+			// Toast.makeText(getApplicationContext(), "XMPP Error 2",
+			// 1).show();
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -232,11 +238,16 @@ public class ChatActivity extends OakClubBaseActivity {
 		isActive = false;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void init(Bundle savedInstanceState) {
 		ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
 				profile_id, 0);
 		getRequestQueue().addRequest(loader);
 		snapShotData = new SnapshotData();
+
+		btShowGift = new ButtonCustom(this);
+		btShowSmile = new ButtonCustom(this);
+		btShowKeyboard = new ButtonCustom(this);
 
 		btnBack = (ImageButton) findViewById(R.id.activity_chat_fltTop_imgbtnBack);
 		btnInfoProfile = (ImageButton) findViewById(R.id.activity_chat_fltTop_imgbtnInfoProfile);
@@ -246,55 +257,20 @@ public class ChatActivity extends OakClubBaseActivity {
 		btnSend = (Button) findViewById(R.id.activity_chat_rtlbottom_btSend);
 		tbMessage = (EditText) findViewById(R.id.activity_chat_rtlbottom_tbMessage);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		btShowSmile = (Button) findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
+		btShowSmile = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
+		btShowKeyboard = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btText);
 		lltBottom = (LinearLayout) findViewById(R.id.activity_chat_rtlbottom);
 		lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
 		txt_chat_match_content = (TextViewWithFont) findViewById(R.id.activity_chat_match_content);
 		txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
 		txt = (TextViewWithFont) findViewById(R.id.txt);
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
-		listSmile = (RelativeLayout) findViewById(R.id.activity_list_smile_rlt_center);
+
 		StickerActivity.chat = this;
-		
-        mLocalActivityManager = new LocalActivityManager(this, false);
-        mLocalActivityManager.dispatchCreate(savedInstanceState);
-        tabHost.setup(mLocalActivityManager);
-        tabHost.getTabWidget().setDividerDrawable(null);
+		OftenStickerActivity.chat = this;
 
-        TabSpec smileSpec = tabHost.newTabSpec("Smile");
-        View tabView1 = createTabView(this, 0);
-        smileSpec.setIndicator(tabView1);
-        Intent smileIntent = new Intent(this, SmileActivity.class);
-        smileSpec.setContent(smileIntent);
-        tabHost.addTab(smileSpec); 
-        
-        TabSpec stickerSpec = tabHost.newTabSpec("Sticker");
-        View tabView2 = createTabView(this, 1);
-        stickerSpec.setIndicator(tabView2);
-        Intent stickerIntent = new Intent(this, StickerActivity.class);
-        stickerSpec.setContent(stickerIntent);
-        tabHost.addTab(stickerSpec); 
+		SmileActivity.addSmileToEmoticons();
 
-        ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
-        imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
-        
-        ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-        imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
-
-        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
-        	
-            @Override
-            public void onTabChanged(String tabId) {
-            	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-	            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-	            ImageView imgLeft = (ImageView) tabHost.getTabWidget().getChildAt(0).findViewById(R.id.tabhost_smile_img);
-                imgLeft.setBackgroundResource(R.drawable.tab_middle_selector);
-                ImageView imgMiddle = (ImageView) tabHost.getTabWidget().getChildAt(1).findViewById(R.id.tabhost_smile_img);
-                imgMiddle.setBackgroundResource(R.drawable.tab_middle_selector);
-            }
-        });
-        
-        
 		// status == 0 || status == 1
 		if (status == 0) {
 			chatLv.setVisibility(View.GONE);
@@ -322,26 +298,51 @@ public class ChatActivity extends OakClubBaseActivity {
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 
 		tvName.setText(target_name);
-		
+
+		btShowGift.state = 0;
+		btShowSmile.state = 1;
+		btShowKeyboard.state = 2;
+
 		btShowSmile.setOnClickListener(listener);
+		btShowKeyboard.setOnClickListener(listener);
 		btnInfoProfile.setOnClickListener(listener);
 		btnBack.setOnClickListener(listener);
 		btnSend.setOnClickListener(listener);
 		btnReport.setOnClickListener(listener);
-		
+
 		tbMessage.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(tbMessage.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        
+		imm.hideSoftInputFromWindow(tbMessage.getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
+
 		tbMessage.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 
-				listSmile.setVisibility(View.GONE);
+				if (btShowKeyboard.state == 1) {
+					if (btShowSmile.state == 0) {
+						btShowSmile.state = 1;
+						btShowSmile
+								.setBackgroundResource(R.drawable.btn_show_smile);
+					} else if (btShowGift.state == 0) {
+						btShowGift.state = 1;
+						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
+					}
+				} else if (btShowKeyboard.state == 2) {
+					if (btShowSmile.state == 0) {
+						btShowSmile.state = 2;
+						btShowKeyboard
+								.setBackgroundResource(R.drawable.btn_show_smile);
+					} else if (btShowGift.state == 0) {
+						btShowGift.state = 2;
+						btShowKeyboard
+								.setBackgroundResource(R.drawable.btn_gift);
+					}
+				}
+				btShowKeyboard.state = 0;
+				btShowKeyboard.state = 0;
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
-				isShowSmile = false;
 				return false;
 			}
 		});
@@ -353,10 +354,8 @@ public class ChatActivity extends OakClubBaseActivity {
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.showSoftInput(tbMessage, InputMethodManager.SHOW_IMPLICIT);
 				if (hasFocus) {
-					listSmile.setVisibility(View.GONE);
 					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 					lltBottom.setLayoutParams(params);
-					isShowSmile = false;
 				}
 			}
 		});
@@ -365,26 +364,71 @@ public class ChatActivity extends OakClubBaseActivity {
 		adapter = new ChatHistoryAdapter(getApplicationContext(),
 				messageArrayList, profile_id, target_avatar);
 		chatLv.setAdapter(adapter);
+		chatLv.setOnTouchListener(new OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+						0);
+				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				lltBottom.setLayoutParams(params);
+				return false;
+			}
+		});
+		
+		initEmoticonPage();
 
-    }
-	
+	}
+
+	private void initEmoticonPage() {
+		mPager = (ViewPager) findViewById(R.id.activity_chat_viewpage_emoticon);
+		adapterEmoticon = new EmoticonScreenPagerAdapter(getApplicationContext());
+		mIndicator = (PageIndicator) findViewById(R.id.activity_chat_indicator);
+		mPager.setAdapter(adapterEmoticon);
+		mIndicator.setViewPager(mPager);
+		
+		
+	}
+
+	public static void switchTabs(boolean direction, TabHost tabHost) {
+		if (direction) // true = move left
+		{
+			if (tabHost.getCurrentTab() == 0)
+				tabHost.setCurrentTab(tabHost.getTabWidget().getTabCount() - 1);
+			else
+				tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+		} else
+		// move right
+		{
+			if (tabHost.getCurrentTab() != (tabHost.getTabWidget()
+					.getTabCount() - 1))
+				tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+			else
+				tabHost.setCurrentTab(0);
+		}
+	}
+
 	private static View createTabView(Context context, int type) {
-        View view = LayoutInflater.from(context).inflate(R.layout.tabhost_smile, null, false);
-        ImageView img = (ImageView) view.findViewById(R.id.tabhost_smile_img);
-        
-        switch (type) {
+		View view = LayoutInflater.from(context).inflate(
+				R.layout.tabhost_smile, null, false);
+		ImageView img = (ImageView) view.findViewById(R.id.tabhost_smile_img);
+
+		switch (type) {
+		case -1:
+			img.setImageResource(R.drawable.tab_often_selector);
+			break;
 		case 0:
-			img.setImageResource(R.drawable.smile_icon);
+			img.setImageResource(R.drawable.tab_smile_selector);
 			break;
 		case 1:
-			img.setImageResource(R.drawable.egg_icon);
+			img.setImageResource(R.drawable.tab_sticker_selector);
 			break;
 		default:
 			break;
 		}
-        return view;
-    }
+		return view;
+	}
 
 	private OnClickListener listener = new OnClickListener() {
 		@Override
@@ -412,27 +456,32 @@ public class ChatActivity extends OakClubBaseActivity {
 						Constants.SET_READ_MESSAGES, ChatActivity.this,
 						profile_id);
 				getRequestQueue().addRequest(loader3);
-				if (!SlidingMenuActivity.listProfileSendMessage.isEmpty() && SlidingMenuActivity.listProfileSendMessage.contains(profile_id)) {
-					SlidingMenuActivity.listProfileSendMessage.remove(profile_id);
+				if (!SlidingMenuActivity.listProfileSendMessage.isEmpty()
+						&& SlidingMenuActivity.listProfileSendMessage
+								.contains(profile_id)) {
+					SlidingMenuActivity.listProfileSendMessage
+							.remove(profile_id);
 				}
 				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
 					SlidingMenuActivity.mNotificationTv
-					.setVisibility(View.GONE);
+							.setVisibility(View.GONE);
 				} else {
-					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.listProfileSendMessage.size());
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.VISIBLE);
+					SlidingMenuActivity.mNotificationTv
+							.setText(""
+									+ SlidingMenuActivity.listProfileSendMessage
+											.size());
+					SlidingMenuActivity.mNotificationTv
+							.setVisibility(View.VISIBLE);
 				}
 				if (isLoadFromNoti) {
 					appVer = android.os.Build.VERSION.RELEASE;
 					nameDevice = android.os.Build.MODEL;
-					
+
 					SendRegisterRequest request = new SendRegisterRequest(
 							"sendRegister", ChatActivity.this,
 							facebook_user_id, access_token);
 					getRequestQueue().addRequest(request);
-					
+
 				} else {
 					finish();
 				}
@@ -446,24 +495,116 @@ public class ChatActivity extends OakClubBaseActivity {
 				solveEditBtn();
 				break;
 			case R.id.activity_chat_rtlbottom_btshowsmile:
-				//showSmile();
-				if (!isShowSmile) {
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-					listSmile.setVisibility(View.VISIBLE);
-	                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-	                params.addRule(RelativeLayout.ABOVE, R.id.activity_list_smile_rlt_center);
-	                lltBottom.setLayoutParams(params);
-	                isShowSmile = true;
-				} else {
-					listSmile.setVisibility(View.GONE);
-		            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		            lltBottom.setLayoutParams(params);
-		            isShowSmile = false;
-				}
+//				if (btShowSmile.state == 1) {
+//					btShowSmile.state = 0;
+//					showTabSmile();
+//					if (btShowKeyboard.state == 2) {
+//						btShowGift.state = 1;
+//						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
+//					} else if (btShowKeyboard.state == 0) {
+//						btShowKeyboard.state = 1;
+//						btShowSmile
+//								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
+//					}
+//				} else if (btShowGift.state == 1) {
+//					btShowGift.state = 0;
+//					showTabSticker();
+//					if (btShowSmile.state == 2) {
+//						btShowKeyboard.state = 1;
+//						btShowSmile
+//								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
+//					} else if (btShowSmile.state == 0) {
+//						btShowSmile.state = 1;
+//						btShowSmile
+//								.setBackgroundResource(R.drawable.btn_show_smile);
+//					}
+//				} else if (btShowKeyboard.state == 1) {
+//					btShowKeyboard.state = 0;
+//					showKeyboard();
+//					if (btShowSmile.state == 2) {
+//						btShowGift.state = 1;
+//						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
+//					} else if (btShowSmile.state == 0) {
+//						btShowSmile.state = 1;
+//						btShowSmile
+//								.setBackgroundResource(R.drawable.btn_show_smile);
+//					}
+//				}
+				break;
+			case R.id.activity_chat_rtlbottom_btText:
+//				if (btShowSmile.state == 2) {
+//					btShowSmile.state = 0;
+//					showTabSmile();
+//					if (btShowKeyboard.state == 1) {
+//						btShowGift.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_gift);
+//					} else if (btShowKeyboard.state == 0) {
+//						btShowKeyboard.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
+//					}
+//				} else if (btShowGift.state == 2) {
+//					btShowGift.state = 0;
+//					showTabSticker();
+//					if (btShowSmile.state == 1) {
+//						btShowKeyboard.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
+//					} else if (btShowSmile.state == 0) {
+//						btShowSmile.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_show_smile);
+//					}
+//				} else if (btShowKeyboard.state == 2) {
+//					btShowKeyboard.state = 0;
+//					showKeyboard();
+//					if (btShowSmile.state == 1) {
+//						btShowGift.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_gift);
+//					} else if (btShowSmile.state == 0) {
+//						btShowSmile.state = 2;
+//						btShowKeyboard
+//								.setBackgroundResource(R.drawable.btn_show_smile);
+//					}
+//				}
 				break;
 			}
 
+		}
+
+		private void showKeyboard() {
+			tbMessage.requestFocus();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(getCurrentFocus(),
+					InputMethodManager.SHOW_IMPLICIT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			lltBottom.setLayoutParams(params);
+		}
+
+		private void showTabSticker() {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+			params = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.FILL_PARENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+			// params.addRule(RelativeLayout.ABOVE,
+			// R.id.activity_list_sticker_rlt_center);
+			lltBottom.setLayoutParams(params);
+		}
+
+		private void showTabSmile() {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+			params = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.FILL_PARENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+			lltBottom.setLayoutParams(params);
 		}
 	};
 
@@ -577,7 +718,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			@Override
 			public void onClick(View v) {
 
-                dialog.dismiss();
+				dialog.dismiss();
 				showBlockConfirmDialog(
 						getResources().getString(R.string.txt_block_message),
 						getResources().getString(R.string.txt_block_anyway),
@@ -586,16 +727,15 @@ public class ChatActivity extends OakClubBaseActivity {
 			}
 		});
 
+		Button btnCancel = (Button) mainRelativeLayout
+				.findViewById(R.id.dialog_report_spam_input_cancel);
+		btnCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 
-        Button btnCancel = (Button) mainRelativeLayout
-                .findViewById(R.id.dialog_report_spam_input_cancel);
-        btnCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-		
 		dialog.setCancelable(true);
 		dialog.show();
 	}
@@ -721,8 +861,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private class ChatHistoryRequest extends RequestUI {
 
 		private ChatHistoryReturnObject obj;
@@ -771,7 +910,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 	}
 
-	
 	public class SendMessageLoader extends RequestUI {
 		SendChatReturnObject obj;
 		String userId;
@@ -843,78 +981,44 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-		    SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-            Editor editor = pref.edit();
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
-            finish();
+			SharedPreferences pref = getApplicationContext()
+					.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+			Editor editor = pref.edit();
+			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+			editor.commit();
+			finish();
 		}
 
 	}
-    
-   	public static Spannable getSmiledText(Context context, String text) {
+
+	public static Spannable getSmiledText(Context context, String text) {
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
-		String path = "<img src=\"/bundles/likevnhangout/images/gift/";
-		String path2 = "<img src=\"/bundles/likevnblissdate/v3/chat/images/gifts/";
-		boolean isGift = false;
-		String textGift = text;
-		if (Html.fromHtml(text).toString().length() > 1)
-		{
-			textGift = Html.fromHtml(text).toString();
-			builder = new SpannableStringBuilder(textGift);
-		}
-		if (textGift.contains(path) || textGift.contains(path2)) {
-			try {
-				String img = "";
-				if (textGift.contains(path)) {
-					img = textGift.replace(path, "").split("\"")[0].replace(
-						".png", "");
-				}
-				
-				if (textGift.contains(path2)) {
-					img = textGift.replace(path2, "").split("\"")[0].replace(
-						".png", "");
-				}
-
-				builder.setSpan(
-						new ImageSpan(context, context.getResources()
-								.getIdentifier(img.toLowerCase(), "drawable",
-										context.getPackageName())), 0, textGift
-								.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				isGift = true;
-			} catch (Exception e) {
-
-			}
-		}
-
-		if (!isGift) {
-			builder = new SpannableStringBuilder(text);
-			int index;
-			for (index = builder.length(); index >= 0; index--) {
-				int length = 0;
-				boolean flag = false;
-				ImageSpan imageSpan = null;
-				for (Entry<String, Integer> entry : SmileActivity.emoticons.entrySet()) {
-					int lengthEntry = entry.getKey().length();
-					if (index - lengthEntry < 0)
-						continue;
-					if (builder.subSequence(index - lengthEntry, index).toString()
-							.equals(entry.getKey())) {
-						if (length < lengthEntry) {
-							builder.removeSpan(imageSpan);
-							imageSpan = new ImageSpan(context, entry.getValue());
-							builder.setSpan(imageSpan,
-									index - lengthEntry, index,
-									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-							flag = true;
-							length = entry.getKey().length();
-						}
-						//break;
+		builder = new SpannableStringBuilder(text);
+		int index;
+		for (index = builder.length(); index >= 0; index--) {
+			int length = 0;
+			boolean flag = false;
+			ImageSpan imageSpan = null;
+			for (Entry<String, Integer> entry : SmileActivity.emoticons
+					.entrySet()) {
+				int lengthEntry = entry.getKey().length();
+				if (index - lengthEntry < 0)
+					continue;
+				if (builder.subSequence(index - lengthEntry, index).toString()
+						.equals(entry.getKey())) {
+					if (length < lengthEntry) {
+						builder.removeSpan(imageSpan);
+						imageSpan = new ImageSpan(context, entry.getValue());
+						builder.setSpan(imageSpan, index - lengthEntry, index,
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						flag = true;
+						length = entry.getKey().length();
 					}
+					// break;
 				}
-				if (flag) {
-					index -= length - 1;
-				}
+			}
+			if (flag) {
+				index -= length - 1;
 			}
 		}
 		return builder;
@@ -922,42 +1026,42 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (!SlidingMenuActivity.listProfileSendMessage.isEmpty() && SlidingMenuActivity.listProfileSendMessage.contains(profile_id)) {
+		if (!SlidingMenuActivity.listProfileSendMessage.isEmpty()
+				&& SlidingMenuActivity.listProfileSendMessage
+						.contains(profile_id)) {
 			SlidingMenuActivity.listProfileSendMessage.remove(profile_id);
 		}
 		if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
-			SlidingMenuActivity.mNotificationTv
-			.setVisibility(View.GONE);
+			SlidingMenuActivity.mNotificationTv.setVisibility(View.GONE);
 		} else {
 			SlidingMenuActivity.mNotificationTv.setText(""
 					+ SlidingMenuActivity.listProfileSendMessage.size());
-				SlidingMenuActivity.mNotificationTv
-						.setVisibility(View.VISIBLE);
+			SlidingMenuActivity.mNotificationTv.setVisibility(View.VISIBLE);
 		}
 		SetReadMessages loader3 = new SetReadMessages(
 				Constants.SET_READ_MESSAGES, ChatActivity.this, profile_id);
 		getRequestQueue().addRequest(loader3);
 
-		if (isShowSmile) {
-			listSmile.setVisibility(View.GONE);
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			lltBottom.setLayoutParams(params);
-			isShowSmile = false;
-		} else {
-			if (isLoadFromNoti) {
-				appVer = android.os.Build.VERSION.RELEASE;
-				nameDevice = android.os.Build.MODEL;
-				
-				SendRegisterRequest request = new SendRegisterRequest(
-						"sendRegister", ChatActivity.this,
-						facebook_user_id, access_token);
-				getRequestQueue().addRequest(request);
-				
-			} else {
-				finish();
-			}
-			super.onBackPressed();
-		}
+		// if (isShowSmile) {
+		// listSmile.setVisibility(View.GONE);
+		// params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		// lltBottom.setLayoutParams(params);
+		// isShowSmile = false;
+		// } else {
+		// if (isLoadFromNoti) {
+		// appVer = android.os.Build.VERSION.RELEASE;
+		// nameDevice = android.os.Build.MODEL;
+		//
+		// SendRegisterRequest request = new SendRegisterRequest(
+		// "sendRegister", ChatActivity.this, facebook_user_id,
+		// access_token);
+		// getRequestQueue().addRequest(request);
+		//
+		// } else {
+		// finish();
+		// }
+		// super.onBackPressed();
+		// }
 	}
 
 	private String timeMatch(String timeMatch) {
@@ -976,7 +1080,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 		long time = 0;
 		if (dateMatchTime != null && dateNow != null) {
-			time= (dateNow.getTime() - dateMatchTime.getTime()) / (1000 * 60);
+			time = (dateNow.getTime() - dateMatchTime.getTime()) / (1000 * 60);
 		}
 		if (time <= 0)
 			time = 1;
@@ -988,10 +1092,12 @@ public class ChatActivity extends OakClubBaseActivity {
 		else if (time < 60 * 60 * 24)
 			result = time / (60 * 24) + " " + getString(R.string.txt_day_ago);
 		else if (time < 60 * 60 * 24 * 30)
-			result = time / (60 * 24 * 30) + " " + getString(R.string.txt_month_ago);
+			result = time / (60 * 24 * 30) + " "
+					+ getString(R.string.txt_month_ago);
 		else
-			result = time / (60 * 24 * 30 * 12) + " " + getString(R.string.txt_year_ago);
-		
+			result = time / (60 * 24 * 30 * 12) + " "
+					+ getString(R.string.txt_year_ago);
+
 		return result;
 	}
 
@@ -1033,20 +1139,32 @@ public class ChatActivity extends OakClubBaseActivity {
 				snapShotData.setAvatar(data.getData().getAvatar());
 				snapShotData
 						.setBirthday_date(data.getData().getBirthday_date());
-				
-				float lat = Float.parseFloat(data.getData().getLocation().getCoordinates().latitude);
-				float lon = Float.parseFloat(data.getData().getLocation().getCoordinates().longitude);
-				
-				float latitude = Float.parseFloat(ProfileSettingFragment.profileInfoObj.getLocation().getCoordinates().latitude);
-				float longitude = Float.parseFloat(ProfileSettingFragment.profileInfoObj.getLocation().getCoordinates().longitude);
-				
+
+				float lat = Float.parseFloat(data.getData().getLocation()
+						.getCoordinates().latitude);
+				float lon = Float.parseFloat(data.getData().getLocation()
+						.getCoordinates().longitude);
+
+				float latitude = Float
+						.parseFloat(ProfileSettingFragment.profileInfoObj
+								.getLocation().getCoordinates().latitude);
+				float longitude = Float
+						.parseFloat(ProfileSettingFragment.profileInfoObj
+								.getLocation().getCoordinates().longitude);
+
 				float distance = 0;
 				try {
-					distance = (float) (6371 * Math.acos(Math.cos(Math.toRadians(lat)) * Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(longitude) - Math.toRadians(lon) ) + Math.sin(Math.toRadians(lat)) * Math.sin(Math.toRadians(latitude))));
+					distance = (float) (6371 * Math.acos(Math.cos(Math
+							.toRadians(lat))
+							* Math.cos(Math.toRadians(latitude))
+							* Math.cos(Math.toRadians(longitude)
+									- Math.toRadians(lon))
+							+ Math.sin(Math.toRadians(lat))
+							* Math.sin(Math.toRadians(latitude))));
 				} catch (Exception e) {
-					
+
 				}
-				
+
 				snapShotData.setDistance(distance);
 				snapShotData
 						.setHometown_name(data.getData().getHometown_name());
@@ -1076,11 +1194,12 @@ public class ChatActivity extends OakClubBaseActivity {
 				intent.putExtras(b);
 				startActivityForResult(intent, 1);
 				isPressInfoProfile = false;
+			} else {
+				OakClubUtil.enableDialogWarning(ChatActivity.this,
+						getString(R.string.txt_warning),
+						getString(R.string.txt_internet_message));
 			}
-			else {
-				OakClubUtil.enableDialogWarning(ChatActivity.this, getString(R.string.txt_warning), getString(R.string.txt_internet_message));
-			}
-		} 
+		}
 	}
 
 	class SetReadMessages extends RequestUI {
@@ -1098,40 +1217,40 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-//			ListChatRequest loader3 = new ListChatRequest("getListChat",
-//					ChatActivity.this);
-//			getRequestQueue().addRequest(loader3);
+			// ListChatRequest loader3 = new ListChatRequest("getListChat",
+			// ChatActivity.this);
+			// getRequestQueue().addRequest(loader3);
 		}
 	}
 
-//	protected class ListChatRequest extends RequestUI {
-//		private ListChatReturnObject obj;
-//
-//		public ListChatRequest(Object key, Activity activity) {
-//			super(key, activity);
-//		}
-//
-//		@Override
-//		public void execute() throws Exception {
-//			obj = oakClubApi.getListChat();
-//		}
-//
-//		@Override
-//		public void executeUI(Exception ex) {
-//			if (obj == null || !obj.isStatus()) {
-//				// Toast.makeText(MatchChatActivity.this,
-//				// getString(R.string.abnormal_error_message),
-//				// Toast.LENGTH_SHORT).show();
-//			} else {
-////				baseAllList.clear();
-////				for (int i = 0; i < obj.getData().size(); i++) {
-////					baseAllList.add(obj.getData().get(i));
-////				}
-//			}
-//		}
-//
-//	}
-	
+	// protected class ListChatRequest extends RequestUI {
+	// private ListChatReturnObject obj;
+	//
+	// public ListChatRequest(Object key, Activity activity) {
+	// super(key, activity);
+	// }
+	//
+	// @Override
+	// public void execute() throws Exception {
+	// obj = oakClubApi.getListChat();
+	// }
+	//
+	// @Override
+	// public void executeUI(Exception ex) {
+	// if (obj == null || !obj.isStatus()) {
+	// // Toast.makeText(MatchChatActivity.this,
+	// // getString(R.string.abnormal_error_message),
+	// // Toast.LENGTH_SHORT).show();
+	// } else {
+	// // baseAllList.clear();
+	// // for (int i = 0; i < obj.getData().size(); i++) {
+	// // baseAllList.add(obj.getData().get(i));
+	// // }
+	// }
+	// }
+	//
+	// }
+
 	protected void solveReceiveNewMessage(Message msg) {
 		ChatHistoryData message = new ChatHistoryData();
 		message.setBody(msg.getBody());
@@ -1149,7 +1268,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		message.setTime_string(formattedDate);
 		updateNewMessage(message);
 	}
-	
+
 	private void updateNewMessage(final ChatHistoryData message) {
 
 		boolean needToShowNotification = false;
@@ -1229,18 +1348,23 @@ public class ChatActivity extends OakClubBaseActivity {
 
 			@Override
 			public void run() {
-				if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(ChatActivity.profile_id)) {
-					SlidingMenuActivity.listProfileSendMessage.add(ChatActivity.profile_id);
+				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()
+						|| !SlidingMenuActivity.listProfileSendMessage
+								.contains(ChatActivity.profile_id)) {
+					SlidingMenuActivity.listProfileSendMessage
+							.add(ChatActivity.profile_id);
 				}
-				
+
 				if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
 					SlidingMenuActivity.mNotificationTv
-					.setVisibility(View.GONE);
+							.setVisibility(View.GONE);
 				} else {
-					SlidingMenuActivity.mNotificationTv.setText(""
-							+ SlidingMenuActivity.listProfileSendMessage.size());
-						SlidingMenuActivity.mNotificationTv
-								.setVisibility(View.VISIBLE);
+					SlidingMenuActivity.mNotificationTv
+							.setText(""
+									+ SlidingMenuActivity.listProfileSendMessage
+											.size());
+					SlidingMenuActivity.mNotificationTv
+							.setVisibility(View.VISIBLE);
 				}
 				if (adapterAllListChatData != null) {
 					adapterAllListChatData.notifyDataSetChanged();
@@ -1286,7 +1410,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				// Register custom Broadcast receiver to show messages on
 				// activity
 				registerGCM();
-				
+
 				user_id = obj.getData().getProfile_id();
 
 				GetDataLanguageLoader loader2 = new GetDataLanguageLoader(
@@ -1300,7 +1424,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			}
 		}
 	}
-	
+
 	class GetDataLanguageLoader extends RequestUI {
 		GetDataLanguageReturnObject obj;
 
@@ -1320,5 +1444,162 @@ public class ChatActivity extends OakClubBaseActivity {
 			}
 		}
 
+	}
+
+	class EmoticonScreenPagerAdapter extends PagerAdapter implements
+			IconPagerAdapter {
+
+		private ArrayList<HashMap<String, String>> arrayHashMapEmoticon = new ArrayList<HashMap<String, String>>();
+		private ArrayList<ArrayList<String>> arrayEmoticon = new ArrayList<ArrayList<String>>();
+		private ArrayList<SmileysAdapter> arrayAdaper = new ArrayList<SmileysAdapter>();
+		int index = 0;
+		
+		Context context;
+		LayoutInflater inflater;
+
+		public EmoticonScreenPagerAdapter(Context context) {
+			this.context = context;
+			inflater = LayoutInflater.from(context);
+			arrayHashMapEmoticon.add(oftenEmoticon());
+			arrayHashMapEmoticon.add(addSmileToEmoticons());
+			arrayEmoticon.add(new ArrayList<String>());
+			arrayEmoticon.add(new ArrayList<String>());
+		}
+
+		
+		@SuppressWarnings("deprecation")
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+
+			RelativeLayout rltPages = new RelativeLayout(context);
+			
+			
+			final GridView gv = new GridView(context);
+			gv.setNumColumns(8);
+			fillArrayList(arrayHashMapEmoticon.get(position), arrayEmoticon.get(position));
+			SmileysAdapter adapter = new SmileysAdapter(arrayEmoticon.get(position),
+					context, arrayHashMapEmoticon.get(position));
+			gv.setAdapter(adapter);
+			arrayAdaper.add(adapter);
+			final int POS = position;
+			gv.setOnItemClickListener(new OnItemClickListener() {
+	            @Override
+	            public void onItemClick(AdapterView<?> adapter, View view,
+	                    int position, long arg3) {
+	                int pos = ChatActivity.tbMessage.getSelectionStart();
+	                String value = gv.getAdapter().getItem(position).toString();
+	                String keyEntry = value;
+	                String text = ChatActivity.tbMessage.getText().toString();
+	                String textHead = text.substring(0, pos);
+	                String textTail = text.substring(pos, text.length());
+	                pos = (textHead +value).length();
+	                value = textHead + value + textTail;
+	                Spannable spannable = ChatActivity.getSmiledText(context, value);
+	                ChatActivity.tbMessage.setText(spannable);
+	                ChatActivity.tbMessage.setSelection(spannable.length());
+	                
+	                Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon.get(POS).entrySet()
+	        				.iterator();
+	                String valueEntry = "";
+	        		while (iterator.hasNext()) {
+	        			Entry<String, String> entry = iterator.next();
+	        			if (entry.getKey().equals(keyEntry)) {
+	        				valueEntry = entry.getValue();
+	        			}
+	        		}
+	    			if (!arrayHashMapEmoticon.get(0).containsKey(keyEntry)) {
+	    				arrayHashMapEmoticon.get(0).put(keyEntry, valueEntry);
+	    				fillArrayList(arrayHashMapEmoticon.get(0), arrayEmoticon.get(0));
+	    				arrayAdaper.get(0).notifyDataSetChanged();
+	    			}
+	                
+	            }
+	        });
+			
+			rltPages.addView(gv, LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+
+			container.addView(rltPages, LayoutParams.MATCH_PARENT,
+					LayoutParams.FILL_PARENT);
+			return rltPages;
+		}
+
+		@Override
+		public int getCount() {
+			return arrayHashMapEmoticon.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			return view == object;
+		}
+
+		@Override
+		public int getIconResId(int index) {
+			return R.drawable.indicator_welcome;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView((View) object);
+		}
+
+		@Override
+		public void setPrimaryItem(View container, int position, Object object) {
+			
+		}
+		
+		HashMap<String, String> oftenEmoticon() {
+			HashMap<String, String> emoticons = new HashMap<String, String>();
+			return emoticons;
+		}
+		
+		HashMap<String, String> addSmileToEmoticons() {
+			HashMap<String, String> emoticons = new HashMap<String, String>();
+			emoticons.put(":))", R.drawable.laugh + "");
+	    	emoticons.put(":((", R.drawable.cry + "");
+			emoticons.put(":)", R.drawable.smile + "");
+			emoticons.put(";)", R.drawable.wink + "");
+			emoticons.put(":(", R.drawable.sad + "");
+			emoticons.put(":P", R.drawable.tongue + "");
+			emoticons.put(":-/", R.drawable.confused + "");
+			emoticons.put("x(", R.drawable.angry + "");
+			emoticons.put(":D", R.drawable.grin + "");
+			emoticons.put(":-o", R.drawable.amazed + "");
+			emoticons.put(":&quot;&gt;", R.drawable.shy + "");
+			emoticons.put("B-)", R.drawable.cool + "");
+			emoticons.put("(bandit)", R.drawable.ninja + "");
+			emoticons.put(":-&amp;", R.drawable.sick + "");
+			emoticons.put("/:)", R.drawable.doubtful + "");
+			emoticons.put("&gt;:)", R.drawable.devil + "");
+			emoticons.put("O:-)", R.drawable.angel + "");
+			emoticons.put("(:|", R.drawable.nerd + "");
+			emoticons.put("=P~", R.drawable.love + "");
+			emoticons.put("&lt;:-P", R.drawable.party + "");
+			emoticons.put(":x", R.drawable.speechless + "");
+			emoticons.put(":O)", R.drawable.clown + "");
+			emoticons.put(":-&lt;", R.drawable.bored + "");
+			emoticons.put(";PX", R.drawable.pirate + "");
+			emoticons.put("(santa)", R.drawable.santa + "");
+			emoticons.put("(fight)", R.drawable.karate + "");
+			emoticons.put("(emo)", R.drawable.emo + "");
+			emoticons.put("(tribal)", R.drawable.indian + "");
+			emoticons.put("qB]", R.drawable.punk + "");
+			emoticons.put("p^^", R.drawable.beaten + "");
+			emoticons.put("&quot;vvv&quot;", R.drawable.wacky + "");
+			emoticons.put(":-&gt;", R.drawable.vampire + "");
+			
+			return emoticons;
+		}
+	
+		private void fillArrayList(HashMap<String, String> emoticons, ArrayList<String> arrayListSmileys) {
+			arrayListSmileys.clear();
+			Iterator<Entry<String, String>> iterator = emoticons.entrySet()
+					.iterator();
+			while (iterator.hasNext()) {
+				Entry<String, String> entry = iterator.next();
+				arrayListSmileys.add(entry.getKey());
+			}
+		}
 	}
 }

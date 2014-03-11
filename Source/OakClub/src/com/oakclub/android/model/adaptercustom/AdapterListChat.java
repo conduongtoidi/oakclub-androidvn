@@ -154,7 +154,7 @@ public class AdapterListChat extends BaseAdapter {
 				ImageView imgView = holder.img;
 				if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
 					String urlImg = OakClubUtil
-							.getFullLinkSticker(mContext, img);
+							.getFullLinkStickerOrGift(mContext, pathSticker + img);
 		            OakClubUtil.loadStickerFromUrl(mContext, urlImg, imgView, img.replace(".png", ""));
 		        } else {
 		        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
@@ -172,13 +172,17 @@ public class AdapterListChat extends BaseAdapter {
 								.getIdentifier(img.toLowerCase(), "drawable",
 										mContext.getPackageName()));
 					} else if (matcher.group(1).contains(giftNew)) {
-						img = matcher.group(1).replace(giftNew, "").split("\"")[0].replace(
-							".png", "");
+						img = matcher.group(1).replace(giftNew, "").split("\"")[0];
 						holder.img.setVisibility(View.VISIBLE);
 						holder.tvLastMessage.setVisibility(View.GONE);
-						holder.img.setImageResource(mContext.getResources()
-									.getIdentifier(img.toLowerCase(), "drawable",
-											mContext.getPackageName()));
+
+						if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+							String urlImg = OakClubUtil
+									.getFullLinkStickerOrGift(mContext, giftNew + img);
+				            OakClubUtil.loadStickerFromUrl(mContext, urlImg, holder.img, img.replace(".png", ""));
+				        } else {
+				        	holder.img.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+				        }
 					} 
 				} catch (Exception e) {
 
