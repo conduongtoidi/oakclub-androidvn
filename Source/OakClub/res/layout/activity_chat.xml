@@ -123,19 +123,25 @@
         android:id="@+id/activity_chat_rtlbottom"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/activity_chat_height_background"
-        android:layout_above="@+id/activity_list_smile_rlt_center"
-        android:layout_alignParentBottom="true"
-        android:background="@color/chat_background_gray"
+        android:layout_above="@+id/activity_chat_viewpage_emoticon"
+        android:layout_alignParentBottom="false"
+        android:background="#e1e1e1"
         android:orientation="horizontal"
         android:padding="5dp" >
 
-        <Button
+        <com.oakclub.android.view.ButtonCustom
+            android:id="@+id/activity_chat_rtlbottom_btText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_show_keyboard_text"/>
+        
+        <com.oakclub.android.view.ButtonCustom
             android:id="@+id/activity_chat_rtlbottom_btshowsmile"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/button_chat_send"
-            android:text="+" />
+            android:background="@drawable/btn_show_smile"/>
 
         <EditText
             android:id="@+id/activity_chat_rtlbottom_tbMessage"
@@ -159,64 +165,30 @@
             android:textColor="@color/button_chat_send_color" />
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/activity_chat_rtlbottom_gvSmile"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_chat_viewpage_emoticon"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:columnWidth="60dp"
-        android:numColumns="8"
-        android:stretchMode="columnWidth"
-        android:visibility="gone" />
+        android:background="#cc000000"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/activity_list_smile_rlt_center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone" >
-
-        <TabHost
-            android:id="@android:id/tabhost"
+        <com.viewpagerindicator.IconPageIndicator
+            android:id="@+id/activity_chat_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#fff">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="300dp" >
-                </FrameLayout>
-                
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#d7d7d7" />
-                
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fff">
-
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="false"
-                        android:background="#fff"
-                        android:gravity="center" >
-                    </TabWidget>
-                </RelativeLayout>
-                
-            </LinearLayout>
-        </TabHost>
-    </RelativeLayout>
-
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+    
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="wrap_content"

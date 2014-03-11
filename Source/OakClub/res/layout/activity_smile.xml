@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_smile_llt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -12,6 +13,5 @@
         android:numColumns="8"
         android:columnWidth="60dp"
         android:stretchMode="columnWidth"
-        android:visibility="visible"
-        />
+        android:visibility="visible" />
 </LinearLayout>
