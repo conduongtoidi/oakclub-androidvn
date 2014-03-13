@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.oakclub.android.util.Constants;
+
 public class ListChatData {
     private String name="";
     private String avatar="";

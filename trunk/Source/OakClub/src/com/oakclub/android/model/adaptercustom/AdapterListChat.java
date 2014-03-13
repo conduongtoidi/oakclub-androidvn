@@ -104,11 +104,9 @@ public class AdapterListChat extends BaseAdapter {
 		case 1:
 			try {
 			holder.tvTimeMatches.setText("Matched on "
-					+ mListChatData.get(position).getMatch_time()
-							.split("/")[1]
+					+ OakClubUtil.getMonthInDate(mListChatData.get(position).getMatch_time())
 					+ "/"
-					+ mListChatData.get(position).getMatch_time()
-							.split("/")[0]);
+					+ OakClubUtil.getDayInDate(mListChatData.get(position).getMatch_time()));
 			} catch (Exception ex) {
 				
 			}
@@ -117,11 +115,9 @@ public class AdapterListChat extends BaseAdapter {
 		case 3:
 			try {
 				holder.tvTimeMatches.setText("Last message on "
-						+ mListChatData.get(position).getLast_message_time()
-								.split("/")[1]
+						+ OakClubUtil.getMonthInDate(mListChatData.get(position).getLast_message_time())
 						+ "/"
-						+ mListChatData.get(position).getLast_message_time()
-								.split("/")[0]);
+						+ OakClubUtil.getDayInDate(mListChatData.get(position).getLast_message_time()));
 			} catch (Exception ex) {
 
 			}

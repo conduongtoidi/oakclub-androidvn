@@ -8,7 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -336,6 +338,50 @@ public class OakClubUtil {
 			return true;
 		}
 		return false;
+	}
+	
+	public static String convertStringToDate(String str){
+    	String result = "";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date= new Date();
+		try {
+			date = dateFormat.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		result = dateFormat.format(date);
+		return result; 
+    }
+	
+	public static String getDayInDate(String str){
+		int day = 0;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		try {
+			date = dateFormat.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    day = calendar.get(Calendar.DAY_OF_MONTH);
+		return day<10?"0"+day:""+day;
+	}
+	
+	public static String getMonthInDate(String str){
+		int month = 0;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		try {
+			date = dateFormat.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    month = calendar.get(Calendar.MONTH);
+		return month<10?"0"+month:""+month;
 	}
 	
 }
