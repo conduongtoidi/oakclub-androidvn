@@ -55,10 +55,12 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 		setContentView(R.layout.activity_listview_listchat);
 		lvListChat = (ListView) findViewById(R.id.activity_listview_listchat_lvchat);
 		pbLoading = (ProgressBar) findViewById(R.id.activity_listview_listchat_pbLoading);
+
+		final ListChatRequest request = new ListChatRequest("getListChat", this);
+		getRequestQueue().addRequest(request);
+		
 		if(baseAllList == null){
 			isLoading=true;
-			final ListChatRequest request = new ListChatRequest("getListChat", this);
-			getRequestQueue().addRequest(request);
 		}
 		if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
 			AllChatActivity.allList = new ArrayList<ListChatData>();

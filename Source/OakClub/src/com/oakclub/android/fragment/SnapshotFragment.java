@@ -205,21 +205,7 @@ public class SnapshotFragment{
             }
         }
     }
-//
-//    private OnClickListener clickPlayVideo(final String url){
-//        OnClickListener listener = new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String videoUrl = OakClubUtil.getFullLinkVideo(activity,
-//                        url, Constants.VIDEO_EXTENSION);
-//                intent = new Intent(activity, VideoViewActivity.class);
-//                intent.putExtra("url_video", videoUrl);
-//                activity.startActivity(intent);
-//            }
-//        };
-//        return listener;
-//    }
-//    
+    
     private OnClickListener snapEvent = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -378,29 +364,6 @@ public class SnapshotFragment{
         		counter++;
         		showDialogSnapshotCounter(activity);
                 launchMarket();
-                
-                if (numberSet == Constants.ACTION_LIKE && isLike) {
-                	ListChatOperation listChatDb = new ListChatOperation(activity);
-                	if(!listChatDb.checkProfileExist(proId)){
-        			GetOtherProfile loader2 = new GetOtherProfile(
-        					Constants.GET_HANGOUT_PROFILE, activity,
-        					proId);
-        			activity.getRequestQueue().addRequest(loader2);
-        		}
-//	                if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(proId)) {
-//						SlidingMenuActivity.listProfileSendMessage.add(proId);
-//					}
-//					
-//					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
-//						SlidingMenuActivity.mNotificationTv
-//						.setVisibility(View.GONE);
-//					} else {
-//						SlidingMenuActivity.mNotificationTv.setText(""
-//								+ SlidingMenuActivity.listProfileSendMessage.size());
-//							SlidingMenuActivity.mNotificationTv
-//									.setVisibility(View.VISIBLE);
-//					}
-                }
         	} else {
         		AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(activity);
@@ -430,40 +393,40 @@ public class SnapshotFragment{
         }
 
     }
-    
-    public void setMutualMatch(String profileId){
-
-        if (activity.oakClubApi == null) {
-            activity.oakClubApi = OakClubApi.createInstance(
-                    activity.getApplicationContext(),
-                    activity.getString(R.string.default_server_address));
-        }
-        
-        SetViewMuatualEvent loader = new SetViewMuatualEvent(
-                Constants.SET_VIEW_MUTUAL_MATCH, activity,
-                profileId);
-        activity.getRequestQueue().addRequest(loader);
-    }
-    
-    class SetViewMuatualEvent extends RequestUI {
-        private String proId = "";
-
-        public SetViewMuatualEvent(Object key, Activity activity, String proId) {
-            super(key, activity);
-            this.proId = proId;
-        }
-
-        @Override
-        public void execute() throws Exception {
-            activity.oakClubApi.SetViewedMutualMatch(proId);
-        }
-
-        @Override
-        public void executeUI(Exception ex) {
-
-        }
-
-    }
+//    
+//    public void setMutualMatch(String profileId){
+//
+//        if (activity.oakClubApi == null) {
+//            activity.oakClubApi = OakClubApi.createInstance(
+//                    activity.getApplicationContext(),
+//                    activity.getString(R.string.default_server_address));
+//        }
+//        
+//        SetViewMuatualEvent loader = new SetViewMuatualEvent(
+//                Constants.SET_VIEW_MUTUAL_MATCH, activity,
+//                profileId);
+//        activity.getRequestQueue().addRequest(loader);
+//    }
+//    
+//    class SetViewMuatualEvent extends RequestUI {
+//        private String proId = "";
+//
+//        public SetViewMuatualEvent(Object key, Activity activity, String proId) {
+//            super(key, activity);
+//            this.proId = proId;
+//        }
+//
+//        @Override
+//        public void execute() throws Exception {
+//            activity.oakClubApi.SetViewedMutualMatch(proId);
+//        }
+//
+//        @Override
+//        public void executeUI(Exception ex) {
+//
+//        }
+//
+//    }
 
     class GetSnapShotLoader extends RequestUI {
     	GetSnapShot obj;
@@ -500,6 +463,15 @@ public class SnapshotFragment{
         }
     }
     
+    public void updateListChat(String profileId){
+        	ListChatOperation listChatDb = new ListChatOperation(activity);
+        	if(!listChatDb.checkProfileExist(profileId)){
+    			GetOtherProfile loader2 = new GetOtherProfile(
+    					Constants.GET_HANGOUT_PROFILE, activity,
+    					profileId);
+    			activity.getRequestQueue().addRequest(loader2);
+    		}
+    }
 
 	class GetOtherProfile extends RequestUI {
 

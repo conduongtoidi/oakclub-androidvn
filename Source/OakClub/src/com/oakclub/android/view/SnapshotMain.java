@@ -1,11 +1,23 @@
 package com.oakclub.android.view;
 
+import java.text.DateFormat;
+import java.util.Date;
+
+import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
+import com.oakclub.android.MatchChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.VIPActivity;
 import com.oakclub.android.VideoViewActivity;
+import com.oakclub.android.base.SlidingMenuActivity;
+import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.SnapshotFragment;
+import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.image.SmartImageView;
+import com.oakclub.android.model.ChatHistoryData;
+import com.oakclub.android.model.HangoutProfileOtherReturnObject;
+import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -436,6 +448,7 @@ public class SnapshotMain extends FrameLayout {
         btnDialogKeepSwiping.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+            	setLoadingAnim(false);
                 dialogMutual.dismiss();
                 dialogMutual.setCancelable(true);
             }
@@ -445,7 +458,8 @@ public class SnapshotMain extends FrameLayout {
         btnDialogChat.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                snapshot.setMutualMatch(data.getProfile_id());
+            	setLoadingAnim(false);
+//                snapshot.setMutualMatch(data.getProfile_id());
                 
                 Intent intent = new Intent(
                     getContext(),
@@ -583,7 +597,6 @@ public class SnapshotMain extends FrameLayout {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                setLoadingAnim(false);
                 String isLike=Constants.ACTION_LIKE;
                 if(tempX<0)
                     isLike=Constants.ACTION_NOPE;
@@ -592,8 +605,11 @@ public class SnapshotMain extends FrameLayout {
                     snapshot.fltBody.removeViewAt(0);
                 else snapshot.fltBody.removeViewAt(1);
                 snapshot.addDataIntoSnapshotLayout();
-                if(Constants.ACTION_LIKE.equals(isLike) && data.getIs_like())
+                if(Constants.ACTION_LIKE.equals(isLike) && data.getIs_like()){
                     showDialogMutualMatch();
+                    snapshot.updateListChat(data.getProfile_id());
+                }
+                else setLoadingAnim(false);
             }
         });
         animationSet.addAnimation(rotate);
@@ -732,8 +748,11 @@ public class SnapshotMain extends FrameLayout {
                     snapshot.fltBody.removeViewAt(0);
                 else snapshot.fltBody.removeViewAt(1);
                 snapshot.addDataIntoSnapshotLayout();
-                if(Constants.ACTION_LIKE.equals(action) && data.getIs_like())
+                if(Constants.ACTION_LIKE.equals(action) && data.getIs_like()){
                     showDialogMutualMatch();
+                    snapshot.updateListChat(data.getProfile_id());
+                }
+                else setLoadingAnim(false);
             }
         });    
         translateAnim.setDuration(TIMER);
@@ -748,4 +767,6 @@ public class SnapshotMain extends FrameLayout {
         fltContent.setBackgroundDrawable(null);
         this.startAnimation(animationSet);
     }
+    
+
 }
