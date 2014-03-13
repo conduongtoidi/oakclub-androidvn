@@ -321,9 +321,9 @@
     <string name="txt_language_el">Ελληνικά</string>
     <string name="txt_language_nl">Nederlands</string>
     <string name="txt_language_ar">العربية</string>
-    <string name="txt_language_ko">Korean</string>
+    <string name="txt_language_ko">한국어</string>
     <string name="txt_language_sw">Swahili</string>
-    <string name="txt_language_ph">Philipino</string>
-    <string name="txt_language_hi">Hindi</string>
+    <string name="txt_language_ph">Tagalog</string>
+    <string name="txt_language_hi">Devnagri Lipi</string>
     
 </resources>
