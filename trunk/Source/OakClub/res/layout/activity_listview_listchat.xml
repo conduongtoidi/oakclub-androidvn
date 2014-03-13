@@ -24,6 +24,7 @@
         android:divider="#e4e4e4"
         android:dividerHeight="1dp"
         android:background="#fff"
+        android:clickable="false"
     />
     <ProgressBar
         android:id="@+id/activity_listview_listchat_pbLoading"

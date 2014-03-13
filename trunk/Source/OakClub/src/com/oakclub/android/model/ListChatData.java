@@ -1,27 +1,22 @@
 package com.oakclub.android.model;
 
-import org.xbill.DNS.tests.primary;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ListChatData {
-    private String fid;
-    private String profile_id;
-    private boolean is_blocked;
-    private boolean is_blocked_by_user;
-    private boolean is_deleted;
-    private boolean is_deleted_by_user;
-    private boolean is_new_contact;
-    private double order;
-    private int  unread_count;
-    private boolean matches;
-    private String name;
-    private String avatar;
-    private int status;
-    private String time;
-    private String last_message;
-    private String last_message_time;
-    private boolean is_vip;
-    private String match_time;
-    private String time_string;
+    private String name="";
+    private String avatar="";
+    private String profile_id="";
+    private int status = 0;
+    private boolean is_vip = false;
+    private String last_message="";
+    private String last_message_time="";
+    private boolean matches = false;
+    private String match_time  ="";
+    private String fid="";
+    private int  unread_count = 0;
+    private String last_active_time="";
     
     public String getName() {
         return name;
@@ -41,12 +36,6 @@ public class ListChatData {
     public void setStatus(int status) {
         this.status = status;
     }
-    public String getTime() {
-        return time;
-    }
-    public void setTime(String time) {
-        this.time = time;
-    }
     public String getLast_message() {
         return last_message;
     }
@@ -64,42 +53,6 @@ public class ListChatData {
     }
     public void setProfile_id(String profile_id) {
         this.profile_id = profile_id;
-    }
-    public boolean isIs_blocked() {
-        return is_blocked;
-    }
-    public void setIs_blocked(boolean is_blocked) {
-        this.is_blocked = is_blocked;
-    }
-    public boolean isIs_blocked_by_user() {
-        return is_blocked_by_user;
-    }
-    public void setIs_blocked_by_user(boolean is_blocked_by_user) {
-        this.is_blocked_by_user = is_blocked_by_user;
-    }
-    public boolean isIs_deleted() {
-        return is_deleted;
-    }
-    public void setIs_deleted(boolean is_deleted) {
-        this.is_deleted = is_deleted;
-    }
-    public boolean isIs_deleted_by_user() {
-        return is_deleted_by_user;
-    }
-    public void setIs_deleted_by_user(boolean is_deleted_by_user) {
-        this.is_deleted_by_user = is_deleted_by_user;
-    }
-    public boolean isIs_new_contact() {
-        return is_new_contact;
-    }
-    public void setIs_new_contact(boolean is_new_contact) {
-        this.is_new_contact = is_new_contact;
-    }
-    public double getOrder() {
-        return order;
-    }
-    public void setOrder(double order) {
-        this.order = order;
     }
     public int getUnread_count() {
         return unread_count;
@@ -123,18 +76,33 @@ public class ListChatData {
 		return match_time;
 	}
 	public void setMatch_time(String match_time) {
-		this.match_time = match_time;
-	}
-	public String getTime_string() {
-		return time_string;
-	}
-	public void setTime_string(String time_string) {
-		this.time_string = time_string;
+		this.match_time = convertStringToDate(match_time);
 	}
 	public String getLast_message_time() {
 		return last_message_time;
 	}
 	public void setLast_message_time(String last_message_time) {
-		this.last_message_time = last_message_time;
+		this.last_message_time = convertStringToDate(last_message_time);
 	}
+	public String getLast_active_time() {
+		return last_active_time;
+	}
+	public void setLast_active_time(String last_active_time) {
+		this.last_active_time = convertStringToDate(last_active_time);
+	}
+	
+
+    private String convertStringToDate(String str){
+    	String result = "";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date= new Date();
+		try {
+			date = dateFormat.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		result = dateFormat.format(date);
+		return result; 
+    }
 }

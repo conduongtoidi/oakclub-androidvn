@@ -1,6 +1,8 @@
 package com.oakclub.android.fragment;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 
@@ -23,17 +25,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.MainActivity;
+import com.oakclub.android.MatchChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.TutorialScreenActivity;
+import com.oakclub.android.VIPActivity;
+import com.oakclub.android.base.LoginBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
+import com.oakclub.android.helper.operations.ListChatOperation;
+import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.DataConfig;
 import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetSnapShot;
+import com.oakclub.android.model.HangoutProfileOtherReturnObject;
+import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SetLikeMessageReturnObject;
 import com.oakclub.android.model.SnapshotData;
 import com.oakclub.android.model.adaptercustom.AdapterSnapShot;
@@ -370,19 +380,26 @@ public class SnapshotFragment{
                 launchMarket();
                 
                 if (numberSet == Constants.ACTION_LIKE && isLike) {
-	                if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(proId)) {
-						SlidingMenuActivity.listProfileSendMessage.add(proId);
-					}
-					
-					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
-						SlidingMenuActivity.mNotificationTv
-						.setVisibility(View.GONE);
-					} else {
-						SlidingMenuActivity.mNotificationTv.setText(""
-								+ SlidingMenuActivity.listProfileSendMessage.size());
-							SlidingMenuActivity.mNotificationTv
-									.setVisibility(View.VISIBLE);
-					}
+                	ListChatOperation listChatDb = new ListChatOperation(activity);
+                	if(!listChatDb.checkProfileExist(proId)){
+        			GetOtherProfile loader2 = new GetOtherProfile(
+        					Constants.GET_HANGOUT_PROFILE, activity,
+        					proId);
+        			activity.getRequestQueue().addRequest(loader2);
+        		}
+//	                if (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(proId)) {
+//						SlidingMenuActivity.listProfileSendMessage.add(proId);
+//					}
+//					
+//					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
+//						SlidingMenuActivity.mNotificationTv
+//						.setVisibility(View.GONE);
+//					} else {
+//						SlidingMenuActivity.mNotificationTv.setText(""
+//								+ SlidingMenuActivity.listProfileSendMessage.size());
+//							SlidingMenuActivity.mNotificationTv
+//									.setVisibility(View.VISIBLE);
+//					}
                 }
         	} else {
         		AlertDialog.Builder builder;
@@ -482,6 +499,68 @@ public class SnapshotFragment{
             }
         }
     }
+    
+
+	class GetOtherProfile extends RequestUI {
+
+		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
+		String profile_id;
+		ChatHistoryData message;
+
+		public GetOtherProfile(Object key, Activity activity,
+				String profile_id) {
+			super(key, activity);
+			this.profile_id = profile_id;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			data = activity.oakClubApi.getHangoutProfileOther(profile_id);
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (data != null) {
+				ListChatData newMessage = new ListChatData();
+				newMessage.setProfile_id(profile_id);
+				newMessage.setName(data.getData().getName());
+				newMessage.setAvatar(data.getData().getAvatar());
+				newMessage.setLast_message("");
+//				newMessage.setLast_message_time(DateFormat.getDateTimeInstance().format(new Date()));
+				newMessage.setMatch_time(DateFormat.getDateTimeInstance().format(new Date()));
+				newMessage.setLast_active_time(DateFormat.getDateTimeInstance().format(new Date()));
+				newMessage.setStatus(0);
+				newMessage.setMatches(true);
+				newMessage.setUnread_count(0);
+				
+				ListChatOperation listChatDb = new ListChatOperation(activity);
+				listChatDb.insertListChat(newMessage);
+								
+				AllChatActivity.allList.clear();
+				AllChatActivity.allList.addAll(listChatDb.getListChat());
+				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.notifyDataSetChanged();
+
+				MatchChatActivity.matchedList.clear();
+				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
+				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.notifyDataSetChanged();
+
+				VIPActivity.vipList.clear();
+				VIPActivity.vipList.addAll(listChatDb.getListVip());
+				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.notifyDataSetChanged();
+					
+				SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				
+	            
+			} else {
+				OakClubUtil.enableDialogWarning(activity,
+						activity.getString(R.string.txt_warning),
+						activity.getString(R.string.txt_internet_message));
+			}
+		}
+	}
 
     private SnapshotMain getContentMain(){
         SnapshotMain snapshot =null;

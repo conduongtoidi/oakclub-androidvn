@@ -43,6 +43,7 @@ import com.oakclub.android.core.RequestQueue;
 import com.oakclub.android.fragment.LeftMenuListFragment;
 import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.fragment.ProfileSettingFragment;
+import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.GetDataLanguageReturnDataObject;
 import com.oakclub.android.net.IOakClubApi;
 import com.oakclub.android.net.OakClubApi;
@@ -70,7 +71,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	TextView titleTv;
 	public static TextView mNotificationTv;
 	public static int totalUnreadMessage = 0;
-	public static List<String> listProfileSendMessage = new ArrayList<String>();   
+//	public static List<String> listProfileSendMessage = new ArrayList<String>();   
 	public static GetDataLanguageReturnDataObject mDataLanguageObj;
 
     private LayoutInflater inflater;
@@ -169,11 +170,17 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 				.commit();
 
 		inflater = LayoutInflater.from(getApplicationContext());
+
+//		ListChatOperation listChatDb = new ListChatOperation(this);
+//		totalUnreadMessage = listChatDb.getTotalNotification();
+//		getTotalNotification(totalUnreadMessage);
+	}
+	
+	public static void getTotalNotification(int totalUnreadMessage){
 		if (totalUnreadMessage > 0) {
 			mNotificationTv.setText("" + totalUnreadMessage);
 			mNotificationTv.setVisibility(View.VISIBLE);
 		} else {
-			mNotificationTv.setText("" + totalUnreadMessage);
 			mNotificationTv.setVisibility(View.GONE);
 		}
 	}
