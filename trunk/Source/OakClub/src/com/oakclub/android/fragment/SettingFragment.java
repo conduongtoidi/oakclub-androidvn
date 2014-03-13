@@ -383,14 +383,17 @@ public class SettingFragment{
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             maxDistance = progress*100;
-            if(maxDistance<100)
+            settingObject.setRange(progress*100);
+            if(maxDistance<100){
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
+                settingObject.setRange(50);
+            }
             else if(maxDistance ==600)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
             else if(maxDistance ==700)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
             else tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +maxDistance+"km");
-            settingObject.setRange(progress*100);
+            
             Constants.settingObject = settingObject;
             Constants.isChangedSetting = true;
         }

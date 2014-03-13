@@ -214,6 +214,7 @@ public class SnapshotMain extends FrameLayout {
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rltInfoRight.setLayoutParams(rltParams);
                 
+                fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredWidth());
                 fltParams.bottomMargin = imgMutualFriend.getMeasuredHeight() + tvMutualFriend.getMeasuredHeight() + paddingView;
                 fltImage.setLayoutParams(fltParams);
                 fltParams = new LayoutParams(LayoutParams.MATCH_PARENT, rltInfoRight.getMeasuredHeight());
@@ -255,7 +256,7 @@ public class SnapshotMain extends FrameLayout {
             if(data.getIs_verify()){
                 imgVerified.setVisibility(View.VISIBLE);
             }
-            if(data.isIs_vip()){
+            if(!data.isIs_vip()){
                 if (numFriend.equals("0"))
                     imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_disable);
                 else 

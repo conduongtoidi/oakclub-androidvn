@@ -123,7 +123,6 @@
         android:id="@+id/activity_chat_rtlbottom"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/activity_chat_height_background"
-        android:layout_above="@+id/activity_chat_viewpage"
         android:layout_alignParentBottom="true"
         android:background="#e1e1e1"
         android:orientation="horizontal"
@@ -132,14 +131,14 @@
         <com.oakclub.android.view.ButtonCustom
             android:id="@+id/activity_chat_rtlbottom_btText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_margin="5dp"
             android:background="@drawable/btn_show_keyboard_text"/>
         
         <com.oakclub.android.view.ButtonCustom
             android:id="@+id/activity_chat_rtlbottom_btshowsmile"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_margin="5dp"
             android:background="@drawable/btn_show_smile"/>
 
@@ -165,24 +164,25 @@
             android:textColor="@color/button_chat_send_color" />
     </LinearLayout>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/activity_chat_viewpage"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:visibility="gone">
         
 	    <android.support.v4.view.ViewPager
 	        android:id="@+id/activity_chat_viewpage_emoticon"
 	        android:layout_width="fill_parent"
-	        android:layout_height="300dp"/>
+	        android:layout_height="wrap_content"
+	        android:layout_above="@+id/indicator"/>
 	    
 		<com.viewpagerindicator.TabPageIndicator
 	        android:id="@+id/indicator"
 	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"/>
-	</LinearLayout>
+	        android:layout_width="wrap_content"
+	        android:layout_alignParentBottom="true"/>
+	</RelativeLayout>
     
     <ProgressBar
         android:id="@+id/progressBar1"
