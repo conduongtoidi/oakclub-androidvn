@@ -45,7 +45,6 @@ public class ListChatFragment extends Fragment {
         tabHost =  (TabHost)rootView.findViewById(android.R.id.tabhost);
         searchEdt = (EditText)rootView.findViewById(R.id.search_editext);
         listener = new IRightMenuOnClickListener() {
-			
 			@Override
 			public void onRightMenuClickListener() {
 				SlidingMenuActivity activity = (SlidingMenuActivity)getActivity();
@@ -144,30 +143,30 @@ public class ListChatFragment extends Fragment {
 			public void run() {
 				String str = searchEdt.getText().toString().toLowerCase();
 		        if (OakClubBaseActivity.baseAllList!=null){
-		            OakClubBaseActivity.matchedList.clear();
-		            OakClubBaseActivity.vipList.clear();
-		            OakClubBaseActivity.allList.clear();
+		            MatchChatActivity.matchedList.clear();
+		            VIPActivity.vipList.clear();
+		            AllChatActivity.allList.clear();
 		            for (int i = 0 ; i<OakClubBaseActivity.baseAllList.size();i++){
 		                String str1=OakClubBaseActivity.baseAllList.get(i).getName().toLowerCase();
 		                if (str==null || str.length()==0 || str1.contains(str)){
-		                    OakClubBaseActivity.allList.add(OakClubBaseActivity.baseAllList.get(i));
+		                	AllChatActivity.allList.add(OakClubBaseActivity.baseAllList.get(i));
 		                    if (OakClubBaseActivity.baseAllList.get(i).isMatches()){
-		                        OakClubBaseActivity.matchedList.add(OakClubBaseActivity.baseAllList.get(i));
+		                    	MatchChatActivity.matchedList.add(OakClubBaseActivity.baseAllList.get(i));
 		                    } else {
-		                        OakClubBaseActivity.vipList.add(OakClubBaseActivity.baseAllList.get(i));
+		                    	VIPActivity.vipList.add(OakClubBaseActivity.baseAllList.get(i));
 		                    }
 		                }
 		            }
 		            
-		            if (OakClubBaseActivity.adapterMatchListChatData!=null){
-		                OakClubBaseActivity.adapterMatchListChatData.notifyDataSetChanged();
+		            if (MatchChatActivity.adapterMatch!=null){
+		            	MatchChatActivity.adapterMatch.notifyDataSetChanged();
 		            }
-		            if (OakClubBaseActivity.adapterVIPListChatData!=null){
-		                OakClubBaseActivity.adapterVIPListChatData.notifyDataSetChanged();
+		            if (VIPActivity.adapterVip!=null){
+		                VIPActivity.adapterVip.notifyDataSetChanged();
 		            }
 
-		            if (OakClubBaseActivity.adapterAllListChatData!=null){
-		                OakClubBaseActivity.adapterAllListChatData.notifyDataSetChanged();
+		            if (AllChatActivity.adapterAll!=null){
+		            	AllChatActivity.adapterAll.notifyDataSetChanged();
 		            }
 		        }
 				

@@ -67,14 +67,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	public static String nameDevice;
 	public static XMPPConnection xmpp;
 	public static String user_id;
-	public static ArrayList<ListChatData> matchedList;
-	public static ArrayList<ListChatData> vipList;
-	public static ArrayList<ListChatData> allList;
 	public static ArrayList<ListChatData> baseAllList;
-
-	public static AdapterListChat adapterAllListChatData;
-	public static AdapterListChat adapterVIPListChatData;
-	public static AdapterListChat adapterMatchListChatData;
 
 	protected Intent intent;
 
@@ -177,26 +170,10 @@ public class OakClubBaseActivity extends FragmentActivity implements
 
 	@Override
 	protected void onDestroy() {
-		// Runtime.getRuntime().gc();
-		// if (mRegisterTask != null) {
-		// mRegisterTask.cancel(true);
-		// }
-		// try {
-		// OakClubUtil.trimCache(this);
-		// unregisterReceiver(mHandleMessageReceiver);
-		// GCMRegistrar.onDestroy(this);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// Cancel AsyncTask
 		if (mRegisterTask != null) {
 			mRegisterTask.cancel(true);
 		}
 		try {
-			// Unregister Broadcast Receiver
-			//unregisterReceiver(mHandleMessageReceiver);
-			
-			//Clear internal resources.
 			GCMRegistrar.onDestroy(this);
 			
 		} catch (Exception e) {

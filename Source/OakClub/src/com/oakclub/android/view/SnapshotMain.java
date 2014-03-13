@@ -213,8 +213,14 @@ public class SnapshotMain extends FrameLayout {
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rltInfoRight.setLayoutParams(rltParams);
-                
-                fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredWidth());
+               
+            	int width = fltImage.getMeasuredWidth();
+            	int height = fltImage.getMeasuredHeight();
+            	if(width<height)
+            		fltParams = new LayoutParams(width, width);
+            	else fltParams = new LayoutParams(width, height);
+//                fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredHeight());
+
                 fltParams.bottomMargin = imgMutualFriend.getMeasuredHeight() + tvMutualFriend.getMeasuredHeight() + paddingView;
                 fltImage.setLayoutParams(fltParams);
                 fltParams = new LayoutParams(LayoutParams.MATCH_PARENT, rltInfoRight.getMeasuredHeight());

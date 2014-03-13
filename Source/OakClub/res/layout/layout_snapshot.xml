@@ -14,8 +14,8 @@
         >
         <FrameLayout
 	        android:id="@+id/activity_snapshot_flt_body_flt_content_flt_image_main"
-	        android:layout_height="fill_parent"
 	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
 	        android:layout_gravity="center"
 	        >
 	        <com.oakclub.android.view.CornerImageView

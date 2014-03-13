@@ -34,12 +34,26 @@ public class AdapterListChat extends BaseAdapter {
 
 	private Context mContext;
 	private ArrayList<ListChatData> mListChatData;
+	public boolean ignoreDisabled = false;
 
 	public AdapterListChat(Context context, ArrayList<ListChatData> data) {
 		this.mContext = context;
 		this.mListChatData = data;
 	}
+	
+	@Override
+	public boolean areAllItemsEnabled() {
+		return ignoreDisabled;
+	}
 
+	@Override
+	public boolean isEnabled(int position) {
+		if (areAllItemsEnabled()) {
+	        return true;
+	    }
+		else return false;
+	}
+	
 	@Override
 	public int getCount() {
 		return mListChatData.size();
@@ -122,7 +136,6 @@ public class AdapterListChat extends BaseAdapter {
 		
 		String text = mListChatData.get(position)
 				.getLast_message();
-		
 		
 		getStickerOrGift(position, holder, text);
 		

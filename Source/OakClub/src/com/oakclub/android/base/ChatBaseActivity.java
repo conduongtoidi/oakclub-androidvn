@@ -2,13 +2,16 @@ package com.oakclub.android.base;
 
 import java.util.ArrayList;
 
+import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.ChatActivity;
+import com.oakclub.android.MatchChatActivity;
 import com.oakclub.android.R;
-import com.oakclub.android.AllChatActivity.ListChatRequest;
+import com.oakclub.android.VIPActivity;
 import com.oakclub.android.R.id;
 import com.oakclub.android.R.layout;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ListChatFragment;
+import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
@@ -16,6 +19,7 @@ import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,10 +33,15 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ChatBaseActivity extends OakClubBaseActivity {
 
+	@Override
+	protected void onResume() {
+		updateListChat(ChatBaseActivity.this);
+		super.onResume();
+	}
+
 	ListView lvListChat;
 	protected ProgressBar pbLoading;
-
-	private static ArrayList<ListChatData> listChat;
+	protected boolean isLoading= false;
 	protected static final int CHAT_ALL = 0;
 	protected static final int CHAT_MATCHES = 1;
 	protected static final int CHAT_VIP = 2;
@@ -46,111 +55,99 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 		setContentView(R.layout.activity_listview_listchat);
 		lvListChat = (ListView) findViewById(R.id.activity_listview_listchat_lvchat);
 		pbLoading = (ProgressBar) findViewById(R.id.activity_listview_listchat_pbLoading);
-		if (matchedList == null)
-			matchedList = new ArrayList<ListChatData>();
-		if (vipList == null)
-			vipList = new ArrayList<ListChatData>();
-		if (allList == null)
-			allList = new ArrayList<ListChatData>();
-		if (baseAllList == null)
-			baseAllList = new ArrayList<ListChatData>();
+		if(baseAllList == null){
+			isLoading=true;
+			final ListChatRequest request = new ListChatRequest("getListChat", this);
+			getRequestQueue().addRequest(request);
+		}
+		if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
+			AllChatActivity.allList = new ArrayList<ListChatData>();
+			AllChatActivity.adapterAll = new AdapterListChat(this, AllChatActivity.allList);
+		}
+		if(MatchChatActivity.matchedList ==null && MatchChatActivity.adapterMatch ==null){
+			MatchChatActivity.matchedList = new ArrayList<ListChatData>();
+			MatchChatActivity.adapterMatch = new AdapterListChat(this, MatchChatActivity.matchedList);
+		}
+		if(VIPActivity.vipList ==null && VIPActivity.adapterVip==null){
+			VIPActivity.vipList = new ArrayList<ListChatData>();
+			VIPActivity.adapterVip = new AdapterListChat(this, VIPActivity.vipList);
+		}
 	}
+	
+	private ListChatOperation listChatDb;
+	protected void init(int chatCase)
+	{
+		ArrayList<ListChatData> list = new ArrayList<ListChatData>();
+		AdapterListChat adapterListChatData = new AdapterListChat(this, list);
+		listChatDb = new ListChatOperation(ChatBaseActivity.this);
 
-	protected void init(AdapterListChat adapterListChatData,
-			final ArrayList<ListChatData> listChat, final Activity activity,
-			int chatCase) {
-		listChat.clear();
-		adapterListChatData = new AdapterListChat(this, listChat);
+		AllChatActivity.allList.clear();
+		AllChatActivity.allList.addAll(listChatDb.getListChat());
+		AllChatActivity.adapterAll.notifyDataSetChanged();
+
+		MatchChatActivity.matchedList.clear();
+		MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
+		MatchChatActivity.adapterMatch.notifyDataSetChanged();
+
+		VIPActivity.vipList.clear();
+		VIPActivity.vipList.addAll(listChatDb.getListVip());
+		VIPActivity.adapterVip.notifyDataSetChanged();
+		
 		switch (chatCase) {
 		case CHAT_ALL:
-			OakClubBaseActivity.adapterAllListChatData = adapterListChatData;
+			list = AllChatActivity.allList;
+			adapterListChatData = AllChatActivity.adapterAll;
 			break;
 		case CHAT_MATCHES:
-			OakClubBaseActivity.adapterMatchListChatData = adapterListChatData;
+			list = MatchChatActivity.matchedList;
+			adapterListChatData = MatchChatActivity.adapterMatch;
 			break;
 		case CHAT_VIP:
-			OakClubBaseActivity.adapterVIPListChatData = adapterListChatData;
+			list = VIPActivity.vipList;
+			adapterListChatData = VIPActivity.adapterVip;
 			break;
-
 		default:
 			break;
 		}
+		final ArrayList<ListChatData> listAdapter = list;
 		lvListChat.setAdapter(adapterListChatData);
-		if ((ListChatFragment.searchEdt != null && ListChatFragment.searchEdt
-				.getText().toString().length() == 0)
-				&& (listChat == null || listChat.size() == 0)) {
-			final ListChatRequest request = new ListChatRequest("getListChat",
-					adapterListChatData, listChat, activity, chatCase);
-			getRequestQueue().addRequest(request);
-		} else
-			pbLoading.setVisibility(View.GONE);
 		lvListChat.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int position, long id) {
-				// ListChatFragment.listener.onRightMenuClickListener();
-				Intent chatHistoryActivity = new Intent(activity
-						.getApplicationContext(), ChatActivity.class);
+				Intent chatHistoryActivity = new Intent(ChatBaseActivity.this
+						, ChatActivity.class);
 				Bundle bundle = new Bundle();
-				ImageView img = (ImageView) view
-						.findViewById(R.id.item_listview_listchat_imgright);
-
 				bundle.putString(Constants.BUNDLE_PROFILE_ID,
-						listChat.get(position).getProfile_id());
-				bundle.putString(Constants.BUNDLE_AVATAR, listChat
+						listAdapter.get(position).getProfile_id());
+				bundle.putString(Constants.BUNDLE_AVATAR, listAdapter
 						.get(position).getAvatar());
-				bundle.putString(Constants.BUNDLE_NAME, listChat.get(position)
+				bundle.putString(Constants.BUNDLE_NAME, listAdapter.get(position)
 						.getName());
-				bundle.putInt(Constants.BUNDLE_STATUS, listChat.get(position)
+				bundle.putInt(Constants.BUNDLE_STATUS, listAdapter.get(position)
 						.getStatus());
 				bundle.putString(Constants.BUNDLE_MATCH_TIME,
-						listChat.get(position).getMatch_time());
+						listAdapter.get(position).getMatch_time());
 				bundle.putBoolean(Constants.BUNDLE_NOTI, false);
-				
-				switch (listChat.get(position).getStatus()) {
-				case 0:
-					listChat.get(position).setStatus(1);
-					break;
-				case 2:
-					listChat.get(position).setStatus(3);
-				default:
-					break;
-				}
-				
-				if (adapterAllListChatData != null) {
-					adapterAllListChatData.notifyDataSetChanged();
-				}
-				if (adapterVIPListChatData != null) {
-					adapterVIPListChatData.notifyDataSetChanged();
-				}
-				if (adapterMatchListChatData != null) {
-					adapterMatchListChatData.notifyDataSetChanged();
-				}
-				
 				
 				chatHistoryActivity.putExtras(bundle);
 				chatHistoryActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 				startActivity(chatHistoryActivity);
-				// finish();
 			}
 		});
 
+		if(!isLoading){
+			adapterListChatData.ignoreDisabled=true;
+			pbLoading.setVisibility(View.GONE);
+		}
 	}
-
+	
 	protected class ListChatRequest extends RequestUI {
 		private ListChatReturnObject obj;
-		private AdapterListChat adapterListChatData;
-		private ArrayList<ListChatData> listChat;
-		private int chat;
 
-		public ListChatRequest(Object key, AdapterListChat adapterListChatData,
-				final ArrayList<ListChatData> listChat, Activity activity,
-				int chatCase) {
+		public ListChatRequest(Object key, Activity activity) {
 			super(key, activity);
-			this.adapterListChatData = adapterListChatData;
-			this.listChat = listChat;
-			this.chat = chatCase;
 		}
 
 		@Override
@@ -160,52 +157,53 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-			pbLoading.setVisibility(View.GONE);
 			if (obj == null || !obj.isStatus()) {
-				// Toast.makeText(MatchChatActivity.this,
-				// getString(R.string.abnormal_error_message),
-				// Toast.LENGTH_SHORT).show();
 			} else {
-				allList.clear();
-				matchedList.clear();
-				vipList.clear();
-				baseAllList.clear();
+				isLoading = false;
+				pbLoading.setVisibility(View.GONE);
+				listChatDb = new ListChatOperation(ChatBaseActivity.this);
+				listChatDb.deleteAllListChat();
 				for (int i = 0; i < obj.getData().size(); i++) {
-					allList.add(obj.getData().get(i));
-					baseAllList.add(obj.getData().get(i));
-					SharedPreferences.Editor editor = getSharedPreferences(
-							Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
-					editor.putString(baseAllList.get(i).getProfile_id(),
-							baseAllList.get(i).getName());
-					editor.putInt(baseAllList.get(i).getName(), i);
-					editor.commit();
-					if (baseAllList.get(i).isMatches()) {
-						matchedList.add(baseAllList.get(i));
-					}
-					if (baseAllList.get(i).isIs_vip()) {
-						vipList.add(baseAllList.get(i));
-					}
-					
-					if ((baseAllList.get(i).getUnread_count() > 0 || baseAllList.get(i).getStatus() == 0) && (SlidingMenuActivity.listProfileSendMessage.isEmpty() || !SlidingMenuActivity.listProfileSendMessage.contains(baseAllList.get(i).getProfile_id()))) {
-						SlidingMenuActivity.listProfileSendMessage.add(baseAllList.get(i).getProfile_id());
-					}
-					
-					if (SlidingMenuActivity.listProfileSendMessage.isEmpty()) {
-						SlidingMenuActivity.mNotificationTv
-						.setVisibility(View.GONE);
-					} else {
-						SlidingMenuActivity.mNotificationTv.setText(""
-								+ SlidingMenuActivity.listProfileSendMessage.size());
-							SlidingMenuActivity.mNotificationTv
-									.setVisibility(View.VISIBLE);
-					}
+					listChatDb.insertListChat(obj.getData().get(i));
 				}
-				// arrayList.addAll(obj.getData());
-				adapterListChatData.notifyDataSetChanged();
-
-				
+				baseAllList = listChatDb.getListChat();
+				updateListChat(ChatBaseActivity.this);
 			}
 		}
 
+	}
+	
+	public static void updateListChat(Context context){
+		if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
+			AllChatActivity.allList = new ArrayList<ListChatData>();
+			AllChatActivity.adapterAll = new AdapterListChat(context, AllChatActivity.allList);
+		}
+		if(MatchChatActivity.matchedList ==null && MatchChatActivity.adapterMatch ==null){
+			MatchChatActivity.matchedList = new ArrayList<ListChatData>();
+			MatchChatActivity.adapterMatch = new AdapterListChat(context, MatchChatActivity.matchedList);
+		}
+		if(VIPActivity.vipList ==null && VIPActivity.adapterVip==null){
+			VIPActivity.vipList = new ArrayList<ListChatData>();
+			VIPActivity.adapterVip = new AdapterListChat(context, VIPActivity.vipList);
+		}
+		
+		ListChatOperation listChatDb = new ListChatOperation(context);
+
+		AllChatActivity.allList.clear();
+		AllChatActivity.allList.addAll(listChatDb.getListChat());
+		AllChatActivity.adapterAll.ignoreDisabled=true;
+		AllChatActivity.adapterAll.notifyDataSetChanged();
+
+		MatchChatActivity.matchedList.clear();
+		MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
+		MatchChatActivity.adapterMatch.ignoreDisabled=true;
+		MatchChatActivity.adapterMatch.notifyDataSetChanged();
+
+		VIPActivity.vipList.clear();
+		VIPActivity.vipList.addAll(listChatDb.getListVip());
+		VIPActivity.adapterVip.ignoreDisabled=true;
+		VIPActivity.adapterVip.notifyDataSetChanged();
+			
+		SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
 	}
 }

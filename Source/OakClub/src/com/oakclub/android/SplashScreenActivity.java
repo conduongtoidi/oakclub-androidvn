@@ -38,22 +38,20 @@ public class SplashScreenActivity extends Activity {
 	private int fromY;
 	private int toX;
 	private int toY;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
 		img = (ImageView) findViewById(R.id.activity_splash_screen_img);
-		
 		ImageLoader imgLoader = new ImageLoader(this);
         imgLoader.clearCache();
-
 		try {
 			saveLogcatToFile(getApplicationContext());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//OakClubApplication.getInstance().clearApplicationData();
 		SlideToDown(img, 500);
 	}
 	
