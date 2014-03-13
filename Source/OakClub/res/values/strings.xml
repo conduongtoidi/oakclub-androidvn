@@ -196,11 +196,16 @@
     <string name="txt_leave_us_a_message">Leave us a message</string>
     <string name="txt_ask_me_later">Aske me later</string>
     <string name="txt_chat_match_content">You matched with %s</string>
-    <string name="txt_minutes_ago">minute(s) ago</string>
-    <string name="txt_hour_ago">hour(s) ago</string>
-    <string name="txt_day_ago">day(s) ago</string>
-    <string name="txt_month_ago">month(s) ago</string>
-    <string name="txt_year_ago">year(s) ago</string>
+    <string name = "txt_one_minutes_ago">1 minute ago</string>
+	<string name = "txt_minutes_ago">%d minutes ago</string>
+	<string name = "txt_one_hour_ago">1 hour ago</string>
+	<string name = "txt_hour_ago">%d hours ago</string>
+	<string name = "txt_one_day_ago">1 day ago</string>
+	<string name = "txt_day_ago">%d days ago</string>
+	<string name = "txt_one_month_ago">1 month ago</string>
+	<string name = "txt_month_ago">%d months ago</string>
+	<string name = "txt_one_year_ago">1 year ago</string>
+	<string name = "txt_year_ago">%d years ago</string>
     <string name="txt_start_conversations_are_awkward_but_not_at_OakClub">Start conversations are awkward, but not at OakClub</string>
     <string name="txt_you_rated_snapshots">You rated %d SnapShots. Sharing is caring. Invite your friends!</string>
     

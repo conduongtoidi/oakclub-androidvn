@@ -40,7 +40,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		arraySticker.add(new ArrayList<String>());
 	}
 
-	// This is the number of pages -- 5
+	// This is the number of pages
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -69,7 +69,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 
 		final GridView gvSticker = (GridView) v
 				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
-		gvSticker.setNumColumns(3);
+		gvSticker.setNumColumns(4);
 		fillArrayList(arrayHashMapSticker.get(position),
 				arraySticker.get(position));
 		StickerAdapter adapter = new StickerAdapter(

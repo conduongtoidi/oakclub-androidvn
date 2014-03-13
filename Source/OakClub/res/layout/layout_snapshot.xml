@@ -8,20 +8,20 @@
     <FrameLayout
         android:id="@+id/activity_snapshot_flt_body_flt_content_flt_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
         android:layout_gravity="bottom"
         >
         <FrameLayout
 	        android:id="@+id/activity_snapshot_flt_body_flt_content_flt_image_main"
-	        android:layout_height="wrap_content"
+	        android:layout_height="fill_parent"
 	        android:layout_width="fill_parent"
 	        android:layout_gravity="center"
 	        >
 	        <com.oakclub.android.view.CornerImageView
 	            android:id="@+id/activity_snapshot_flt_body_flt_content_ivw_avatar"
 	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
+	            android:layout_height="fill_parent"
 	            android:layout_gravity="center"
 	            android:scaleType="fitCenter"
 	        />

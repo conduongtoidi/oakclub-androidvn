@@ -40,7 +40,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		arrayEmoticon.add(new ArrayList<String>());
 	}
 
-	// This is the number of pages -- 5
+	// This is the number of pages
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -182,6 +182,10 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		emoticons.put("p^^", R.drawable.beaten + "");
 		emoticons.put("&quot;vvv&quot;", R.drawable.wacky + "");
 		emoticons.put(":-&gt;", R.drawable.vampire + "");
+		emoticons.put(":-*", R.drawable.kiss + "");
+		emoticons.put("$_$", R.drawable.millionaire + "");
+		emoticons.put(":::^^:::", R.drawable.sweating + "");
+		emoticons.put("+_+", R.drawable.frozen + "");
 
 		this.emoticons = emoticons;
 		return emoticons;

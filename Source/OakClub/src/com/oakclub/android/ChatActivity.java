@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
@@ -119,7 +120,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	private ButtonCustom btShowKeyboard;
 	private ButtonCustom btShowGift;
 
-	private LinearLayout lltChatViewPage;
+	private RelativeLayout rltChatViewPage;
 	private LinearLayout lltBottom;
 	private RelativeLayout.LayoutParams params;
 
@@ -256,7 +257,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		btShowSmile = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
 		btShowKeyboard = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btText);
 		lltBottom = (LinearLayout) findViewById(R.id.activity_chat_rtlbottom);
-		lltChatViewPage = (LinearLayout) findViewById(R.id.activity_chat_viewpage);
+		rltChatViewPage = (RelativeLayout) findViewById(R.id.activity_chat_viewpage);
 		lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
 		txt_chat_match_content = (TextViewWithFont) findViewById(R.id.activity_chat_match_content);
 		txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
@@ -338,6 +339,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				btShowKeyboard.state = 0;
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
+				rltChatViewPage.setVisibility(View.GONE);
 				return false;
 			}
 		});
@@ -351,6 +353,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				if (hasFocus) {
 					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 					lltBottom.setLayoutParams(params);
+					rltChatViewPage.setVisibility(View.GONE);
 				}
 			}
 		});
@@ -368,7 +371,7 @@ public class ChatActivity extends OakClubBaseActivity {
 						0);
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
-				lltChatViewPage.setVisibility(View.GONE);
+				rltChatViewPage.setVisibility(View.GONE);
 				return false;
 			}
 		});
@@ -447,7 +450,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				solveEditBtn();
 				break;
 			case R.id.activity_chat_rtlbottom_btshowsmile:
-				lltChatViewPage.setVisibility(View.GONE);
+				rltChatViewPage.setVisibility(View.GONE);
 				if (btShowSmile.state == 1) {
 					btShowSmile.state = 0;
 					showSmile();
@@ -485,7 +488,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				break;
 			case R.id.activity_chat_rtlbottom_btText:
-				lltChatViewPage.setVisibility(View.GONE);
+				rltChatViewPage.setVisibility(View.GONE);
 				if (btShowSmile.state == 2) {
 					btShowSmile.state = 0;
 					showSmile();
@@ -535,7 +538,7 @@ public class ChatActivity extends OakClubBaseActivity {
 					InputMethodManager.SHOW_IMPLICIT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			lltBottom.setLayoutParams(params);
-			lltChatViewPage.setVisibility(View.GONE);
+			rltChatViewPage.setVisibility(View.GONE);
 		}
 
 		private void showSticker() {
@@ -544,6 +547,8 @@ public class ChatActivity extends OakClubBaseActivity {
 
 			mPager.setAdapter(stickerScreenAdapter);
 	        mIndicator.setViewPager(mPager);
+	        mIndicator.notifyDataSetChanged();
+	        mIndicator.setCurrentItem(1);
 			params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.FILL_PARENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -551,7 +556,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			params.addRule(RelativeLayout.ABOVE,
 					 R.id.activity_chat_viewpage);
 			lltBottom.setLayoutParams(params);
-			lltChatViewPage.setVisibility(View.VISIBLE);
+			rltChatViewPage.setVisibility(View.VISIBLE);
 		}
 
 		private void showSmile() {
@@ -560,6 +565,8 @@ public class ChatActivity extends OakClubBaseActivity {
 
 			mPager.setAdapter(emoticonScreenAdapter);
 	        mIndicator.setViewPager(mPager);
+	        mIndicator.notifyDataSetChanged();
+	        mIndicator.setCurrentItem(1);
 			params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.FILL_PARENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -567,7 +574,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			params.addRule(RelativeLayout.ABOVE,
 						 R.id.activity_chat_viewpage);
 			lltBottom.setLayoutParams(params);
-			lltChatViewPage.setVisibility(View.VISIBLE);
+			rltChatViewPage.setVisibility(View.VISIBLE);
 		}
 	};
 
@@ -1048,18 +1055,36 @@ public class ChatActivity extends OakClubBaseActivity {
 		if (time <= 0)
 			time = 1;
 
-		if (time < 59)
-			result = time + " " + getString(R.string.txt_minutes_ago);
-		else if (time < 60 * 60)
-			result = time / 60 + " " + getString(R.string.txt_hour_ago);
-		else if (time < 60 * 60 * 24)
-			result = time / (60 * 24) + " " + getString(R.string.txt_day_ago);
-		else if (time < 60 * 60 * 24 * 30)
-			result = time / (60 * 24 * 30) + " "
-					+ getString(R.string.txt_month_ago);
-		else
-			result = time / (60 * 24 * 30 * 12) + " "
-					+ getString(R.string.txt_year_ago);
+		if (time < 59) {
+			result = String.format(getString(R.string.txt_minutes_ago), time);
+			if (time == 1) {
+				result = getString(R.string.txt_one_minutes_ago);
+			}
+		}
+		else if (time < 60 * 60) {
+			result = String.format(getString(R.string.txt_hour_ago), time / 60);
+			if (time / 60 == 1) {
+				result = getString(R.string.txt_one_hour_ago);
+			}
+		}
+		else if (time < 60 * 60 * 24) {
+			result = String.format(getString(R.string.txt_day_ago), time / (60 * 24));
+			if (time / (60 * 24) == 1) {
+				result = getString(R.string.txt_one_day_ago);
+			}
+		}
+		else if (time < 60 * 60 * 24 * 30) {
+			result = String.format(getString(R.string.txt_month_ago), time / (60 * 24 * 30));
+			if (time / (60 * 24 * 30) == 1) {
+				result = getString(R.string.txt_one_month_ago);
+			}
+		}
+		else {
+			result = String.format(getString(R.string.txt_year_ago), time / (60 * 24 * 30 * 12));
+			if (time / (60 * 24 * 30 * 12) == 1) {
+				result = getString(R.string.txt_one_year_ago);
+			}
+		}
 
 		return result;
 	}

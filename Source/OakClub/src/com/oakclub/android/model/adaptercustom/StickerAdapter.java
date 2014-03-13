@@ -56,7 +56,7 @@ public class StickerAdapter extends BaseAdapter {
         view = layoutInflater.inflate(R.layout.item_chat_smiley, parent, false);
         //convertView = LayoutInflater.from(context).inflate(R.layout.item_chat_smiley, null);        
         
-        LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
+        LayoutParams params = new LayoutParams(widthScreen/4, widthScreen/4);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
         if (!ChatActivity.bitmapSticker.containsKey(arrayListStickers.get(position))) {
         	String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";

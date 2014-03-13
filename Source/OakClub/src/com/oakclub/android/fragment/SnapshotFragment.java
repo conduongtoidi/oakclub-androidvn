@@ -600,6 +600,7 @@ public class SnapshotFragment{
                     dialog.dismiss();
                 }
             });
+            dialog.setCancelable(false);
             dialog.show();
         }
     }
@@ -647,6 +648,7 @@ public class SnapshotFragment{
 	                        dialog.dismiss();
 	                    }
 	                });
+	                dialog.setCancelable(false);
 	                dialog.show();
 	            }
 	        }
