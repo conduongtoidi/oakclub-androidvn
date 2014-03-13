@@ -250,9 +250,10 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	@SuppressWarnings("deprecation")
 	public void init(Bundle savedInstanceState) {
-		ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
-				profile_id, 0);
-		getRequestQueue().addRequest(loader);
+		
+//		ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
+//				profile_id, 0);
+//		getRequestQueue().addRequest(loader);
 		snapShotData = new SnapshotData();
 
 		btShowGift = new ButtonCustom(this);
@@ -282,6 +283,7 @@ public class ChatActivity extends OakClubBaseActivity {
         
         ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
 		if (status == 0 || status==1) {
+			progressBar.setVisibility(View.GONE);
 			chatLv.setVisibility(View.GONE);
 			lltMatch.setVisibility(View.VISIBLE);
 			String url = OakClubUtil.getFullLink(this, target_avatar);
@@ -304,6 +306,11 @@ public class ChatActivity extends OakClubBaseActivity {
 		        getRequestQueue().addRequest(setViewMutual);
 			}
 		} else {
+
+			ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
+					profile_id, 0);
+			getRequestQueue().addRequest(loader);
+			
 			chatLv.setVisibility(View.VISIBLE);
 			lltMatch.setVisibility(View.GONE);
 			listChatDb.updateReadMessage(profile_id);
