@@ -130,7 +130,7 @@ public class SplashScreenActivity extends Activity {
 				} else {
 					int lang = pref.getInt(Constants.PREFERENCE_LANGUAGE, 0);
 					Log.v("LangId: ", lang + "");
-					if(lang<Constants.LANGUAGE_LOCALE.length-1)
+					if(lang<Constants.LANGUAGE_LOCALE.length)
 						setLocale(Constants.LANGUAGE_LOCALE[lang]);
 					else setLocale(Constants.LANGUAGE_LOCALE[0]);
 					Constants.country = getResources().getConfiguration().locale.getLanguage();

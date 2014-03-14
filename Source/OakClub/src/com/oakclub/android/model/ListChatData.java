@@ -95,16 +95,16 @@ public class ListChatData {
 	
 
     private String convertStringToDate(String str){
-    	String result = "";
+    	if(str.equals(""))
+    		return str;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date= new Date();
 		try {
 			date = dateFormat.parse(str);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		result = dateFormat.format(date);
-		return result; 
+		str = dateFormat.format(date);
+		return str; 
     }
 }
