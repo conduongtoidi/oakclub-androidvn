@@ -15,9 +15,11 @@ import android.view.animation.Animation;
 
 import com.google.android.gms.internal.fm;
 import com.oakclub.android.base.SlidingMenuActivity;
+import com.oakclub.android.fragment.GetVIPFragment;
 import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.fragment.SnapshotFragment;
+import com.oakclub.android.fragment.VIPRoomFragment;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
@@ -101,6 +103,12 @@ public class SlidingActivity extends SlidingMenuActivity {
             case INVITE_FRIEND:
                 break;
             case VIPROOM:
+            	if (GetVIPFragment.mHelper != null)
+                	GetVIPFragment.mHelper.handleActivityResult(requestCode, resultCode, data); 
+            	if(requestCode == Constants.GETVIP){
+					VIPRoomFragment vipRoom = new VIPRoomFragment(this);
+					vipRoom.initVIPRoom();				
+            	}
                 break;
             default: 
                 break;
@@ -116,6 +124,10 @@ public class SlidingActivity extends SlidingMenuActivity {
     @Override
     protected void onDestroy(){
         //OakClubUtil.recycleImagesFromView(view);
+    	if (GetVIPFragment.mHelper != null) {
+    		GetVIPFragment.mHelper.dispose();
+    		GetVIPFragment.mHelper = null;
+        }
         System.gc();
         super.onDestroy();
     }

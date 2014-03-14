@@ -69,6 +69,7 @@ import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.ListPhotoReturnObject;
 import com.oakclub.android.model.PostMethodReturnObject;
 import com.oakclub.android.model.ProfileUpdateFirstTimeObject;
+import com.oakclub.android.model.SenRegisterVIPReturnObject;
 import com.oakclub.android.model.SendChatReturnObject;
 import com.oakclub.android.model.SendMessageReturnObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
@@ -746,6 +747,21 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		} catch (Exception e) {
 			return null;
 		}	
+	}
+	@Override
+	public SenRegisterVIPReturnObject SendRegisterVIP(String packageName, String productID,
+			String purchaseToken) {
+		try {	
+			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+			paramList.add(new BasicNameValuePair("package_name", packageName));
+			paramList.add(new BasicNameValuePair("product_id", productID));
+			paramList.add(new BasicNameValuePair("purchase_token", purchaseToken));
+			String result =excuteGet(baseUrl + "/" + Constants.VIP_REGISTER, paramList);
+			return OakClubJsonParser.getJsonObjectByMapper(result,
+                    SenRegisterVIPReturnObject.class);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

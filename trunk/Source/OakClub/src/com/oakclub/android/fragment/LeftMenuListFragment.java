@@ -211,9 +211,14 @@ public class LeftMenuListFragment extends Fragment {
 					case R.id.menu_item_llt_vip_room:
 						if (activity.getMenu() != MenuOakclub.VIPROOM) {
 							activity.setMenu(MenuOakclub.VIPROOM);
-							GetVIPFragment getVIP = new GetVIPFragment(
-									activity);
-							getVIP.initGetVIP();
+							if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.isIs_vip()){
+								VIPRoomFragment vipRoom = new VIPRoomFragment(activity);
+								vipRoom.initVIPRoom();	
+							}else{
+								GetVIPFragment getVIP = new GetVIPFragment(
+										activity);
+								getVIP.initGetVIP();
+							}							
 						}
 						break;
 				}
