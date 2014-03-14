@@ -88,7 +88,6 @@ import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
-import com.oakclub.android.view.ButtonCustom;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;
 import com.oakclub.android.view.TextViewWithFont;
@@ -122,9 +121,10 @@ public class ChatActivity extends OakClubBaseActivity {
 	// private Button btShowSmile;
 	// private Button btShowKeyboard;
 
-	private ButtonCustom btShowSmile;
-	private ButtonCustom btShowKeyboard;
-	private ButtonCustom btShowGift;
+	private Button btShowSmile;
+	private Button btShowSticker;
+	private boolean isShowSmile = false;
+	private boolean isShowSticker;
 
 	private RelativeLayout rltChatViewPage;
 	private LinearLayout lltBottom;
@@ -141,6 +141,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	public static boolean isPressSticker = false;
 	public static HashMap<String, Bitmap> bitmapSticker = new HashMap<String, Bitmap>();
 	protected ProgressDialog pd;
+	protected ProgressDialog pdLogin;
 	ViewPager mPager;
 	TabPageIndicator mIndicator;
 	EmoticonScreenAdapter emoticonScreenAdapter;
@@ -165,11 +166,23 @@ public class ChatActivity extends OakClubBaseActivity {
 		status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);
 		match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
 		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);
-
+		
+		pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        editor = pref.edit();
 		if (xmpp == null) {
+			pdLogin = new ProgressDialog(ChatActivity.this);
+			pdLogin.setMessage(getString(R.string.txt_loading));
+			pdLogin.setCancelable(false);
+			pdLogin.show();
 			startXMPP();
+			appVer = android.os.Build.VERSION.RELEASE;
+			nameDevice = android.os.Build.MODEL;
+			
+			SendRegisterRequest request = new SendRegisterRequest(
+					"sendRegister", ChatActivity.this,
+					facebook_user_id, access_token);
+			getRequestQueue().addRequest(request);
 		}
-
 		init(savedInstanceState);
 	}
 
@@ -247,15 +260,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	@SuppressWarnings("deprecation")
 	public void init(Bundle savedInstanceState) {
 		
-
-		pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        editor = pref.edit();
-		
 		snapShotData = new SnapshotData();
-
-		btShowGift = new ButtonCustom(this);
-		btShowSmile = new ButtonCustom(this);
-		btShowKeyboard = new ButtonCustom(this);
 
 		btnBack = (ImageButton) findViewById(R.id.activity_chat_fltTop_imgbtnBack);
 		btnInfoProfile = (ImageButton) findViewById(R.id.activity_chat_fltTop_imgbtnInfoProfile);
@@ -265,8 +270,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		btnSend = (Button) findViewById(R.id.activity_chat_rtlbottom_btSend);
 		tbMessage = (EditText) findViewById(R.id.activity_chat_rtlbottom_tbMessage);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		btShowSmile = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btshowsmile);
-		btShowKeyboard = (ButtonCustom) findViewById(R.id.activity_chat_rtlbottom_btText);
+		btShowSmile = (Button) findViewById(R.id.activity_chat_rtlbottom_btSmile);
+		btShowSticker = (Button) findViewById(R.id.activity_chat_rtlbottom_btSticker);
 		lltBottom = (LinearLayout) findViewById(R.id.activity_chat_rtlbottom);
 		rltChatViewPage = (RelativeLayout) findViewById(R.id.activity_chat_viewpage);
 		lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
@@ -279,7 +284,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		initEmoticonPage();
         
         ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-		if (status == 0 || status==1) {
+        
+		if (status == 0) {
 			progressBar.setVisibility(View.GONE);
 			chatLv.setVisibility(View.GONE);
 			lltMatch.setVisibility(View.VISIBLE);
@@ -295,15 +301,12 @@ public class ChatActivity extends OakClubBaseActivity {
 					OakClubUtil.getWidthScreen(this) / 20, this);
 			txt_chat_match_time.setTextSize(fontSize);
 			txt.setTextSize(fontSize);
-			if(status ==0){
-				listChatDb.updateReadMutualMatch(profile_id);
-				SetViewMuatualEvent setViewMutual = new SetViewMuatualEvent(
-		                Constants.SET_VIEW_MUTUAL_MATCH, ChatActivity.this,
-		                profile_id);
-		        getRequestQueue().addRequest(setViewMutual);
-			}
+			listChatDb.updateReadMutualMatch(profile_id);
+			SetViewMuatualEvent setViewMutual = new SetViewMuatualEvent(
+	                Constants.SET_VIEW_MUTUAL_MATCH, ChatActivity.this,
+	                profile_id);
+	        getRequestQueue().addRequest(setViewMutual);
 		} else {
-
 			ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
 					profile_id, 0);
 			getRequestQueue().addRequest(loader);
@@ -319,12 +322,9 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		tvName.setText(target_name);
 
-		btShowGift.state = 0;
-		btShowSmile.state = 1;
-		btShowKeyboard.state = 2;
 
 		btShowSmile.setOnClickListener(listener);
-		btShowKeyboard.setOnClickListener(listener);
+		btShowSticker.setOnClickListener(listener);
 		btnInfoProfile.setOnClickListener(listener);
 		btnBack.setOnClickListener(listener);
 		btnSend.setOnClickListener(listener);
@@ -339,28 +339,6 @@ public class ChatActivity extends OakClubBaseActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
-				if (btShowKeyboard.state == 1) {
-					if (btShowSmile.state == 0) {
-						btShowSmile.state = 1;
-						btShowSmile
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					} else if (btShowGift.state == 0) {
-						btShowGift.state = 1;
-						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
-					}
-				} else if (btShowKeyboard.state == 2) {
-					if (btShowSmile.state == 0) {
-						btShowSmile.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					} else if (btShowGift.state == 0) {
-						btShowGift.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_gift);
-					}
-				}
-				btShowKeyboard.state = 0;
-				btShowKeyboard.state = 0;
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
 				rltChatViewPage.setVisibility(View.GONE);
@@ -443,14 +421,10 @@ public class ChatActivity extends OakClubBaseActivity {
 		            editor.commit();
 				}
 				if (isLoadFromNoti) {
-					appVer = android.os.Build.VERSION.RELEASE;
-					nameDevice = android.os.Build.MODEL;
-
-					SendRegisterRequest request = new SendRegisterRequest(
-							"sendRegister", ChatActivity.this,
-							facebook_user_id, access_token);
-					getRequestQueue().addRequest(request);
-
+					Intent intent = new Intent(ChatActivity.this,
+							SlidingActivity.class);
+					startActivity(intent);
+					finish();
 				} else {
 					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
 					finish();
@@ -464,96 +438,34 @@ public class ChatActivity extends OakClubBaseActivity {
 			case R.id.activity_chat_fltTop_imgbtnReport:
 				solveEditBtn();
 				break;
-			case R.id.activity_chat_rtlbottom_btshowsmile:
+			case R.id.activity_chat_rtlbottom_btSmile:
 				rltChatViewPage.setVisibility(View.GONE);
-				if (btShowSmile.state == 1) {
-					btShowSmile.state = 0;
+				if (!isShowSmile) {
+					isShowSmile = true;
+					isShowSticker = false;
 					showSmile();
-					if (btShowKeyboard.state == 2) {
-						btShowGift.state = 1;
-						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
-					} else if (btShowKeyboard.state == 0) {
-						btShowKeyboard.state = 1;
-						btShowSmile
-								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
-					}
-				} else if (btShowGift.state == 1) {
-					btShowGift.state = 0;
-					showSticker();
-					if (btShowSmile.state == 2) {
-						btShowKeyboard.state = 1;
-						btShowSmile
-								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
-					} else if (btShowSmile.state == 0) {
-						btShowSmile.state = 1;
-						btShowSmile
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					}
-				} else if (btShowKeyboard.state == 1) {
-					btShowKeyboard.state = 0;
-					showKeyboard();
-					if (btShowSmile.state == 2) {
-						btShowGift.state = 1;
-						btShowSmile.setBackgroundResource(R.drawable.btn_gift);
-					} else if (btShowSmile.state == 0) {
-						btShowSmile.state = 1;
-						btShowSmile
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					}
+				} else {
+					isShowSmile = false;
+					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+					lltBottom.setLayoutParams(params);
+					rltChatViewPage.setVisibility(View.GONE);
 				}
 				break;
-			case R.id.activity_chat_rtlbottom_btText:
+			case R.id.activity_chat_rtlbottom_btSticker:
 				rltChatViewPage.setVisibility(View.GONE);
-				if (btShowSmile.state == 2) {
-					btShowSmile.state = 0;
-					showSmile();
-					if (btShowKeyboard.state == 1) {
-						btShowGift.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_gift);
-					} else if (btShowKeyboard.state == 0) {
-						btShowKeyboard.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
-					}
-				} else if (btShowGift.state == 2) {
-					btShowGift.state = 0;
+				if (!isShowSticker) {
+					isShowSticker = true;
+					isShowSmile = false;
 					showSticker();
-					if (btShowSmile.state == 1) {
-						btShowKeyboard.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_show_keyboard_text);
-					} else if (btShowSmile.state == 0) {
-						btShowSmile.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					}
-				} else if (btShowKeyboard.state == 2) {
-					btShowKeyboard.state = 0;
-					showKeyboard();
-					if (btShowSmile.state == 1) {
-						btShowGift.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_gift);
-					} else if (btShowSmile.state == 0) {
-						btShowSmile.state = 2;
-						btShowKeyboard
-								.setBackgroundResource(R.drawable.btn_show_smile);
-					}
+				} else {
+					isShowSticker = false;
+					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+					lltBottom.setLayoutParams(params);
+					rltChatViewPage.setVisibility(View.GONE);
 				}
 				break;
 			}
 
-		}
-
-		private void showKeyboard() {
-			tbMessage.requestFocus();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.showSoftInput(getCurrentFocus(),
-					InputMethodManager.SHOW_IMPLICIT);
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			lltBottom.setLayoutParams(params);
-			rltChatViewPage.setVisibility(View.GONE);
 		}
 
 		private void showSticker() {
@@ -1049,6 +961,20 @@ public class ChatActivity extends OakClubBaseActivity {
             editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
             editor.commit();
 		}
+		if (isShowSmile || isShowSticker) {
+			isShowSmile = false;
+			isShowSticker = false;
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			lltBottom.setLayoutParams(params);
+			rltChatViewPage.setVisibility(View.GONE);
+		}else if (isLoadFromNoti) {
+			Intent intent = new Intent(ChatActivity.this,
+					SlidingActivity.class);
+			startActivity(intent);
+			finish();
+		} else {
+			finish();
+		}
 	}
 
 	private String timeMatch(String timeMatch) {
@@ -1074,31 +1000,31 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		if (time < 59) {
 			result = String.format(getString(R.string.txt_minutes_ago), time);
-			if (time == 1) {
+			if ((int)time == 1) {
 				result = getString(R.string.txt_one_minutes_ago);
 			}
 		}
 		else if (time < 60 * 60) {
 			result = String.format(getString(R.string.txt_hour_ago), time / 60);
-			if (time / 60 == 1) {
+			if ((int)(time / 60) == 1) {
 				result = getString(R.string.txt_one_hour_ago);
 			}
 		}
 		else if (time < 60 * 60 * 24) {
 			result = String.format(getString(R.string.txt_day_ago), time / (60 * 24));
-			if (time / (60 * 24) == 1) {
+			if ((int)(time / (60 * 24)) == 1) {
 				result = getString(R.string.txt_one_day_ago);
 			}
 		}
 		else if (time < 60 * 60 * 24 * 30) {
 			result = String.format(getString(R.string.txt_month_ago), time / (60 * 24 * 30));
-			if (time / (60 * 24 * 30) == 1) {
+			if ((int)(time / (60 * 24 * 30)) == 1) {
 				result = getString(R.string.txt_one_month_ago);
 			}
 		}
 		else {
 			result = String.format(getString(R.string.txt_year_ago), time / (60 * 24 * 30 * 12));
-			if (time / (60 * 24 * 30 * 12) == 1) {
+			if ((int)(time / (60 * 24 * 30 * 12)) == 1) {
 				result = getString(R.string.txt_one_year_ago);
 			}
 		}
@@ -1313,6 +1239,9 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
+			if (pdLogin != null && pdLogin.isShowing()) {
+				pdLogin.dismiss();
+			}
 			if (obj == null
 					|| (!obj.isStatus() && obj.getError_status().equals("1"))) {
 				OakClubUtil.enableDialogWarning(ChatActivity.this,
@@ -1331,10 +1260,6 @@ public class ChatActivity extends OakClubBaseActivity {
 						"getDataLanguage", ChatActivity.this);
 				loader2.setPriority(RequestUI.PRIORITY_LOW);
 				getRequestQueue().addRequest(loader2);
-				Intent intent = new Intent(ChatActivity.this,
-						SlidingActivity.class);
-				startActivity(intent);
-				finish();
 			}
 		}
 	}
