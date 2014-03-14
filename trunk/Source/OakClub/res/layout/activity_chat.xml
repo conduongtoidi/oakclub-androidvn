@@ -128,15 +128,15 @@
         android:orientation="horizontal"
         android:padding="5dp" >
 
-        <com.oakclub.android.view.ButtonCustom
-            android:id="@+id/activity_chat_rtlbottom_btText"
+        <Button
+            android:id="@+id/activity_chat_rtlbottom_btSticker"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/btn_show_keyboard_text"/>
+            android:background="@drawable/btn_gift"/>
         
-        <com.oakclub.android.view.ButtonCustom
-            android:id="@+id/activity_chat_rtlbottom_btshowsmile"
+        <Button
+            android:id="@+id/activity_chat_rtlbottom_btSmile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5dp"
