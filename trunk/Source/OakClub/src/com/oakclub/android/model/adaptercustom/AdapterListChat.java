@@ -93,6 +93,8 @@ public class AdapterListChat extends BaseAdapter {
 			convertView.setTag(holder);
 		} else
 			holder = (ListChatHolder) convertView.getTag();
+
+		holder.imgAvatar.setBackgroundResource(R.drawable.logo_splashscreen);
 		String url = mListChatData.get(position).getAvatar();
 		if (url != null)
 			OakClubUtil.loadImageFromUrl(mContext,

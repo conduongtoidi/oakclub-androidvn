@@ -140,13 +140,15 @@ public class SnapshotMain extends FrameLayout {
         paddingView = (int)OakClubUtil.convertDpToPixel(10, getContext());
         LayoutInflater inflater = LayoutInflater.from(getContext());
         view = inflater.inflate(R.layout.layout_snapshot, null);
-        //view.setPadding(paddingView, paddingView, paddingView, paddingView);
         fltParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(fltParams);
         
         fltContent = new FrameLayout(getContext());
         paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
-        fltContent.setPadding(paddingView, paddingView, paddingView, paddingView);
+//        fltContent.setPadding(paddingView, paddingView, paddingView, 0);
+        fltParams.topMargin=paddingView;
+        fltParams.leftMargin=paddingView;
+        fltParams.rightMargin=paddingView;
         fltContent.addView(view);
         fltContent.setLayoutParams(fltParams);
         fltContent.setBackgroundResource(R.drawable.back_polaroid);
@@ -201,20 +203,6 @@ public class SnapshotMain extends FrameLayout {
                 heightT = fltParent.getMeasuredHeight();
             }
         });
-//        vto = fltImage.getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onGlobalLayout() {
-//            	fltImage.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//            	int width = fltImage.getMeasuredWidth();
-//            	int height = fltImage.getMeasuredHeight();
-//            	if(width<height)
-//            		fltParams = new LayoutParams(width, width);
-//            	else fltParams = new LayoutParams(height, height);
-//                fltImage.setLayoutParams(fltParams);
-//            }
-//        });
         vto = rltInfo.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @SuppressWarnings("deprecation")
@@ -226,13 +214,9 @@ public class SnapshotMain extends FrameLayout {
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rltInfoRight.setLayoutParams(rltParams);
                
-            	int width = fltImage.getMeasuredWidth();
-            	int height = fltImage.getMeasuredHeight();
-            	if(width<height)
-            		fltParams = new LayoutParams(width, width);
-            	else fltParams = new LayoutParams(width, height);
-//                fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredHeight());
-
+            	if(fltImage.getMeasuredWidth()>fltImage.getMeasuredHeight())
+            		fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredWidth());
+//                fltParams.gravity=Gravity.BOTTOM;
                 fltParams.bottomMargin = imgMutualFriend.getMeasuredHeight() + tvMutualFriend.getMeasuredHeight() + paddingView;
                 fltImage.setLayoutParams(fltParams);
                 fltParams = new LayoutParams(LayoutParams.MATCH_PARENT, rltInfoRight.getMeasuredHeight());
@@ -274,7 +258,7 @@ public class SnapshotMain extends FrameLayout {
             if(data.getIs_verify()){
                 imgVerified.setVisibility(View.VISIBLE);
             }
-            if(!data.isIs_vip()){
+            if(data.isIs_vip()){
                 if (numFriend.equals("0"))
                     imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_disable);
                 else 

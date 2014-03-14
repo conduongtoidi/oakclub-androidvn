@@ -322,7 +322,7 @@ public class SettingFragment{
                     }
                 }
                 if (currentId!=selectedId){
-                	if(selectedId<Constants.LANGUAGE_LOCALE.length-1)
+                	if(selectedId<Constants.LANGUAGE_LOCALE.length)
 						setLocale(Constants.LANGUAGE_LOCALE[selectedId]);
 					else setLocale(Constants.LANGUAGE_LOCALE[0]);                
                                         
