@@ -238,6 +238,7 @@
         <item>10.00</item>
     </string-array>
     <string-array name="bill_list">
+        <item>29.98</item>
         <item>59.99</item>
         <item>99.98</item>
         <item>119.98</item>
