@@ -96,14 +96,6 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class ChatActivity extends OakClubBaseActivity {
 
-	private boolean isChange = false;
-	@Override
-	protected void onDestroy() {
-		if(!isLoadFromNoti && !isChange)
-			ChatBaseActivity.updateListChat(ChatActivity.this);
-		super.onDestroy();
-	}
-
 	public static ListView chatLv;
 	public static ChatHistoryAdapter adapter;
 	public static ArrayList<ChatHistoryData> messageArrayList;
@@ -154,6 +146,9 @@ public class ChatActivity extends OakClubBaseActivity {
 	EmoticonScreenAdapter emoticonScreenAdapter;
 	StickerScreenAdapter stickerScreenAdapter;
 
+	private SharedPreferences pref;
+	private Editor editor;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -182,8 +177,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		SharedPreferences pref = getSharedPreferences(
-				Constants.PREFERENCE_NAME, MODE_PRIVATE);
 
 		facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID, null);
 		access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
@@ -217,7 +210,10 @@ public class ChatActivity extends OakClubBaseActivity {
 					if (isLogin) {
 						Message message = (Message) packet;
 						if (message.getBody() != null) {
-							status =2;
+
+				            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+				            editor.commit();
+				            
 							solveReceiveNewMessage(message);
 						}
 					} else {
@@ -251,9 +247,10 @@ public class ChatActivity extends OakClubBaseActivity {
 	@SuppressWarnings("deprecation")
 	public void init(Bundle savedInstanceState) {
 		
-//		ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
-//				profile_id, 0);
-//		getRequestQueue().addRequest(loader);
+
+		pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        editor = pref.edit();
+		
 		snapShotData = new SnapshotData();
 
 		btShowGift = new ButtonCustom(this);
@@ -430,8 +427,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				break;
 			case R.id.activity_chat_fltTop_imgbtnBack:
-				SharedPreferences.Editor editor = getSharedPreferences(
-						Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
+				
 				editor.putBoolean(Constants.isLoadChat, true);
 				editor.commit();
 				SetReadMessages loader3 = new SetReadMessages(
@@ -440,9 +436,12 @@ public class ChatActivity extends OakClubBaseActivity {
 				getRequestQueue().addRequest(loader3);
 
 				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-				if(status ==3)
+				if(status ==3){
 					listChatDb.updateReadMessage(profile_id);
-				
+					
+		            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+		            editor.commit();
+				}
 				if (isLoadFromNoti) {
 					appVer = android.os.Build.VERSION.RELEASE;
 					nameDevice = android.os.Build.MODEL;
@@ -752,6 +751,13 @@ public class ChatActivity extends OakClubBaseActivity {
 							content);
 					getRequestQueue().addRequest(loader);
 				} else {
+
+                	ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+                	listChatDb.deleteListChat(profile_id);
+                	
+					editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+					editor.commit();
+					
 					BlockUserRequest loader = new BlockUserRequest("blockUser",
 							ChatActivity.this, profile_id);
 					getRequestQueue().addRequest(loader);
@@ -790,7 +796,11 @@ public class ChatActivity extends OakClubBaseActivity {
 					}
 				}
 			}.start();
-			status = 3;
+			
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+            editor.commit();
+			
+			
 			tbMessage.setText("");
 			ChatHistoryData message = new ChatHistoryData();
 			message.setBody(content);
@@ -800,6 +810,15 @@ public class ChatActivity extends OakClubBaseActivity {
 					Constants.CHAT_TIME_FORMAT);
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
+			            
+            ListChatOperation listChatdb = new ListChatOperation(ChatActivity.this);
+            ListChatData data = listChatdb.getChatData(profile_id);
+            data.setLast_message(content);
+            data.setLast_message_time(formattedDate);
+            data.setLast_active_time(formattedDate);
+            data.setStatus(3);
+            listChatdb.updateListChat(data);
+			
 			messageArrayList.add(message);
 			adapter.notifyDataSetChanged();
 			chatLv.setSelection(chatLv.getCount() - 1);
@@ -827,7 +846,10 @@ public class ChatActivity extends OakClubBaseActivity {
 					}
 				}
 			}.start();
-			// chat.sendMessage(content);
+
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+            editor.commit();
+			
 			ChatHistoryData message = new ChatHistoryData();
 			message.setBody(content);
 			message.setFrom(user_id);
@@ -836,6 +858,15 @@ public class ChatActivity extends OakClubBaseActivity {
 					Constants.CHAT_TIME_FORMAT);
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
+
+            ListChatOperation listChatdb = new ListChatOperation(ChatActivity.this);
+            ListChatData data = listChatdb.getChatData(profile_id);
+            data.setLast_message(content);
+            data.setLast_message_time(formattedDate);
+            data.setLast_active_time(formattedDate);
+            data.setStatus(3);
+            listChatdb.updateListChat(data);
+			
 			messageArrayList.add(message);
 			adapter.notifyDataSetChanged();
 			chatLv.setSelection(chatLv.getCount() - 1);
@@ -967,11 +998,6 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-			SharedPreferences pref = getApplicationContext()
-					.getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-			Editor editor = pref.edit();
-			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-			editor.commit();
 			finish();
 		}
 
@@ -1017,8 +1043,12 @@ public class ChatActivity extends OakClubBaseActivity {
 		getRequestQueue().addRequest(loader3);
 
 		ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-		if(status == 3)
+		if(status == 3){
 			listChatDb.updateReadMessage(profile_id);
+			
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+            editor.commit();
+		}
 	}
 
 	private String timeMatch(String timeMatch) {
@@ -1254,14 +1284,13 @@ public class ChatActivity extends OakClubBaseActivity {
 			data.setStatus(2);
 			listChatDb.updateNewMessage(data);
 		}
-		
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				ChatBaseActivity.updateListChat(ChatActivity.this);
-			}
-		});
+//		
+//		runOnUiThread(new Runnable() {
+//			@Override
+//			public void run() {
+//				ChatBaseActivity.updateListChat(ChatActivity.this);
+//			}
+//		});
 	}
 
 	class SendRegisterRequest extends RequestUI {

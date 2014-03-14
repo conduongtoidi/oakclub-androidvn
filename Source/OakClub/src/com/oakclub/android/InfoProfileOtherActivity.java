@@ -49,6 +49,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
@@ -692,6 +693,15 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
                     getRequestQueue().addRequest(loader);
                 }
                 else{
+
+                	ListChatOperation listChatDb = new ListChatOperation(InfoProfileOtherActivity.this);
+                	listChatDb.deleteListChat(profileId);
+                	
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+                    Editor editor = pref.edit();
+                    editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+                    editor.commit();
+                    
                     BlockUserRequest loader = new BlockUserRequest("blockUser", InfoProfileOtherActivity.this, profileId);
                     getRequestQueue().addRequest(loader);
                 }
@@ -951,10 +961,10 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
         @Override
         public void executeUI(Exception ex) {
-            SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-            Editor editor = pref.edit();
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
+//            SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+//            Editor editor = pref.edit();
+//            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+//            editor.commit();
         }
         
     }   

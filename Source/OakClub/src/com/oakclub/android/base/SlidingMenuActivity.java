@@ -37,6 +37,7 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.core.IRequestQueue;
 import com.oakclub.android.core.RequestQueue;
@@ -276,9 +277,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	        SharedPreferences pref = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE);
 	        boolean isBlockUser = pref.getBoolean(Constants.IS_LOAD_CHAT_AGAIN, false);
 	        if (isBlockUser) {
-	            getSupportFragmentManager().beginTransaction()
-	            .replace(R.id.menu_frame_right, new ListChatFragment())
-	            .commit();
+				ChatBaseActivity.updateListChat(SlidingMenuActivity.this);
 	            
 	            SharedPreferences.Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME, MODE_PRIVATE).edit();
 	            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, false);
