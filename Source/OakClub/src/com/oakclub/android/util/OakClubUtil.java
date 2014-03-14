@@ -355,6 +355,8 @@ public class OakClubUtil {
     }
 	
 	public static String getDayInDate(String str){
+		if(str.equals(""))
+			return str;
 		int day = 0;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date();
@@ -370,6 +372,8 @@ public class OakClubUtil {
 	}
 	
 	public static String getMonthInDate(String str){
+		if(str.equals(""))
+			return str;
 		int month = 0;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date();
