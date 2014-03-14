@@ -23,8 +23,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 public class EmoticonScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
-	int[] page_imgTabs = { R.drawable.tab_often_selector,
-			R.drawable.tab_smile_selector };
+	int[] page_imgTabs = {R.drawable.tab_smile_selector };
 
 	public static HashMap<String, String> emoticons = new HashMap<String, String>();
 	private static ArrayList<HashMap<String, String>> arrayHashMapEmoticon = new ArrayList<HashMap<String, String>>();
@@ -34,9 +33,9 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 
 	public EmoticonScreenAdapter(Context c) {
 		this.context = c;
-		arrayHashMapEmoticon.add(oftenEmoticon());
+		//arrayHashMapEmoticon.add(oftenEmoticon());
 		arrayHashMapEmoticon.add(addSmileToEmoticons());
-		arrayEmoticon.add(new ArrayList<String>());
+		//arrayEmoticon.add(new ArrayList<String>());
 		arrayEmoticon.add(new ArrayList<String>());
 	}
 
@@ -95,22 +94,22 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 						.getSmiledText(context, value);
 				ChatActivity.tbMessage.setText(spannable);
 				ChatActivity.tbMessage.setSelection(spannable.length());
-
-				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
-						.get(POS).entrySet().iterator();
-				String valueEntry = "";
-				while (iterator.hasNext()) {
-					Entry<String, String> entry = iterator.next();
-					if (entry.getKey().equals(keyEntry)) {
-						valueEntry = entry.getValue();
-					}
-				}
-				if (!arrayHashMapEmoticon.get(0).containsKey(keyEntry)) {
-					arrayHashMapEmoticon.get(0).put(keyEntry, valueEntry);
-					fillArrayList(arrayHashMapEmoticon.get(0),
-							arrayEmoticon.get(0));
-					arrayAdaper.get(0).notifyDataSetChanged();
-				}
+//
+//				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
+//						.get(POS).entrySet().iterator();
+//				String valueEntry = "";
+//				while (iterator.hasNext()) {
+//					Entry<String, String> entry = iterator.next();
+//					if (entry.getKey().equals(keyEntry)) {
+//						valueEntry = entry.getValue();
+//					}
+//				}
+//				if (!arrayHashMapEmoticon.get(0).containsKey(keyEntry)) {
+//					arrayHashMapEmoticon.get(0).put(keyEntry, valueEntry);
+//					fillArrayList(arrayHashMapEmoticon.get(0),
+//							arrayEmoticon.get(0));
+//					arrayAdaper.get(0).notifyDataSetChanged();
+//				}
 
 			}
 		});
