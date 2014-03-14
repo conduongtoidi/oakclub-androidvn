@@ -74,6 +74,8 @@ import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.ChatHistoryReturnObject;
+import com.oakclub.android.model.DataConfig;
+import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
@@ -117,6 +119,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	ImageButton btnInfoProfile;
 	ImageButton btnReport;
 	TextView tvName;
+	
 
 	// private Button btShowSmile;
 	// private Button btShowKeyboard;
@@ -182,6 +185,9 @@ public class ChatActivity extends OakClubBaseActivity {
 					"sendRegister", ChatActivity.this,
 					facebook_user_id, access_token);
 			getRequestQueue().addRequest(request);
+			
+			GetConfig loader = new GetConfig(Constants.GETCONFIG, ChatActivity.this);
+	        getRequestQueue().addRequest(loader);
 		}
 		init(savedInstanceState);
 	}
@@ -1303,5 +1309,27 @@ public class ChatActivity extends OakClubBaseActivity {
 
         }
 
+    }
+    
+    class GetConfig extends RequestUI {
+        GetConfigData obj;
+
+        public GetConfig(Object key, Activity activity) {
+            super(key, activity);
+        }
+
+        @Override
+        public void execute() throws Exception {
+            obj = oakClubApi.GetConfig();
+        }
+
+        @Override
+        public void executeUI(Exception ex) {
+            if (obj != null && obj.getData() != null) {
+                for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+                    StickerScreenAdapter.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                }
+            }
+        }
     }
 }
