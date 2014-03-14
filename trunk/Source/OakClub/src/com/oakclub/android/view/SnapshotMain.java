@@ -153,8 +153,8 @@ public class SnapshotMain extends FrameLayout {
         fltContent.setLayoutParams(fltParams);
         fltContent.setBackgroundResource(R.drawable.back_polaroid);
         this.addView(fltContent);
-        int paddingBody = widthScreen/12; 
-        this.setPadding(paddingBody, paddingBody, paddingBody, paddingBody);
+//        int paddingBody = widthScreen/20; 
+//        this.setPadding(paddingBody, paddingBody, paddingBody, paddingBody);
 
         fltImage = (FrameLayout)view.findViewById(R.id.activity_snapshot_flt_body_flt_content_flt_image);
         paddingView = (int)OakClubUtil.convertDpToPixel(20, getContext());
@@ -214,7 +214,7 @@ public class SnapshotMain extends FrameLayout {
                 rltParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rltInfoRight.setLayoutParams(rltParams);
                
-            	if(fltImage.getMeasuredWidth()>fltImage.getMeasuredHeight())
+//            	if(fltImage.getMeasuredWidth()>fltImage.getMeasuredHeight())
             		fltParams = new LayoutParams(fltImage.getMeasuredWidth(), fltImage.getMeasuredWidth());
 //                fltParams.gravity=Gravity.BOTTOM;
                 fltParams.bottomMargin = imgMutualFriend.getMeasuredHeight() + tvMutualFriend.getMeasuredHeight() + paddingView;

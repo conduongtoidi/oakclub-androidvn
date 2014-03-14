@@ -384,7 +384,7 @@ public class OakClubUtil {
 		}
 		Calendar calendar = Calendar.getInstance();
 	    calendar.setTime(date);
-	    month = calendar.get(Calendar.MONTH);
+	    month = calendar.get(Calendar.MONTH)+1;
 		return month<10?"0"+month:""+month;
 	}
 	
