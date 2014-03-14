@@ -75,19 +75,19 @@ public class ListChatData {
 		this.is_vip = is_vip;
 	}
 	public String getMatch_time() {
-		return match_time;
+		return convertStringToDate(match_time);
 	}
 	public void setMatch_time(String match_time) {
 		this.match_time = convertStringToDate(match_time);
 	}
 	public String getLast_message_time() {
-		return last_message_time;
+		return convertStringToDate(last_message_time);
 	}
 	public void setLast_message_time(String last_message_time) {
 		this.last_message_time = convertStringToDate(last_message_time);
 	}
 	public String getLast_active_time() {
-		return last_active_time;
+		return convertStringToDate(last_active_time);
 	}
 	public void setLast_active_time(String last_active_time) {
 		this.last_active_time = convertStringToDate(last_active_time);
@@ -97,12 +97,14 @@ public class ListChatData {
     private String convertStringToDate(String str){
     	if(str.equals(""))
     		return str;
+		SimpleDateFormat dateFormatServer = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date= new Date();
 		try {
-			date = dateFormat.parse(str);
+			date = dateFormatServer.parse(str);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return str; 
 		}
 		str = dateFormat.format(date);
 		return str; 

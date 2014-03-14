@@ -308,6 +308,10 @@ public class ChatActivity extends OakClubBaseActivity {
 			txt_chat_match_time.setTextSize(fontSize);
 			txt.setTextSize(fontSize);
 			listChatDb.updateReadMutualMatch(profile_id);
+
+            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+            editor.commit();
+            
 			SetViewMuatualEvent setViewMutual = new SetViewMuatualEvent(
 	                Constants.SET_VIEW_MUTUAL_MATCH, ChatActivity.this,
 	                profile_id);
@@ -420,7 +424,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				getRequestQueue().addRequest(loader3);
 
 				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-				if(status ==3){
+				if(status ==2){
 					listChatDb.updateReadMessage(profile_id);
 					
 		            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
@@ -961,7 +965,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		getRequestQueue().addRequest(loader3);
 
 		ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-		if(status == 3){
+		if(status == 2){
 			listChatDb.updateReadMessage(profile_id);
 			
             editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
