@@ -208,7 +208,18 @@
 	<string name = "txt_year_ago">%d years ago</string>
     <string name="txt_start_conversations_are_awkward_but_not_at_OakClub">Start conversations are awkward, but not at OakClub</string>
     <string name="txt_you_rated_snapshots">You rated %d SnapShots. Sharing is caring. Invite your friends!</string>
-    
+     <string name="txt_purchase_cancel">Purchasing is not complete. Please try again!</string>
+    <string name="txt_purchase_error">Error purchasing. Authenticity verification failed.</string>
+    <string name="txt_choose_package_msg">Please choose one of packages!!!</string>
+    <string name="txt_you_VIP_member">You are now VIP member</string>
+    <string name="txt_purchase_confirmed">Your Purchase Has Been Confirmed</string>
+    <string name="txt_btn_back">Back</string>
+    <string name="txt_purchase_confirmed_price">{{b}}%s{{/b}} USD</string>
+    <string name="txt_purchase_confirmed_transaction_id">Transaction ID: %s</string>
+    <string name="txt_share_on_facebook">Share On Facebook</string>
+    <string name="txt_email_to_friend">Email To Your Friends</string>
+    <string name="txt_store">Store</string>
+    <string name="txt_oakclub_store">OakClub Store</string>
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>
     <string name = "app_id">537613816294876</string>

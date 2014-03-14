@@ -25,6 +25,7 @@ public class Constants {
 	public static final String SKIP_VERIFIED = "skipVerifyUser";
 	public static final String UPDATE_LANGUAGE = "updateLanguage";
 	public static final String GETCONFIG = "getConfig";
+	public static final String VIP_REGISTER = "vipRegister";
 	/*
 	 * Key config request
 	 */
@@ -98,6 +99,7 @@ public class Constants {
     
     public static final int  TUTORIAL = 1111;
     public static final int VERIFIED = 1112;
+    public static final int GETVIP = 1113;
     public static final String KEY_IS_SKIP = "is_skip";
     public static final int MEN = 1;
     public static final String VERIFIED_PERMISSIONS  = "publish_stream";
@@ -118,7 +120,15 @@ public class Constants {
 		"user_interests", "email", "user_hometown",
 		"friends_hometown", "friends_events", "friends_checkins",
 		"user_checkins", "user_events", "offline_access" };
-    
+    public static final String[] PUSHLISH_KEY = new String[]{"MHKAMoGIJnazdfgH)f\"QUDSQYXOBCR<DKNAKIlGNO^UPb!@fLC+x4tvbAuLL#1Mz4>7>Ht=`x EGz+d9ZJo_^ib`?hj",
+		"ToxaAWS@@b+be?7|YVfg<B4vuHrGHU}['[FzTK\"|Fx`kr`xkV>vw2kSdIP~|aC}GCVeA8|8XQFc0DGi:5c",
+		"DE5SG`8WAL`sRH7\\#KiCFF&&qVMq)9F~MFHxu3NaWw=ogl)ccN3eo7kF>x?%V%bXU^Bx@]EH %|MFAmvb_x",
+		"1F6P]v\\CweFoVva|zbHMHB %/WQVpcmeO}esQl4faCEr;{bSaL*1q7LmfJ8DP].mYIQ\\{>9:",
+		"YxYF%@r|E3j^^aF~]GmViOj!`vYZ\\#AYLn;sKggu{KoBbwCMTR`Mqzg{CLGUCB"};
+    public static final String[] PRODUCT_IDS =  new String[]{"locpham.test.package1","locpham.test.package2","locpham.test.package3","locpham.test.package4"};
+    public static final String PURCHASE_PRICE = "PURCHASE_PRICE";
+    public static final String TRANSACTION_ID= "TRANSACTION_ID";
+
 	public static final String SENDER_ID = "105826272497";//"377367791749";//"857951122835";
 	public static final int[] SnapShotCounter = {50, 250, 500, 1000};
 	public static final String[] LANGUAGE_LOCALE = {"en", "vi", "de", "id", "th",
