@@ -227,7 +227,7 @@
     <string name = "txt_share_url">www.oakclub.com</string>
     <string name = "app_id">537613816294876</string>
     
-    <string name="build_version">Version 1.6</string>
+    <string name="build_version">Version 1.6.0</string>
     <string-array name="months_list">
         <item>1</item>
         <item>3</item>

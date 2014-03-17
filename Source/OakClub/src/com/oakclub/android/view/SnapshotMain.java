@@ -258,7 +258,7 @@ public class SnapshotMain extends FrameLayout {
             if(data.getIs_verify()){
                 imgVerified.setVisibility(View.VISIBLE);
             }
-            if(data.isIs_vip()){
+            if(!data.isIs_vip()){
                 if (numFriend.equals("0"))
                     imgMutualFriend.setBackgroundResource(R.drawable.ico_mutualfriend_disable);
                 else 

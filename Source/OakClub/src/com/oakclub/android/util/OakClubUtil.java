@@ -392,8 +392,8 @@ public class OakClubUtil {
 
 
 	public static boolean compareVersion(String ver1, String ver2) {
-		String[] arrVer1 = ver1.split(".");
-		String[] arrVer2 = ver2.split(".");
+		String[] arrVer1 = ver1.substring(ver1.lastIndexOf(' ')+1).split("\\.");
+		String[] arrVer2 = ver2.substring(ver2.lastIndexOf(' ')+1).split("\\.");
         boolean checkVersion = true;
         if (arrVer1 != null && arrVer2 != null){
         	if (arrVer1.length != arrVer2.length)
@@ -407,7 +407,7 @@ public class OakClubUtil {
         }else{
         	checkVersion = false;
         }
-        return true;
+        return checkVersion;
     }
 
 
