@@ -31,6 +31,7 @@ public class ProfileInfoData implements Serializable {
 	private boolean is_verify = true;
 	private boolean force_verify = false;
 	private boolean skip_verify = false;
+	private String required_android_app_version="";
 	ArrayList<ListPhotoReturnDataItemObject> photos;
 	
 
@@ -258,6 +259,15 @@ public class ProfileInfoData implements Serializable {
 
 	public void setSkip_verify(boolean skip_verify) {
 		this.skip_verify = skip_verify;
+	}
+
+	public String getRequired_android_app_version() {
+		return required_android_app_version;
+	}
+
+	public void setRequired_android_app_version(
+			String required_android_app_version) {
+		this.required_android_app_version = required_android_app_version;
 	}
 
 
