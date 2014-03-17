@@ -54,6 +54,7 @@ public class LeftMenuListFragment extends Fragment {
 	ImageView ivVerified;
 	private LinearLayout lltMenu;
 	boolean isVerified = true;
+	private SlidingActivity activity = (SlidingActivity) getActivity();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,7 +118,7 @@ public class LeftMenuListFragment extends Fragment {
 	private OnClickListener layoutClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			final SlidingActivity activity = (SlidingActivity) getActivity();
+			activity = (SlidingActivity) getActivity();
 			Intent intent;
 			if (OakClubUtil.isInternetAccess(activity)) {
 				switch (v.getId()) {
@@ -175,13 +176,6 @@ public class LeftMenuListFragment extends Fragment {
 					break;
 
 				case R.id.menu_item_llt_get_verified:
-					if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
-						activity.setMenu(MenuOakclub.SNAPSHOT);
-						SnapshotFragment snapshot = new SnapshotFragment(
-								activity);
-						snapshot.initSnapshot();
-						activity.snapshot = snapshot;
-					}
 					Intent verified = new Intent(activity,
 							VerifiedActivity.class);
 					startActivityForResult(verified, Constants.VERIFIED);
@@ -292,6 +286,15 @@ public class LeftMenuListFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == getActivity().RESULT_OK){
+			if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
+				activity.setMenu(MenuOakclub.SNAPSHOT);
+				SnapshotFragment snapshot = new SnapshotFragment(
+						activity);
+				snapshot.initSnapshot();
+				activity.snapshot = snapshot;
+			}
+		}
 		if (data != null) {
 			if (requestCode == Constants.VERIFIED) {
 				boolean res = data.getBooleanExtra(Constants.VERIFIED_SUCCESS,

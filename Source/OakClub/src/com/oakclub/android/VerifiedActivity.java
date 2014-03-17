@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -91,26 +90,11 @@ public class VerifiedActivity extends OakClubBaseActivity {
 				break;
 			case R.id.btn_skip_verified:
 				btn_skip.setEnabled(false);
-//				SharedPreferences pref = getApplicationContext().getSharedPreferences(
-//						Constants.PREFERENCE_NAME, 0);
-//				Editor editor = pref.edit();
-//				editor.putBoolean(Constants.KEY_IS_SKIP, true);
-//				editor.commit();
-//				if (ProfileSettingFragment.profileInfoObj != null) {
-//					ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
-//					if (start_login) {
-//						startSnapshot();
-//					}
-//					finish();
-//				} else {
-//					Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
-//		        	startActivity(intent);
-//		        	finish();
-//				}
-				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
-						Constants.SKIP_VERIFIED, VerifiedActivity.this);
-				getRequestQueue().addRequest(loader);
-
+				setResult(RESULT_OK);
+//				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
+//						Constants.SKIP_VERIFIED, VerifiedActivity.this);
+//				getRequestQueue().addRequest(loader);
+				finish();
 				break;
 			case R.id.btn_back:
 				finish();
@@ -255,7 +239,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 						        	startActivity(intent2);
 						        	if(!start_login)
-										finish();
+										{
+						        			setResult(RESULT_OK);
+						        			finish();
+										}
 								}
 							} else if (error instanceof FacebookOperationCanceledException) {
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
@@ -263,7 +250,10 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
 								startActivity(intent2);
 								if (!start_login)
-									finish();
+									{
+										setResult(RESULT_OK);
+										finish();
+									}
 							} else {
 								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
 								Toast.makeText(getApplicationContext(),

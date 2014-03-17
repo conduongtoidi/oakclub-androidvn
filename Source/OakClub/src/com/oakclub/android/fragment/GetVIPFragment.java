@@ -3,21 +3,6 @@ package com.oakclub.android.fragment;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.oakclub.android.R;
-import com.oakclub.android.SlidingActivity;
-import com.oakclub.android.core.Request;
-import com.oakclub.android.core.RequestUI;
-import com.oakclub.android.PurchaseConfirmedActivity;
-import com.oakclub.android.model.IabResult;
-import com.oakclub.android.model.Inventory;
-import com.oakclub.android.model.SenRegisterVIPReturnObject;
-import com.oakclub.android.model.SkuDetails;
-import com.oakclub.android.model.Purchase;
-import com.oakclub.android.util.Constants;
-import com.oakclub.android.util.IabHelper;
-import com.oakclub.android.util.OakClubUtil;
-import com.oakclub.android.util.RichTextHelper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -33,6 +18,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.oakclub.android.PurchaseConfirmedActivity;
+import com.oakclub.android.R;
+import com.oakclub.android.SlidingActivity;
+import com.oakclub.android.core.RequestUI;
+import com.oakclub.android.model.IabResult;
+import com.oakclub.android.model.Inventory;
+import com.oakclub.android.model.Purchase;
+import com.oakclub.android.model.SenRegisterVIPReturnObject;
+import com.oakclub.android.model.SkuDetails;
+import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.IabHelper;
+import com.oakclub.android.util.OakClubUtil;
+import com.oakclub.android.util.RichTextHelper;
 
 public class GetVIPFragment {
 	private Button btn_get_vip_package;
