@@ -400,9 +400,14 @@ public class OakClubUtil {
         		checkVersion = false;
         	else
         		for (int i = 0; i < arrVer2.length; i++) {
-        			if (!arrVer2[i].equals(arrVer1[i])) {
-        				checkVersion = false;    
-        			}                 
+        			int value1 =Integer.parseInt(arrVer1[i]);
+        			int value2 =Integer.parseInt(arrVer2[i]);
+    				if (value2 < value1){ 
+        				checkVersion = false;
+        				break;
+    				}
+    				else
+        				checkVersion = true;
         		}
         }else{
         	checkVersion = false;
