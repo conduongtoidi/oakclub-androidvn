@@ -388,4 +388,27 @@ public class OakClubUtil {
 		return month<10?"0"+month:""+month;
 	}
 	
+
+
+	public static boolean compareVersion(String ver1, String ver2) {
+		String[] arrVer1 = ver1.split(".");
+		String[] arrVer2 = ver2.split(".");
+        boolean checkVersion = true;
+        if (arrVer1 != null && arrVer2 != null){
+        	if (arrVer1.length != arrVer2.length)
+        		checkVersion = false;
+        	else
+        		for (int i = 0; i < arrVer2.length; i++) {
+        			if (!arrVer2[i].equals(arrVer1[i])) {
+        				checkVersion = false;    
+        			}                 
+        		}
+        }else{
+        	checkVersion = false;
+        }
+        return true;
+    }
+
+
+	
 }

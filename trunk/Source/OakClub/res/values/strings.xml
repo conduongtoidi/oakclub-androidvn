@@ -220,6 +220,9 @@
     <string name="txt_email_to_friend">Email To Your Friends</string>
     <string name="txt_store">Store</string>
     <string name="txt_oakclub_store">OakClub Store</string>
+    <string name="txt_update_new_version_title">Update new version</string>
+    <string name="txt_update_new_version_message">Please update new version to continue use app.</string>
+    
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>
     <string name = "app_id">537613816294876</string>

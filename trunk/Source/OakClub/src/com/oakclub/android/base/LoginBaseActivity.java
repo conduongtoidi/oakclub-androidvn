@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,12 +29,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookRequestError;
@@ -325,45 +331,70 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_warning),
 						getResources().getString(R.string.txt_signin_failed));
 			} else {
-				ProfileSettingFragment.profileInfoObj = obj.getData();
-				ProfileSettingFragment.error_Status = obj.getError_status();
-				// Register custom Broadcast receiver to show messages on
-				// activity
-				registerGCM();
-
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						location = mGPS.getLocation();
-						if (location != null) {
-							double longitude = location.getLongitude();
-							double latitude = location.getLatitude();
-							SendUserLocation loader = new SendUserLocation(
-									"sendLocation", LoginBaseActivity.this, ""
-											+ latitude, "" + longitude);
-							getRequestQueue().addRequest(loader);
-							showTutorialActivity();
-						} else if (mGPS.isGPSEnabled) {
-							// showOpenGPSSettingsDialog(MainActivity.this);
-							OakClubUtil.enableDialogWarning(
-									LoginBaseActivity.this,
-									getResources().getString(
-											R.string.txt_warning),
-									getResources().getString(
-											R.string.txt_gps_settings_title));
+				if(!OakClubUtil.compareVersion(obj.getData().getRequired_android_app_version(), getString(R.string.build_version))){
+					AlertDialog.Builder builder;
+			        builder = new AlertDialog.Builder(LoginBaseActivity.this);
+			        final AlertDialog dialog = builder.create();
+			        LayoutInflater inflater = LayoutInflater
+			                .from(LoginBaseActivity.this);
+			        View layout = inflater.inflate(R.layout.dialog_warning_ok,
+			                null);
+			        dialog.setView(layout, 0, 0, 0, 0);
+			        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+			        tvTitle.setText(LoginBaseActivity.this.getString(R.string.txt_update_new_version_title));
+			        TextView tvQuestion = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
+			        tvQuestion.setText(LoginBaseActivity.this.getString(R.string.txt_update_new_version_message));
+			        Button btnOK = (Button) layout
+			                .findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+			        btnOK.setOnClickListener(new OnClickListener() {
+			            @Override
+			            public void onClick(View v) {
+			            	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+getApplicationContext().getPackageName())));
+			            }
+			        });
+			        dialog.setCancelable(false);
+			        dialog.show();
+				}
+				else{
+					ProfileSettingFragment.profileInfoObj = obj.getData();
+					ProfileSettingFragment.error_Status = obj.getError_status();
+					// Register custom Broadcast receiver to show messages on
+					// activity
+					registerGCM();
+	
+					runOnUiThread(new Runnable() {
+	
+						@Override
+						public void run() {
+							location = mGPS.getLocation();
+							if (location != null) {
+								double longitude = location.getLongitude();
+								double latitude = location.getLatitude();
+								SendUserLocation loader = new SendUserLocation(
+										"sendLocation", LoginBaseActivity.this, ""
+												+ latitude, "" + longitude);
+								getRequestQueue().addRequest(loader);
+								showTutorialActivity();
+							} else if (mGPS.isGPSEnabled) {
+								// showOpenGPSSettingsDialog(MainActivity.this);
+								OakClubUtil.enableDialogWarning(
+										LoginBaseActivity.this,
+										getResources().getString(
+												R.string.txt_warning),
+										getResources().getString(
+												R.string.txt_gps_settings_title));
+							}
 						}
-					}
-				});
-				user_id = obj.getData().getProfile_id();
-				LoginXMPPLoader loader = new LoginXMPPLoader("loginXMPP",
-						LoginBaseActivity.this);
-				getRequestQueue().addRequest(loader);
-				GetDataLanguageLoader loader2 = new GetDataLanguageLoader(
-						"getDataLanguage", LoginBaseActivity.this);
-				loader2.setPriority(RequestUI.PRIORITY_LOW);
-				getRequestQueue().addRequest(loader2);
-
+					});
+					user_id = obj.getData().getProfile_id();
+					LoginXMPPLoader loader = new LoginXMPPLoader("loginXMPP",
+								LoginBaseActivity.this);
+						getRequestQueue().addRequest(loader);
+						GetDataLanguageLoader loader2 = new GetDataLanguageLoader(
+								"getDataLanguage", LoginBaseActivity.this);
+						loader2.setPriority(RequestUI.PRIORITY_LOW);
+						getRequestQueue().addRequest(loader2);
+				}
 			}
 		}
 	}
@@ -502,8 +533,6 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		boolean loggedIn = pref
 				.getBoolean(Constants.PREFERENCE_LOGGINED, false);
 		Log.v("LoginFacebook: ", loggedIn + "");
-
-		// registerGCM();
 
 		if (loggedIn) {
 
