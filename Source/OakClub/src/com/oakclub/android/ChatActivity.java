@@ -1201,26 +1201,25 @@ public class ChatActivity extends OakClubBaseActivity {
 		
 		ListChatOperation listChatDb = new ListChatOperation(this);
 		if(!listChatDb.checkProfileExist(message.getFrom())){
-			ListChatData newMessage = new ListChatData();
-			newMessage.setProfile_id(message.getFrom());
-			newMessage.setName("NO NAME");
-			newMessage.setLast_message(message.getBody());
-			newMessage.setLast_message_time(message.getTime_string());
-			newMessage.setLast_active_time(message.getTime_string());
-			newMessage.setStatus(2);
-			newMessage.setMatches(false);
-			newMessage.setUnread_count(1);
-
-			listChatDb.insertListChat(newMessage);
+			GetOtherProfileFromMessage loader2 = new GetOtherProfileFromMessage(
+					Constants.GET_HANGOUT_PROFILE, ChatActivity.this,
+					message.getFrom(), message);
+			getRequestQueue().addRequest(loader2);
 		}
 		else{
 			ListChatData data = listChatDb.getChatData(message.getFrom());
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
-			data.setUnread_count(data.getUnread_count()+1);
-			data.setStatus(2);
-			listChatDb.updateNewMessage(data);
+			if(ChatActivity.isActive){
+				data.setStatus(3);
+				listChatDb.updateReadMessage(data);
+			}
+			else {
+				data.setUnread_count(data.getUnread_count()+1);
+				data.setStatus(2);
+				listChatDb.updateNewMessage(data);
+			}
 		}
 //		
 //		runOnUiThread(new Runnable() {
@@ -1229,6 +1228,67 @@ public class ChatActivity extends OakClubBaseActivity {
 //				ChatBaseActivity.updateListChat(ChatActivity.this);
 //			}
 //		});
+	}
+	
+	class GetOtherProfileFromMessage extends RequestUI {
+
+		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
+		String profile_id;
+		ChatHistoryData message;
+
+		public GetOtherProfileFromMessage(Object key, Activity activity,
+				String profile_id, ChatHistoryData message) {
+			super(key, activity);
+			this.profile_id = profile_id;
+			this.message = message;
+		}
+
+		@Override
+		public void execute() throws Exception {
+			data = oakClubApi.getHangoutProfileOther(profile_id);
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (data != null) {
+				ListChatData newMessage = new ListChatData();
+				newMessage.setProfile_id(message.getFrom());
+				newMessage.setName(data.getData().getName());
+				newMessage.setAvatar(data.getData().getAvatar());
+				newMessage.setLast_message(message.getBody());
+				newMessage.setLast_message_time(message.getTime_string());
+				newMessage.setLast_active_time(message.getTime_string());
+				newMessage.setStatus(2);
+				newMessage.setMatches(false);
+				newMessage.setUnread_count(1);
+				
+				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+				listChatDb.insertListChat(newMessage);
+								
+				AllChatActivity.allList.clear();
+				AllChatActivity.allList.addAll(listChatDb.getListChat());
+				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.notifyDataSetChanged();
+
+				MatchChatActivity.matchedList.clear();
+				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
+				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.notifyDataSetChanged();
+
+				VIPActivity.vipList.clear();
+				VIPActivity.vipList.addAll(listChatDb.getListVip());
+				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.notifyDataSetChanged();
+					
+				SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				
+	            
+			} else {
+				OakClubUtil.enableDialogWarning(ChatActivity.this,
+						getString(R.string.txt_warning),
+						getString(R.string.txt_internet_message));
+			}
+		}
 	}
 
 	class SendRegisterRequest extends RequestUI {
