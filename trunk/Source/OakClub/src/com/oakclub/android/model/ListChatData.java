@@ -103,7 +103,7 @@ public class ListChatData {
 		try {
 			date = dateFormatServer.parse(str);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return str; 
 		}
 		str = dateFormat.format(date);

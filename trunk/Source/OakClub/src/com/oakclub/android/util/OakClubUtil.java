@@ -339,21 +339,7 @@ public class OakClubUtil {
 		}
 		return false;
 	}
-	
-	public static String convertStringToDate(String str){
-    	String result = "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date= new Date();
-		try {
-			date = dateFormat.parse(str);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		result = dateFormat.format(date);
-		return result; 
-    }
-	
+		
 	public static String getDayInDate(String str){
 		if(str.equals(""))
 			return str;
@@ -387,7 +373,22 @@ public class OakClubUtil {
 	    month = calendar.get(Calendar.MONTH)+1;
 		return month<10?"0"+month:""+month;
 	}
-	
+
+    public static String convertStringToDate(String str){
+    	if(str.equals(""))
+    		return str;
+		SimpleDateFormat dateFormatServer = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyconvertStringToDateconvertStringToDateconvertStringToDateconvertStringToDateMM-dd HH:mm:ss");
+		Date date= new Date();
+		try {
+			date = dateFormatServer.parse(str);
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			return str; 
+		}
+		str = dateFormat.format(date);
+		return str; 
+    }
 
 
 	public static boolean compareVersion(String ver1, String ver2) {

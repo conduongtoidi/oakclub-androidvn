@@ -128,7 +128,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				Constants.PREFERENCE_NAME, 0);
 		boolean loggedIn = pref
 				.getBoolean(Constants.PREFERENCE_LOGGINED, false);
-
+		if (facebook == null) {
+			facebook = new Facebook(getString(R.string.app_id));
+			mAsyncRunner = new AsyncFacebookRunner(facebook);
+		}
 		if (loggedIn) {
 			logInFacebook();
 		} else if (facebook.isSessionValid()) {
@@ -287,7 +290,9 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		// onLoginSuccess = true;
 		Log.v("onActivityResult", 1 + "");
-		facebook.authorizeCallback(requestCode, resultCode, data);
+		if (facebook != null) {
+			facebook.authorizeCallback(requestCode, resultCode, data);
+		}
 		if (requestCode == Constants.TUTORIAL) {
 			showVerifiedActivity();
 		}
