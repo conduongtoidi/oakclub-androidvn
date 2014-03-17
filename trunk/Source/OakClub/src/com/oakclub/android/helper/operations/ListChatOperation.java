@@ -177,6 +177,7 @@ public class ListChatOperation {
         	data.setMatch_time(cursor.getString(8));
         	data.setFid(cursor.getString(9));
         	data.setUnread_count(cursor.getInt(10));
+        	data.setLast_active_time(cursor.getString(11));
 	    }
 		this.close();
 		return data;
@@ -201,6 +202,7 @@ public class ListChatOperation {
 	        	data.setMatch_time(cursor.getString(8));
 	        	data.setFid(cursor.getString(9));
 	        	data.setUnread_count(cursor.getInt(10));
+	        	data.setLast_active_time(cursor.getString(11));
 	        	listChat.add(data);
 	        } while (cursor.moveToNext());
 	    }
@@ -227,6 +229,7 @@ public class ListChatOperation {
 	        	data.setMatch_time(cursor.getString(8));
 	        	data.setFid(cursor.getString(9));
 	        	data.setUnread_count(cursor.getInt(10));
+	        	data.setLast_active_time(cursor.getString(11));
 	        	listChat.add(data);
 	        } while (cursor.moveToNext());
 	    }

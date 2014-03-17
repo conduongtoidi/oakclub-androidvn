@@ -443,6 +443,8 @@ public class ChatActivity extends OakClubBaseActivity {
 			case R.id.activity_chat_rtlbottom_btSend:
 				chatLv.setVisibility(View.VISIBLE);
 				lltMatch.setVisibility(View.GONE);
+				editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+	            editor.commit();
 				solveSendMessage();
 				break;
 			case R.id.activity_chat_fltTop_imgbtnReport:
@@ -729,7 +731,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			message.setFrom(user_id);
 			message.setTo(profile_id);
 			SimpleDateFormat df = new SimpleDateFormat(
-					Constants.CHAT_TIME_FORMAT);
+					Constants.CHAT_SERVER_FORMAT);
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
 			            
@@ -777,7 +779,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			message.setFrom(user_id);
 			message.setTo(profile_id);
 			SimpleDateFormat df = new SimpleDateFormat(
-					Constants.CHAT_TIME_FORMAT);
+					Constants.CHAT_CLIENT_FORMAT);
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
 
@@ -1173,7 +1175,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		str = str.substring(0, str.indexOf('@'));
 
 		message.setFrom(str);
-		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_TIME_FORMAT);
+		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_CLIENT_FORMAT);
 		String formattedDate = df.format(new Date());
 		message.setTime_string(formattedDate);
 		updateNewMessage(message);

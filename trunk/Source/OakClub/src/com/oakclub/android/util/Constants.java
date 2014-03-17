@@ -72,7 +72,8 @@ public class Constants {
 	public static String BUNDLE_NOTI = "notification";
 	public static String XMPP_SERVICE_NAME = "oakclub.com";
 	public static int XMPP_SERVER_PORT = 5222;
-	public static String CHAT_TIME_FORMAT = "MM-dd-yyyy HH:mm:ss";
+	public static String CHAT_CLIENT_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static String CHAT_SERVER_FORMAT = "MM/dd/yyyy HH:mm:ss";
 	
 	public static int MIN_SEARCH_DISTANCE = 0;
 	

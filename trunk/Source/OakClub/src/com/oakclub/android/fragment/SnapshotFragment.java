@@ -366,7 +366,7 @@ public class SnapshotFragment{
                 launchMarket();
         	} else {
         		AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(activity);
+                builder = new AlertDialog.Builder(activity.getApplicationContext());
                 final AlertDialog dialog = builder.create();
                 LayoutInflater inflater = LayoutInflater
                         .from(activity);
