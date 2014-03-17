@@ -439,8 +439,8 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		str = msg.getFrom();
 		str = str.substring(0, str.indexOf('@'));
 		message.setFrom(str);
-		
-		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_TIME_FORMAT);
+
+		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_CLIENT_FORMAT);
 		String formattedDate = df.format(new Date());
 		message.setTime_string(formattedDate);
 		
