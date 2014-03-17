@@ -355,6 +355,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			            @Override
 			            public void onClick(View v) {
 			            	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+getApplicationContext().getPackageName())));
+			            	dialog.dismiss();
 			            }
 			        });
 			        dialog.setCancelable(false);
