@@ -650,7 +650,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
-			if(ChatActivity.isActive){
+			if(ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())){
 				data.setStatus(3);
 				listChatDb.updateReadMessage(data);
 			}

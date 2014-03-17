@@ -112,7 +112,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	public static EditText tbMessage;
 	Chat chat;
 	ProgressBar progressBar;
-	public static boolean isActive = true;
+	public static boolean isActive = false;
 	SnapshotData snapShotData;
 
 	ImageButton btnBack;
@@ -265,7 +265,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	@SuppressWarnings("deprecation")
 	public void init(Bundle savedInstanceState) {
-		
+		isActive = true;
 		snapShotData = new SnapshotData();
 
 		btnBack = (ImageButton) findViewById(R.id.activity_chat_fltTop_imgbtnBack);
@@ -1211,7 +1211,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
-			if(ChatActivity.isActive){
+			if(ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())){
 				data.setStatus(3);
 				listChatDb.updateReadMessage(data);
 			}
