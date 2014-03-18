@@ -2,6 +2,8 @@ package com.oakclub.android;
 
 import java.util.Random;
 
+import org.jivesoftware.smack.XMPPException;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -48,7 +50,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onMessage(Context context, Intent intent) {
 		Log.v("Registration", "Got a message!");
 		Log.v("Registration", context.toString() + " " + intent.toString());
-
+		if (OakClubBaseActivity.xmpp != null && !OakClubBaseActivity.xmpp.isConnected()) {
+			try {
+				OakClubBaseActivity.xmpp.connect();
+			} catch (XMPPException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		String notificationContent = intent.getExtras().getString("alert");
 		boolean isLoad = OakClubUtil.isForeground("com.oakclub.android",
 				this);

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				int pos = ChatActivity.tbMessage.getSelectionStart();
 				String value = gvEmoticon.getAdapter().getItem(position)
 						.toString();
-				String keyEntry = value;
+
 				String text = ChatActivity.tbMessage.getText().toString();
 				String textHead = text.substring(0, pos);
 				String textTail = text.substring(pos, text.length());
