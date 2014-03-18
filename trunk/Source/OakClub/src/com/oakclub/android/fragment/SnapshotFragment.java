@@ -243,8 +243,8 @@ public class SnapshotFragment{
                                     .getName());
                             bundle.putBoolean(Constants.BUNDLE_NOTI, false);
                             int status = 1;
-                            if (chatAccount.getIs_like())
-                                status = 0;
+//                            if (chatAccount.getIs_like())
+//                                status = 0;
                             bundle.putInt(Constants.BUNDLE_STATUS, status);
                             bundle.putString(Constants.BUNDLE_MATCH_TIME, chatAccount.getLike_time());
                             

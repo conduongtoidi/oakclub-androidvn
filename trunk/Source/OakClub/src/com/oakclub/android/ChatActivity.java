@@ -21,6 +21,7 @@ import org.jivesoftware.smack.filter.MessageTypeFilter;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.util.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -38,6 +39,7 @@ import android.os.StrictMode;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -441,6 +443,17 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				break;
 			case R.id.activity_chat_rtlbottom_btSend:
+				if (xmpp != null && !xmpp.isConnected()) {
+					try {
+						StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+								.permitAll().build();
+						StrictMode.setThreadPolicy(policy);
+						xmpp.connect();
+					} catch (XMPPException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				chatLv.setVisibility(View.VISIBLE);
 				lltMatch.setVisibility(View.GONE);
 				editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
@@ -928,6 +941,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	public static Spannable getSmiledText(Context context, String text) {
+		
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		builder = new SpannableStringBuilder(text);
 		int index;
@@ -937,18 +951,19 @@ public class ChatActivity extends OakClubBaseActivity {
 			ImageSpan imageSpan = null;
 			for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons
 					.entrySet()) {
-				int lengthEntry = entry.getKey().length();
+				String entryKey = entry.getKey().toString();//Html.fromHtml(entry.getKey()).toString();
+				int lengthEntry = entryKey.length();
 				if (index - lengthEntry < 0)
 					continue;
-				if (builder.subSequence(index - lengthEntry, index).toString()
-						.equals(entry.getKey())) {
+				if (builder.subSequence(index - lengthEntry, index).toString().toLowerCase()
+						.equals(entryKey.toLowerCase())) {
 					if (length < lengthEntry) {
 						builder.removeSpan(imageSpan);
 						imageSpan = new ImageSpan(context, Integer.parseInt(entry.getValue()));
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						flag = true;
-						length = entry.getKey().length();
+						length = entryKey.length();
 					}
 					// break;
 				}
