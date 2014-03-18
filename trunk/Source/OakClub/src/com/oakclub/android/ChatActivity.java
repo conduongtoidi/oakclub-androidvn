@@ -1226,6 +1226,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
+			Log.v("chat activi", isActive + "");
 			if(ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())){
 				data.setStatus(3);
 				listChatDb.updateReadMessage(data);
@@ -1236,13 +1237,50 @@ public class ChatActivity extends OakClubBaseActivity {
 				listChatDb.updateNewMessage(data);
 			}
 		}
-//		
-//		runOnUiThread(new Runnable() {
-//			@Override
-//			public void run() {
-//				ChatBaseActivity.updateListChat(ChatActivity.this);
-//			}
-//		});
+		
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+
+				if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
+					AllChatActivity.allList = new ArrayList<ListChatData>();
+					AllChatActivity.adapterAll = new AdapterListChat(ChatActivity.this, AllChatActivity.allList);
+				}
+				if(MatchChatActivity.matchedList ==null && MatchChatActivity.adapterMatch ==null){
+					MatchChatActivity.matchedList = new ArrayList<ListChatData>();
+					MatchChatActivity.adapterMatch = new AdapterListChat(ChatActivity.this, MatchChatActivity.matchedList);
+				}
+				if(VIPActivity.vipList ==null && VIPActivity.adapterVip==null){
+					VIPActivity.vipList = new ArrayList<ListChatData>();
+					VIPActivity.adapterVip = new AdapterListChat(ChatActivity.this, VIPActivity.vipList);
+				}
+				
+				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+				
+				AllChatActivity.allList.clear();
+				AllChatActivity.allList.addAll(listChatDb.getListChat());
+				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.notifyDataSetChanged();
+
+				MatchChatActivity.matchedList.clear();
+				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
+				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.notifyDataSetChanged();
+
+				VIPActivity.vipList.clear();
+				VIPActivity.vipList.addAll(listChatDb.getListVip());
+				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.notifyDataSetChanged();
+				
+				try {
+					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				} catch (Exception ex) {
+					
+				}
+				
+			}
+		});
 	}
 	
 	class GetOtherProfileFromMessage extends RequestUI {
