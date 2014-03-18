@@ -149,8 +149,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 		Random rd = new Random();
-		PendingIntent pI = PendingIntent.getActivity(context, rd.nextInt(10), intent,
-				PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent pI = PendingIntent.getActivity(context, dataChat.getProfile_id().hashCode(), intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationManager notiMgr = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
