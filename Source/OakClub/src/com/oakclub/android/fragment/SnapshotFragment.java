@@ -366,7 +366,7 @@ public class SnapshotFragment{
                 launchMarket();
         	} else {
         		AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(activity.getApplicationContext());
+                builder = new AlertDialog.Builder(activity);
                 final AlertDialog dialog = builder.create();
                 LayoutInflater inflater = LayoutInflater
                         .from(activity);
@@ -384,7 +384,8 @@ public class SnapshotFragment{
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        getListSnapshotData(START_RECORD);
+                        System.exit(0);
+                        //getListSnapshotData(START_RECORD);
                     }
                 });
                 dialog.setCancelable(false);
