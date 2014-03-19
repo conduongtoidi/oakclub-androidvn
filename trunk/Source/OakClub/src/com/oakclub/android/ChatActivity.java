@@ -857,6 +857,9 @@ public class ChatActivity extends OakClubBaseActivity {
 					target_avatar = obj.getAvatar();
 					tvName.setText("" + target_name);
 				}
+				
+				
+				
 				messageArrayList.clear();
 				messageArrayList.addAll(obj.getData());
 				if(obj.getData() != null && obj.getData().size() != 0){
@@ -1264,43 +1267,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-
-
-				if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
-					AllChatActivity.allList = new ArrayList<ListChatData>();
-					AllChatActivity.adapterAll = new AdapterListChat(ChatActivity.this, AllChatActivity.allList);
-				}
-				if(MatchChatActivity.matchedList ==null && MatchChatActivity.adapterMatch ==null){
-					MatchChatActivity.matchedList = new ArrayList<ListChatData>();
-					MatchChatActivity.adapterMatch = new AdapterListChat(ChatActivity.this, MatchChatActivity.matchedList);
-				}
-				if(VIPActivity.vipList ==null && VIPActivity.adapterVip==null){
-					VIPActivity.vipList = new ArrayList<ListChatData>();
-					VIPActivity.adapterVip = new AdapterListChat(ChatActivity.this, VIPActivity.vipList);
-				}
-				
-				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-				
-				AllChatActivity.allList.clear();
-				AllChatActivity.allList.addAll(listChatDb.getListChat());
-				AllChatActivity.adapterAll.ignoreDisabled=true;
-				AllChatActivity.adapterAll.notifyDataSetChanged();
-
-				MatchChatActivity.matchedList.clear();
-				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
-				MatchChatActivity.adapterMatch.ignoreDisabled=true;
-				MatchChatActivity.adapterMatch.notifyDataSetChanged();
-
-				VIPActivity.vipList.clear();
-				VIPActivity.vipList.addAll(listChatDb.getListVip());
-				VIPActivity.adapterVip.ignoreDisabled=true;
-				VIPActivity.adapterVip.notifyDataSetChanged();
-				
-				try {
-					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
-				} catch (Exception ex) {
-					
-				}
+				ChatBaseActivity.updateListChat(ChatActivity.this);
 				
 			}
 		});

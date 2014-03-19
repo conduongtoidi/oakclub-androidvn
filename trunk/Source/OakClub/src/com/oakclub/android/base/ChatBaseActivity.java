@@ -209,6 +209,12 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 		VIPActivity.adapterVip.ignoreDisabled=true;
 		VIPActivity.adapterVip.notifyDataSetChanged();
 			
-		SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+		try{
+			SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+		}
+		catch(Exception ex)
+		{
+			
+		}
 	}
 }

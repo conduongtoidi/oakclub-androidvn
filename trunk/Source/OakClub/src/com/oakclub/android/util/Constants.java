@@ -139,5 +139,8 @@ public class Constants {
 													   "nb", "sv", "ro", "pl", "bg",
 													   "hu", "hr", "el", "nl", "ar",
 													   "ko", "sw", "ph", "hi"};
+
+	public static final int STATUS_CHAT_FROM_SENT = 0;
+	public static final int STATUS_CHAT_FROM_RECEIVED = 1;
     
 }
