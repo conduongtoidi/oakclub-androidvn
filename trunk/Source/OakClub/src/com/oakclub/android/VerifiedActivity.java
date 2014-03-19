@@ -27,107 +27,144 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ProfileSettingFragment;
+import com.oakclub.android.fragment.SnapshotFragment;
 import com.oakclub.android.model.VerifiedReturnObject;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.util.RichTextHelper;
 
-public class VerifiedActivity extends OakClubBaseActivity {
-	private Button btn_skip;
+public class VerifiedActivity extends SlidingActivity {
+	private Button btnSkip;
+	private Button btnContinueVerified;
 
 	private TextView line;
-	private boolean firstOpenSessonCall;
-	private boolean firstRequestCall;
-	private boolean start_login;
+	public static boolean firstOpenSessonCall;
+	public static boolean firstRequestCall;
+	public static boolean start_login = false;
 	private TextView tvVerifiedWay2;
 	private WebDialog feedDialog;
 	private TextView tvSamplePost;
 	private LinearLayout layoutHeader;
-
+	SlidingActivity activity;
+	public VerifiedActivity(SlidingActivity activity, boolean startLogin) {
+		this.activity = activity;
+		start_login = startLogin;
+	}
+	public VerifiedActivity() {
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!OakClubUtil.isInternetAccess(VerifiedActivity.this)) {
+		activity = this;
+		activity.setMenu(MenuOakclub.VERIFIED);
+		initVerified();
+	}
+	public void initVerified() {
+		if (!OakClubUtil.isInternetAccess(activity)) {
 			return;
 		}
-		if (ProfileSettingFragment.profileInfoObj == null) {
-			Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
-        	startActivity(intent);
-        	finish();
+		Intent intent = activity.getIntent();
+		start_login = intent.getBooleanExtra(Constants.START_LOGIN, start_login);
+		if(!start_login)
+		{
+			activity.init(R.layout.activity_verified);
+		}else{
+			activity.setContentView(R.layout.activity_verified);
 		}
-		setContentView(R.layout.activity_verified);
-		btn_skip = (Button) findViewById(R.id.btn_skip_verified);
+		if (ProfileSettingFragment.profileInfoObj == null) {
+			Intent intent2 = new Intent(activity, MainActivity.class);
+			activity.startActivity(intent2);
+			activity.finish();
+		}
+		
+		btnSkip = (Button) activity.findViewById(R.id.btn_skip_verified);
+		btnContinueVerified = (Button) activity.findViewById(R.id.btn_continue_verified);
+		layoutHeader = (LinearLayout) activity.findViewById(R.id.activity_verified_header);
 
-		layoutHeader = (LinearLayout)findViewById(R.id.activity_verified_header);
-
-		line = (TextView) findViewById(R.id.underline_back);
-		tvVerifiedWay2 = (TextView) findViewById(R.id.txt_verified_way_2);
+		line = (TextView) activity.findViewById(R.id.underline_back);
+		tvVerifiedWay2 = (TextView) activity.findViewById(R.id.txt_verified_way_2);
 		SpannableStringBuilder styledText = RichTextHelper
-				.getRichText(getString(R.string.txt_verified_way_2));
+				.getRichText(activity.getString(R.string.txt_verified_way_2));
 		tvVerifiedWay2.setText(styledText);
-		Intent intent = getIntent();
-		start_login = intent.getBooleanExtra(Constants.START_LOGIN, false);
-		tvSamplePost = (TextView) findViewById(R.id.txt_sample_post);
-		tvSamplePost.setText(getString(R.string.txt_got_verified) + "\n" +getString(R.string.txt_oakclub_page) + "\n" +getString(R.string.txt_sample_post));
+		
+		tvSamplePost = (TextView) activity.findViewById(R.id.txt_sample_post);
+		tvSamplePost.setText(activity.getString(R.string.txt_got_verified) + "\n" +activity.getString(R.string.txt_oakclub_page) + "\n" +activity.getString(R.string.txt_sample_post));
 		if(start_login){
 			layoutHeader.setVisibility(View.GONE);
 			line.setVisibility(View.GONE);
-			btn_skip.setVisibility(View.VISIBLE);
+			btnSkip.setVisibility(View.VISIBLE);
 		}
+		btnSkip.setOnClickListener(buttonClick);
+		btnContinueVerified.setOnClickListener(buttonClick);
 		
 	}
+	public OnClickListener buttonClick= new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if (OakClubUtil.isInternetAccess(activity)) {
 
-	public void VerifiedClick(View v) {
-		if (OakClubUtil.isInternetAccess(VerifiedActivity.this)) {
-
-			switch (v.getId()) {
-			case R.id.btn_continue_verified:
-				((Button) findViewById(R.id.btn_continue_verified)).setEnabled(false);
-				publishStory();
-				break;
-			case R.id.btn_skip_verified:
-				btn_skip.setEnabled(false);
-				setResult(RESULT_OK);
-//				SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
-//						Constants.SKIP_VERIFIED, VerifiedActivity.this);
-//				getRequestQueue().addRequest(loader);
-				finish();
-				break;
-			case R.id.btn_back:
-				finish();
-				break;
-			default:
-				break;
-			}
-		} else {
-			if (start_login) {
-				AlertDialog.Builder builder;
-				builder = new AlertDialog.Builder(this);
-				final AlertDialog dialog = builder.create();
-				LayoutInflater inflater = LayoutInflater.from(this);
-				View layout = inflater
-						.inflate(R.layout.dialog_warning_ok, null);
-				dialog.setView(layout, 0, 0, 0, 0);
-				Button btnOK = (Button) layout
-						.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-				btnOK.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.btn_continue_verified:
+					((Button) activity.findViewById(R.id.btn_continue_verified)).setEnabled(false);
+					publishStory();
+					break;
+				case R.id.btn_skip_verified:
+					btnSkip.setEnabled(false);
+//					SendSkipVerifiedRequest loader = new SendSkipVerifiedRequest(
+//							Constants.SKIP_VERIFIED, activity);
+//					activity.getRequestQueue().addRequest(loader);
+					if(start_login){
+						activity.setResult(RESULT_OK);
 						finish();
 					}
-				});
-				dialog.setCancelable(false);
-				dialog.show();
+					else{
+						comebackSnapshot();
+					}
+					break;
+				case R.id.btn_back:
+					//activity.finish();
+					break;
+				default:
+					break;
+				}
 			} else {
-				finish();
+				if (start_login) {
+					AlertDialog.Builder builder;
+					builder = new AlertDialog.Builder(activity);
+					final AlertDialog dialog = builder.create();
+					LayoutInflater inflater = LayoutInflater.from(activity);
+					View layout = inflater
+							.inflate(R.layout.dialog_warning_ok, null);
+					dialog.setView(layout, 0, 0, 0, 0);
+					Button btnOK = (Button) layout
+							.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+					btnOK.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							activity.finish();
+						}
+					});
+					dialog.setCancelable(false);
+					dialog.show();
+				} else {
+					activity.finish();
+				}
 			}
 		}
+	};
+	private void comebackSnapshot() {
+		if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
+			activity.setMenu(MenuOakclub.SNAPSHOT);
+			SnapshotFragment snapshot = new SnapshotFragment(
+					activity);
+			snapshot.initSnapshot();
+			activity.snapshot = snapshot;
+		}
 	}
-
 	private boolean isSubsetOf(String string, Collection<String> superset) {
 		if (!superset.contains(string)) {
 			return false;
@@ -140,7 +177,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 		firstOpenSessonCall = true;
 		firstRequestCall = true;
 		
-			SharedPreferences pref = getSharedPreferences(
+			SharedPreferences pref = activity.getSharedPreferences(
 					Constants.PREFERENCE_NAME, 0);
 			Long expirationTime = pref.getLong(Constants.HEADER_ACCESS_EXPIRES,
 					0);
@@ -155,7 +192,7 @@ public class VerifiedActivity extends OakClubBaseActivity {
 							accessTokenExpires, null, null, permission);
 			try {
 				Session.openActiveSessionWithAccessToken(
-						getApplicationContext(), accessToken,
+						activity.getApplicationContext(), accessToken,
 						new StatusCallback() {
 
 							@Override
@@ -163,15 +200,15 @@ public class VerifiedActivity extends OakClubBaseActivity {
 									SessionState state, Exception exception) {
 
 								if (session.isOpened()
-										&& VerifiedActivity.this.firstOpenSessonCall) {
-									VerifiedActivity.this.firstOpenSessonCall = false;
+										&& VerifiedActivity.firstOpenSessonCall) {
+									VerifiedActivity.firstOpenSessonCall = false;
 									List<String> permissions = session
 											.getPermissions();
 									if (!isSubsetOf(
 											Constants.VERIFIED_PERMISSIONS,
 											permissions)) {
 										Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
-												VerifiedActivity.this,
+												activity,
 												Constants.VERIFIED_PERMISSIONS);
 										session.requestNewPublishPermissions(newPermissionsRequest);
 										session.addCallback(new StatusCallback() {
@@ -181,8 +218,8 @@ public class VerifiedActivity extends OakClubBaseActivity {
 													SessionState state,
 													Exception exception) {
 												if (session.isOpened()
-														&& VerifiedActivity.this.firstRequestCall) {
-													VerifiedActivity.this.firstRequestCall = false;
+														&& VerifiedActivity.firstRequestCall) {
+													VerifiedActivity.firstRequestCall = false;
 													VerifiedActivity.this
 															.publishFeedDialog();
 													return;
@@ -203,19 +240,19 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	}
 
 	private void startSnapshot() {
-		Intent intent = new Intent(VerifiedActivity.this, SlidingActivity.class);
-		startActivity(intent);
+		Intent intent = new Intent(activity, SlidingActivity.class);
+		activity.startActivity(intent);
 	}
 
 	private void publishFeedDialog() {
 		Bundle params = new Bundle();
-		params.putString("name", getString(R.string.txt_got_verified));
-		params.putString("caption", getString(R.string.txt_oakclub_page));
-		params.putString("description", getString(R.string.txt_sample_post));
+		params.putString("name", activity.getString(R.string.txt_got_verified));
+		params.putString("caption", activity.getString(R.string.txt_oakclub_page));
+		params.putString("description", activity.getString(R.string.txt_sample_post));
 
-		params.putString("link", getString(R.string.txt_share_url));
+		params.putString("link", activity.getString(R.string.txt_share_url));
 		try {
-			feedDialog = (new WebDialog.FeedDialogBuilder(this,
+			feedDialog = (new WebDialog.FeedDialogBuilder(activity,
 					Session.getActiveSession(), params)).setOnCompleteListener(
 					new OnCompleteListener() {
 
@@ -230,33 +267,33 @@ public class VerifiedActivity extends OakClubBaseActivity {
 								if (postId != null) {
 									SendVerifiedRequest loader = new SendVerifiedRequest(
 											Constants.VERIFY_USER,
-											VerifiedActivity.this);
-									getRequestQueue().addRequest(loader);
+											activity);
+									activity.getRequestQueue().addRequest(loader);
 
 								} else {
-									((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-									Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
-									intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
-						        	startActivity(intent2);
-						        	if(!start_login)
-										{
-						        			setResult(RESULT_OK);
-						        			finish();
-										}
+									((Button) activity.findViewById(R.id.btn_continue_verified)).setEnabled(true);
+									Intent intent2 = new Intent(activity, VerifiedFinishedActivity.class);
+									intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.start_login);
+									intent2.putExtra(Constants.VERIFIED_FAILED, 1);
+									activity.startActivityForResult(intent2,0);
+//						        	if(!start_login)
+//						        		{
+//						        			comebackSnapshot();
+//						        		}
 								}
 							} else if (error instanceof FacebookOperationCanceledException) {
-								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-								Intent intent2 = new Intent(VerifiedActivity.this, VerifiedFailedActivity.class);
-								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.this.start_login);
-								startActivity(intent2);
-								if (!start_login)
-									{
-										setResult(RESULT_OK);
-										finish();
-									}
+								((Button) activity.findViewById(R.id.btn_continue_verified)).setEnabled(true);
+								Intent intent2 = new Intent(activity, VerifiedFinishedActivity.class);
+								intent2.putExtra(Constants.START_LOGIN, VerifiedActivity.start_login);
+								intent2.putExtra(Constants.VERIFIED_FAILED, 1);
+								activity.startActivityForResult(intent2,0);
+//								if (!start_login)
+//									{
+//										comebackSnapshot();	
+//									}
 							} else {
-								((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-								Toast.makeText(getApplicationContext(),
+								((Button) activity.findViewById(R.id.btn_continue_verified)).setEnabled(true);
+								Toast.makeText(activity.getApplicationContext(),
 										"Error posting story",
 										Toast.LENGTH_LONG).show();
 							}
@@ -271,23 +308,17 @@ public class VerifiedActivity extends OakClubBaseActivity {
 	@Override
 	protected void onResume() {		
 		if(!OakClubUtil.isInternetAccess(this)){			
-			firstOpenSessonCall = false;
-			firstRequestCall = false;
-			if(!start_login)
+			VerifiedActivity.firstOpenSessonCall = false;
+			VerifiedActivity.firstRequestCall = false;
+			if(!VerifiedActivity.start_login)
 				finish();
 		}
 		super.onResume();
-		((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
-		btn_skip.setEnabled(true);
+		if(((Button) findViewById(R.id.btn_continue_verified)) != null)
+			((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+		if(((Button) findViewById(R.id.btn_skip_verified)) != null)
+			((Button) findViewById(R.id.btn_skip_verified)).setEnabled(true);
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode,
-				resultCode, data);
-	}
-
 	class SendVerifiedRequest extends RequestUI {
 		VerifiedReturnObject obj;
 
@@ -297,32 +328,35 @@ public class VerifiedActivity extends OakClubBaseActivity {
 
 		@Override
 		public void execute() throws Exception {
-			obj = oakClubApi.VerifiedUser();
+			obj = activity.oakClubApi.VerifiedUser();
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 			if (obj != null && obj.isStatus()
 					&& ProfileSettingFragment.profileInfoObj != null) {
-				ProfileSettingFragment.profileInfoObj.setIs_verify(true);
-				Intent intent = VerifiedActivity.this.getIntent();
-				intent.putExtra(Constants.VERIFIED_SUCCESS, true);
-				setResult(RESULT_OK, intent);				
-				Intent intent2 = new Intent(VerifiedActivity.this,
-						VerifiedSecceedActivity.class);
+				ProfileSettingFragment.profileInfoObj.setIs_verify(true);							
+				Intent intent2 = new Intent(activity,
+						VerifiedFinishedActivity.class);
 				intent2.putExtra(Constants.START_LOGIN,
-						VerifiedActivity.this.start_login);
-				startActivity(intent2);
-				finish();
+						VerifiedActivity.start_login);
+				activity.startActivityForResult(intent2,0);
+				if(start_login)
+				{
+					Intent intent = getIntent();
+					intent.putExtra(Constants.VERIFIED_SUCCESS, true);
+					setResult(Activity.RESULT_OK, intent);	
+					finish();
+				}
 			} else {
-				Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
-	        	startActivity(intent);
-	        	finish();
+				Intent intent = new Intent(activity, MainActivity.class);
+				activity.startActivity(intent);
+				activity.finish();
 			}
 		}
 
 	}
-
+	
 	class SendSkipVerifiedRequest extends RequestUI {
 		VerifiedReturnObject obj;
 
@@ -332,23 +366,23 @@ public class VerifiedActivity extends OakClubBaseActivity {
 
 		@Override
 		public void execute() throws Exception {
-			obj = oakClubApi.SkipVerified();
+			obj = activity.oakClubApi.SkipVerified();
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 			if (ProfileSettingFragment.profileInfoObj != null) {
 				ProfileSettingFragment.profileInfoObj.setSkip_verify(true);
-				btn_skip.setEnabled(true);
+				btnSkip.setEnabled(true);
 				if (start_login) {
 					startSnapshot();
 				}
-				finish();
+				activity.finish();
 			} else {
-				Toast.makeText(VerifiedActivity.this, "Error", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
-	        	startActivity(intent);
-	        	finish();
+				Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(activity, MainActivity.class);
+				activity.startActivity(intent);
+				activity.finish();
 			}
 
 		}

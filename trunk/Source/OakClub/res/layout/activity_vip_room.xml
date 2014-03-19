@@ -16,6 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/txt_you_VIP_member"
+        android:layout_gravity="center"
         android:textColor="@color/Gold"
         android:textSize="30sp"
         android:gravity="center"

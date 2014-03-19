@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.Button;
 
+import com.facebook.Session;
 import com.google.android.gms.internal.fm;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.fragment.GetVIPFragment;
@@ -67,6 +69,8 @@ public class SlidingActivity extends SlidingMenuActivity {
                 break;
             case VIPROOM:
                 break;
+            case VERIFIED:
+                break;
             default: 
                 break;
         }
@@ -110,11 +114,41 @@ public class SlidingActivity extends SlidingMenuActivity {
 					vipRoom.initVIPRoom();				
             	}
                 break;
+            case VERIFIED:
+            	Session.getActiveSession().onActivityResult(this, requestCode,
+        				resultCode, data);
+            	if(resultCode == RESULT_OK && data != null){
+            		if(data.getBooleanExtra(Constants.COMEBACK_SNAPSHOT, false)){
+                		if (this.getMenu() != MenuOakclub.SNAPSHOT) {
+                			this.setMenu(MenuOakclub.SNAPSHOT);
+                			SnapshotFragment snapshot = new SnapshotFragment(
+                					this);
+                			snapshot.initSnapshot();
+                			this.snapshot = snapshot;
+                		}
+                	}
+            	}
+            	
+                break;
             default: 
                 break;
         }
     }
-    
+
+	@Override
+	protected void onResume() {		
+		if(!OakClubUtil.isInternetAccess(this)){			
+			VerifiedActivity.firstOpenSessonCall = false;
+			VerifiedActivity.firstRequestCall = false;
+			if(!VerifiedActivity.start_login)
+				finish();
+		}
+		super.onResume();
+		if(((Button) findViewById(R.id.btn_continue_verified)) != null)
+			((Button) findViewById(R.id.btn_continue_verified)).setEnabled(true);
+		if(((Button) findViewById(R.id.btn_skip_verified)) != null)
+			((Button) findViewById(R.id.btn_skip_verified)).setEnabled(true);
+	}
     @Override
     protected void onPause(){
         System.gc();
@@ -145,7 +179,8 @@ public class SlidingActivity extends SlidingMenuActivity {
         SNAPSHOT(1), 
         SETTING(2), 
         INVITE_FRIEND(3),
-        VIPROOM(4);
+        VIPROOM(4),
+        VERIFIED(5);
         
         private final int menuChose;
         

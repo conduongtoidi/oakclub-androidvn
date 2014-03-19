@@ -34,7 +34,6 @@ import com.oakclub.android.R;
 import com.oakclub.android.SlidingActivity;
 import com.oakclub.android.TutorialScreenActivity;
 import com.oakclub.android.VIPActivity;
-import com.oakclub.android.base.LoginBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.helper.operations.ListChatOperation;
@@ -54,7 +53,6 @@ import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.ProgressCircle;
 import com.oakclub.android.view.SnapshotMain;
-import com.oakclub.android.view.TextViewWithFont;
 
 public class SnapshotFragment{
 
@@ -242,10 +240,7 @@ public class SnapshotFragment{
                             bundle.putString(Constants.BUNDLE_NAME, chatAccount
                                     .getName());
                             bundle.putBoolean(Constants.BUNDLE_NOTI, false);
-                            int status = 1;
-//                            if (chatAccount.getIs_like())
-//                                status = 0;
-                            bundle.putInt(Constants.BUNDLE_STATUS, status);
+                            bundle.putInt(Constants.BUNDLE_STATUS, 1);
                             bundle.putString(Constants.BUNDLE_MATCH_TIME, chatAccount.getLike_time());
                             
                             
