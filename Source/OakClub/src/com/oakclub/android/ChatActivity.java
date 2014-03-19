@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.apache.http.entity.StringEntity;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SASLAuthentication;
@@ -301,7 +302,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			OakClubUtil.loadImageFromUrl(this, url, userAvatar);
 			int fontSize = (int) OakClubUtil.convertPixelsToDp(
 					OakClubUtil.getWidthScreen(this) / 25, this);
-			txt_chat_match_content.setText(String.format("You matched with %s",
+			txt_chat_match_content.setText(String.format(getString(R.string.txt_chat_match_content),
 					target_name));
 			txt_chat_match_content.setTextSize(fontSize);
 			txt_chat_match_time.setText(timeMatch(match_time));
@@ -940,8 +941,17 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	}
 
+	public static String getXMLString(String content) {
+	    content = content.replace("&amp", "&");
+	    content = content.replace("&lt;", "<");
+	    content = content.replace("&gt;", ">");
+	    content = content.replace("&apos;", "'");
+	    content = content.replace("&quot;", "\"");
+	    return content;
+	}
+	
 	public static Spannable getSmiledText(Context context, String text) {
-		
+		//text = getXMLString(text);
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		builder = new SpannableStringBuilder(text);
 		int index;
@@ -951,7 +961,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			ImageSpan imageSpan = null;
 			for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons
 					.entrySet()) {
-				String entryKey = entry.getKey().toString();//Html.fromHtml(entry.getKey()).toString();
+				String entryKey = entry.getKey();//Html.fromHtml(entry.getKey()).toString();
 				int lengthEntry = entryKey.length();
 				if (index - lengthEntry < 0)
 					continue;
