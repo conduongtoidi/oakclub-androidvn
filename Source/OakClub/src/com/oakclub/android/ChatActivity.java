@@ -105,6 +105,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	public static ArrayList<ChatHistoryData> messageArrayList;
 	public static String profile_id;
 	public static int status;
+	public static boolean isGotHistory;
 	public static String match_time;
 	public static boolean isLoadFromNoti = false;
 	private String content = "";
@@ -172,7 +173,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		status = bundleListChatData.getInt(Constants.BUNDLE_STATUS);
 		match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
 		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);
-		
+		isGotHistory = (status != 0);
 		pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
         editor = pref.edit();
 		if (xmpp == null) {
@@ -328,7 +329,6 @@ public class ChatActivity extends OakClubBaseActivity {
 			lltMatch.setVisibility(View.GONE);
 			listChatDb.updateReadMessage(profile_id);
 		}
-
 		params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -355,6 +355,15 @@ public class ChatActivity extends OakClubBaseActivity {
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
 				rltChatViewPage.setVisibility(View.GONE);
+				//when VIP account click chat button				
+				if(!isGotHistory){
+					ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+					ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", ChatActivity.this,
+							profile_id, 0);
+					getRequestQueue().addRequest(loader);
+					listChatDb.updateReadMessage(profile_id);
+					isGotHistory = true;
+				}
 				return false;
 			}
 		});
@@ -850,6 +859,10 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				messageArrayList.clear();
 				messageArrayList.addAll(obj.getData());
+				if(obj.getData() != null && obj.getData().size() != 0){
+					chatLv.setVisibility(View.VISIBLE);
+					lltMatch.setVisibility(View.GONE);
+				}
 				Collections.sort(messageArrayList,
 						new Comparator<ChatHistoryData>() {
 							@Override

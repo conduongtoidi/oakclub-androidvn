@@ -229,16 +229,15 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 //					Intent verified = new Intent(this,
 //							ForceVerifiedActivity.class);
 //					verified.putExtra(Constants.START_LOGIN, true);
-//					verified.putExtra(Constants.FORCE_VERIFIED, true);
-//					startActivity(verified);
-//					finish();
+//					//verified.putExtra(Constants.FORCE_VERIFIED, true);
+//					this.startActivityForResult(verified,0);
+//					//finish();
 //				} else if (ProfileSettingFragment.profileInfoObj.getGender() == Constants.MEN
 //						&& (Integer
 //								.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.getSkip_verify())) {
 //					Intent verified = new Intent(this, VerifiedActivity.class);
 //					verified.putExtra(Constants.START_LOGIN, true);
 //					this.startActivityForResult(verified, Constants.VERIFIED);
-//					finish();
 //				} else {
 //					startSnapshot();
 //				}
@@ -295,6 +294,8 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		}
 		if (requestCode == Constants.TUTORIAL) {
 			showVerifiedActivity();
+		}else if(requestCode == Constants.VERIFIED && resultCode == RESULT_OK || (data != null && data.getBooleanExtra(Constants.VERIFIED_SUCCESS, false))){
+			startSnapshot();
 		}
 	}
 

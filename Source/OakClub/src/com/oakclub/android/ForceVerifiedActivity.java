@@ -1,25 +1,26 @@
 package com.oakclub.android;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.util.RichTextHelper;
 
 public class ForceVerifiedActivity extends VerifiedActivity{
+	public ForceVerifiedActivity(SlidingActivity activity, boolean startLogin) {
+		super(activity, startLogin);
+	}
+	public ForceVerifiedActivity() {
+	}
 	private TextView tvVerifiedWay2;
 	private TextView tvDearName;
 	private TextView tvrule; 
 	private TextView tvSamplePost;
+	private Button continueVerified;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,11 +44,8 @@ public class ForceVerifiedActivity extends VerifiedActivity{
 		tvrule.setText(styledText);			
 		styledText = RichTextHelper.getRichText(getString(R.string.txt_verified_way_2));		
 		tvVerifiedWay2.setText(styledText);
-		
-	}
-	@Override
-	public void VerifiedClick(View v) {
-		super.VerifiedClick(v);
+		continueVerified = (Button) findViewById(R.id.btn_continue_verified);
+		continueVerified.setOnClickListener(buttonClick);
 	}
 	@Override
 	protected void onResume() {

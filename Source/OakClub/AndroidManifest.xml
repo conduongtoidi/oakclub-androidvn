@@ -131,12 +131,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.oakclub.android.VerifiedSecceedActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.oakclub.android.VerifiedFailedActivity"
+            android:name="com.oakclub.android.VerifiedFinishedActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

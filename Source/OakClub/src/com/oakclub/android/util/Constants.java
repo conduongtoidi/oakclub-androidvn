@@ -105,8 +105,10 @@ public class Constants {
     public static final int MEN = 1;
     public static final String VERIFIED_PERMISSIONS  = "publish_stream";
     public static final String START_LOGIN = "start_login";
-    public static final String FORCE_VERIFIED = "force_verified";
+   // public static final String FORCE_VERIFIED = "force_verified";
+    public static final String COMEBACK_SNAPSHOT = "comeBackSnapshot";
     public static final String VERIFIED_SUCCESS = "verified_success";
+    public static final String VERIFIED_FAILED = "verified_failed";
     public static final String[] FACEBOOK_PERMISSION = new String[] {
 		"friends_photos", "friends_relationship_details",
 		"friends_relationships", "friends_birthday",

@@ -1,5 +1,6 @@
 package com.oakclub.android.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -176,9 +177,14 @@ public class LeftMenuListFragment extends Fragment {
 					break;
 
 				case R.id.menu_item_llt_get_verified:
-					Intent verified = new Intent(activity,
-							VerifiedActivity.class);
-					startActivityForResult(verified, Constants.VERIFIED);
+//					Intent verified = new Intent(activity,
+//							VerifiedActivity.class);
+//					startActivityForResult(verified, Constants.VERIFIED);
+					if (activity.getMenu() != MenuOakclub.VERIFIED) {
+						activity.setMenu(MenuOakclub.VERIFIED);
+						VerifiedActivity verifiedActivity = new VerifiedActivity(activity,false);
+						verifiedActivity.initVerified();
+					}
 					break;
 
 				case R.id.linear_logout:
@@ -282,29 +288,36 @@ public class LeftMenuListFragment extends Fragment {
 			//finish();
 		}
 	}
-
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.getIs_verify()){
+			menuVerified.setVisibility(View.GONE);
+			ivVerified.setVisibility(View.VISIBLE);
+		}		
+	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode == getActivity().RESULT_OK){
-			if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
-				activity.setMenu(MenuOakclub.SNAPSHOT);
-				SnapshotFragment snapshot = new SnapshotFragment(
-						activity);
-				snapshot.initSnapshot();
-				activity.snapshot = snapshot;
-			}
-		}
-		if (data != null) {
-			if (requestCode == Constants.VERIFIED) {
-				boolean res = data.getBooleanExtra(Constants.VERIFIED_SUCCESS,
-						false);
-				if (res) {
-					menuVerified.setVisibility(View.GONE);
-					ivVerified.setVisibility(View.VISIBLE);
-				}
-			}
-		}
+//		if(resultCode == Activity.RESULT_OK){
+//			if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
+//				activity.setMenu(MenuOakclub.SNAPSHOT);
+//				SnapshotFragment snapshot = new SnapshotFragment(
+//						activity);
+//				snapshot.initSnapshot();
+//				activity.snapshot = snapshot;
+//			}
+//		}
+//		if (data != null) {
+//			if (requestCode == Constants.VERIFIED) {
+//				boolean res = data.getBooleanExtra(Constants.VERIFIED_SUCCESS,
+//						false);
+//				if (res) {
+//					menuVerified.setVisibility(View.GONE);
+//					ivVerified.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		}
 
 	}
 
