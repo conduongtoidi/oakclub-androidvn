@@ -168,7 +168,6 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 				for (int i = 0; i < obj.getData().size(); i++) {
 					listChatDb.insertListChat(obj.getData().get(i));
 				}
-				baseAllList = listChatDb.getListChat();
 				updateListChat(ChatBaseActivity.this);
 			}
 		}
@@ -176,6 +175,10 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 	}
 	
 	public static void updateListChat(Context context){
+		if(baseAllList ==null){
+			baseAllList = new ArrayList<ListChatData>();
+		}
+		
 		if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
 			AllChatActivity.allList = new ArrayList<ListChatData>();
 			AllChatActivity.adapterAll = new AdapterListChat(context, AllChatActivity.allList);
@@ -188,9 +191,9 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 			VIPActivity.vipList = new ArrayList<ListChatData>();
 			VIPActivity.adapterVip = new AdapterListChat(context, VIPActivity.vipList);
 		}
-		
 		ListChatOperation listChatDb = new ListChatOperation(context);
-
+		baseAllList = listChatDb.getListChat();
+		
 		AllChatActivity.allList.clear();
 		AllChatActivity.allList.addAll(listChatDb.getListChat());
 		AllChatActivity.adapterAll.ignoreDisabled=true;
