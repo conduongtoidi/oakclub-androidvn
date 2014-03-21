@@ -18,9 +18,13 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -372,11 +376,13 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 		return null;
 	}
+	
     @Override
     public ListChatReturnObject getListChat() {
         // TODO Auto-generated method stub
         try{
             String result = excuteGet(baseUrl + "/getListChat", null);
+            
             return OakClubJsonParser.getJsonObjectByMapper(result,
                     ListChatReturnObject.class);
         }
@@ -412,12 +418,11 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 	}
 
     @Override
-    public ChatHistoryReturnObject getHistoryMessages(String profile_id, int index) {
+    public ChatHistoryReturnObject getHistoryMessages(String profile_id) {
         try {
         	
             List<NameValuePair> paramList = new ArrayList<NameValuePair>();
             paramList.add(new BasicNameValuePair("profile_id", "" + profile_id));
-            paramList.add(new BasicNameValuePair("index", "" + index));
             String result = excuteGet(baseUrl + "/getHistoryMessages", paramList);
             return OakClubJsonParser.getJsonObjectByMapper(result,
                     ChatHistoryReturnObject.class);
@@ -764,4 +769,69 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 	}
 
+	 
+    //For Service japi
+    @Override
+    public HashMap<String, Object> getChatList() {
+        try{
+            String result = excuteGet(baseUrl + "/getChatList", null);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map = OakClubJsonParser.getHashmapByMapper(result);
+            return map;
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+    }
+    
+    //For Service japi
+    @Override
+    public HashMap<String, Object> getChatHistory(String profileId) {
+        try{
+        	List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+            paramList.add(new BasicNameValuePair("profile_id", "" + profileId));
+            String result = excuteGet(baseUrl + "/getChatHistory", paramList);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map = OakClubJsonParser.getHashmapByMapper(result);
+            return map;
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+    }
+
+    //For Service japi
+	@Override
+	public HashMap<String, Object> sendChatMessage(String profileId, String message) {
+		try {
+			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+			paramList.add(new BasicNameValuePair("profile_id", "" + profileId));
+			paramList.add(new BasicNameValuePair("message", "" + message));
+			String result = excutePost(baseUrl + "/sendChatMessage", paramList);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map = OakClubJsonParser.getHashmapByMapper(result);
+            return map;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+    //For Service japi
+	@Override
+	public HashMap<String, Object> readChatMessage(String profileId) {
+		try {
+			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+			paramList.add(new BasicNameValuePair("profile_id", profileId));
+
+			String result = excutePost(baseUrl + "/readChatMessage", paramList);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map = OakClubJsonParser.getHashmapByMapper(result);
+            return map;
+		} catch (Exception ex) {
+			return null;
+		}
+		
+	}
 }

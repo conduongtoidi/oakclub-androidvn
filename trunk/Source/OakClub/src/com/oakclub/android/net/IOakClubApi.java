@@ -1,6 +1,7 @@
 package com.oakclub.android.net;
 
 import java.io.File;
+import java.util.HashMap;
 
 import android.content.Context;
 
@@ -114,8 +115,7 @@ public interface IOakClubApi {
 
 	public ListChatReturnObject getListChat();
 
-	public ChatHistoryReturnObject getHistoryMessages(String profile_id,
-			int index);
+	public ChatHistoryReturnObject getHistoryMessages(String profile_id);
 
 	public SendMessageReturnObject sendMessage(String to, String msg);
 
@@ -156,5 +156,11 @@ public interface IOakClubApi {
 	
 	public SenRegisterVIPReturnObject SendRegisterVIP(String packageName,String productID, String purchaseToken);
 
+	public HashMap<String, Object> getChatList();
 
+	public HashMap<String, Object> getChatHistory(String profileId);
+	
+	public HashMap<String, Object> sendChatMessage(String profileId, String message);
+	
+	public HashMap<String, Object> readChatMessage(String profileId);
 }

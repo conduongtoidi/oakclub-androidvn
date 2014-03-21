@@ -91,6 +91,8 @@ import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.EmoticonScreenAdapter;
 import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
+import com.oakclub.android.model.parse.ParseDataChatHistory;
+import com.oakclub.android.model.parse.ParseDataChatList;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
@@ -322,7 +324,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	        getRequestQueue().addRequest(setViewMutual);
 		} else {
 			ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
-					profile_id, 0);
+					profile_id);
 			getRequestQueue().addRequest(loader);
 			
 			chatLv.setVisibility(View.VISIBLE);
@@ -359,7 +361,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				if(!isGotHistory){
 					ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
 					ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", ChatActivity.this,
-							profile_id, 0);
+							profile_id);
 					getRequestQueue().addRequest(loader);
 					listChatDb.updateReadMessage(profile_id);
 					isGotHistory = true;
@@ -828,41 +830,68 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	private class ChatHistoryRequest extends RequestUI {
 
-		private ChatHistoryReturnObject obj;
+//		private ChatHistoryReturnObject obj;
 		private String profile_id;
-		private int index;
+//		private int index;
 
 		public ChatHistoryRequest(Object key, Activity activity,
-				String profile_id, int index) {
+				String profile_id) {
 			super(key, activity);
 			this.profile_id = profile_id;
-			this.index = index;
+//			this.index = index;
 		}
 
 		@Override
 		public void execute() throws Exception {
-			obj = oakClubApi.getHistoryMessages(profile_id, index);
+			setMap(oakClubApiTemp.getChatHistory(profile_id));
+//			oakClubApi.getHistoryMessages(profile_id, index);
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 			progressBar.setVisibility(View.GONE);
-			if (obj == null || !obj.isStatus()) {
-				// Toast.makeText(ChatActivity.this,
-				// getString(R.string.abnormal_error_message),
-				// Toast.LENGTH_SHORT).show();
-			} else {
-				if (target_name == null || target_name.length() == 0) {
-					target_name = obj.getUsername();
-					target_avatar = obj.getAvatar();
-					tvName.setText("" + target_name);
-				}
+//			if (obj == null || !obj.isStatus()) {
+//				// Toast.makeText(ChatActivity.this,
+//				// getString(R.string.abnormal_error_message),
+//				// Toast.LENGTH_SHORT).show();
+//			} else {
+//				if (target_name == null || target_name.length() == 0) {
+//					target_name = obj.getUsername();
+//					target_avatar = obj.getAvatar();
+//					tvName.setText("" + target_name);
+//				}
+//				
+//				
+//				
+//				messageArrayList.clear();
+//				messageArrayList.addAll(obj.getData());
+//				if(obj.getData() != null && obj.getData().size() != 0){
+//					chatLv.setVisibility(View.VISIBLE);
+//					lltMatch.setVisibility(View.GONE);
+//				}
+//				Collections.sort(messageArrayList,
+//						new Comparator<ChatHistoryData>() {
+//							@Override
+//							public int compare(ChatHistoryData data1,
+//									ChatHistoryData data2) {
+//								return (data1.getTime_string().compareTo(data2
+//										.getTime_string()));
+//							}
+//						});
+//				adapter.notifyDataSetChanged();
+//				chatLv.setSelection(adapter.getCount() - 1);
+//			}
+			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
 				
-				
-				
+			}
+			else{
+				HashMap<String, Object> object = (HashMap<String, Object>) getMap().get("data");
+				ParseDataChatHistory parse = new ParseDataChatHistory(object);
+				ArrayList<ChatHistoryData> listData = new ArrayList<ChatHistoryData>();
+				listData = parse.getList();
 				messageArrayList.clear();
-				messageArrayList.addAll(obj.getData());
-				if(obj.getData() != null && obj.getData().size() != 0){
+				messageArrayList.addAll(listData);
+				if(listData != null && listData.size() > 0){
 					chatLv.setVisibility(View.VISIBLE);
 					lltMatch.setVisibility(View.GONE);
 				}
@@ -882,34 +911,35 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	public class SendMessageLoader extends RequestUI {
-		SendChatReturnObject obj;
-		String userId;
-		String content;
+//		SendChatReturnObject obj;
+		String profileId;
+		String message;
 
-		public SendMessageLoader(Object key, Activity activity, String userId,
-				String content) {
+		public SendMessageLoader(Object key, Activity activity, String profileId,
+				String message) {
 			super(key, activity);
-			this.userId = userId;
-			this.content = content;
+			this.profileId = profileId;
+			this.message = message;
 		}
 
 		@Override
 		public void execute() throws Exception {
-			obj = oakClubApi.SendChatMessage(userId, content);
+//			obj = oakClubApi.SendChatMessage(userId, content);
+			setMap(oakClubApiTemp.sendChatMessage(profileId, message));
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 
-			if (obj != null && obj.isStatus()) {
+//			if (obj != null && obj.isStatus()) {
 				// Toast.makeText(getApplicationContext(),
 				// getApplicationContext().getString(R.string.value_send_success),
 				// Toast.LENGTH_SHORT).show();
-			} else {
+//			} else {
 				// Toast.makeText(getApplicationContext(),
 				// getApplicationContext().getString(R.string.value_send_failed),
 				// Toast.LENGTH_SHORT).show();
-			}
+//			}
 
 		}
 	}
@@ -1187,16 +1217,17 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	class SetReadMessages extends RequestUI {
-		String profile_id;
+		String profileId;
 
-		public SetReadMessages(Object key, Activity activity, String profile_id) {
+		public SetReadMessages(Object key, Activity activity, String profileId) {
 			super(key, activity);
-			this.profile_id = profile_id;
+			this.profileId = profileId;
 		}
 
 		@Override
 		public void execute() throws Exception {
-			oakClubApi.SetReadMessages(profile_id);
+//			oakClubApi.SetReadMessages(profile_id);
+			setMap(oakClubApiTemp.readChatMessage(profileId));
 		}
 
 		@Override

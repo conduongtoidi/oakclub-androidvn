@@ -15,6 +15,7 @@ public class ListChatData {
     private String last_message="";
     private String last_message_time="";
     private boolean matches = false;
+    private boolean isChatted = false;
     private String match_time  ="";
     private String fid="";
     private int  unread_count = 0;
@@ -109,4 +110,10 @@ public class ListChatData {
 		str = dateFormat.format(date);
 		return str; 
     }
+	public boolean isChatted() {
+		return isChatted;
+	}
+	public void setChatted(boolean isChatted) {
+		this.isChatted = isChatted;
+	}
 }

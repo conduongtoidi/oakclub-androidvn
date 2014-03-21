@@ -1,6 +1,8 @@
 package com.oakclub.android.core;
 
 
+import java.util.HashMap;
+
 import org.xbill.DNS.tests.primary;
 
 import com.oakclub.android.net.AppService;
@@ -19,6 +21,7 @@ import android.util.Log;
  */
 public abstract class RequestUI extends Request {
 
+	private HashMap<String, Object> map;
 	private Activity activity;
 	private boolean isCancelled = false;
 	private AppService appService;
@@ -82,6 +85,14 @@ public abstract class RequestUI extends Request {
 				}
 			}
 		}
+	}
+
+	public HashMap<String, Object> getMap() {
+		return map;
+	}
+
+	public void setMap(HashMap<String, Object> map) {
+		this.map = map;
 	}
 
 	/**

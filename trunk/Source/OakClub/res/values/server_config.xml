@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="default_server_address">http://oakclub.com/service</string>
+    <string name="default_server_address_temp">http://staging.oakclub.com/japi</string>
     <string name="server_address_image">http://oakclub.com/load_photo.php</string>
     <string name="server_address_video">http://oakclub.com/data</string>
     <string name="server_address_sticker">http://oakclub.com</string>
