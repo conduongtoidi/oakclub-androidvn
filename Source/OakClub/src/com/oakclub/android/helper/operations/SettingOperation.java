@@ -1,6 +1,6 @@
 package com.oakclub.android.helper.operations;
 
-public class HistoryChatNewOperation {
+public class SettingOperation {
 
 	//Table Setting Name
     public static final String TABLE_SETTING = "setting";

@@ -124,6 +124,16 @@ public class AdapterListChat extends BaseAdapter {
 
 			}
 			break;
+		case 4:
+			try {
+				holder.tvTimeMatches.setText("Last message on "
+						+ OakClubUtil.getMonthInDate(mListChatData.get(position).getLast_active_time())
+						+ "/"
+						+ OakClubUtil.getDayInDate(mListChatData.get(position).getLast_active_time()));
+			} catch (Exception ex) {
+
+			}
+			break;
 		default:
 			break;
 		}

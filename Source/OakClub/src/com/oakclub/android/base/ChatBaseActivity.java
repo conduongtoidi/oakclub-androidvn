@@ -1,6 +1,7 @@
 package com.oakclub.android.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.ChatActivity;
@@ -15,6 +16,8 @@ import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
+import com.oakclub.android.model.parse.ParseDataChatList;
+import com.oakclub.android.net.OakClubApi;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
@@ -146,7 +149,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 	}
 	
 	protected class ListChatRequest extends RequestUI {
-		private ListChatReturnObject obj;
+//		private ListChatReturnObject obj;
 
 		public ListChatRequest(Object key, Activity activity) {
 			super(key, activity);
@@ -154,19 +157,38 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 
 		@Override
 		public void execute() throws Exception {
-			obj = oakClubApi.getListChat();
+			setMap(oakClubApiTemp.getChatList());
+//			obj = oakClubApi.getListChat();
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
-			if (obj == null || !obj.isStatus()) {
-			} else {
+//			if (obj == null || !obj.isStatus()) {
+//			} else {
+//				isLoading = false;
+//				pbLoading.setVisibility(View.GONE);
+//				listChatDb = new ListChatOperation(ChatBaseActivity.this);
+//				listChatDb.deleteAllListChat();
+//				for (int i = 0; i < obj.getData().size(); i++) {
+//					listChatDb.insertListChat(obj.getData().get(i));
+//				}
+//				updateListChat(ChatBaseActivity.this);
+//			}
+			
+			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
+				
+			}
+			else{
+				HashMap<String, Object> object = (HashMap<String, Object>) getMap().get("data");
+				ParseDataChatList parse = new ParseDataChatList(object);
+				ArrayList<ListChatData> listData = new ArrayList<ListChatData>();
+				listData = parse.getList();
 				isLoading = false;
 				pbLoading.setVisibility(View.GONE);
 				listChatDb = new ListChatOperation(ChatBaseActivity.this);
 				listChatDb.deleteAllListChat();
-				for (int i = 0; i < obj.getData().size(); i++) {
-					listChatDb.insertListChat(obj.getData().get(i));
+				for (ListChatData data : listData) {
+					listChatDb.insertListChat(data);
 				}
 				updateListChat(ChatBaseActivity.this);
 			}

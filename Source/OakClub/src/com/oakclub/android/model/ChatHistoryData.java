@@ -1,3 +1,4 @@
+
 package com.oakclub.android.model;
 
 import java.text.ParseException;
@@ -7,22 +8,19 @@ import java.util.Date;
 import com.oakclub.android.util.Constants;
 
 public class ChatHistoryData {
-    private String body ;
-    private double time;
-    private String time_string;
-    private String from;
-    private String to;
+    private String body = "" ;
+    private String time_string = "";
+    private String from = "";
+    private String to = "";
+    
+    private String profile_id = "";
+    private int status = 0;
+    
     public String getBody() {
         return body;
     }
     public void setBody(String body) {
         this.body = body;
-    }
-    public double getTime() {
-        return time;
-    }
-    public void setTime(double time) {
-        this.time = time;
     }
     public String getTime_string() {
         return time_string;
@@ -57,4 +55,24 @@ public class ChatHistoryData {
 		str = dateFormatServer.format(date);
 		return str; 
     }
+    
+	public String getProfile_id() {
+		return profile_id;
+	}
+	public void setProfile_id(String profile_id) {
+		this.profile_id = profile_id;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		if(status!=-1){
+			this.status = status;
+		}
+		else{
+			if(getProfile_id().equals(getFrom()))
+				setStatus(Constants.STATUS_CHAT_FROM_SENT);
+			else setStatus(Constants.STATUS_CHAT_FROM_RECEIVED);
+		}
+	}
 }

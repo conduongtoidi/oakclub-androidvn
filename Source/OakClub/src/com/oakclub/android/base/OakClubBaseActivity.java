@@ -60,6 +60,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 		GooglePlayServicesClient.OnConnectionFailedListener {
 
 	public IOakClubApi oakClubApi;
+	public IOakClubApi oakClubApiTemp;
 	public static String facebook_user_id;
 	public static String access_token;
 	public static long access_expires;
@@ -73,7 +74,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 
 	public static int[] mChatStatusIcon = { R.drawable.matchup_on,
 			R.drawable.matchup_off, R.drawable.chat_up_on,
-			R.drawable.chat_up_off };
+			R.drawable.chat_up_off,R.drawable.matchup_off };
 
 	private LocationClient mLocationClient = null;
 	protected GPSTracker mGPS = null;
@@ -105,6 +106,9 @@ public class OakClubBaseActivity extends FragmentActivity implements
 			oakClubApi = OakClubApi.createInstance(
 					this.getApplicationContext(),
 					getString(R.string.default_server_address));
+			oakClubApiTemp = OakClubApi.createInstance(
+					this.getApplicationContext(),
+					getString(R.string.default_server_address_temp));
 
 			mGPS = new GPSTracker(this);
 			mLocationClient = new LocationClient(this, this, this);
