@@ -77,7 +77,6 @@ public class ListChatOperation {
         dbHelper.close();
     }
     
-    
     public void insertListChat(ListChatData data) {
 		this.open();
 		ContentValues values = new ContentValues();

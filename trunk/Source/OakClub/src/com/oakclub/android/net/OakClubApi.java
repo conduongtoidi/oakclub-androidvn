@@ -834,4 +834,21 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 		
 	}
+	
+    //For Service japi
+	@Override
+	public HashMap<String, Object> addRoster(String profileId) {
+		try {
+			List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+			paramList.add(new BasicNameValuePair("profile_id", profileId));
+
+			String result = excutePost(baseUrl + "/addRoster", paramList);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map = OakClubJsonParser.getHashmapByMapper(result);
+            return map;
+		} catch (Exception ex) {
+			return null;
+		}
+		
+	}
 }

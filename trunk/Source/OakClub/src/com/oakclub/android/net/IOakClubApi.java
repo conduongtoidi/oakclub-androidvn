@@ -163,4 +163,6 @@ public interface IOakClubApi {
 	public HashMap<String, Object> sendChatMessage(String profileId, String message);
 	
 	public HashMap<String, Object> readChatMessage(String profileId);
+
+	public HashMap<String, Object> addRoster(String profileId);
 }
