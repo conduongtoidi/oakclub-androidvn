@@ -57,6 +57,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 
 	public static String user_id;
 	public IOakClubApi oakClubApi;
+	public IOakClubApi oakClubApiTemp;
 	public static String facebook_user_id;
 	public static String access_token;
 	
@@ -103,6 +104,10 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 		}
 		oakClubApi = OakClubApi.createInstance(this.getApplicationContext(),
 				getString(R.string.default_server_address));
+		
+		oakClubApiTemp = OakClubApi.createInstance(this.getApplicationContext(),
+				getString(R.string.default_server_address_temp));
+		
 		setContentView(R.layout.activity_oakclub_base);
 		
 		titleTv = (TextView) findViewById(R.id.app_title);

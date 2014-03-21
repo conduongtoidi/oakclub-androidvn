@@ -231,6 +231,10 @@ public class SnapshotFragment{
                         if(!ProfileSettingFragment.profileInfoObj.isIs_vip()){
                             Toast.makeText(activity, activity.getString(R.string.txt_non_VIP_message), Toast.LENGTH_SHORT).show();
                         }else{
+
+//                            AddRosterEvent loader = new AddRosterEvent("addRoster", activity, chatAccount.getProfile_id());
+//                            activity.getRequestQueue().addRequest(loader);
+                            
                             Intent chatHistoryActivity = new Intent(activity.getApplicationContext(), ChatActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(Constants.BUNDLE_PROFILE_ID,
@@ -423,6 +427,28 @@ public class SnapshotFragment{
 //        }
 //
 //    }
+
+    class AddRosterEvent extends RequestUI {
+        private String profileId = "";
+
+        public AddRosterEvent(Object key, Activity activity, String profileId) {
+            super(key, activity);
+            this.profileId = profileId;
+        }
+
+        @Override
+        public void execute() throws Exception {
+            setMap(activity.oakClubApiTemp.addRoster(profileId));
+        }
+
+        @Override
+        public void executeUI(Exception ex) {
+			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
+				
+			}
+        }
+
+    }
 
     class GetSnapShotLoader extends RequestUI {
     	GetSnapShot obj;

@@ -12,9 +12,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.type.TypeReference;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 public class OakClubJsonParser {
 	public static <T>T getJsonObjectByMapper(String result, Class<T> valueType){
 		try {
