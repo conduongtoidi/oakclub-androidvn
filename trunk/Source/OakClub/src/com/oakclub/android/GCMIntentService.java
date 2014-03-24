@@ -127,6 +127,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	public static void ChatNotification(Context context, String content) {
 
 		Intent intent = new Intent(context, ChatActivity.class);
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setAction(Intent.ACTION_MAIN);
 		
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.BUNDLE_PROFILE_ID,
@@ -141,14 +143,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
         intent.putExtras(bundle);
 		
-        intent.setAction(Intent.ACTION_VIEW);
-		intent.setAction(Intent.ACTION_MAIN);
+        
 		intent.addCategory(Intent.CATEGORY_LAUNCHER);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		Random rd = new Random();
 		PendingIntent pI = PendingIntent.getActivity(context, dataChat.getProfile_id().hashCode(), intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 

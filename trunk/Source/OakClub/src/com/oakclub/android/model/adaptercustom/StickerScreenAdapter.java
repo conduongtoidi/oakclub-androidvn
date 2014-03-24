@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,9 +24,9 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
 	int[] page_imgTabs = { R.drawable.tab_often_selector,
-			R.drawable.tab_sticker_selector };
+			R.drawable.tab_sticker_selector, R.drawable.tab_sticker_selector };
 
-	public static HashMap<String, String> stickers = new HashMap<String, String>();
+	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
 	private static ArrayList<HashMap<String, String>> arrayHashMapSticker = new ArrayList<HashMap<String, String>>();
 	private ArrayList<ArrayList<String>> arraySticker = new ArrayList<ArrayList<String>>();
 	private ArrayList<StickerAdapter> arrayAdaper = new ArrayList<StickerAdapter>();
@@ -34,8 +35,15 @@ public class StickerScreenAdapter extends PagerAdapter implements
 
 	public StickerScreenAdapter(Context c) {
 		this.context = c;
+		addCat();
 		arrayHashMapSticker.add(oftenSticker());
-		arrayHashMapSticker.add(addToSticker());
+		arrayHashMapSticker.add(addToSticker(0));
+		arrayHashMapSticker.add(addToSticker(1));
+		
+//		for (int i = 0; i < arrayHashMapSticker.size(); i++) {
+//			arraySticker.add(new ArrayList<String>());
+//		}
+		arraySticker.add(new ArrayList<String>());
 		arraySticker.add(new ArrayList<String>());
 		arraySticker.add(new ArrayList<String>());
 	}
@@ -70,6 +78,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		final GridView gvSticker = (GridView) v
 				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
 		gvSticker.setNumColumns(4);
+		Log.v("size", arrayHashMapSticker.size() + " " + arraySticker.size());
 		fillArrayList(arrayHashMapSticker.get(position),
 				arraySticker.get(position));
 		StickerAdapter adapter = new StickerAdapter(
@@ -82,6 +91,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int position, long arg3) {
+				ChatActivity.lltMatch.setVisibility(View.GONE);
 				String value = gvSticker.getAdapter().getItem(position).toString();
                 String keyEntry = value;
                 String path2 = "<img src=\"/bundles/likevnblissdate/v3/chat/images/stickers/" + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
@@ -98,8 +108,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				}
 				if (!arrayHashMapSticker.get(0).containsKey(keyEntry)) {
 					arrayHashMapSticker.get(0).put(keyEntry, valueEntry);
-					fillArrayList(arrayHashMapSticker.get(0),
-							arraySticker.get(0));
+					arraySticker.get(0).add(keyEntry);
 					arrayAdaper.get(0).notifyDataSetChanged();
 				}
 
@@ -139,8 +148,8 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		return emoticons;
 	}
 
-	HashMap<String, String> addToSticker() {
-		return stickers;
+	HashMap<String, String> addToSticker(int index) {
+		return stickers.get(index);
 	}
 
 	private void fillArrayList(HashMap<String, String> emoticons,
@@ -152,5 +161,49 @@ public class StickerScreenAdapter extends PagerAdapter implements
 			Entry<String, String> entry = iterator.next();
 			arrayListSmileys.add(entry.getKey());
 		}
+	}
+	
+	private void addCat()
+	{
+		HashMap<String, String> stickers = new HashMap<String, String>();
+		stickers.put("angry_cat", "angry_cat.png");
+		stickers.put("bask_cat", "bask_cat.png");
+		stickers.put("bleble_cat", "bleble_cat.png");
+		stickers.put("callme_cat", "callme_cat.png");
+		stickers.put("catchme_cat", "catchme_cat.png");
+		stickers.put("cry_cat", "cry_cat.png");
+		stickers.put("eat_cat", "eat_cat.png");
+		stickers.put("errrr_cat", "errrr_cat.png");
+		stickers.put("fun_cat", "fun_cat.png");
+		stickers.put("gilf_cat", "gilf_cat.png");
+		stickers.put("goodnight_cat", "goodnight_cat.png");
+		stickers.put("happy_birthday_cat", "happy_birthday_cat.png");
+		stickers.put("hi_cat", "hi_cat.png");
+		stickers.put("hide_cat", "hide_cat.png");
+		stickers.put("hihi_cat", "hihi_cat.png");
+		stickers.put("hitU_cat", "hitU_cat.png");
+		stickers.put("hug_cat", "hug_cat.png");
+		stickers.put("keep_away_1_cat", "keep_away_1_cat.png");
+		stickers.put("keep_away_cat", "keep_away_cat.png");
+		stickers.put("love_cat", "love_cat.png");
+		stickers.put("makelove_cat", "makelove_cat.png");
+		stickers.put("mmm_cat", "mmm_cat.png");
+		stickers.put("no_cat", "no_cat.png");
+		stickers.put("oappp_1_cat", "oappp_1_cat.png");
+		stickers.put("oappp_cat", "oappp_cat.png");
+		stickers.put("ok_cat", "ok_cat.png");
+		stickers.put("picnic_cat", "picnic_cat.png");
+		stickers.put("play_cat", "play_cat.png");
+		stickers.put("runforurlife_cat", "runforurlife_cat.png");
+		stickers.put("shopping_cat", "shopping_cat.png");
+		stickers.put("smile_cat", "smile_cat.png");
+		stickers.put("sorry_cat", "sorry_cat.png");
+		stickers.put("surrender_cat", "surrender_cat.png");
+		stickers.put("swim_cat", "swim_cat.png");
+		stickers.put("swing_cat", "swing_cat.png");
+		stickers.put("welove_cat", "welove_cat.png");
+		stickers.put("what_cat", "what_cat.png");
+		
+        StickerScreenAdapter.stickers.add(stickers);
 	}
 }

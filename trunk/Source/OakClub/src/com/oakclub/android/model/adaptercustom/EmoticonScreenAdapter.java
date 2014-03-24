@@ -92,7 +92,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				pos = (textHead + value).length();
 				value = textHead + value + textTail;
 				Spannable spannable = ChatActivity
-						.getSmiledText(context, value);
+						.getSmiledText(context, value, true);
 				ChatActivity.tbMessage.setText(spannable);
 				ChatActivity.tbMessage.setSelection(spannable.length());
 //
@@ -165,7 +165,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		emoticons.put("(bandit)", R.drawable.ninja + "");
 		emoticons.put(":-&amp;", R.drawable.sick + "");
 		emoticons.put("/:)", R.drawable.doubtful + "");
-		emoticons.put("&gt;:)", R.drawable.devil + "");
+		emoticons.put(">:)", R.drawable.devil + "");
 		emoticons.put("O:-)", R.drawable.angel + "");
 		emoticons.put("(:|", R.drawable.nerd + "");
 		emoticons.put("=P~", R.drawable.love + "");

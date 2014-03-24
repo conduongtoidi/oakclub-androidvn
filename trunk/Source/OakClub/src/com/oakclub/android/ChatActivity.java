@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
@@ -40,16 +41,21 @@ import android.os.StrictMode;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
+import android.text.Editable;
 import android.text.Html;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -131,8 +137,8 @@ public class ChatActivity extends OakClubBaseActivity {
 	// private Button btShowSmile;
 	// private Button btShowKeyboard;
 
-	private Button btShowSmile;
-	private Button btShowSticker;
+	private ImageView btShowSmile;
+	private ImageView btShowSticker;
 	private boolean isShowSmile = false;
 	private boolean isShowSticker;
 
@@ -195,8 +201,10 @@ public class ChatActivity extends OakClubBaseActivity {
 			
 			GetConfig loader = new GetConfig(Constants.GETCONFIG, ChatActivity.this);
 	        getRequestQueue().addRequest(loader);
+		} else {
+			initEmoticonPage();
 		}
-		init(savedInstanceState);
+		init();
 	}
 
 	private void startXMPP() {
@@ -271,7 +279,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void init(Bundle savedInstanceState) {
+	public void init() {
 		isActive = true;
 		snapShotData = new SnapshotData();
 
@@ -283,8 +291,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		btnSend = (Button) findViewById(R.id.activity_chat_rtlbottom_btSend);
 		tbMessage = (EditText) findViewById(R.id.activity_chat_rtlbottom_tbMessage);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		btShowSmile = (Button) findViewById(R.id.activity_chat_rtlbottom_btSmile);
-		btShowSticker = (Button) findViewById(R.id.activity_chat_rtlbottom_btSticker);
+		btShowSmile = (ImageView) findViewById(R.id.activity_chat_rtlbottom_btSmile);
+		btShowSticker = (ImageView) findViewById(R.id.activity_chat_rtlbottom_btSticker);
 		lltBottom = (LinearLayout) findViewById(R.id.activity_chat_rtlbottom);
 		rltChatViewPage = (RelativeLayout) findViewById(R.id.activity_chat_viewpage);
 		lltMatch = (LinearLayout) findViewById(R.id.activity_chat_llt_match);
@@ -292,9 +300,9 @@ public class ChatActivity extends OakClubBaseActivity {
 		txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
 		txt = (TextViewWithFont) findViewById(R.id.txt);
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
+		
 
 		StickerScreenAdapter.chat = this;
-		initEmoticonPage();
         
         ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
         
@@ -336,6 +344,8 @@ public class ChatActivity extends OakClubBaseActivity {
 				RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		lltBottom.setLayoutParams(params);
 		tvName.setText(target_name);
 
 
@@ -370,7 +380,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				return false;
 			}
 		});
-
+		
 		tbMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -402,14 +412,49 @@ public class ChatActivity extends OakClubBaseActivity {
 				return false;
 			}
 		});
+		//typing();
 	}
 
+	private TextWatcher tw = null;
+	private void typing(){
+        tw = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+//                Spannable spannable = getSmiledText(getApplicationContext(), tbMessage.getText().toString(), true);
+//				ChatActivity.tbMessage.setText(spannable);
+//				ChatActivity.tbMessage.setSelection(spannable.length());
+            	
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                    int arg2, int arg3) {
+            
+            }
+
+            @Override
+            public void onTextChanged(CharSequence str, int start, int before,
+                    int count) {
+            	tbMessage.removeTextChangedListener(tw);
+            	Spannable spannable = getSmiledText(getApplicationContext(), tbMessage.getText().toString(), true);
+				tbMessage.setText(spannable);
+				tbMessage.setSelection(spannable.length());
+                tbMessage.addTextChangedListener(tw);
+            }
+        };
+        tbMessage.addTextChangedListener(tw);
+    }
+	
 	private void initEmoticonPage() {
-		emoticonScreenAdapter = new EmoticonScreenAdapter(this);
-		stickerScreenAdapter = new StickerScreenAdapter(this);
-		 
-        mPager = (ViewPager)findViewById(R.id.activity_chat_viewpage_emoticon);
-        mIndicator = (TabPageIndicator)findViewById(R.id.indicator);		
+		try {
+			emoticonScreenAdapter = new EmoticonScreenAdapter(this);
+			stickerScreenAdapter = new StickerScreenAdapter(this);
+			 
+	        mPager = (ViewPager)findViewById(R.id.activity_chat_viewpage_emoticon);
+	        mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
+		} catch (Exception ex) {
+			
+		}
 	}
 
 	private OnClickListener listener = new OnClickListener() {
@@ -463,7 +508,6 @@ public class ChatActivity extends OakClubBaseActivity {
 						StrictMode.setThreadPolicy(policy);
 						xmpp.connect();
 					} catch (XMPPException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -843,7 +887,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		@Override
 		public void execute() throws Exception {
 //			setMap(oakClubApiTemp.getChatHistory(profile_id));
-			oakClubApi.getHistoryMessages(profile_id);
+			obj = oakClubApi.getHistoryMessages(profile_id);
 		}
 
 		@Override
@@ -996,7 +1040,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	    return content;
 	}
 	
-	public static Spannable getSmiledText(Context context, String text) {
+	public static Spannable getSmiledText(Context context, String text, boolean isPress) {
 		//text = getXMLString(text);
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		builder = new SpannableStringBuilder(text);
@@ -1015,7 +1059,15 @@ public class ChatActivity extends OakClubBaseActivity {
 						.equals(entryKey.toLowerCase())) {
 					if (length < lengthEntry) {
 						builder.removeSpan(imageSpan);
-						imageSpan = new ImageSpan(context, Integer.parseInt(entry.getValue()));
+						if (isPress) {
+							Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), Integer.parseInt(entry.getValue()));
+							int size = (int) OakClubUtil.convertPixelsToDp((float) (OakClubUtil.getWidthScreen(context)/15 * 1.75), context);
+							Bitmap scaledbmp=Bitmap.createScaledBitmap(
+									bitmap, (int) (tbMessage.getTextSize() * 1.75), (int) (tbMessage.getTextSize() * 1.75), false);
+							imageSpan = new ImageSpan(scaledbmp, ImageSpan.ALIGN_BASELINE);
+						} else {
+							imageSpan = new ImageSpan(context, Integer.parseInt(entry.getValue()));
+						}
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						flag = true;
@@ -1469,9 +1521,12 @@ public class ChatActivity extends OakClubBaseActivity {
         @Override
         public void executeUI(Exception ex) {
             if (obj != null && obj.getData() != null) {
+            	HashMap<String, String> stickers = new HashMap<String, String>();
                 for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    StickerScreenAdapter.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
                 }
+                StickerScreenAdapter.stickers.add(stickers);
+                initEmoticonPage();
             }
         }
     }
