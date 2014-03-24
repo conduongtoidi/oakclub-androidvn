@@ -106,7 +106,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 
 		String text = item.getBody();
 		Spannable spannable = ChatActivity.getSmiledText(context,
-				item.getBody());
+				item.getBody(), false);
 		String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
 		String pathImg = "<img src=\"([^\"]+)";
 		Matcher matcher = Pattern.compile(pathImg).matcher(text);

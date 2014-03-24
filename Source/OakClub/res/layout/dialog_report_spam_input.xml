@@ -59,6 +59,7 @@
         android:visibility="gone"
         android:textColor="@color/Black"
         android:inputType="text"
+        android:cursorVisible="true"
         android:hint="@string/txt_type_message"
         />
         

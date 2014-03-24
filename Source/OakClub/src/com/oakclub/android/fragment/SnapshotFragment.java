@@ -3,6 +3,7 @@ package com.oakclub.android.fragment;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 
@@ -316,9 +317,11 @@ public class SnapshotFragment{
         public void executeUI(Exception ex) {
             if (obj != null && obj.getData() != null) {
                 dataConfig = obj.getData();
+                HashMap<String, String> stickers = new HashMap<String, String>();
                 for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    StickerScreenAdapter.stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
                 }
+                StickerScreenAdapter.stickers.add(stickers);
             }
             if (activity.isLoadListMutualMatch) {
             	activity.isLoadListMutualMatch = false;
