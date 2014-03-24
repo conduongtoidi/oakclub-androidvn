@@ -164,6 +164,15 @@
             android:screenOrientation="portrait" />
 
         <service android:name="com.oakclub.android.net.PushIntentService" />
+        
+        <receiver
+            android:name="com.oakclub.android.util.NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
