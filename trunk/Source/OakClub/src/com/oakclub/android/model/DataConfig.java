@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class DataConfig {
 	private ArrayList<Sticker> stickers;
+	private ArrayList<Sticker> cats;
 	private Configs configs;
 
 	public ArrayList<Sticker> getStickers() {
@@ -20,5 +21,13 @@ public class DataConfig {
 
 	public void setConfigs(Configs configs) {
 		this.configs = configs;
+	}
+
+	public ArrayList<Sticker> getCats() {
+		return cats;
+	}
+
+	public void setCats(ArrayList<Sticker> cats) {
+		this.cats = cats;
 	}
 }

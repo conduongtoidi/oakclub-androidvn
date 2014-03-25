@@ -51,7 +51,7 @@ public class OakClubUtil {
 
 	public static void loadImageFromUrl(final Context context,
 			final String imageUrl, final SmartImageView imageView) {
-	    imageView.setImageUrl(imageUrl);
+		imageView.setImageUrl(imageUrl, null, R.drawable.logo_splashscreen);
 
 	}
 
@@ -78,8 +78,6 @@ public class OakClubUtil {
 					@Override
 					public void onLoadingComplete(String arg0, View arg1,
 							Bitmap arg2) {
-//                        imageView
-//                        .setBackgroundResource(R.drawable.logo_splashscreen);
                         imageView
                         .setBackgroundColor(Color.WHITE);
 						imageView.setImageBitmap(arg2);

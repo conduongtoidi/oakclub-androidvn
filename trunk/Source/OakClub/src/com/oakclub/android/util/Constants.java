@@ -2,6 +2,7 @@ package com.oakclub.android.util;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.oakclub.android.model.DataConfig;
 import com.oakclub.android.model.SettingObject;
 
 public class Constants {
@@ -79,6 +80,7 @@ public class Constants {
 	
 	public static boolean isChangedSetting = false;
 	public static SettingObject settingObject= null;
+	public static DataConfig dataConfig;
 	public static String urlAvatar = "";
 	public static String country="en";
     public static final int DEFAULT_HEIGHT_MAX = 300;

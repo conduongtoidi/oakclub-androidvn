@@ -87,7 +87,6 @@ public class SnapshotFragment{
     private Handler handler;
     private Runnable runnable;
 
-    private DataConfig dataConfig;
     private int counter = 0;
     private int RATEAPP = 70;
 
@@ -120,6 +119,8 @@ public class SnapshotFragment{
     ProgressCircle progCir;
     ProgressCircle progFin;
     private void init(int start) {
+    	
+        
         arrSnapshotData = new ArrayList<SnapshotData>();
         arrSnapshotMain = new ArrayList<SnapshotMain>();
         
@@ -166,9 +167,6 @@ public class SnapshotFragment{
         	btnChat.setBackgroundResource(R.drawable.vipchat_inactive);
         }
         getListSnapshotData(start);
-        
-        GetConfig loader = new GetConfig(Constants.GETCONFIG, activity);
-        activity.getRequestQueue().addRequest(loader);
     }
     
     public void showTutorialActivity() {
@@ -301,34 +299,7 @@ public class SnapshotFragment{
         activity.getRequestQueue().addRequest(snapEvent);
     }
     
-    class GetConfig extends RequestUI {
-        GetConfigData obj;
-
-        public GetConfig(Object key, Activity activity) {
-            super(key, activity);
-        }
-
-        @Override
-        public void execute() throws Exception {
-            obj = activity.oakClubApi.GetConfig();
-        }
-
-        @Override
-        public void executeUI(Exception ex) {
-            if (obj != null && obj.getData() != null) {
-                dataConfig = obj.getData();
-                HashMap<String, String> stickers = new HashMap<String, String>();
-                for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
-                }
-                StickerScreenAdapter.stickers.add(stickers);
-            }
-            if (activity.isLoadListMutualMatch) {
-            	activity.isLoadListMutualMatch = false;
-            	activity.getSlidingMenu().showSecondaryMenu();
-            }
-        }
-    }
+    
     
     class SnapshotEvent extends RequestUI {
         private String proId = "";
@@ -484,6 +455,10 @@ public class SnapshotFragment{
             else {
                 progressCircle.setVisibility(View.GONE);
                 progressFinder.setVisibility(View.VISIBLE);
+            }
+            if (activity.isLoadListMutualMatch) {
+            	activity.isLoadListMutualMatch = false;
+            	activity.getSlidingMenu().showSecondaryMenu();
             }
         }
     }
@@ -682,9 +657,9 @@ public class SnapshotFragment{
     }
 
 	private void showDialogSnapshotCounter(final Activity activity) {
-		if (dataConfig != null){
-	        for (int i = 0; i < dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
-	            if (objSnapshot.getSnapshot_counter() + counter == dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
+		if (Constants.dataConfig != null){
+	        for (int i = 0; i < Constants.dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().size(); i++) {
+	            if (objSnapshot.getSnapshot_counter() + counter == Constants.dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)) {
 	                AlertDialog.Builder builder;
 	                builder = new AlertDialog.Builder(activity);
 	                final AlertDialog dialog = builder.create();
@@ -696,7 +671,7 @@ public class SnapshotFragment{
 	                tvTitle.setText(activity.getString(R.string.txt_warning));
 	                
 	                TextView tvContent = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-	                tvContent.setText(String.format(activity.getString(R.string.txt_you_rated_snapshots), dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
+	                tvContent.setText(String.format(activity.getString(R.string.txt_you_rated_snapshots), Constants.dataConfig.getConfigs().getSnapshot_counter().getInvite_friend().get(i)));
 	                Button btOk = (Button) layout.findViewById(R.id.dialog_warning_lltfooter_btOK);
 	                btOk.setText(activity.getString(R.string.txt_tell_your_friend));
 	                Button btCancel = (Button) layout

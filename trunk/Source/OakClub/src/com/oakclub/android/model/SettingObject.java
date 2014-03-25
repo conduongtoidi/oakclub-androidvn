@@ -6,7 +6,7 @@ public class SettingObject {
     private boolean include_friends=false;
     private int age_from=16;
     private int age_to=32;
-    private int range=700;
+    private int range=400;
     
     public String getFilter_male() {
         return filter_male;

@@ -10,6 +10,7 @@ import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.model.ListChatData;
+import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
 
@@ -160,7 +161,8 @@ public class AdapterListChat extends BaseAdapter {
 		if (Html.fromHtml(text).toString().length() > 1) {
 			text = Html.fromHtml(text).toString();
 		}
-		String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
+		String pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+		String pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
 		String giftOld = "/bundles/likevnhangout/images/gift/";
 		String giftNew = "/bundles/likevnblissdate/v3/chat/images/gifts/";
 		String pathImg = "<img src=\"([^\"]+)";
@@ -169,16 +171,18 @@ public class AdapterListChat extends BaseAdapter {
 		holder.tvLastMessage.setVisibility(View.VISIBLE);
 		while (matcher.find()) {
 			if (text.contains("type=\"sticker\"")){
-				String img = matcher.group(1).replace(pathSticker, "");
+				String imgName = matcher.group(1).replace(pathSticker, "");
+				imgName = imgName.replace(pathSticker_Cat, "");
+				String imgLink = matcher.group(1);
 				holder.img.setVisibility(View.VISIBLE);
 				holder.tvLastMessage.setVisibility(View.GONE);
 				ImageView imgView = holder.img;
-				if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+				if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(imgName.replace(".png", ""))) {
 					String urlImg = OakClubUtil
-							.getFullLinkStickerOrGift(mContext, pathSticker + img);
-		            OakClubUtil.loadStickerFromUrl(mContext, urlImg, imgView, img.replace(".png", ""));
+							.getFullLinkStickerOrGift(mContext, imgLink);
+		            OakClubUtil.loadStickerFromUrl(mContext, urlImg, imgView, imgName.replace(".png", ""));
 		        } else {
-		        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+		        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(imgName.replace(".png", "")));
 		        }
 			} else if (matcher.group(1).contains(giftOld) || matcher.group(1).contains(giftNew)) {
 				try {

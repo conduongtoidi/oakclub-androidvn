@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.util.Constants;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class StickerScreenAdapter extends PagerAdapter implements
@@ -32,10 +32,12 @@ public class StickerScreenAdapter extends PagerAdapter implements
 	private ArrayList<StickerAdapter> arrayAdaper = new ArrayList<StickerAdapter>();
 	Context context;
 	public static ChatActivity chat;
+	String pathSticker = "";
+	String imgSticker = "";
 
 	public StickerScreenAdapter(Context c) {
 		this.context = c;
-		addCat();
+		//addCat();
 		arrayHashMapSticker.add(oftenSticker());
 		arrayHashMapSticker.add(addToSticker(0));
 		arrayHashMapSticker.add(addToSticker(1));
@@ -75,26 +77,50 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.activity_chat_emoticon, null, false);
 
+		final int POS = position;
+		switch (POS) {
+		case 1:
+			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+			imgSticker = "<img src=\"" + pathSticker;
+			break;
+		case 2:
+			pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+			imgSticker = "<img src=\"" + pathSticker;
+		default:
+			break;
+		}
+		
 		final GridView gvSticker = (GridView) v
 				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
 		gvSticker.setNumColumns(4);
-		Log.v("size", arrayHashMapSticker.size() + " " + arraySticker.size());
 		fillArrayList(arrayHashMapSticker.get(position),
 				arraySticker.get(position));
 		StickerAdapter adapter = new StickerAdapter(
 				arraySticker.get(position), context,
-				arrayHashMapSticker.get(position));
+				arrayHashMapSticker.get(position), pathSticker);
 		gvSticker.setAdapter(adapter);
 		arrayAdaper.add(adapter);
-		final int POS = position;
+		
+		
 		gvSticker.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int position, long arg3) {
+				switch (POS) {
+				case 1:
+					pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					imgSticker = "<img src=\"" + pathSticker;
+					break;
+				case 2:
+					pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+					imgSticker = "<img src=\"" + pathSticker;
+				default:
+					break;
+				}
 				ChatActivity.lltMatch.setVisibility(View.GONE);
 				String value = gvSticker.getAdapter().getItem(position).toString();
                 String keyEntry = value;
-                String path2 = "<img src=\"/bundles/likevnblissdate/v3/chat/images/stickers/" + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
+                String path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
                 chat.solveSendMessage(path2);
 
 				Iterator<Entry<String, String>> iterator = arrayHashMapSticker
@@ -163,47 +189,47 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		}
 	}
 	
-	private void addCat()
-	{
-		HashMap<String, String> stickers = new HashMap<String, String>();
-		stickers.put("angry_cat", "angry_cat.png");
-		stickers.put("bask_cat", "bask_cat.png");
-		stickers.put("bleble_cat", "bleble_cat.png");
-		stickers.put("callme_cat", "callme_cat.png");
-		stickers.put("catchme_cat", "catchme_cat.png");
-		stickers.put("cry_cat", "cry_cat.png");
-		stickers.put("eat_cat", "eat_cat.png");
-		stickers.put("errrr_cat", "errrr_cat.png");
-		stickers.put("fun_cat", "fun_cat.png");
-		stickers.put("gilf_cat", "gilf_cat.png");
-		stickers.put("goodnight_cat", "goodnight_cat.png");
-		stickers.put("happy_birthday_cat", "happy_birthday_cat.png");
-		stickers.put("hi_cat", "hi_cat.png");
-		stickers.put("hide_cat", "hide_cat.png");
-		stickers.put("hihi_cat", "hihi_cat.png");
-		stickers.put("hitU_cat", "hitU_cat.png");
-		stickers.put("hug_cat", "hug_cat.png");
-		stickers.put("keep_away_1_cat", "keep_away_1_cat.png");
-		stickers.put("keep_away_cat", "keep_away_cat.png");
-		stickers.put("love_cat", "love_cat.png");
-		stickers.put("makelove_cat", "makelove_cat.png");
-		stickers.put("mmm_cat", "mmm_cat.png");
-		stickers.put("no_cat", "no_cat.png");
-		stickers.put("oappp_1_cat", "oappp_1_cat.png");
-		stickers.put("oappp_cat", "oappp_cat.png");
-		stickers.put("ok_cat", "ok_cat.png");
-		stickers.put("picnic_cat", "picnic_cat.png");
-		stickers.put("play_cat", "play_cat.png");
-		stickers.put("runforurlife_cat", "runforurlife_cat.png");
-		stickers.put("shopping_cat", "shopping_cat.png");
-		stickers.put("smile_cat", "smile_cat.png");
-		stickers.put("sorry_cat", "sorry_cat.png");
-		stickers.put("surrender_cat", "surrender_cat.png");
-		stickers.put("swim_cat", "swim_cat.png");
-		stickers.put("swing_cat", "swing_cat.png");
-		stickers.put("welove_cat", "welove_cat.png");
-		stickers.put("what_cat", "what_cat.png");
-		
-        StickerScreenAdapter.stickers.add(stickers);
-	}
+//	private void addCat()
+//	{
+//		HashMap<String, String> stickers = new HashMap<String, String>();
+//		stickers.put("angry_cat", "angry_cat.png");
+//		stickers.put("bask_cat", "bask_cat.png");
+//		stickers.put("bleble_cat", "bleble_cat.png");
+//		stickers.put("callme_cat", "callme_cat.png");
+//		stickers.put("catchme_cat", "catchme_cat.png");
+//		stickers.put("cry_cat", "cry_cat.png");
+//		stickers.put("eat_cat", "eat_cat.png");
+//		stickers.put("errrr_cat", "errrr_cat.png");
+//		stickers.put("fun_cat", "fun_cat.png");
+//		stickers.put("gilf_cat", "gilf_cat.png");
+//		stickers.put("goodnight_cat", "goodnight_cat.png");
+//		stickers.put("happy_birthday_cat", "happy_birthday_cat.png");
+//		stickers.put("hi_cat", "hi_cat.png");
+//		stickers.put("hide_cat", "hide_cat.png");
+//		stickers.put("hihi_cat", "hihi_cat.png");
+//		stickers.put("hitU_cat", "hitU_cat.png");
+//		stickers.put("hug_cat", "hug_cat.png");
+//		stickers.put("keep_away_1_cat", "keep_away_1_cat.png");
+//		stickers.put("keep_away_cat", "keep_away_cat.png");
+//		stickers.put("love_cat", "love_cat.png");
+//		stickers.put("makelove_cat", "makelove_cat.png");
+//		stickers.put("mmm_cat", "mmm_cat.png");
+//		stickers.put("no_cat", "no_cat.png");
+//		stickers.put("oappp_1_cat", "oappp_1_cat.png");
+//		stickers.put("oappp_cat", "oappp_cat.png");
+//		stickers.put("ok_cat", "ok_cat.png");
+//		stickers.put("picnic_cat", "picnic_cat.png");
+//		stickers.put("play_cat", "play_cat.png");
+//		stickers.put("runforurlife_cat", "runforurlife_cat.png");
+//		stickers.put("shopping_cat", "shopping_cat.png");
+//		stickers.put("smile_cat", "smile_cat.png");
+//		stickers.put("sorry_cat", "sorry_cat.png");
+//		stickers.put("surrender_cat", "surrender_cat.png");
+//		stickers.put("swim_cat", "swim_cat.png");
+//		stickers.put("swing_cat", "swing_cat.png");
+//		stickers.put("welove_cat", "welove_cat.png");
+//		stickers.put("what_cat", "what_cat.png");
+//		
+//        StickerScreenAdapter.stickers.add(stickers);
+//	}
 }

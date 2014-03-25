@@ -8,6 +8,7 @@ import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.model.ChatHistoryData;
+import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
 import android.content.Context;
@@ -107,7 +108,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 		String text = item.getBody();
 		Spannable spannable = ChatActivity.getSmiledText(context,
 				item.getBody(), false);
-		String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
+		
 		String pathImg = "<img src=\"([^\"]+)";
 		Matcher matcher = Pattern.compile(pathImg).matcher(text);
 		
@@ -118,21 +119,23 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			holder.leftTv.setText(spannable);
 			ImageView imgView = holder.leftImg;
 			TextView textView = holder.leftTv;
-			getSticker(position, item, text, pathSticker, matcher, imgView, textView);
+			getSticker(position, item, text, matcher, imgView, textView);
 		} else {
 			holder.rightTv.setText(spannable);
 			ImageView imgView = holder.rightImg;
 			TextView textView = holder.rightTv;
-			getSticker(position, item, text, pathSticker, matcher, imgView,
+			getSticker(position, item, text, matcher, imgView,
 					textView);
 		}
 		holder.timeTv.setText(item.getTime_string());
 		return convertView;
 	}
 
-	private void getSticker(int position, ChatHistoryData item, String text,
-			String pathSticker, Matcher matcher, ImageView imgView,
+	private void getSticker(int position, ChatHistoryData item, String text, Matcher matcher, ImageView imgView,
 			TextView textView) {
+		
+		String pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+		String pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
 		imgView.setVisibility(View.GONE);
 		textView.setVisibility(View.VISIBLE);
 		try {
@@ -141,16 +144,18 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			}
 			while (matcher.find()) {
 				if (text.contains("type=\"sticker\"")){
-					String img = matcher.group(1).replace(pathSticker, "").split("\"")[0];
-					Log.v("img right", img + " " + position);
+					String imgName = matcher.group(1).replace(pathSticker, "").split("\"")[0];
+					imgName = imgName.replace(pathSticker_Cat, "");
+					String imgLink = matcher.group(1);
+					Log.v("img right", imgName + " " + position);
 					imgView.setVisibility(View.VISIBLE);
 					textView.setVisibility(View.GONE);
-					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
+					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(imgName.replace(".png", ""))) {
 						String urlImg = OakClubUtil
-								.getFullLinkStickerOrGift(context, pathSticker + img);
-			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
+								.getFullLinkStickerOrGift(context, imgLink);
+			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, imgName.replace(".png", ""));
 			        } else {
-			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
+			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(imgName.replace(".png", "")));
 			        }
 					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
 					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
