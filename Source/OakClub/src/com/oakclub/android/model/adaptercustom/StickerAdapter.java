@@ -21,11 +21,13 @@ public class StickerAdapter extends BaseAdapter {
     private Context context;
     private HashMap<String, String> stickers = new HashMap<String, String>();
     private int widthScreen = 0;
+    String pathSticker;
     
-    public StickerAdapter(ArrayList<String> arraylistSmileys, Context context, HashMap<String, String> emoticons) {
+    public StickerAdapter(ArrayList<String> arraylistSmileys, Context context, HashMap<String, String> emoticons, String pathSticker) {
         this.arrayListStickers = arraylistSmileys;
         this.context = context;
         this.stickers = emoticons;
+        this.pathSticker = pathSticker;
         widthScreen = (int) OakClubUtil.getWidthScreen(context);
     }
     
@@ -59,7 +61,6 @@ public class StickerAdapter extends BaseAdapter {
         LayoutParams params = new LayoutParams(widthScreen/4, widthScreen/4);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
         if (!ChatActivity.bitmapSticker.containsKey(arrayListStickers.get(position))) {
-        	String pathSticker = "/bundles/likevnblissdate/v3/chat/images/stickers/";
         	String url = OakClubUtil.getFullLinkStickerOrGift(context,
                     pathSticker + stickers.get(arrayListStickers.get(position)));
             OakClubUtil.loadStickerFromUrl(context, url, imageView, arrayListStickers.get(position));

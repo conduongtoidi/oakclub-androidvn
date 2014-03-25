@@ -1,6 +1,5 @@
 package com.oakclub.android;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,10 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.apache.http.entity.StringEntity;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SASLAuthentication;
@@ -22,7 +19,6 @@ import org.jivesoftware.smack.filter.MessageTypeFilter;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.util.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,32 +30,22 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.StrictMode;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.Editable;
-import android.text.Html;
-import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.GridView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -70,9 +56,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.oakclub.android.base.ChatBaseActivity;
@@ -84,7 +68,6 @@ import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.ChatHistoryReturnObject;
-import com.oakclub.android.model.DataConfig;
 import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
@@ -92,14 +75,9 @@ import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendChatReturnObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SnapshotData;
-import com.oakclub.android.model.Sticker;
-import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.EmoticonScreenAdapter;
-import com.oakclub.android.model.adaptercustom.SmileysAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
-import com.oakclub.android.model.parse.ParseDataChatHistory;
-import com.oakclub.android.model.parse.ParseDataChatList;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
@@ -190,7 +168,13 @@ public class ChatActivity extends OakClubBaseActivity {
 			pdLogin.setMessage(getString(R.string.txt_loading));
 			pdLogin.setCancelable(false);
 			pdLogin.show();
-			startXMPP();
+			
+			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID, null);
+			access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
+			GCMRegistrar.checkDevice(this);
+			GCMRegistrar.checkManifest(this);
+			android_token = GCMRegistrar.getRegistrationId(this);
+			
 			appVer = android.os.Build.VERSION.RELEASE;
 			nameDevice = android.os.Build.MODEL;
 			
@@ -201,6 +185,11 @@ public class ChatActivity extends OakClubBaseActivity {
 			
 			GetConfig loader = new GetConfig(Constants.GETCONFIG, ChatActivity.this);
 	        getRequestQueue().addRequest(loader);
+	        
+	        LoginXMPPLoader loader2 = new LoginXMPPLoader("loginXMPP",
+					ChatActivity.this);
+			getRequestQueue().addRequest(loader2);
+			
 		} else {
 			initEmoticonPage();
 		}
@@ -212,11 +201,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
-		facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID, null);
-		access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
-		GCMRegistrar.checkDevice(this);
-		GCMRegistrar.checkManifest(this);
-		android_token = GCMRegistrar.getRegistrationId(this);
+		
 
 		ConnectionConfiguration config = new ConnectionConfiguration(
 				getString(R.string.xmpp_server_address),
@@ -394,11 +379,13 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 			}
 		});
-
+		
 		messageArrayList = new ArrayList<ChatHistoryData>();
-		adapter = new ChatHistoryAdapter(getApplicationContext(),
-				messageArrayList, profile_id, target_avatar);
-		chatLv.setAdapter(adapter);
+		if (Constants.dataConfig != null) {
+			adapter = new ChatHistoryAdapter(getApplicationContext(),
+					messageArrayList, profile_id, target_avatar);
+			chatLv.setAdapter(adapter);
+		}
 		chatLv.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -1205,18 +1192,27 @@ public class ChatActivity extends OakClubBaseActivity {
 				snapShotData.setAvatar(data.getData().getAvatar());
 				snapShotData
 						.setBirthday_date(data.getData().getBirthday_date());
+				float lat = 0;
+				float lon = 0;
 
-				float lat = Float.parseFloat(data.getData().getLocation()
-						.getCoordinates().latitude);
-				float lon = Float.parseFloat(data.getData().getLocation()
-						.getCoordinates().longitude);
-
-				float latitude = Float
-						.parseFloat(ProfileSettingFragment.profileInfoObj
-								.getLocation().getCoordinates().latitude);
-				float longitude = Float
-						.parseFloat(ProfileSettingFragment.profileInfoObj
-								.getLocation().getCoordinates().longitude);
+				float latitude = 0;
+				float longitude = 0;
+				
+				try {
+					lat = Float.parseFloat(data.getData().getLocation()
+							.getCoordinates().latitude);
+					lon = Float.parseFloat(data.getData().getLocation()
+							.getCoordinates().longitude);
+	
+					latitude = Float
+							.parseFloat(ProfileSettingFragment.profileInfoObj
+									.getLocation().getCoordinates().latitude);
+					longitude = Float
+							.parseFloat(ProfileSettingFragment.profileInfoObj
+									.getLocation().getCoordinates().longitude);
+				} catch (Exception e) {
+					
+				}
 
 				float distance = 0;
 				try {
@@ -1409,7 +1405,12 @@ public class ChatActivity extends OakClubBaseActivity {
 				VIPActivity.adapterVip.ignoreDisabled=true;
 				VIPActivity.adapterVip.notifyDataSetChanged();
 					
-				SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				try{
+					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				}
+				catch(Exception e){
+					
+				}
 				
 	            
 			} else {
@@ -1440,9 +1441,6 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-			if (pdLogin != null && pdLogin.isShowing()) {
-				pdLogin.dismiss();
-			}
 			if (obj == null
 					|| (!obj.isStatus() && obj.getError_status().equals("1"))) {
 				OakClubUtil.enableDialogWarning(ChatActivity.this,
@@ -1520,14 +1518,49 @@ public class ChatActivity extends OakClubBaseActivity {
 
         @Override
         public void executeUI(Exception ex) {
+        	if (pdLogin != null && pdLogin.isShowing()) {
+				pdLogin.dismiss();
+			}
             if (obj != null && obj.getData() != null) {
-            	HashMap<String, String> stickers = new HashMap<String, String>();
-                for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+            	if (obj != null && obj.getData() != null) {
+                    Constants.dataConfig = obj.getData();
+                    HashMap<String, String> stickers = new HashMap<String, String>();
+                    for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+                        stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                    }
+                    StickerScreenAdapter.stickers.add(stickers);
+                    
+                    stickers = new HashMap<String, String>();
+                    for (int i = 0; i < obj.getData().getCats().size(); i++) {
+                        stickers.put(obj.getData().getCats().get(i).getSymbol_name(), obj.getData().getCats().get(i).getImage());
+                    }
+                    StickerScreenAdapter.stickers.add(stickers);
+                    initEmoticonPage();
+                    
+                    messageArrayList = new ArrayList<ChatHistoryData>();
+        			adapter = new ChatHistoryAdapter(getApplicationContext(),
+        					messageArrayList, profile_id, target_avatar);
+        			chatLv.setAdapter(adapter);
                 }
-                StickerScreenAdapter.stickers.add(stickers);
-                initEmoticonPage();
             }
         }
     }
+    
+    class LoginXMPPLoader extends RequestUI {
+
+		public LoginXMPPLoader(Object key, Activity activity) {
+			super(key, activity);
+		}
+
+		@Override
+		public void execute() throws Exception {
+			startXMPP();
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+
+		}
+
+	}
 }

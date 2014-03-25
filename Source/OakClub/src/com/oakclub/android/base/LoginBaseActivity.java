@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SASLAuthentication;
@@ -68,12 +69,14 @@ import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ChatHistoryData;
+import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SetLocationReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
+import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.net.AppService;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -326,10 +329,6 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-			if (pd != null && pd.isShowing()) {
-				pd.dismiss();
-				mLoginButton.setEnabled(true);
-			}
 			mLoginButton.setEnabled(true);
 			if (obj == null
 					|| (!obj.isStatus() && obj.getError_status().equals("1"))) {
@@ -381,7 +380,8 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 										"sendLocation", LoginBaseActivity.this, ""
 												+ latitude, "" + longitude);
 								getRequestQueue().addRequest(loader);
-								showTutorialActivity();
+								GetConfig loader2 = new GetConfig(Constants.GETCONFIG, LoginBaseActivity.this);
+						        getRequestQueue().addRequest(loader2);
 							} else if (mGPS.isGPSEnabled) {
 								// showOpenGPSSettingsDialog(MainActivity.this);
 								OakClubUtil.enableDialogWarning(
@@ -397,10 +397,11 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					LoginXMPPLoader loader = new LoginXMPPLoader("loginXMPP",
 								LoginBaseActivity.this);
 						getRequestQueue().addRequest(loader);
-						GetDataLanguageLoader loader2 = new GetDataLanguageLoader(
-								"getDataLanguage", LoginBaseActivity.this);
-						loader2.setPriority(RequestUI.PRIORITY_LOW);
-						getRequestQueue().addRequest(loader2);
+				        
+					GetDataLanguageLoader loader3 = new GetDataLanguageLoader(
+							"getDataLanguage", LoginBaseActivity.this);
+					loader3.setPriority(RequestUI.PRIORITY_LOW);
+					getRequestQueue().addRequest(loader3);
 				}
 			}
 		}
@@ -782,4 +783,39 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		}
 	}
 
+	class GetConfig extends RequestUI {
+        GetConfigData obj;
+
+        public GetConfig(Object key, Activity activity) {
+            super(key, activity);
+        }
+
+        @Override
+        public void execute() throws Exception {
+            obj = oakClubApi.GetConfig();
+        }
+
+        @Override
+        public void executeUI(Exception ex) {
+        	if (pd != null && pd.isShowing()) {
+				pd.dismiss();
+				mLoginButton.setEnabled(true);
+			}
+            if (obj != null && obj.getData() != null) {
+                Constants.dataConfig = obj.getData();
+                HashMap<String, String> stickers = new HashMap<String, String>();
+                for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
+                }
+                StickerScreenAdapter.stickers.add(stickers);
+                
+                stickers = new HashMap<String, String>();
+                for (int i = 0; i < obj.getData().getCats().size(); i++) {
+                    stickers.put(obj.getData().getCats().get(i).getSymbol_name(), obj.getData().getCats().get(i).getImage());
+                }
+                StickerScreenAdapter.stickers.add(stickers);
+                showTutorialActivity();
+            }
+        }
+    }
 }
