@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,7 @@ public class LeftMenuListFragment extends Fragment {
 	TextView tvIncludeFriends;
 	String[] menuTextList;
 	ImageView ivVerified;
+	FrameLayout iconVIPRoom;
 	private LinearLayout lltMenu;
 	boolean isVerified = true;
 	private SlidingActivity activity = (SlidingActivity) getActivity();
@@ -74,6 +76,7 @@ public class LeftMenuListFragment extends Fragment {
 				.findViewById(R.id.menu_item_llt_get_verified);
 		menuVIPRoom = (LinearLayout)  rootView
 				.findViewById(R.id.menu_item_llt_vip_room);
+		iconVIPRoom = (FrameLayout) rootView.findViewById(R.id.menu_item_icon_vip_room);
 		logoutBtn = (LinearLayout) rootView.findViewById(R.id.linear_logout);
 
 		ivVerified = (ImageView) rootView
@@ -96,7 +99,7 @@ public class LeftMenuListFragment extends Fragment {
 		menuTextList = getResources().getStringArray(R.array.menu_text_list);
 		lltMenu = (LinearLayout) rootView
 				.findViewById(R.id.layout_left_menu_lltlistmenu);
-
+		
 		if (OakClubUtil.isInternetAccess(getActivity())) {
 			init();
 		}
@@ -121,6 +124,10 @@ public class LeftMenuListFragment extends Fragment {
 		public void onClick(View v) {
 			activity = (SlidingActivity) getActivity();
 			Intent intent;
+			if (activity.getMenu() != MenuOakclub.VIPROOM && GetVIPFragment.mHelper != null) {
+	    		GetVIPFragment.mHelper.dispose();
+	    		GetVIPFragment.mHelper = null;
+	        }
 			if (OakClubUtil.isInternetAccess(activity)) {
 				switch (v.getId()) {
 				case R.id.menu_item_llt_profile:
@@ -263,6 +270,10 @@ public class LeftMenuListFragment extends Fragment {
 				menuVerified.setVisibility(View.GONE);
 				ivVerified.setVisibility(View.VISIBLE);
 			}
+			if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
+				tvVipRoom.setTextColor(Color.argb(100, 196,154, 64));
+				iconVIPRoom.setBackgroundResource(R.drawable.viproom_icon_complete);
+			}
 			lltMenu.setLayoutParams(params);
 			menuProfile.setOnClickListener(layoutClick);
 			menuSnapshot.setOnClickListener(layoutClick);
@@ -294,7 +305,11 @@ public class LeftMenuListFragment extends Fragment {
 		if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.getIs_verify()){
 			menuVerified.setVisibility(View.GONE);
 			ivVerified.setVisibility(View.VISIBLE);
-		}		
+		}	
+		if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.isIs_vip()){
+			tvVipRoom.setTextColor(Color.argb(100, 196,154, 64));
+			iconVIPRoom.setBackgroundResource(R.drawable.viproom_icon_complete);
+		}
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

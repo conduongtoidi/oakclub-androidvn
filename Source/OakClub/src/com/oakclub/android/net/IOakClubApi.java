@@ -17,7 +17,7 @@ import com.oakclub.android.model.ListChatReturnObject;
 import com.oakclub.android.model.ListPhotoReturnObject;
 import com.oakclub.android.model.PostMethodReturnObject;
 import com.oakclub.android.model.ProfileUpdateFirstTimeObject;
-import com.oakclub.android.model.SenRegisterVIPReturnObject;
+import com.oakclub.android.model.SenVIPRegisterReturnObject;
 import com.oakclub.android.model.SendChatReturnObject;
 import com.oakclub.android.model.SendMessageReturnObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
@@ -154,7 +154,7 @@ public interface IOakClubApi {
 	
 	public GetConfigData GetConfig();
 	
-	public SenRegisterVIPReturnObject SendRegisterVIP(String packageName,String productID, String purchaseToken);
+	public SenVIPRegisterReturnObject SendVIPRegister(String productID, String purchaseToken);
 
 	public HashMap<String, Object> getChatList();
 

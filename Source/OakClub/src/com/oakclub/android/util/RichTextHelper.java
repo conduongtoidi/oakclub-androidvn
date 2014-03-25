@@ -6,7 +6,11 @@ import android.text.style.StyleSpan;
 
 public class RichTextHelper {
 	public static SpannableStringBuilder getRichText(String text){
-	    SpannableStringBuilder builder=new SpannableStringBuilder();     
+	    SpannableStringBuilder builder=new SpannableStringBuilder(); 
+	    if(text == ""){
+	    	builder.append(text);
+	    	return builder;
+	    }
 	    String myText=text;
 	    boolean done=false;
 	    while(!done){

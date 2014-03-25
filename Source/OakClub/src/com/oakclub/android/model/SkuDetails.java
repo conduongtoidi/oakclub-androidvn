@@ -15,11 +15,6 @@
 
 package com.oakclub.android.model;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +32,7 @@ public class SkuDetails {
     String description;
     String json;
     String currency;
+    String priceInMicros;
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
@@ -51,18 +47,16 @@ public class SkuDetails {
         this.price = o.optString("price");
         this.title = o.optString("title");
         this.description = o.optString("description");
-        //price();
+        this.priceInMicros = o.optString("price_amount_micros");
+        this.currency = o.optString("price_currency_code");
+        priceInMicros();
     }
-    private void price(){
-    	//Locale us = new Locale("us", "US");
-    	NumberFormat numberFormat = NumberFormat.getCurrencyInstance();;
-    	try {
-            Number  d = numberFormat.parse(this.price);
-            BigDecimal bd = new BigDecimal(d.toString());
-            this.price = bd.toString();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    private void priceInMicros(){ 	
+    	String priceMicros = this.priceInMicros;
+		if (priceMicros != null) {
+		    String format = new StringBuilder(priceMicros).insert(priceMicros.length() - 6, ".").toString();
+		    this.priceInMicros = Double.parseDouble(format) + "";
+		}
     }
     public String getSku() { return sku; }
     public String getType() { return type; }
@@ -70,6 +64,7 @@ public class SkuDetails {
     public String getTitle() { return title; }
     public String getDescription() { return description; }
     public String getCurrency() { return currency; }
+    public String getPriceInMicros() { return priceInMicros; }
     @Override
     public String toString() {
         return "SkuDetails:" + json;
