@@ -25,7 +25,7 @@ public class Constants {
 	public static final String SKIP_VERIFIED = "skipVerifyUser";
 	public static final String UPDATE_LANGUAGE = "updateLanguage";
 	public static final String GETCONFIG = "getConfig";
-	public static final String VIP_REGISTER = "vipRegister";
+	public static final String VIP_REGISTER = "verifyGoogleReceipt";
 	/*
 	 * Key config request
 	 */
@@ -123,12 +123,13 @@ public class Constants {
 		"user_interests", "email", "user_hometown",
 		"friends_hometown", "friends_events", "friends_checkins",
 		"user_checkins", "user_events", "offline_access" };
-    public static final String[] PUSHLISH_KEY = new String[]{"MHKAMoGIJnazdfgH)f\"QUDSQYXOBCR<DKNAKIlGNO^UPb!@fLC+x4tvbAuLL#1Mz4>7>Ht=`x EGz+d9ZJo_^ib`?hj",
-		"ToxaAWS@@b+be?7|YVfg<B4vuHrGHU}['[FzTK\"|Fx`kr`xkV>vw2kSdIP~|aC}GCVeA8|8XQFc0DGi:5c",
-		"DE5SG`8WAL`sRH7\\#KiCFF&&qVMq)9F~MFHxu3NaWw=ogl)ccN3eo7kF>x?%V%bXU^Bx@]EH %|MFAmvb_x",
-		"1F6P]v\\CweFoVva|zbHMHB %/WQVpcmeO}esQl4faCEr;{bSaL*1q7LmfJ8DP].mYIQ\\{>9:",
-		"YxYF%@r|E3j^^aF~]GmViOj!`vYZ\\#AYLn;sKggu{KoBbwCMTR`Mqzg{CLGUCB"};
-    public static final String[] PRODUCT_IDS =  new String[]{"locpham.test.package1","locpham.test.package2","locpham.test.package3","locpham.test.package4"};
+    public static final String[] PUSHLISH_KEY = new String[]{
+    	"MHKAMoGIJnazdfgH)f\"QUDSQYXOBCR<DKNAKIlGNO^UPj~`w&#V]CLkPRhNT9GNdfe]GTrv xvE\\~Sd5k;|*^u@",
+		"!yeP4t`j;xP!RxmSBy`GhdBIblG07R1hRhdRUmy$$QJXC~b_zb=kc2Or+rHfU@vg/R$khz)D}^8NC8[H3n@T)J/",
+		"iZtHOX_gR{`Y7oAhr;3:gX]]E}Z1hjxyhvX^oRF6h-ZKU=r Dwitg0Jfx<a;'v&ZQL4\\e3\\fuJ}OwQaLJ9L5zH`n'A",
+		")~_Ny_>tp$#^v[^g`O~CCPCX[oG2pjC\\ozk,CUIqlrE2Ofqe|DK2dAUkZGIFz&}(AeOKKMYy&'mrKeR6R[PheEPG.tY",
+		"gxZAV1AdaU @!!g{xs\\[j]yM#[I{CLGUCB"};
+    public static final String[] PRODUCT_IDS =  new String[]{"com.oakclub.iap.01month","locpham.test.package2","com.oakclub.iap.6month","com.oakclub.iap.12month"};
     public static final String PURCHASE_PRICE = "PURCHASE_PRICE";
     public static final String TRANSACTION_ID= "TRANSACTION_ID";
 

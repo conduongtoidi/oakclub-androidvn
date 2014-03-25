@@ -131,7 +131,6 @@ public class VerifiedActivity extends SlidingActivity {
 					break;
 				}
 			} else {
-				if (start_login) {
 					AlertDialog.Builder builder;
 					builder = new AlertDialog.Builder(activity);
 					final AlertDialog dialog = builder.create();
@@ -145,14 +144,12 @@ public class VerifiedActivity extends SlidingActivity {
 
 						@Override
 						public void onClick(View v) {
+							dialog.dismiss();
 							activity.finish();
 						}
 					});
 					dialog.setCancelable(false);
 					dialog.show();
-				} else {
-					activity.finish();
-				}
 			}
 		}
 	};
