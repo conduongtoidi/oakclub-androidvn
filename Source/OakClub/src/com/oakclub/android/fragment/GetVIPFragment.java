@@ -479,7 +479,6 @@ public class GetVIPFragment {
 			}
 
 			Log.d(TAG, "Purchase successful.");
-			
 			// xac nhan la VIP user len server
 			SendVIPRegister loader = new SendVIPRegister(
 					Constants.VIP_REGISTER, activity, purchase);			
@@ -518,7 +517,7 @@ public class GetVIPFragment {
 					enableDialogWarning(activity,
 							activity.getString(R.string.txt_vip_room),
 							activity.getString(R.string.txt_you_VIP_member));
-					return;
+					break;
 				}
 				if (OakClubUtil.isInternetAccess(activity)) {
 					if (SKU_ID != "") {
@@ -544,6 +543,7 @@ public class GetVIPFragment {
 
 						@Override
 						public void onClick(View v) {
+							dialog.dismiss();
 							activity.finish();
 						}
 					});
@@ -573,7 +573,6 @@ public class GetVIPFragment {
 				rd_package_3.setChecked(true);
 				break;
 			case  R.id.layout_package_4:
-				// SKU_ID = "android.test.item_unavailable";
 				SKU_ID = Constants.PRODUCT_IDS[3];
 				price = billList[3];
 				SetUnCheck();
@@ -644,6 +643,12 @@ public class GetVIPFragment {
 				}
 				Intent intent = new Intent(activity,
 						PurchaseConfirmedActivity.class);
+				for(SkuDetails sku : productList){
+					if(sku.getSku().equals(purchase.getSku())){
+						price = sku.getPrice();
+						break;
+					}
+				}
 				intent.putExtra(Constants.PURCHASE_PRICE, price);
 				intent.putExtra(Constants.TRANSACTION_ID, purchase.getOrderId());
 				activity.startActivityForResult(intent, Constants.GETVIP);
