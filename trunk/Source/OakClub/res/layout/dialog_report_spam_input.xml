@@ -58,8 +58,9 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:textColor="@color/Black"
-        android:inputType="text"
-        android:cursorVisible="true"
+        android:inputType="textMultiLine"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:maxLines="3"
         android:hint="@string/txt_type_message"
         />
         

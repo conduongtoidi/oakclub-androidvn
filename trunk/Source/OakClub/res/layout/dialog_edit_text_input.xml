@@ -38,6 +38,7 @@
         android:cursorVisible="true"
         android:textColor="@android:color/black" 
         android:background="@color/White"
+        android:textCursorDrawable="@drawable/color_cursor"
         >
     </EditText>
     <View
