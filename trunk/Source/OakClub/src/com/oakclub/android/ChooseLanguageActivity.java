@@ -106,7 +106,7 @@ public class ChooseLanguageActivity extends Activity {
 				dialog.dismiss();
 			}
 		});	
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
 	}

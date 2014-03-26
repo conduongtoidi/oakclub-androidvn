@@ -434,7 +434,7 @@ public class SnapshotMain extends FrameLayout {
             public void onClick(View v) {
             	setLoadingAnim(false);
                 dialogMutual.dismiss();
-                dialogMutual.setCancelable(true);
+                dialogMutual.setCancelable(false);
             }
         });
         RelativeLayout btnDialogChat = (RelativeLayout) view
@@ -460,7 +460,7 @@ public class SnapshotMain extends FrameLayout {
                         | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 getContext().startActivity(intent);
                 dialogMutual.dismiss();
-                dialogMutual.setCancelable(true);
+                dialogMutual.setCancelable(false);
             }
         });
         OakClubUtil.loadImageFromUrl(getContext(), snapshot.urlAvatar, ivwMutualMe);

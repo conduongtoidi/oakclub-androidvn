@@ -591,9 +591,9 @@ public class ChatActivity extends OakClubBaseActivity {
 				.findViewById(R.id.radioGroup1);
 		radioGroup.setOrientation(RadioGroup.VERTICAL);
 		radioButtons = new ArrayList<RadioButton>();
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+//		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//				LinearLayout.LayoutParams.MATCH_PARENT,
+//				LinearLayout.LayoutParams.WRAP_CONTENT);
 		final EditText editText = (EditText) mainRelativeLayout
 				.findViewById(R.id.editText);
 		// lp.setMargins(0, 5, 0, 5);
@@ -702,7 +702,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			}
 		});
 
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.show();
 	}
 
@@ -757,7 +757,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				dialog.dismiss();
 			}
 		});
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.show();
 	}
 
