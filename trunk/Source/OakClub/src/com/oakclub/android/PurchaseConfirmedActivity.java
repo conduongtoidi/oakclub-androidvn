@@ -39,8 +39,7 @@ public class PurchaseConfirmedActivity extends OakClubBaseActivity {
 			priceString = intent.getStringExtra(Constants.PURCHASE_PRICE);
 			transactionId = intent.getStringExtra(Constants.TRANSACTION_ID);
 		}
-		price.setText( RichTextHelper.getRichText( String.format(
-				getString(R.string.txt_purchase_confirmed_price),priceString)));
+		price.setText(priceString);
 		transactionID.setText(RichTextHelper.getRichText(String.format(
 				getString(R.string.txt_purchase_confirmed_transaction_id), transactionId)));
 		btnShareOnFacebook = (LinearLayout) findViewById(R.id.purchase_confirmed_btn_share_on_facebook);
