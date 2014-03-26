@@ -21,7 +21,8 @@
             android:id="@+id/search_editext"
             android:textColor="#740353"
             android:inputType="text"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textCursorDrawable="@drawable/color_cursor" />
         <ImageView
             android:id="@+id/search_edittext_imv"
             android:layout_width="wrap_content"

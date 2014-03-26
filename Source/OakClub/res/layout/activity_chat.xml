@@ -123,7 +123,7 @@
     <LinearLayout
         android:id="@+id/activity_chat_rtlbottom"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/activity_chat_height_background"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#e1e1e1"
         android:orientation="horizontal">
@@ -158,13 +158,15 @@
 	        <EditText
 	            android:id="@+id/activity_chat_rtlbottom_tbMessage"
 	            android:layout_width="0dp"
-	            android:layout_height="30dp"
+	            android:layout_height="wrap_content"
 	            android:layout_margin="5dp"
 	            android:layout_weight="1"
 	            android:background="@drawable/edittext_chat_input"
-	            android:inputType="text"
+	            android:inputType="textMultiLine"
 	            android:padding="5dp"
-	            android:textColor="@android:color/black"/>
+	            android:textColor="@android:color/black"
+	            android:textCursorDrawable="@drawable/color_cursor"
+	            android:maxLines="3"/>
 	
 	        <Button
 	            android:id="@+id/activity_chat_rtlbottom_btSend"
