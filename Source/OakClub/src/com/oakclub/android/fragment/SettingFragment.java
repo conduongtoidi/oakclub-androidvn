@@ -346,7 +346,7 @@ public class SettingFragment{
                 dialog.dismiss();
             }
         }); 
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }

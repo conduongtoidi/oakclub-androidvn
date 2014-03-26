@@ -666,7 +666,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
         if(!snapShotData.isFromChat()){
             btnBlock.setVisibility(View.GONE);
         }
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.show();
 	}
 	
@@ -718,7 +718,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 				dialog.dismiss();
 			}
 		});
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.show();
 	}
 	
