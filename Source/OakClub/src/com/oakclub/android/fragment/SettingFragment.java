@@ -165,10 +165,10 @@ public class SettingFragment{
             maxDistance = settingObject.getRange();
             if(maxDistance<50)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
-            else if(maxDistance == 350)
-                tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
-            else if(maxDistance == 400)
+            else if(maxDistance >= 400)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
+            else if(maxDistance >= 350)
+                tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
             else tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +maxDistance+"km");
         }
         if(!Constants.isChangedSetting){
@@ -233,17 +233,15 @@ public class SettingFragment{
                     tvAgeLimit.setText(""+snapshotObj.getData().getAge_from()+" "+activity.getString(R.string.txt_age_from)
                             + " " + snapshotObj.getData().getAge_to()+" "+activity.getString(R.string.txt_age_to));
                     
-                    if (snapshotObj.getData().getRange() > 400)
-                    	snapshotObj.getData().setRange(350);
                     int distance = (int)((snapshotObj.getData().getRange() - 50)/50);
                     distanceSeekbar.setProgress(distance);
                     maxDistance = snapshotObj.getData().getRange();
                     if(maxDistance < 50)
                         tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
-                    else if(maxDistance == 350)
-                        tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
-                    else if(maxDistance == 400)
+                    else if(maxDistance >= 400)
                         tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
+                    else if(maxDistance >= 350)
+                        tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
                     else tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +maxDistance+"km");
                 }   
                 /* HieuPham */
@@ -391,10 +389,10 @@ public class SettingFragment{
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +"50km");
                 settingObject.setRange(50);
             }
-            else if(maxDistance == 350)
-                tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
-            else if(maxDistance == 400)
+            else if(maxDistance >= 400)
                 tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_world));
+            else if(maxDistance >= 350)
+                tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " + activity.getString(R.string.txt_distance_country));
             else tvDistance.setText(activity.getString(R.string.msg_people_around_sub_1)+ " " +maxDistance+"km");
             
             Constants.settingObject = settingObject;

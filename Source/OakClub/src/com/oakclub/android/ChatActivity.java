@@ -689,7 +689,6 @@ public class ChatActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_block_message),
 						getResources().getString(R.string.txt_block_anyway),
 						false);
-				dialog.dismiss();
 			}
 		});
 
