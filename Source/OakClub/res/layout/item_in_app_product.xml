@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_package"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="left"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/separators" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <com.oakclub.android.view.TextViewWithFont
+            android:id="@+id/txt_get_vip_package"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".3"
+            android:text="@string/txt_months"
+            android:textColor="@color/Black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_weight=".7"
+            android:gravity="left|center" >
+
+            <RadioButton
+                android:id="@+id/radio_get_vip_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:checked="false" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/txt_price_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/radio_get_vip_package"
+                android:text="@string/txt_int_app_product_price"
+                android:textColor="@color/Black"
+                android:textSize="15sp" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/txt_billed_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_price_package"
+                android:layout_toRightOf="@+id/radio_get_vip_package"
+                android:text="@string/txt_int_app_product_price"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/txt_save_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_billed_package"
+                android:layout_toRightOf="@+id/radio_get_vip_package"
+                android:text="@string/txt_save"
+                android:textColor="@color/Red"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/separators" />
+
+</LinearLayout>

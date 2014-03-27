@@ -271,7 +271,7 @@ public class LeftMenuListFragment extends Fragment {
 				ivVerified.setVisibility(View.VISIBLE);
 			}
 			if(ProfileSettingFragment.profileInfoObj.isIs_vip()){
-				tvVipRoom.setTextColor(Color.argb(100, 196,154, 64));
+				tvVipRoom.setTextColor(getResources().getColor(R.color.Gold));
 				iconVIPRoom.setBackgroundResource(R.drawable.viproom_icon_complete);
 			}
 			lltMenu.setLayoutParams(params);
@@ -307,7 +307,7 @@ public class LeftMenuListFragment extends Fragment {
 			ivVerified.setVisibility(View.VISIBLE);
 		}	
 		if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.isIs_vip()){
-			tvVipRoom.setTextColor(Color.argb(100, 196,154, 64));
+			tvVipRoom.setTextColor(getResources().getColor(R.color.Gold));
 			iconVIPRoom.setBackgroundResource(R.drawable.viproom_icon_complete);
 		}
 	}

@@ -2,24 +2,11 @@ package com.oakclub.android.fragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-
-import com.oakclub.android.PurchaseConfirmedActivity;
-import com.oakclub.android.R;
-import com.oakclub.android.SlidingActivity;
-import com.oakclub.android.SlidingActivity.MenuOakclub;
-import com.oakclub.android.core.RequestUI;
-import com.oakclub.android.model.IabResult;
-import com.oakclub.android.model.Inventory;
-import com.oakclub.android.model.SenVIPRegisterReturnObject;
-import com.oakclub.android.model.SkuDetails;
-import com.oakclub.android.model.Purchase;
-import com.oakclub.android.util.Constants;
-import com.oakclub.android.util.IabHelper;
-import com.oakclub.android.util.OakClubUtil;
-import com.oakclub.android.util.RichTextHelper;
-import com.oakclub.android.view.TextViewWithFont;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -31,56 +18,43 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.oakclub.android.PurchaseConfirmedActivity;
+import com.oakclub.android.R;
+import com.oakclub.android.SlidingActivity;
+import com.oakclub.android.core.RequestUI;
+import com.oakclub.android.model.IabResult;
+import com.oakclub.android.model.Inventory;
+import com.oakclub.android.model.Purchase;
+import com.oakclub.android.model.SenVIPRegisterReturnObject;
+import com.oakclub.android.model.SkuDetails;
+import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.IabHelper;
+import com.oakclub.android.util.OakClubUtil;
+import com.oakclub.android.util.RichTextHelper;
+import com.oakclub.android.view.TextViewWithFont;
 
 public class GetVIPFragment {
 	private Button btn_get_vip_package;
-	private Button btn_cancel;
-	private RadioButton rd_package_1;
-	private RadioButton rd_package_2;
-	private RadioButton rd_package_3;
-	private RadioButton rd_package_4;
-	private TextView tvVipPackage1;
-	private TextView tvVipPackage2;
-	private TextView tvVipPackage3;
-	private TextView tvVipPackage4;
-
-	private TextView tvPricePackage1;
-	private TextView tvPricePackage2;
-	private TextView tvPricePackage3;
-	private TextView tvPricePackage4;
-
-	private TextView tvBillPackage2;
-	private TextView tvBillPackage3;
-	private TextView tvBillPackage4;
-
-	private TextView tvSavePackage2;
-	private TextView tvSavePackage3;
-	private TextView tvSavePackage4;
-
 	private ImageView vip_logo;
-	//private TextView get_vip_title;
-	private LinearLayout layout_package_1;
-	private LinearLayout layout_package_2;
-	private LinearLayout layout_package_3;
-	private LinearLayout layout_package_4;
+	// private TextView get_vip_title;
 	private String TAG = "Purchase proccess";
 	public static IabHelper mHelper;
 	private String payload = "";
 	private String SKU_ID = "";
 	private String price = "";
-	private String[] billList;
 	private String[] monthsList;
-	private String[] priceList;
 	private ProgressDialog pd;
-	private LinearLayout layoutProducInfor;
 	private TextViewWithFont tvLoadProductListFailed;
 	private ArrayList<SkuDetails> productList = new ArrayList<SkuDetails>();
+	public LinearLayout listProduct;
+	public int mPosition = -1;
 
 	// (arbitrary) request code for the purchase flow
 	static final int RC_REQUEST = 10001;
@@ -92,121 +66,23 @@ public class GetVIPFragment {
 
 	public void initGetVIP() {
 		activity.init(R.layout.activity_get_vip);
+		listProduct = (LinearLayout) activity.findViewById(R.id.list_product);
+
 		btn_get_vip_package = (Button) activity.findViewById(R.id.btn_get_vip);
-		btn_cancel = (Button) activity.findViewById(R.id.btn_cencel_get_vip);
-		layoutProducInfor = (LinearLayout) activity.findViewById(R.id.get_vip_product_infor);
-		tvLoadProductListFailed = (TextViewWithFont) activity.findViewById(R.id.error_load_products_title);
-		rd_package_1 = (RadioButton) activity
-				.findViewById(R.id.radio_get_vip_package_1);
-		rd_package_2 = (RadioButton) activity
-				.findViewById(R.id.radio_get_vip_package_2);
-		rd_package_3 = (RadioButton) activity
-				.findViewById(R.id.radio_get_vip_package_3);
-		rd_package_4 = (RadioButton) activity
-				.findViewById(R.id.radio_get_vip_package_4);
-		btn_cancel.setOnClickListener(buttonClick);
+		tvLoadProductListFailed = (TextViewWithFont) activity
+				.findViewById(R.id.error_load_products_title);
 		btn_get_vip_package.setOnClickListener(buttonClick);
-		//btn_get_vip_package.setEnabled(false);
+		// btn_get_vip_package.setEnabled(false);
 		DisplayMetrics dimension = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(dimension);
-        int height = dimension.heightPixels;
+		activity.getWindowManager().getDefaultDisplay().getMetrics(dimension);
+		int height = dimension.heightPixels;
 		int padding = height / 55;
 
 		vip_logo = (ImageView) activity.findViewById(R.id.vip_logo);
 		vip_logo.setPadding(0, 0, padding, 0);
-		//get_vip_title = (TextView) activity.findViewById(R.id.get_vip_title);
-		//get_vip_title.setPadding(padding, padding, padding, padding);
-		//btn_get_vip_package.setPadding(padding, padding, padding, padding);
-		layout_package_1 = (LinearLayout) activity
-				.findViewById(R.id.layout_package_1);
-		layout_package_2 = (LinearLayout) activity
-				.findViewById(R.id.layout_package_2);
-		layout_package_3 = (LinearLayout) activity
-				.findViewById(R.id.layout_package_3);
-		layout_package_4 = (LinearLayout) activity
-				.findViewById(R.id.layout_package_4);
-		layout_package_1.setPadding(padding, 0, 0, 0);
-		layout_package_2.setPadding(padding, 0, 0, 0);
-		layout_package_3.setPadding(padding, 0, 0, 0);
-		layout_package_4.setPadding(padding, 0, 0, 0);
-
-		tvVipPackage1 = (TextView) activity
-				.findViewById(R.id.txt_get_vip_package_1);
-		tvVipPackage2 = (TextView) activity
-				.findViewById(R.id.txt_get_vip_package_2);
-		tvVipPackage3 = (TextView) activity
-				.findViewById(R.id.txt_get_vip_package_3);
-		tvVipPackage4 = (TextView) activity
-				.findViewById(R.id.txt_get_vip_package_4);
-
-		tvPricePackage1 = (TextView) activity
-				.findViewById(R.id.txt_price_package_1);
-		tvPricePackage2 = (TextView) activity
-				.findViewById(R.id.txt_price_package_2);
-		tvPricePackage3 = (TextView) activity
-				.findViewById(R.id.txt_price_package_3);
-		tvPricePackage4 = (TextView) activity
-				.findViewById(R.id.txt_price_package_4);
-
-		tvBillPackage2 = (TextView) activity
-				.findViewById(R.id.txt_billed_package_2);
-		tvBillPackage3 = (TextView) activity
-				.findViewById(R.id.txt_billed_package_3);
-		tvBillPackage4 = (TextView) activity
-				.findViewById(R.id.txt_billed_package_4);
-
-		tvSavePackage2 = (TextView) activity
-				.findViewById(R.id.txt_save_package_2);
-		tvSavePackage3 = (TextView) activity
-				.findViewById(R.id.txt_save_package_3);
-		tvSavePackage4 = (TextView) activity
-				.findViewById(R.id.txt_save_package_4);
-
 		monthsList = activity.getResources()
 				.getStringArray(R.array.months_list);
-		tvVipPackage1.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_month), monthsList[0])));
-		tvVipPackage2.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_months), monthsList[1])));
-		tvVipPackage3.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_months), monthsList[2])));
-		tvVipPackage4.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_months), monthsList[3])));
 
-		priceList = activity.getResources().getStringArray(R.array.price_list);
-		tvPricePackage1.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_USD), priceList[0])));
-		tvPricePackage2.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_USD_month), priceList[1])));
-		tvPricePackage3.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_USD_month), priceList[2])));
-		tvPricePackage4.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_USD_month), priceList[3])));
-
-		billList = activity.getResources().getStringArray(R.array.bill_list);
-		tvBillPackage2.setText(String.format(
-				activity.getString(R.string.txt_billed), billList[1]));
-		tvBillPackage3.setText(String.format(
-				activity.getString(R.string.txt_billed), billList[2]));
-		tvBillPackage4.setText(String.format(
-				activity.getString(R.string.txt_billed), billList[3]));
-
-		String[] saveList = activity.getResources().getStringArray(
-				R.array.save_list);
-		tvSavePackage2.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_save), saveList[0])));
-		tvSavePackage3.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_save), saveList[1])));
-		tvSavePackage4.setText(RichTextHelper.getRichText(String.format(
-				activity.getString(R.string.txt_save), saveList[2])));
-		rd_package_1.setClickable(false);
-		rd_package_2.setClickable(false);
-		rd_package_3.setClickable(false);
-		rd_package_4.setClickable(false);
-		layout_package_1.setOnClickListener(buttonClick);
-		layout_package_2.setOnClickListener(buttonClick);
-		layout_package_3.setOnClickListener(buttonClick);
-		layout_package_4.setOnClickListener(buttonClick);
 		(new Handler()).postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -236,105 +112,14 @@ public class GetVIPFragment {
 							return;
 						}
 						Log.d(TAG, "Setup successful. Querying inventory.");
-						mHelper.getAllSKU( IabHelper.ITEM_TYPE_INAPP, mGetAllSkuDetailListener);					
+						mHelper.getAllSKU(IabHelper.ITEM_TYPE_INAPP,
+								mGetAllSkuDetailListener);
 					}
 				});
 			}
 		}, 1000);
 
 	}
-
-	private void setPrice(ArrayList<SkuDetails> allSKU) {
-		if(allSKU == null ||  allSKU.size() == 0) {
-			layoutProducInfor.setVisibility(View.GONE);
-			tvLoadProductListFailed.setVisibility(View.VISIBLE);
-			return;
-		}
-		String priceOnMonth = priceList[0];
-		for (SkuDetails sku : allSKU) {
-			if (sku.getSku().equals(Constants.PRODUCT_IDS[0])) {
-				priceOnMonth = sku.getPriceInMicros();
-				break;
-			}
-		}
-		for (SkuDetails sku : allSKU) {
-			if (sku.getSku().equals(Constants.PRODUCT_IDS[0])) {
-				tvPricePackage1.setText(RichTextHelper.getRichText(String
-						.format(activity.getString(R.string.txt_USD),
-								(Double.parseDouble(sku.getPriceInMicros())))+ " ("+ sku.getPrice()+ ")"));
-				SKU_ID = sku.getSku();
-				rd_package_1.setChecked(true);
-			} else if (sku.getSku().equals(Constants.PRODUCT_IDS[1])) {
-				tvPricePackage2
-						.setText(RichTextHelper.getRichText(String.format(
-								activity.getString(R.string.txt_USD_month),
-								roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros()) / Integer.parseInt(monthsList[1])))));
-				if(sku.getCurrency().equals("USD")){
-					tvBillPackage2
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()));
-				}else{
-					tvBillPackage2
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()) + " ("+ sku.getPrice()+ ")");
-				}
-				
-				tvSavePackage2.setText(RichTextHelper.getRichText(String
-						.format(activity.getString(R.string.txt_save),
-								saveRate(Double.parseDouble(priceOnMonth),
-										Double.parseDouble(sku.getPriceInMicros()),
-										Integer.parseInt(monthsList[1])))));
-			} else if (sku.getSku().equals(Constants.PRODUCT_IDS[2])) {
-				tvPricePackage3
-						.setText(RichTextHelper.getRichText(String.format(
-								activity.getString(R.string.txt_USD_month),
-								roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros()) / Integer.parseInt(monthsList[2])))));
-				if(sku.getCurrency().equals("USD")){
-					tvBillPackage3
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()));
-				}else{
-					tvBillPackage3
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()) + " ("+ sku.getPrice()+ ")");
-				}
-				
-				tvSavePackage3.setText(RichTextHelper.getRichText(String
-						.format(activity.getString(R.string.txt_save),
-								saveRate(Double.parseDouble(priceOnMonth),
-										Double.parseDouble(sku.getPriceInMicros()),
-										Integer.parseInt(monthsList[2])))));
-
-			} else if (sku.getSku().equals(Constants.PRODUCT_IDS[3])) {
-				tvPricePackage4
-						.setText(RichTextHelper.getRichText(String.format(
-								activity.getString(R.string.txt_USD_month),
-								roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros()) / Integer.parseInt(monthsList[3])) )));
-				if(sku.getCurrency().equals("USD")){
-					tvBillPackage4
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()));
-				}else{
-					tvBillPackage4
-					.setText(String.format(
-							activity.getString(R.string.txt_billed),
-							sku.getPriceInMicros()) + " ("+ sku.getPrice()+ ")");
-				}
-				
-				tvSavePackage4.setText(RichTextHelper.getRichText(String
-						.format(activity.getString(R.string.txt_save),
-								saveRate(Double.parseDouble(priceOnMonth),
-										Double.parseDouble(sku.getPriceInMicros()),
-										Integer.parseInt(monthsList[3])))));
-			}
-		}
-	}
-
 	private String RandomString(int length) {
 		String characters = "q1w2e3r4t5y6u7i8o9plkj0hgfdsamnbvcxz/?>.,<!@#$%^&*()_+=-";
 		Random r = new Random();
@@ -384,8 +169,15 @@ public class GetVIPFragment {
 	private void Purchase(String SKU_ID) {
 
 		payload = RandomString(36);
-		mHelper.launchPurchaseFlow(activity, SKU_ID, RC_REQUEST,
-				mPurchaseFinishedListener, payload);
+		if (mHelper != null) {
+			mHelper.launchPurchaseFlow(activity, SKU_ID, RC_REQUEST,
+					mPurchaseFinishedListener, payload);
+		} else {
+			btn_get_vip_package.setEnabled(true);
+			enableDialogWarning(activity,
+					activity.getString(R.string.txt_vip_room),
+					activity.getString(R.string.abnormal_error_message));
+		}
 
 	}
 
@@ -394,48 +186,170 @@ public class GetVIPFragment {
 				/ (priceOneMonth * months) * 100);
 		return Math.round(res) + "";
 	}
+
 	String roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat(".##");
-        return twoDForm.format(d) + "";
+		DecimalFormat twoDForm = new DecimalFormat(".##");
+		return twoDForm.format(d) + "";
 	}
+
+	private static class ListProductHolder {
+		public TextView tvVipPackage;
+		public TextView tvPrice;
+		public TextView tvBilled;
+		public TextView tvSaved;
+		public RadioButton rdButton;
+	}
+
+	private ArrayList<SkuDetails> CheckListProduct(ArrayList<SkuDetails> list) {
+		ArrayList<SkuDetails> res = new ArrayList<SkuDetails>();
+		Map<String, SkuDetails> mapList = new HashMap<String, SkuDetails>();
+		String[] productIDs = Constants.PRODUCT_IDS;
+		for (SkuDetails sku : list) {
+			int idx = sku.getTitle().indexOf("(Oakclub)");
+			if (idx > 0) {
+				sku.setTitle(sku.getTitle().substring(0, idx));
+			}
+			mapList.put(sku.getSku(), sku);
+		}
+		for (String id : productIDs) {
+			if (mapList.containsKey(id)) {
+				res.add(mapList.get(id));
+			}
+		}
+		Collections.sort(res, new Comparator<SkuDetails>() {
+
+			@Override
+			public int compare(SkuDetails lhs, SkuDetails rhs) {
+				return (Double.parseDouble(rhs.getPriceInMicros()) > Double
+						.parseDouble(rhs.getPriceInMicros())) ? 1 : 0;
+			}
+		});
+		return res;
+	}
+
+	private void viewProductList(ArrayList<SkuDetails> productList,
+			String[] monthsList) {
+		int i = 0;
+		String priceOnMonth = "1";
+		double minPrice = 100000;
+		for (SkuDetails sku : productList) {
+			if (Double.parseDouble(sku.getPriceInMicros()) < minPrice) {
+				minPrice = Double.parseDouble(sku.getPriceInMicros());
+			}
+		}
+		priceOnMonth = minPrice + "";
+		for (SkuDetails sku : productList) {
+			if (i >= monthsList.length)
+				return;
+			LayoutInflater mInflater = (LayoutInflater) activity
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			View convertView = mInflater.inflate(R.layout.item_in_app_product,
+					listProduct, false);
+
+			convertView.setLayoutParams(new LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			ListProductHolder holder = new ListProductHolder();
+			holder.tvVipPackage = (TextView) convertView
+					.findViewById(R.id.txt_get_vip_package);
+			holder.tvPrice = (TextView) convertView
+					.findViewById(R.id.txt_price_package);
+			holder.tvBilled = (TextView) convertView
+					.findViewById(R.id.txt_billed_package);
+			holder.tvSaved = (TextView) convertView
+					.findViewById(R.id.txt_save_package);
+			holder.rdButton = (RadioButton) convertView
+					.findViewById(R.id.radio_get_vip_package);
+			if( i == 0){
+				holder.rdButton.setChecked(true);
+				mPosition = i;
+			}
+			holder.rdButton.setClickable(false);
+			holder.tvVipPackage.setText(RichTextHelper.getRichText("{{b}}"
+					+ sku.getTitle() + "{{/b}}"));
+			if (sku.getPriceInMicros().equals(priceOnMonth)) {
+				holder.tvPrice.setText(RichTextHelper.getRichText(String
+						.format(activity.getString(R.string.txt_int_app_product_price), sku.getPrice() )));
+				RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.tvPrice
+						.getLayoutParams();
+				layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT,
+						RelativeLayout.TRUE);
+				holder.tvPrice.setLayoutParams(layoutParams);
+				holder.tvBilled.setVisibility(View.GONE);
+				holder.tvSaved.setVisibility(View.GONE);
+			} else {
+				holder.tvPrice.setText(RichTextHelper.getRichText(String
+						.format(activity
+								.getString(R.string.txt_int_app_product_price), sku.getPrice())));
+
+				holder.tvSaved.setText(RichTextHelper.getRichText(String
+						.format(activity.getString(R.string.txt_save),
+								saveRate(Double.parseDouble(priceOnMonth),
+										Double.parseDouble(sku
+												.getPriceInMicros()), Integer
+												.parseInt(monthsList[i])))));
+			}
+			final int index = i;
+			convertView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					btn_get_vip_package.setEnabled(true);
+					if (index != mPosition) {
+						if (mPosition != -1) {
+							View old = listProduct.getChildAt(mPosition);
+							RadioButton buttonOld = (RadioButton) old
+									.findViewById(R.id.radio_get_vip_package);
+							if (buttonOld != null) {
+								buttonOld.setChecked(false);
+							}
+						}
+						mPosition = index;
+						RadioButton button = (RadioButton) v
+								.findViewById(R.id.radio_get_vip_package);
+						if (button != null) {
+							button.setChecked(true);
+						}
+					}
+				}
+			});
+			listProduct.addView(convertView);
+			i++;
+		}
+	}
+
 	IabHelper.GetSkuFinishedListener mGetAllSkuDetailListener = new IabHelper.GetSkuFinishedListener() {
-		
+
 		@Override
 		public void onGetSkuFinishedListener(ArrayList<SkuDetails> skuList) {
-			if(skuList == null){
-				Toast.makeText(activity, activity.getString(R.string.abnormal_error_message), Toast.LENGTH_LONG).show();
-				if (pd != null && pd.isShowing()) {
-					pd.dismiss();
-					pd = null;
-				}
-				activity.setMenu(MenuOakclub.SNAPSHOT);
-				SnapshotFragment snapshot = new SnapshotFragment(
-						activity);
-				snapshot.initSnapshot();
-				activity.snapshot = snapshot;
-			}else{
-				productList = skuList;
-				setPrice(productList);
-				if (pd != null && pd.isShowing()) {
-					pd.dismiss();
-					pd = null;
-				}
-			}			
+			if (skuList == null || (skuList != null && skuList.size() == 0)) {
+				tvLoadProductListFailed.setVisibility(View.VISIBLE);
+				btn_get_vip_package.setEnabled(false);
+			} else {
+				productList = CheckListProduct(skuList);
+				viewProductList(productList, monthsList);
+				btn_get_vip_package.setEnabled(true);
+			}
+			if (pd != null && pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+			}
 		}
 	};
 	IabHelper.QueryInventoryFinishedListener mGotInventoryToConsumeListener = new IabHelper.QueryInventoryFinishedListener() {
 		public void onQueryInventoryFinished(IabResult result,
 				Inventory inventory) {
+			btn_get_vip_package.setEnabled(true);
 			if (mHelper == null)
 				return;
 			if (result.isFailure()) {
 				return;
-			}	
+			}
 
 			if (inventory.getPurchase(SKU_ID) != null) {
 				mHelper.consumeAsync(inventory.getPurchase(SKU_ID),
 						mConsumeFinishedListener);
-			}else{
+			} else {
 				Purchase(SKU_ID);
 			}
 		}
@@ -444,10 +358,10 @@ public class GetVIPFragment {
 	/** Verifies the developer payload of a purchase. */
 	boolean verifyDeveloperPayload(Purchase p) {
 		String payload = p.getDeveloperPayload();
-		if (payload.equals(this.payload) && p.getSku().equals(SKU_ID) && p.getPackageName().equals(activity.getPackageName()))
-			{
-				return true;
-			}
+		if (payload.equals(this.payload) && p.getSku().equals(SKU_ID)
+				&& p.getPackageName().equals(activity.getPackageName())) {
+			return true;
+		}
 		return false;
 	}
 
@@ -466,9 +380,9 @@ public class GetVIPFragment {
 				// Popup hear............
 				// enableDialogWarning(activity,activity.getString(R.string.txt_vip_room),"Error purchasing: "
 				// + result);
-				enableDialogWarning(activity,
-						activity.getString(R.string.txt_vip_room),
-						activity.getString(R.string.txt_purchase_cancel));
+				// enableDialogWarning(activity,
+				// activity.getString(R.string.txt_vip_room),
+				// activity.getString(R.string.txt_purchase_cancel));
 				return;
 			}
 			if (!verifyDeveloperPayload(purchase)) {
@@ -481,7 +395,7 @@ public class GetVIPFragment {
 			Log.d(TAG, "Purchase successful.");
 			// xac nhan la VIP user len server
 			SendVIPRegister loader = new SendVIPRegister(
-					Constants.VIP_REGISTER, activity, purchase);			
+					Constants.VIP_REGISTER, activity, purchase);
 			activity.getRequestQueue().addRequest(loader);
 		}
 	};
@@ -489,20 +403,21 @@ public class GetVIPFragment {
 	// Called when consumption is complete
 	IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
 		public void onConsumeFinished(Purchase purchase, IabResult result) {
+			btn_get_vip_package.setEnabled(true);
 			Log.d(TAG, "Consumption finished. Purchase: " + purchase
 					+ ", result: " + result);
-			 if (mHelper == null)
-				 return;
-			
-			 if (result.isSuccess()) {
-				 Log.d(TAG, "Consumption successful. Provisioning.");
-				 Purchase(SKU_ID);
-			 } else {
-				  enableDialogWarning(activity,
-				  activity.getString(R.string.txt_vip_room),
-				  activity.getString(R.string.abnormal_error_message));
-			 }
-			 Log.d(TAG, "End consumption flow.");
+			if (mHelper == null)
+				return;
+
+			if (result.isSuccess()) {
+				Log.d(TAG, "Consumption successful. Provisioning.");
+				Purchase(SKU_ID);
+			} else {
+				enableDialogWarning(activity,
+						activity.getString(R.string.txt_vip_room),
+						activity.getString(R.string.abnormal_error_message));
+			}
+			Log.d(TAG, "End consumption flow.");
 		}
 	};
 
@@ -520,9 +435,22 @@ public class GetVIPFragment {
 					break;
 				}
 				if (OakClubUtil.isInternetAccess(activity)) {
+					if (mPosition != -1 && mPosition < productList.size()) {
+						SKU_ID = productList.get(mPosition).getSku();
+						price = productList.get(mPosition).getPrice();
+					}
 					if (SKU_ID != "") {
-						mHelper.queryInventoryAsync(mGotInventoryToConsumeListener);
+						if (mHelper != null) {
+							mHelper.queryInventoryAsync(mGotInventoryToConsumeListener);
+						} else {
+							btn_get_vip_package.setEnabled(true);
+							enableDialogWarning(
+									activity,
+									activity.getString(R.string.txt_vip_room),
+									activity.getString(R.string.abnormal_error_message));
+						}
 					} else {
+						btn_get_vip_package.setEnabled(true);
 						enableDialogWarning(
 								activity,
 								activity.getString(R.string.txt_vip_room),
@@ -551,46 +479,11 @@ public class GetVIPFragment {
 					dialog.show();
 				}
 				break;
-
-			case R.id.btn_cencel_get_vip:
-				break;
-			case  R.id.layout_package_1:
-				price = billList[0];
-				SKU_ID = Constants.PRODUCT_IDS[0];
-				SetUnCheck();
-				rd_package_1.setChecked(true);
-				break;
-			case R.id.layout_package_2:
-				SKU_ID = Constants.PRODUCT_IDS[1];
-				price = billList[1];
-				SetUnCheck();
-				rd_package_2.setChecked(true);
-				break;
-			case R.id.layout_package_3: 
-				SKU_ID = Constants.PRODUCT_IDS[2];
-				price = billList[2];
-				SetUnCheck();
-				rd_package_3.setChecked(true);
-				break;
-			case  R.id.layout_package_4:
-				SKU_ID = Constants.PRODUCT_IDS[3];
-				price = billList[3];
-				SetUnCheck();
-				rd_package_4.setChecked(true);
-				break;
 			default:
 				break;
 			}
 		}
 	};
-
-	private void SetUnCheck() {
-		rd_package_1.setChecked(false);
-		rd_package_2.setChecked(false);
-		rd_package_3.setChecked(false);
-		rd_package_4.setChecked(false);
-		btn_get_vip_package.setEnabled(true);
-	}
 
 	public static void enableDialogWarning(final Context context, String title,
 			final String message) {
@@ -630,12 +523,13 @@ public class GetVIPFragment {
 
 		@Override
 		public void execute() throws Exception {
-			obj = activity.oakClubApi.SendVIPRegister(purchase.getSku(), purchase.getToken());
+			obj = activity.oakClubApi.SendVIPRegister(purchase.getSku(),
+					purchase.getToken());
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
-			
+
 			if (obj != null && obj.isStatus()) {
 				// popup purchase seccess
 				if (ProfileSettingFragment.profileInfoObj != null) {
@@ -643,8 +537,8 @@ public class GetVIPFragment {
 				}
 				Intent intent = new Intent(activity,
 						PurchaseConfirmedActivity.class);
-				for(SkuDetails sku : productList){
-					if(sku.getSku().equals(purchase.getSku())){
+				for (SkuDetails sku : productList) {
+					if (sku.getSku().equals(purchase.getSku())) {
 						price = sku.getPrice();
 						break;
 					}

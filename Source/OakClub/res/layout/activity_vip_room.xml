@@ -1,25 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/vip_base"
+    android:layout_height="fill_parent"
+    android:background="@drawable/base"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
-    <ImageView 
-        android:layout_height="wrap_content"
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/vip_lgo"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:contentDescription="@string/txt_vip_room"
-        />
-    <com.oakclub.android.view.TextViewWithFont 
+        android:src="@drawable/vip_bagdes" />
+
+    <com.oakclub.android.view.TextViewWithFont
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/txt_you_VIP_member"
         android:layout_gravity="center"
-        android:textColor="@color/Gold"
-        android:textSize="30sp"
         android:gravity="center"
-        />
+        android:text="@string/txt_you_VIP_member"
+        android:textColor="@color/Black"
+        android:textSize="15sp" />
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/txt_VIP_member"
+        android:textColor="@color/Gold"
+        android:textSize="45sp" />
+
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/separators" />
+
+    <com.oakclub.android.view.TextViewWithFont
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="@string/txt_VIP_member_content"
+        android:textColor="@color/Black"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/btn_meet_more_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_margin="5dp"
+        android:background="@drawable/btn_meet_people_selector"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/btn_meet_people_icon_left_selector"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/txt_meet_more_people"
+        android:textColor="@color/White" />
 
 </LinearLayout>

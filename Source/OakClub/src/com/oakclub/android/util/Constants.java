@@ -132,7 +132,7 @@ public class Constants {
 		"iZtHOX_gR{`Y7oAhr;3:gX]]E}Z1hjxyhvX^oRF6h-ZKU=r Dwitg0Jfx<a;'v&ZQL4\\e3\\fuJ}OwQaLJ9L5zH`n'A",
 		")~_Ny_>tp$#^v[^g`O~CCPCX[oG2pjC\\ozk,CUIqlrE2Ofqe|DK2dAUkZGIFz&}(AeOKKMYy&'mrKeR6R[PheEPG.tY",
 		"gxZAV1AdaU @!!g{xs\\[j]yM#[I{CLGUCB"};
-    public static final String[] PRODUCT_IDS =  new String[]{"com.oakclub.iap.01month","locpham.test.package2","com.oakclub.iap.6month","com.oakclub.iap.12month"};
+    public static final String[] PRODUCT_IDS =  new String[]{"com.oakclub.iap.01month","com.oakclub.iap.6month","com.oakclub.iap.12month"};
     public static final String PURCHASE_PRICE = "PURCHASE_PRICE";
     public static final String TRANSACTION_ID= "TRANSACTION_ID";
 
