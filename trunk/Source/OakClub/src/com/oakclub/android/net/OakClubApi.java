@@ -135,6 +135,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			hget.setHeader(Constants.HEADER_X_WSSE,headerValue);
 			hget.setHeader(Constants.HEADER_ACCEPT,"application/json");
 			hget.setHeader(Constants.HEADER_ACCEPT,"text/html");
+			hget.setHeader(Constants.HTTP_USER_AGENT, "Android");
 			hget.setURI(new URI(url));
 			HttpResponse response = hClient.execute(hget);
 			StatusLine statusLine = response.getStatusLine();
@@ -186,6 +187,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			httppost.setHeader(Constants.HEADER_X_WSSE,headerValue);
 			httppost.setHeader(Constants.HEADER_ACCEPT,"application/json");
 			httppost.setHeader(Constants.HEADER_ACCEPT,"text/html");
+			httppost.setHeader(Constants.HTTP_USER_AGENT, "Android");
 			httppost.setEntity(new UrlEncodedFormEntity(paramList, "UTF-8"));
 			response = httpclient.execute(httppost);
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

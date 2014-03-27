@@ -45,6 +45,7 @@ public class Constants {
 	public static String HEADER_CREATED = "Created";
 	public static String HEADER_X_WSSE ="X-WSSE";
 	public static String HEADER_ACCEPT = "Accept";
+	public static String HTTP_USER_AGENT = "User-Agent";
 	public static String PROFILE_SETTING_FIELD_EMAIL = "email";
 	public static String PROFILE_SETTING_FIELD_NAME = "name";
 	public static String PROFILE_SETTING_FIELD_BIRTHDATE = "birthday";

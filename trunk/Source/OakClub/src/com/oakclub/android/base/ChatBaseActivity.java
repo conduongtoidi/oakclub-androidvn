@@ -174,7 +174,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 				}
 				updateListChat(ChatBaseActivity.this);
 			}
-			
+//			
 //			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
 //				
 //			}

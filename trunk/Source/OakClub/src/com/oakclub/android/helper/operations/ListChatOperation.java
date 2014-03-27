@@ -134,7 +134,7 @@ public class ListChatOperation {
 
 	public ArrayList<ListChatData> getListChat() {
 		ArrayList<ListChatData> listChat = new ArrayList<ListChatData>();
-		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT +" ORDER BY DATE("+KEY_ACTIVE_TIME+") DESC";
+		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT +" ORDER BY "+KEY_VIP+" DESC , DATE("+KEY_ACTIVE_TIME+") DESC ";
 		this.open();
 	    Cursor cursor = database.rawQuery(selectQuery, null);
 	    if (cursor.moveToFirst()) {
