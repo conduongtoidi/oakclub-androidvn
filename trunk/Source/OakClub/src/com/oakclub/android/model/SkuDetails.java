@@ -62,6 +62,7 @@ public class SkuDetails {
     public String getType() { return type; }
     public String getPrice() { return price; }
     public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
     public String getDescription() { return description; }
     public String getCurrency() { return currency; }
     public String getPriceInMicros() { return priceInMicros; }

@@ -153,7 +153,6 @@
 	<string name="txt_verified_way_2">Alternatively, you can {{b}}get verified by emailing{{/b}} us a {{b}}screenshot of your profile + a copy of your passport{{/b}} from the email account you use for Facebook to {{b}}verification@oakclub.com{{/b}}</string>    
 	<string name="txt_verified_continue">Continue</string>
     <string name="txt_verified_skip">Skip</string>
-    <string name="txt_non_VIP_message">This chat feature is only for VIP users.</string>
    <string name="txt_got_verified">I Got Verified!</string>
    <string name="txt_oakclub_page">OakClub.com</string>
     <string name="txt_sample_post">
@@ -178,19 +177,18 @@
     <string name="txt_verification">Verification</string>
     
     <string name="txt_vip_title">Become a V.I.P</string>
-    <string name="txt_vip_content_1">Enter V.I.P Room</string>
-    <string name="txt_vip_content_2">Chat with non-matches</string>
-    <string name="txt_vip_content_3">Meet our hand-picked starred users</string>
+    <string name="txt_vip_benefits_1">Prioritize you on Snapshots queue. More people will see you.</string>
+    <string name="txt_vip_benefits_2">Why waiting? Chat immediately with the ones you like.</string>
+    <string name="txt_vip_benefits_3">Meet our hand-picked starred users.</string>
+    <string name="txt_vip_benefits_4">VIP messages appears before other users.</string>
+    <string name="txt_vip_benefits_5">Express it in your own ways. Tons of emoticons and stickers for VIPs only.</string>
+    <string name="txt_vip_benefits_6">Looks fabulous with golden frame and VIP crown.</string>
     <string name="txt_month">{{b}}%s month{{/b}}</string>
     <string name="txt_months">{{b}}%s months{{/b}}</string>
     <string name="txt_get_vip_btn">Get V.I.P Package Now</string>
-    <string name="txt_USD">{{b}}%s{{/b}} USD</string>
-    <string name="txt_USD_month">{{b}}%s{{/b}} USD / mo</string>
-    <string name="txt_month_abbreviations">mo</string>
-    <string name="txt_billed">Billed in one payment of %sUSD</string>
-    <string name="txt_save">{{b}}( Save %s%%){{/b}}</string>
-    <string name="txt_vip_room">V.I.P Room</string>
-    <string name="txt_vip_room_message">Sorry! This feature not available!</string>
+    <string name="txt_int_app_product_price">{{b}}%s{{/b}}</string>
+    <string name="txt_save">{{b}}(Save %s%% of monthly fee{{/b}})</string>
+    <string name="txt_vip_room">Get V.I.P</string>
     <string name="txt_rate_app">Rate OakClub</string>
     <string name="txt_content_rate_app">Please take 1 minute to let us know what you think about OakClub. Thank you for your support!</string>
     <string name="txt_leave_us_a_message">Leave us a message</string>
@@ -211,10 +209,12 @@
      <string name="txt_purchase_cancel">Purchasing is not complete. Please try again!</string>
     <string name="txt_purchase_error">Error purchasing. Authenticity verification failed.</string>
     <string name="txt_choose_package_msg">Please choose one of packages!!!</string>
-    <string name="txt_you_VIP_member">You are now VIP member</string>
+    <string name="txt_you_VIP_member">You Are Now Already A</string>
+    <string name="txt_VIP_member">VIP Member</string>
+    <string name="txt_meet_more_people">Meet More People</string>
+     <string name="txt_VIP_member_content">Start a conversation with everyone!\nThe more people you chat with, the more likely you are to find the right match!</string>
     <string name="txt_purchase_confirmed">Your Purchase Has Been Confirmed</string>
     <string name="txt_btn_back">Back</string>
-    <string name="txt_purchase_confirmed_price">{{b}}%s{{/b}} USD</string>
     <string name="txt_purchase_confirmed_transaction_id">Transaction ID: %s</string>
     <string name="txt_share_on_facebook">Share On Facebook</string>
     <string name="txt_email_to_friend">Email To Your Friends</string>
@@ -233,7 +233,6 @@
     <string name="build_version">Version 1.6.1</string>
     <string-array name="months_list">
         <item>1</item>
-        <item>3</item>
         <item>6</item>
         <item>12</item>
     </string-array>
