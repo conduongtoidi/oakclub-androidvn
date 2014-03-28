@@ -124,10 +124,6 @@ public class LeftMenuListFragment extends Fragment {
 		public void onClick(View v) {
 			activity = (SlidingActivity) getActivity();
 			Intent intent;
-			if (activity.getMenu() != MenuOakclub.VIPROOM && GetVIPFragment.mHelper != null) {
-	    		GetVIPFragment.mHelper.dispose();
-	    		GetVIPFragment.mHelper = null;
-	        }
 			if (OakClubUtil.isInternetAccess(activity)) {
 				switch (v.getId()) {
 				case R.id.menu_item_llt_profile:
@@ -310,30 +306,6 @@ public class LeftMenuListFragment extends Fragment {
 			tvVipRoom.setTextColor(getResources().getColor(R.color.Gold));
 			iconVIPRoom.setBackgroundResource(R.drawable.viproom_icon_complete);
 		}
-	}
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-//		if(resultCode == Activity.RESULT_OK){
-//			if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
-//				activity.setMenu(MenuOakclub.SNAPSHOT);
-//				SnapshotFragment snapshot = new SnapshotFragment(
-//						activity);
-//				snapshot.initSnapshot();
-//				activity.snapshot = snapshot;
-//			}
-//		}
-//		if (data != null) {
-//			if (requestCode == Constants.VERIFIED) {
-//				boolean res = data.getBooleanExtra(Constants.VERIFIED_SUCCESS,
-//						false);
-//				if (res) {
-//					menuVerified.setVisibility(View.GONE);
-//					ivVerified.setVisibility(View.VISIBLE);
-//				}
-//			}
-//		}
-
 	}
 
 	@Override

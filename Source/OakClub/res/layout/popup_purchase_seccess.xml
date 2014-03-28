@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="@string/txt_int_app_product_price"
+                    android:text="@string/txt_int_app_product_title"
                     android:textColor="@color/Black"
                     android:textSize="24sp" />
 

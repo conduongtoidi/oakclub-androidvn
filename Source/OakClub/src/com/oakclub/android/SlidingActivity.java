@@ -1,24 +1,14 @@
 package com.oakclub.android;
 
-import java.io.IOException;
-
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 
 import com.facebook.Session;
-import com.google.android.gms.internal.fm;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.fragment.GetVIPFragment;
-import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.fragment.ProfileSettingFragment;
 import com.oakclub.android.fragment.SnapshotFragment;
 import com.oakclub.android.fragment.VIPRoomFragment;
@@ -106,10 +96,10 @@ public class SlidingActivity extends SlidingMenuActivity {
                 break;
             case INVITE_FRIEND:
                 break;
-            case VIPROOM:
-            	if (GetVIPFragment.mHelper != null)
-                	GetVIPFragment.mHelper.handleActivityResult(requestCode, resultCode, data); 
-            	if(requestCode == Constants.GETVIP){
+            case VIPROOM: 
+            	if(GetVIPFragment.btn_get_vip_package != null)
+            		GetVIPFragment.btn_get_vip_package.setEnabled(true);
+            	if(ProfileSettingFragment.profileInfoObj != null && ProfileSettingFragment.profileInfoObj.isIs_vip()){
 					VIPRoomFragment vipRoom = new VIPRoomFragment(this);
 					vipRoom.initVIPRoom();				
             	}
@@ -158,10 +148,6 @@ public class SlidingActivity extends SlidingMenuActivity {
     @Override
     protected void onDestroy(){
         //OakClubUtil.recycleImagesFromView(view);
-    	if (GetVIPFragment.mHelper != null) {
-    		GetVIPFragment.mHelper.dispose();
-    		GetVIPFragment.mHelper = null;
-        }
         System.gc();
         super.onDestroy();
     }

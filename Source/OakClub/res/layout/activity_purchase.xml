@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/vip_base"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_purchasing_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="5dp"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/back"
+        android:drawablePadding="3dp"
+        android:text="@string/txt_btn_back"
+        android:textSize="20sp"
+        android:textColor="@color/Purple" />
+
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/separators" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/vip_base" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/vip_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/txt_VIP_member"
+                android:src="@drawable/vip_lgo" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/get_vip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="@string/txt_vip_purchase_title"
+                android:textColor="@color/GoldLight"
+                android:textSize="35sp"
+                android:textStyle="normal" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:id="@+id/error_load_products_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="@string/abnormal_error_message"
+                android:textColor="@color/Red"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/list_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_get_vip"
+                style="@style/button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/gold_button_selector"
+                android:drawableLeft="@drawable/vip_icon"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                 android:paddingRight="10dp"
+                android:text="@string/txt_get_vip_btn"
+                android:textColor="@color/White"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -43,12 +43,23 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
+                android:drawableLeft="@drawable/tick"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_vip_benefits_title_1"
+                android:textColor="@color/Gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/txt_vip_benefits_1"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/Black"
+                android:textSize="12sp" />
 
             <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="wrap_content"
@@ -56,12 +67,23 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
+                android:drawableLeft="@drawable/tick"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_vip_benefits_title_2"
+                android:textColor="@color/Gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/txt_vip_benefits_2"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/Black"
+                android:textSize="12sp" />
 
             <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="wrap_content"
@@ -69,12 +91,23 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
+                android:drawableLeft="@drawable/tick"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_vip_benefits_title_3"
+                android:textColor="@color/Gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/txt_vip_benefits_3"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/Black"
+                android:textSize="12sp" />
 
             <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="wrap_content"
@@ -82,12 +115,23 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
+                android:drawableLeft="@drawable/tick"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_vip_benefits_title_4"
+                android:textColor="@color/Gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/txt_vip_benefits_4"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/Black"
+                android:textSize="12sp" />
 
             <com.oakclub.android.view.TextViewWithFont
                 android:layout_width="wrap_content"
@@ -95,49 +139,24 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
+                android:drawableLeft="@drawable/tick"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_vip_benefits_title_5"
+                android:textColor="@color/Gold"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <com.oakclub.android.view.TextViewWithFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/txt_vip_benefits_5"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/Black"
+                android:textSize="12sp" />
 
-            <com.oakclub.android.view.TextViewWithFont
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/vip_tick"
-                android:drawablePadding="5dp"
-                android:text="@string/txt_vip_benefits_6"
-                android:textColor="@color/Gold"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <com.oakclub.android.view.TextViewWithFont
-                android:id="@+id/error_load_products_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:text="@string/abnormal_error_message"
-                android:textColor="@color/Red"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/list_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical" >
-            </LinearLayout>
+          
         </LinearLayout>
 
         <Button
@@ -145,14 +164,17 @@
             style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:background="@drawable/gold_button_selector"
             android:drawableLeft="@drawable/vip_icon"
             android:drawablePadding="5dp"
-            android:gravity="left|center"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:paddingLeft ="10dp"
+            android:paddingRight ="10dp"
             android:text="@string/txt_get_vip_btn"
             android:textColor="@color/White" />
+
     </LinearLayout>
 
 </ScrollView>
