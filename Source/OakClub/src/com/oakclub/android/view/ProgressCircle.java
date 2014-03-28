@@ -81,7 +81,7 @@ public class ProgressCircle extends FrameLayout{
 		}
 		
 		civAvatar = new CircleImageView(getContext());   
-        OakClubUtil.loadImageFromUrl(getContext() ,url, civAvatar);
+        OakClubUtil.loadImageFromUrl(getContext() ,url, civAvatar, "");
         params = new FrameLayout.LayoutParams(WIDTH_IMAGE_AVATAR,WIDTH_IMAGE_AVATAR);
         params.gravity = Gravity.CENTER;
         civAvatar.setLayoutParams(params);

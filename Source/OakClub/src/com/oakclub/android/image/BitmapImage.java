@@ -10,7 +10,12 @@ public class BitmapImage implements SmartImage {
         this.bitmap = bitmap;
     }
 
-    public Bitmap getBitmap(Context context) {
-        return bitmap;
-    }
+//    public Bitmap getBitmap(Context context) {
+//        return bitmap;
+//    }
+
+	@Override
+	public Bitmap getBitmap(Context context, String folder) {
+		return bitmap;
+	}
 }

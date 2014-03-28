@@ -35,6 +35,7 @@ import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
@@ -110,7 +111,6 @@ public class ChatActivity extends OakClubBaseActivity {
 	ImageButton btnInfoProfile;
 	ImageButton btnReport;
 	TextView tvName;
-	
 
 	// private Button btShowSmile;
 	// private Button btShowKeyboard;
@@ -143,7 +143,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	private SharedPreferences pref;
 	private Editor editor;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -161,35 +161,40 @@ public class ChatActivity extends OakClubBaseActivity {
 		match_time = bundleListChatData.getString(Constants.BUNDLE_MATCH_TIME);
 		isLoadFromNoti = bundleListChatData.getBoolean(Constants.BUNDLE_NOTI);
 		isGotHistory = (status != 0);
-		pref = getApplicationContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        editor = pref.edit();
+		pref = getApplicationContext().getSharedPreferences(
+				Constants.PREFERENCE_NAME, 0);
+		editor = pref.edit();
 		if (xmpp == null) {
-			pdLogin = new ProgressDialog(ChatActivity.this);
-			pdLogin.setMessage(getString(R.string.txt_loading));
-			pdLogin.setCancelable(false);
-			pdLogin.show();
-			
-			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID, null);
+			if (!ChatActivity.this.isFinishing()) {
+				pdLogin = new ProgressDialog(ChatActivity.this);
+				pdLogin.setMessage(getString(R.string.txt_loading));
+				pdLogin.setCancelable(false);
+				pdLogin.show();
+			}
+
+			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
+					null);
 			access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
 			GCMRegistrar.checkDevice(this);
 			GCMRegistrar.checkManifest(this);
 			android_token = GCMRegistrar.getRegistrationId(this);
-			
+
 			appVer = android.os.Build.VERSION.RELEASE;
 			nameDevice = android.os.Build.MODEL;
-			
+
 			SendRegisterRequest request = new SendRegisterRequest(
-					"sendRegister", ChatActivity.this,
-					facebook_user_id, access_token);
+					"sendRegister", ChatActivity.this, facebook_user_id,
+					access_token);
 			getRequestQueue().addRequest(request);
-			
-			GetConfig loader = new GetConfig(Constants.GETCONFIG, ChatActivity.this);
-	        getRequestQueue().addRequest(loader);
-	        
-	        LoginXMPPLoader loader2 = new LoginXMPPLoader("loginXMPP",
+
+			GetConfig loader = new GetConfig(Constants.GETCONFIG,
+					ChatActivity.this);
+			getRequestQueue().addRequest(loader);
+
+			LoginXMPPLoader loader2 = new LoginXMPPLoader("loginXMPP",
 					ChatActivity.this);
 			getRequestQueue().addRequest(loader2);
-			
+
 		} else {
 			initEmoticonPage();
 		}
@@ -200,8 +205,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-
-		
 
 		ConnectionConfiguration config = new ConnectionConfiguration(
 				getString(R.string.xmpp_server_address),
@@ -230,9 +233,10 @@ public class ChatActivity extends OakClubBaseActivity {
 						Message message = (Message) packet;
 						if (message.getBody() != null) {
 
-				            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-				            editor.commit();
-				            
+							editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN,
+									true);
+							editor.commit();
+
 							solveReceiveNewMessage(message);
 						}
 					} else {
@@ -285,22 +289,21 @@ public class ChatActivity extends OakClubBaseActivity {
 		txt_chat_match_time = (TextViewWithFont) findViewById(R.id.activity_chat_match_time);
 		txt = (TextViewWithFont) findViewById(R.id.txt);
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
-		
 
 		StickerScreenAdapter.chat = this;
-        
-        ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-        
+
+		ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+
 		if (status == 0) {
 			progressBar.setVisibility(View.GONE);
 			chatLv.setVisibility(View.GONE);
 			lltMatch.setVisibility(View.VISIBLE);
 			String url = OakClubUtil.getFullLink(this, target_avatar);
-			OakClubUtil.loadImageFromUrl(this, url, userAvatar);
+			OakClubUtil.loadImageFromUrl(this, url, userAvatar, "");
 			int fontSize = (int) OakClubUtil.convertPixelsToDp(
 					OakClubUtil.getWidthScreen(this) / 25, this);
-			txt_chat_match_content.setText(String.format(getString(R.string.txt_chat_match_content),
-					target_name));
+			txt_chat_match_content.setText(String.format(
+					getString(R.string.txt_chat_match_content), target_name));
 			txt_chat_match_content.setTextSize(fontSize);
 			txt_chat_match_time.setText(timeMatch(match_time));
 			fontSize = (int) OakClubUtil.convertPixelsToDp(
@@ -309,18 +312,18 @@ public class ChatActivity extends OakClubBaseActivity {
 			txt.setTextSize(fontSize);
 			listChatDb.updateReadMutualMatch(profile_id);
 
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
-            
+			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+			editor.commit();
+
 			SetViewMuatualEvent setViewMutual = new SetViewMuatualEvent(
-	                Constants.SET_VIEW_MUTUAL_MATCH, ChatActivity.this,
-	                profile_id);
-	        getRequestQueue().addRequest(setViewMutual);
-		} else {
-			ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", this,
+					Constants.SET_VIEW_MUTUAL_MATCH, ChatActivity.this,
 					profile_id);
+			getRequestQueue().addRequest(setViewMutual);
+		} else {
+			ChatHistoryRequest loader = new ChatHistoryRequest("getListChat",
+					this, profile_id);
 			getRequestQueue().addRequest(loader);
-			
+
 			chatLv.setVisibility(View.VISIBLE);
 			lltMatch.setVisibility(View.GONE);
 			listChatDb.updateReadMessage(profile_id);
@@ -332,7 +335,6 @@ public class ChatActivity extends OakClubBaseActivity {
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		lltBottom.setLayoutParams(params);
 		tvName.setText(target_name);
-
 
 		btShowSmile.setOnClickListener(listener);
 		btShowSticker.setOnClickListener(listener);
@@ -350,14 +352,17 @@ public class ChatActivity extends OakClubBaseActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
+				isShowSmile = false;
+				isShowSticker = false;
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
 				rltChatViewPage.setVisibility(View.GONE);
-				//when VIP account click chat button				
-				if(!isGotHistory){
-					ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-					ChatHistoryRequest loader = new ChatHistoryRequest("getListChat", ChatActivity.this,
-							profile_id);
+				// when VIP account click chat button
+				if (!isGotHistory) {
+					ListChatOperation listChatDb = new ListChatOperation(
+							ChatActivity.this);
+					ChatHistoryRequest loader = new ChatHistoryRequest(
+							"getListChat", ChatActivity.this, profile_id);
 					getRequestQueue().addRequest(loader);
 					listChatDb.updateReadMessage(profile_id);
 					isGotHistory = true;
@@ -365,26 +370,28 @@ public class ChatActivity extends OakClubBaseActivity {
 				return false;
 			}
 		});
-		
+
 		tbMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				InputMethodManager imm = (InputMethodManager) ChatActivity.this
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(tbMessage, InputMethodManager.SHOW_IMPLICIT);
 				if (hasFocus) {
 					params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 					lltBottom.setLayoutParams(params);
 					rltChatViewPage.setVisibility(View.GONE);
 				}
+				InputMethodManager imm = (InputMethodManager) ChatActivity.this
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(tbMessage, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
-		
+
 		messageArrayList = new ArrayList<ChatHistoryData>();
 		if (Constants.dataConfig != null) {
 			adapter = new ChatHistoryAdapter(getApplicationContext(),
 					messageArrayList, profile_id, target_avatar);
 			chatLv.setAdapter(adapter);
+			chatLv.setSmoothScrollbarEnabled(true);
+			chatLv.smoothScrollBy(1, 30);
 		}
 		chatLv.setOnTouchListener(new OnTouchListener() {
 
@@ -399,48 +406,50 @@ public class ChatActivity extends OakClubBaseActivity {
 				return false;
 			}
 		});
-		//typing();
+		// typing();
 	}
 
 	private TextWatcher tw = null;
-	private void typing(){
-        tw = new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable arg0) {
-//                Spannable spannable = getSmiledText(getApplicationContext(), tbMessage.getText().toString(), true);
-//				ChatActivity.tbMessage.setText(spannable);
-//				ChatActivity.tbMessage.setSelection(spannable.length());
-            	
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                    int arg2, int arg3) {
-            
-            }
+	private void typing() {
+		tw = new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// Spannable spannable = getSmiledText(getApplicationContext(),
+				// tbMessage.getText().toString(), true);
+				// ChatActivity.tbMessage.setText(spannable);
+				// ChatActivity.tbMessage.setSelection(spannable.length());
 
-            @Override
-            public void onTextChanged(CharSequence str, int start, int before,
-                    int count) {
-            	tbMessage.removeTextChangedListener(tw);
-            	Spannable spannable = getSmiledText(getApplicationContext(), tbMessage.getText().toString(), true);
-				tbMessage.setText(spannable);
-				tbMessage.setSelection(spannable.length());
-                tbMessage.addTextChangedListener(tw);
-            }
-        };
-        tbMessage.addTextChangedListener(tw);
-    }
-	
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence str, int start, int before,
+					int count) {
+				// tbMessage.removeTextChangedListener(tw);
+				// Spannable spannable = getSmiledText(getApplicationContext(),
+				// tbMessage.getText().toString(), true);
+				// tbMessage.setText(spannable);
+				// tbMessage.setSelection(spannable.length());
+				// tbMessage.addTextChangedListener(tw);
+			}
+		};
+		tbMessage.addTextChangedListener(tw);
+	}
+
 	private void initEmoticonPage() {
 		try {
 			emoticonScreenAdapter = new EmoticonScreenAdapter(this);
 			stickerScreenAdapter = new StickerScreenAdapter(this);
-			 
-	        mPager = (ViewPager)findViewById(R.id.activity_chat_viewpage_emoticon);
-	        mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
+
+			mPager = (ViewPager) findViewById(R.id.activity_chat_viewpage_emoticon);
+			mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
 		} catch (Exception ex) {
-			
+
 		}
 	}
 
@@ -450,10 +459,12 @@ public class ChatActivity extends OakClubBaseActivity {
 			switch (v.getId()) {
 			case R.id.activity_chat_fltTop_imgbtnInfoProfile:
 				if (!isPressInfoProfile) {
-					pd = new ProgressDialog(ChatActivity.this);
-					pd.setMessage(getString(R.string.txt_loading));
-					pd.setCancelable(false);
-					pd.show();
+					if (!ChatActivity.this.isFinishing()) {
+						pd = new ProgressDialog(ChatActivity.this);
+						pd.setMessage(getString(R.string.txt_loading));
+						pd.setCancelable(false);
+						pd.show();
+					}
 					isPressInfoProfile = true;
 					GetOtherProfile loader2 = new GetOtherProfile(
 							Constants.GET_HANGOUT_PROFILE, ChatActivity.this,
@@ -462,7 +473,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				break;
 			case R.id.activity_chat_fltTop_imgbtnBack:
-				
+
 				editor.putBoolean(Constants.isLoadChat, true);
 				editor.commit();
 				SetReadMessages loader3 = new SetReadMessages(
@@ -470,12 +481,13 @@ public class ChatActivity extends OakClubBaseActivity {
 						profile_id);
 				getRequestQueue().addRequest(loader3);
 
-				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-				if(status ==2){
+				ListChatOperation listChatDb = new ListChatOperation(
+						ChatActivity.this);
+				if (status == 2) {
 					listChatDb.updateReadMessage(profile_id);
-					
-		            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-		            editor.commit();
+
+					editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+					editor.commit();
 				}
 				if (isLoadFromNoti) {
 					Intent intent = new Intent(ChatActivity.this,
@@ -483,7 +495,8 @@ public class ChatActivity extends OakClubBaseActivity {
 					startActivity(intent);
 					finish();
 				} else {
-					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+					SlidingMenuActivity.getTotalNotification(listChatDb
+							.getTotalNotification());
 					finish();
 				}
 				break;
@@ -501,7 +514,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				chatLv.setVisibility(View.VISIBLE);
 				lltMatch.setVisibility(View.GONE);
 				editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-	            editor.commit();
+				editor.commit();
 				solveSendMessage();
 				break;
 			case R.id.activity_chat_fltTop_imgbtnReport:
@@ -542,15 +555,14 @@ public class ChatActivity extends OakClubBaseActivity {
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
 			mPager.setAdapter(stickerScreenAdapter);
-	        mIndicator.setViewPager(mPager);
-	        mIndicator.notifyDataSetChanged();
-	        mIndicator.setCurrentItem(1);
+			mIndicator.setViewPager(mPager);
+			mIndicator.notifyDataSetChanged();
+			mIndicator.setCurrentItem(1);
 			params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.FILL_PARENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-			params.addRule(RelativeLayout.ABOVE,
-					 R.id.activity_chat_viewpage);
+			params.addRule(RelativeLayout.ABOVE, R.id.activity_chat_viewpage);
 			lltBottom.setLayoutParams(params);
 			rltChatViewPage.setVisibility(View.VISIBLE);
 		}
@@ -560,204 +572,211 @@ public class ChatActivity extends OakClubBaseActivity {
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
 			mPager.setAdapter(emoticonScreenAdapter);
-	        mIndicator.setViewPager(mPager);
-	        mIndicator.notifyDataSetChanged();
-	        mIndicator.setCurrentItem(1);
+			mIndicator.setViewPager(mPager);
+			mIndicator.notifyDataSetChanged();
+			mIndicator.setCurrentItem(0);
 			params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.FILL_PARENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-			params.addRule(RelativeLayout.ABOVE,
-						 R.id.activity_chat_viewpage);
+			params.addRule(RelativeLayout.ABOVE, R.id.activity_chat_viewpage);
 			lltBottom.setLayoutParams(params);
 			rltChatViewPage.setVisibility(View.VISIBLE);
 		}
 	};
 
 	public void solveEditBtn() {
-		final String[] stringList = getResources().getStringArray(
-				R.array.report_user_reasons);
-		final ArrayList<RadioButton> radioButtons;
-		AlertDialog.Builder builder;
-		builder = new AlertDialog.Builder(ChatActivity.this);
-		final AlertDialog dialog = builder.create();// new
-													// Dialog(ProfileSettingActivity.this);
-		final LayoutInflater inflater = LayoutInflater.from(this);
-		View mainRelativeLayout = inflater.inflate(
-				R.layout.dialog_report_spam_input, null);
-		dialog.setView(mainRelativeLayout, 0, 0, 0, 0);
+		if (!ChatActivity.this.isFinishing()) {
+			final String[] stringList = getResources().getStringArray(
+					R.array.report_user_reasons);
+			final ArrayList<RadioButton> radioButtons;
+			AlertDialog.Builder builder;
+			builder = new AlertDialog.Builder(ChatActivity.this);
+			final AlertDialog dialog = builder.create();// new
+														// Dialog(ProfileSettingActivity.this);
+			final LayoutInflater inflater = LayoutInflater.from(this);
+			View mainRelativeLayout = inflater.inflate(
+					R.layout.dialog_report_spam_input, null);
+			dialog.setView(mainRelativeLayout, 0, 0, 0, 0);
 
-		final RadioGroup radioGroup = (RadioGroup) mainRelativeLayout
-				.findViewById(R.id.radioGroup1);
-		radioGroup.setOrientation(RadioGroup.VERTICAL);
-		radioButtons = new ArrayList<RadioButton>();
-//		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//				LinearLayout.LayoutParams.MATCH_PARENT,
-//				LinearLayout.LayoutParams.WRAP_CONTENT);
-		final EditText editText = (EditText) mainRelativeLayout
-				.findViewById(R.id.editText);
-		// lp.setMargins(0, 5, 0, 5);
-		for (int i = 0; i < stringList.length; i++) {
-			RadioButtonCustom radio = new RadioButtonCustom(this,
-					getResources().getDrawable(R.drawable.radiogroup_selector2));
-			radio.setText(stringList[i]);
-			radio.setTextColor(Color.BLACK);
-			radio.setLayoutParams(new RadioGroup.LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-			int padding = (int) OakClubUtil.convertDpToPixel(12, this);
-			radio.setPadding(padding, padding, padding, padding);
-			// radio.setBackgroundResource(R.drawable.white_purple_btn_);
+			final RadioGroup radioGroup = (RadioGroup) mainRelativeLayout
+					.findViewById(R.id.radioGroup1);
+			radioGroup.setOrientation(RadioGroup.VERTICAL);
+			radioButtons = new ArrayList<RadioButton>();
+			// LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+			// LinearLayout.LayoutParams.MATCH_PARENT,
+			// LinearLayout.LayoutParams.WRAP_CONTENT);
+			final EditText editText = (EditText) mainRelativeLayout
+					.findViewById(R.id.editText);
+			// lp.setMargins(0, 5, 0, 5);
+			for (int i = 0; i < stringList.length; i++) {
+				RadioButtonCustom radio = new RadioButtonCustom(this,
+						getResources().getDrawable(
+								R.drawable.radiogroup_selector2));
+				radio.setText(stringList[i]);
+				radio.setTextColor(Color.BLACK);
+				radio.setLayoutParams(new RadioGroup.LayoutParams(
+						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				int padding = (int) OakClubUtil.convertDpToPixel(12, this);
+				radio.setPadding(padding, padding, padding, padding);
+				// radio.setBackgroundResource(R.drawable.white_purple_btn_);
 
-			if (radio.getText().equals(
-					getApplicationContext().getString(
-							R.string.txt_report_user_other))) {
-				radio.setOnClickListener(new OnClickListener() {
+				if (radio.getText().equals(
+						getApplicationContext().getString(
+								R.string.txt_report_user_other))) {
+					radio.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						editText.setVisibility(View.VISIBLE);
-						editText.requestFocus();
-						InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-						imm.showSoftInput(editText,
-								InputMethodManager.SHOW_IMPLICIT);
-						isOtherReport = true;
-					}
-				});
-			} else {
-				radio.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-
-						editText.setVisibility(View.GONE);
-						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(editText.getWindowToken(),
-								0);
-						isOtherReport = false;
-					}
-				});
-			}
-
-			radioButtons.add(radio);
-			radioGroup.addView(radio);
-			ImageView separator = new ImageButton(this);
-			separator.setBackgroundResource(R.drawable.separators);
-			separator.setLayoutParams(new RadioGroup.LayoutParams(
-					LayoutParams.MATCH_PARENT, 1));
-			radioGroup.addView(separator);
-
-		}
-
-		Button okBtn;
-		okBtn = (Button) mainRelativeLayout.findViewById(R.id.ok_btn);
-		okBtn.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				int selectedButtonId = radioGroup.getCheckedRadioButtonId();
-				int selectedId = -1;
-				for (int i = 0; i < radioButtons.size(); i++) {
-					if (radioButtons.get(i).getId() == selectedButtonId) {
-						selectedId = i;
-						if (isOtherReport) {
-							content = editText.getText().toString();
-						} else {
-							content = radioButtons.get(i).getText().toString();
+						@Override
+						public void onClick(View v) {
+							editText.setVisibility(View.VISIBLE);
+							editText.requestFocus();
+							InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+							imm.showSoftInput(editText,
+									InputMethodManager.SHOW_IMPLICIT);
+							isOtherReport = true;
 						}
-						break;
+					});
+				} else {
+					radio.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+
+							editText.setVisibility(View.GONE);
+							InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(
+									editText.getWindowToken(), 0);
+							isOtherReport = false;
+						}
+					});
+				}
+
+				radioButtons.add(radio);
+				radioGroup.addView(radio);
+				ImageView separator = new ImageButton(this);
+				separator.setBackgroundResource(R.drawable.separators);
+				separator.setLayoutParams(new RadioGroup.LayoutParams(
+						LayoutParams.MATCH_PARENT, 1));
+				radioGroup.addView(separator);
+
+			}
+
+			Button okBtn;
+			okBtn = (Button) mainRelativeLayout.findViewById(R.id.ok_btn);
+			okBtn.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					int selectedButtonId = radioGroup.getCheckedRadioButtonId();
+					int selectedId = -1;
+					for (int i = 0; i < radioButtons.size(); i++) {
+						if (radioButtons.get(i).getId() == selectedButtonId) {
+							selectedId = i;
+							if (isOtherReport) {
+								content = editText.getText().toString();
+							} else {
+								content = radioButtons.get(i).getText()
+										.toString();
+							}
+							break;
+						}
 					}
+					if (selectedId != -1) {
+						showBlockConfirmDialog(
+								getResources().getString(
+										R.string.txt_report_message),
+								getResources().getString(
+										R.string.txt_report_anyway), true);
+					}
+					dialog.dismiss();
 				}
-				if (selectedId != -1) {
+			});
+			Button btnBlock = (Button) mainRelativeLayout
+					.findViewById(R.id.dialog_report_spam_input_block_user);
+			btnBlock.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					dialog.dismiss();
 					showBlockConfirmDialog(
-							getResources().getString(
-									R.string.txt_report_message),
 							getResources()
-									.getString(R.string.txt_report_anyway),
-							true);
+									.getString(R.string.txt_block_message),
+							getResources().getString(R.string.txt_block_anyway),
+							false);
 				}
-				dialog.dismiss();
-			}
-		});
-		Button btnBlock = (Button) mainRelativeLayout
-				.findViewById(R.id.dialog_report_spam_input_block_user);
-		btnBlock.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+			});
 
-				dialog.dismiss();
-				showBlockConfirmDialog(
-						getResources().getString(R.string.txt_block_message),
-						getResources().getString(R.string.txt_block_anyway),
-						false);
-			}
-		});
+			Button btnCancel = (Button) mainRelativeLayout
+					.findViewById(R.id.dialog_report_spam_input_cancel);
+			btnCancel.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
 
-		Button btnCancel = (Button) mainRelativeLayout
-				.findViewById(R.id.dialog_report_spam_input_cancel);
-		btnCancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-
-		dialog.setCancelable(false);
-		dialog.show();
+			dialog.setCancelable(false);
+			dialog.show();
+		}
 	}
 
 	public void showBlockConfirmDialog(String tvQuestion, String btName,
 			final boolean isReport) {
-		AlertDialog.Builder builder;
-		builder = new AlertDialog.Builder(ChatActivity.this);
-		final AlertDialog dialog = builder.create();// new
-													// Dialog(ProfileSettingActivity.this);
-		final LayoutInflater inflater = LayoutInflater.from(this);
-		View mainRelativeLayout = inflater.inflate(
-				R.layout.dialog_report_spam_confirm, null);
-		dialog.setView(mainRelativeLayout, 0, 0, 0, 0);
-		TextView tvQues = (TextView) mainRelativeLayout
-				.findViewById(R.id.dialog_report_spam_confirm_tvquestion);
-		tvQues.setText(tvQuestion);
-		Button okBtn;
-		okBtn = (Button) mainRelativeLayout.findViewById(R.id.ok_btn);
-		okBtn.setText(btName);
-		okBtn.setOnClickListener(new View.OnClickListener() {
+		if (!ChatActivity.this.isFinishing()) {
+			AlertDialog.Builder builder;
+			builder = new AlertDialog.Builder(ChatActivity.this);
+			final AlertDialog dialog = builder.create();// new
+														// Dialog(ProfileSettingActivity.this);
+			final LayoutInflater inflater = LayoutInflater.from(this);
+			View mainRelativeLayout = inflater.inflate(
+					R.layout.dialog_report_spam_confirm, null);
+			dialog.setView(mainRelativeLayout, 0, 0, 0, 0);
+			TextView tvQues = (TextView) mainRelativeLayout
+					.findViewById(R.id.dialog_report_spam_confirm_tvquestion);
+			tvQues.setText(tvQuestion);
+			Button okBtn;
+			okBtn = (Button) mainRelativeLayout.findViewById(R.id.ok_btn);
+			okBtn.setText(btName);
+			okBtn.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				if (isReport) {
-					ReportUserRequest loader = new ReportUserRequest(
-							"reportUser", ChatActivity.this, profile_id,
-							content);
-					getRequestQueue().addRequest(loader);
-				} else {
+				@Override
+				public void onClick(View arg0) {
+					if (isReport) {
+						ReportUserRequest loader = new ReportUserRequest(
+								"reportUser", ChatActivity.this, profile_id,
+								content);
+						getRequestQueue().addRequest(loader);
+					} else {
 
-                	ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-                	listChatDb.deleteListChat(profile_id);
-                	
-					editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-					editor.commit();
-					
-					BlockUserRequest loader = new BlockUserRequest("blockUser",
-							ChatActivity.this, profile_id);
-					getRequestQueue().addRequest(loader);
+						ListChatOperation listChatDb = new ListChatOperation(
+								ChatActivity.this);
+						listChatDb.deleteListChat(profile_id);
+
+						editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+						editor.commit();
+
+						BlockUserRequest loader = new BlockUserRequest(
+								"blockUser", ChatActivity.this, profile_id);
+						getRequestQueue().addRequest(loader);
+					}
+
+					dialog.dismiss();
 				}
+			});
 
-				dialog.dismiss();
-			}
-		});
+			Button btnCancel;
+			btnCancel = (Button) mainRelativeLayout
+					.findViewById(R.id.btn_cancel);
+			btnCancel.setOnClickListener(new View.OnClickListener() {
 
-		Button btnCancel;
-		btnCancel = (Button) mainRelativeLayout.findViewById(R.id.btn_cancel);
-		btnCancel.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		dialog.setCancelable(false);
-		dialog.show();
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+			dialog.setCancelable(false);
+			dialog.show();
+		}
 	}
 
 	public void solveSendMessage() {
@@ -776,11 +795,10 @@ public class ChatActivity extends OakClubBaseActivity {
 					}
 				}
 			}.start();
-			
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
-			
-			
+
+			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+			editor.commit();
+
 			tbMessage.setText("");
 			ChatHistoryData message = new ChatHistoryData();
 			message.setBody(content);
@@ -790,15 +808,16 @@ public class ChatActivity extends OakClubBaseActivity {
 					Constants.CHAT_SERVER_FORMAT);
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
-			            
-            ListChatOperation listChatdb = new ListChatOperation(ChatActivity.this);
-            ListChatData data = listChatdb.getChatData(profile_id);
-            data.setLast_message(content);
-            data.setLast_message_time(formattedDate);
-            data.setLast_active_time(formattedDate);
-            data.setStatus(3);
-            listChatdb.updateListChat(data);
-			
+
+			ListChatOperation listChatdb = new ListChatOperation(
+					ChatActivity.this);
+			ListChatData data = listChatdb.getChatData(profile_id);
+			data.setLast_message(content);
+			data.setLast_message_time(formattedDate);
+			data.setLast_active_time(formattedDate);
+			data.setStatus(3);
+			listChatdb.updateListChat(data);
+
 			messageArrayList.add(message);
 			adapter.notifyDataSetChanged();
 			chatLv.setSelection(chatLv.getCount() - 1);
@@ -827,9 +846,9 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 			}.start();
 
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
-			
+			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+			editor.commit();
+
 			ChatHistoryData message = new ChatHistoryData();
 			message.setBody(content);
 			message.setFrom(user_id);
@@ -839,14 +858,15 @@ public class ChatActivity extends OakClubBaseActivity {
 			String formattedDate = df.format(new Date());
 			message.setTime_string(formattedDate);
 
-            ListChatOperation listChatdb = new ListChatOperation(ChatActivity.this);
-            ListChatData data = listChatdb.getChatData(profile_id);
-            data.setLast_message(content);
-            data.setLast_message_time(formattedDate);
-            data.setLast_active_time(formattedDate);
-            data.setStatus(3);
-            listChatdb.updateListChat(data);
-			
+			ListChatOperation listChatdb = new ListChatOperation(
+					ChatActivity.this);
+			ListChatData data = listChatdb.getChatData(profile_id);
+			data.setLast_message(content);
+			data.setLast_message_time(formattedDate);
+			data.setLast_active_time(formattedDate);
+			data.setStatus(3);
+			listChatdb.updateListChat(data);
+
 			messageArrayList.add(message);
 			adapter.notifyDataSetChanged();
 			chatLv.setSelection(chatLv.getCount() - 1);
@@ -872,7 +892,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		@Override
 		public void execute() throws Exception {
-//			setMap(oakClubApiTemp.getChatHistory(profile_id));
+			// setMap(oakClubApiTemp.getChatHistory(profile_id));
 			obj = oakClubApi.getHistoryMessages(profile_id);
 		}
 
@@ -889,12 +909,10 @@ public class ChatActivity extends OakClubBaseActivity {
 					target_avatar = obj.getAvatar();
 					tvName.setText("" + target_name);
 				}
-				
-				
-				
+
 				messageArrayList.clear();
 				messageArrayList.addAll(obj.getData());
-				if(obj.getData() != null && obj.getData().size() != 0){
+				if (obj.getData() != null && obj.getData().size() != 0) {
 					chatLv.setVisibility(View.VISIBLE);
 					lltMatch.setVisibility(View.GONE);
 				}
@@ -910,34 +928,36 @@ public class ChatActivity extends OakClubBaseActivity {
 				adapter.notifyDataSetChanged();
 				chatLv.setSelection(adapter.getCount() - 1);
 			}
-			
-//			
-//			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
-//				
-//			}
-//			else{
-//				HashMap<String, Object> object = (HashMap<String, Object>) getMap().get("data");
-//				ParseDataChatHistory parse = new ParseDataChatHistory(object);
-//				ArrayList<ChatHistoryData> listData = new ArrayList<ChatHistoryData>();
-//				listData = parse.getList();
-//				messageArrayList.clear();
-//				if(listData!=null && listData.size()>0){
-//					messageArrayList.addAll(listData);
-//					chatLv.setVisibility(View.VISIBLE);
-//					lltMatch.setVisibility(View.GONE);
-//					Collections.sort(messageArrayList,
-//							new Comparator<ChatHistoryData>() {
-//								@Override
-//								public int compare(ChatHistoryData data1,
-//										ChatHistoryData data2) {
-//									return (data1.getTime_string().compareTo(data2
-//											.getTime_string()));
-//								}
-//							});
-//					adapter.notifyDataSetChanged();
-//					chatLv.setSelection(adapter.getCount() - 1);
-//				}
-//			}
+
+			//
+			// if(getMap()==null|| !getMap().get("errorCode").equals(0)){
+			//
+			// }
+			// else{
+			// HashMap<String, Object> object = (HashMap<String, Object>)
+			// getMap().get("data");
+			// ParseDataChatHistory parse = new ParseDataChatHistory(object);
+			// ArrayList<ChatHistoryData> listData = new
+			// ArrayList<ChatHistoryData>();
+			// listData = parse.getList();
+			// messageArrayList.clear();
+			// if(listData!=null && listData.size()>0){
+			// messageArrayList.addAll(listData);
+			// chatLv.setVisibility(View.VISIBLE);
+			// lltMatch.setVisibility(View.GONE);
+			// Collections.sort(messageArrayList,
+			// new Comparator<ChatHistoryData>() {
+			// @Override
+			// public int compare(ChatHistoryData data1,
+			// ChatHistoryData data2) {
+			// return (data1.getTime_string().compareTo(data2
+			// .getTime_string()));
+			// }
+			// });
+			// adapter.notifyDataSetChanged();
+			// chatLv.setSelection(adapter.getCount() - 1);
+			// }
+			// }
 		}
 	}
 
@@ -946,8 +966,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		String profileId;
 		String message;
 
-		public SendMessageLoader(Object key, Activity activity, String profileId,
-				String message) {
+		public SendMessageLoader(Object key, Activity activity,
+				String profileId, String message) {
 			super(key, activity);
 			this.profileId = profileId;
 			this.message = message;
@@ -956,21 +976,21 @@ public class ChatActivity extends OakClubBaseActivity {
 		@Override
 		public void execute() throws Exception {
 			obj = oakClubApi.SendChatMessage(profileId, message);
-//			setMap(oakClubApiTemp.sendChatMessage(profileId, message));
+			// setMap(oakClubApiTemp.sendChatMessage(profileId, message));
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 
 			if (obj != null && obj.isStatus()) {
-				 
+
 			} else {
-				
+
 			}
 
-//			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
-//				
-//			}
+			// if(getMap()==null|| !getMap().get("errorCode").equals(0)){
+			//
+			// }
 		}
 	}
 
@@ -1018,16 +1038,17 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	public static String getXMLString(String content) {
-	    content = content.replace("&amp", "&");
-	    content = content.replace("&lt;", "<");
-	    content = content.replace("&gt;", ">");
-	    content = content.replace("&apos;", "'");
-	    content = content.replace("&quot;", "\"");
-	    return content;
+		content = content.replace("&amp", "&");
+		content = content.replace("&lt;", "<");
+		content = content.replace("&gt;", ">");
+		content = content.replace("&apos;", "'");
+		content = content.replace("&quot;", "\"");
+		return content;
 	}
-	
-	public static Spannable getSmiledText(Context context, String text, boolean isPress) {
-		//text = getXMLString(text);
+
+	public static Spannable getSmiledText(Context context, String text,
+			boolean isPress) {
+		text = getXMLString(text);
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
 		builder = new SpannableStringBuilder(text);
 		int index;
@@ -1037,22 +1058,33 @@ public class ChatActivity extends OakClubBaseActivity {
 			ImageSpan imageSpan = null;
 			for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons
 					.entrySet()) {
-				String entryKey = entry.getKey();//Html.fromHtml(entry.getKey()).toString();
+				String entryKey = getXMLString(entry.getKey());// Html.fromHtml(entry.getKey()).toString();
 				int lengthEntry = entryKey.length();
 				if (index - lengthEntry < 0)
 					continue;
-				if (builder.subSequence(index - lengthEntry, index).toString().toLowerCase()
-						.equals(entryKey.toLowerCase())) {
+				if (builder.subSequence(index - lengthEntry, index).toString()
+						.toLowerCase().equals(entryKey.toLowerCase())) {
 					if (length < lengthEntry) {
 						builder.removeSpan(imageSpan);
 						if (isPress) {
-							Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), Integer.parseInt(entry.getValue()));
-							int size = (int) OakClubUtil.convertPixelsToDp((float) (OakClubUtil.getWidthScreen(context)/15 * 1.75), context);
-							Bitmap scaledbmp=Bitmap.createScaledBitmap(
-									bitmap, (int) (tbMessage.getTextSize() * 1.75), (int) (tbMessage.getTextSize() * 1.75), false);
-							imageSpan = new ImageSpan(scaledbmp, ImageSpan.ALIGN_BASELINE);
+							Bitmap bitmap = BitmapFactory.decodeResource(
+									context.getResources(),
+									Integer.parseInt(entry.getValue()));
+							int size = (int) OakClubUtil
+									.convertPixelsToDp(
+											(float) (OakClubUtil
+													.getWidthScreen(context) / 15 * 1.75),
+											context);
+							Bitmap scaledbmp = Bitmap.createScaledBitmap(
+									bitmap,
+									(int) (tbMessage.getTextSize() * 1.75),
+									(int) (tbMessage.getTextSize() * 1.75),
+									false);
+							imageSpan = new ImageSpan(scaledbmp,
+									ImageSpan.ALIGN_BASELINE);
 						} else {
-							imageSpan = new ImageSpan(context, Integer.parseInt(entry.getValue()));
+							imageSpan = new ImageSpan(context,
+									Integer.parseInt(entry.getValue()));
 						}
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1076,11 +1108,11 @@ public class ChatActivity extends OakClubBaseActivity {
 		getRequestQueue().addRequest(loader3);
 
 		ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
-		if(status == 2){
+		if (status == 2) {
 			listChatDb.updateReadMessage(profile_id);
-			
-            editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
-            editor.commit();
+
+			editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
+			editor.commit();
 		}
 		if (isShowSmile || isShowSticker) {
 			isShowSmile = false;
@@ -1088,9 +1120,8 @@ public class ChatActivity extends OakClubBaseActivity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			lltBottom.setLayoutParams(params);
 			rltChatViewPage.setVisibility(View.GONE);
-		}else if (isLoadFromNoti) {
-			Intent intent = new Intent(ChatActivity.this,
-					SlidingActivity.class);
+		} else if (isLoadFromNoti) {
+			Intent intent = new Intent(ChatActivity.this, SlidingActivity.class);
 			startActivity(intent);
 			finish();
 		} else {
@@ -1121,31 +1152,30 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		if (time < 59) {
 			result = String.format(getString(R.string.txt_minutes_ago), time);
-			if ((int)time == 1) {
+			if ((int) time == 1) {
 				result = getString(R.string.txt_one_minutes_ago);
 			}
-		}
-		else if (time < 60 * 60) {
+		} else if (time < 60 * 60) {
 			result = String.format(getString(R.string.txt_hour_ago), time / 60);
-			if ((int)(time / 60) == 1) {
+			if ((int) (time / 60) == 1) {
 				result = getString(R.string.txt_one_hour_ago);
 			}
-		}
-		else if (time < 60 * 60 * 24) {
-			result = String.format(getString(R.string.txt_day_ago), time / (60 * 24));
-			if ((int)(time / (60 * 24)) == 1) {
+		} else if (time < 60 * 60 * 24) {
+			result = String.format(getString(R.string.txt_day_ago), time
+					/ (60 * 24));
+			if ((int) (time / (60 * 24)) == 1) {
 				result = getString(R.string.txt_one_day_ago);
 			}
-		}
-		else if (time < 60 * 60 * 24 * 30) {
-			result = String.format(getString(R.string.txt_month_ago), time / (60 * 24 * 30));
-			if ((int)(time / (60 * 24 * 30)) == 1) {
+		} else if (time < 60 * 60 * 24 * 30) {
+			result = String.format(getString(R.string.txt_month_ago), time
+					/ (60 * 24 * 30));
+			if ((int) (time / (60 * 24 * 30)) == 1) {
 				result = getString(R.string.txt_one_month_ago);
 			}
-		}
-		else {
-			result = String.format(getString(R.string.txt_year_ago), time / (60 * 24 * 30 * 12));
-			if ((int)(time / (60 * 24 * 30 * 12)) == 1) {
+		} else {
+			result = String.format(getString(R.string.txt_year_ago), time
+					/ (60 * 24 * 30 * 12));
+			if ((int) (time / (60 * 24 * 30 * 12)) == 1) {
 				result = getString(R.string.txt_one_year_ago);
 			}
 		}
@@ -1196,13 +1226,13 @@ public class ChatActivity extends OakClubBaseActivity {
 
 				float latitude = 0;
 				float longitude = 0;
-				
+
 				try {
 					lat = Float.parseFloat(data.getData().getLocation()
 							.getCoordinates().latitude);
 					lon = Float.parseFloat(data.getData().getLocation()
 							.getCoordinates().longitude);
-	
+
 					latitude = Float
 							.parseFloat(ProfileSettingFragment.profileInfoObj
 									.getLocation().getCoordinates().latitude);
@@ -1210,7 +1240,7 @@ public class ChatActivity extends OakClubBaseActivity {
 							.parseFloat(ProfileSettingFragment.profileInfoObj
 									.getLocation().getCoordinates().longitude);
 				} catch (Exception e) {
-					
+
 				}
 
 				float distance = 0;
@@ -1274,14 +1304,14 @@ public class ChatActivity extends OakClubBaseActivity {
 		@Override
 		public void execute() throws Exception {
 			oakClubApi.SetReadMessages(profile_id);
-//			setMap(oakClubApiTemp.readChatMessage(profileId));
+			// setMap(oakClubApiTemp.readChatMessage(profileId));
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
-//			if(getMap()==null|| !getMap().get("errorCode").equals(0)){
-//				
-//			}
+			// if(getMap()==null|| !getMap().get("errorCode").equals(0)){
+			//
+			// }
 		}
 	}
 
@@ -1320,40 +1350,39 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 			});
 		}
-		
+
 		ListChatOperation listChatDb = new ListChatOperation(this);
-		if(!listChatDb.checkProfileExist(message.getFrom())){
+		if (!listChatDb.checkProfileExist(message.getFrom())) {
 			GetOtherProfileFromMessage loader2 = new GetOtherProfileFromMessage(
 					Constants.GET_HANGOUT_PROFILE, ChatActivity.this,
 					message.getFrom(), message);
 			getRequestQueue().addRequest(loader2);
-		}
-		else{
+		} else {
 			ListChatData data = listChatDb.getChatData(message.getFrom());
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
 			Log.v("chat activi", isActive + "");
-			if(ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())){
+			if (ChatActivity.isActive && ChatActivity.profile_id != null
+					&& ChatActivity.profile_id.equals(message.getFrom())) {
 				data.setStatus(3);
 				listChatDb.updateReadMessage(data);
-			}
-			else {
-				data.setUnread_count(data.getUnread_count()+1);
+			} else {
+				data.setUnread_count(data.getUnread_count() + 1);
 				data.setStatus(2);
 				listChatDb.updateNewMessage(data);
 			}
 		}
-		
+
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				ChatBaseActivity.updateListChat(ChatActivity.this);
-				
+
 			}
 		});
 	}
-	
+
 	class GetOtherProfileFromMessage extends RequestUI {
 
 		HangoutProfileOtherReturnObject data = new HangoutProfileOtherReturnObject();
@@ -1385,33 +1414,33 @@ public class ChatActivity extends OakClubBaseActivity {
 				newMessage.setStatus(2);
 				newMessage.setMatches(false);
 				newMessage.setUnread_count(1);
-				
-				ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
+
+				ListChatOperation listChatDb = new ListChatOperation(
+						ChatActivity.this);
 				listChatDb.insertListChat(newMessage);
-								
+
 				AllChatActivity.allList.clear();
 				AllChatActivity.allList.addAll(listChatDb.getListChat());
-				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.ignoreDisabled = true;
 				AllChatActivity.adapterAll.notifyDataSetChanged();
 
 				MatchChatActivity.matchedList.clear();
 				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
-				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.ignoreDisabled = true;
 				MatchChatActivity.adapterMatch.notifyDataSetChanged();
 
 				VIPActivity.vipList.clear();
 				VIPActivity.vipList.addAll(listChatDb.getListVip());
-				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.ignoreDisabled = true;
 				VIPActivity.adapterVip.notifyDataSetChanged();
-					
-				try{
-					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+
+				try {
+					SlidingMenuActivity.getTotalNotification(listChatDb
+							.getTotalNotification());
+				} catch (Exception e) {
+
 				}
-				catch(Exception e){
-					
-				}
-				
-	            
+
 			} else {
 				OakClubUtil.enableDialogWarning(ChatActivity.this,
 						getString(R.string.txt_warning),
@@ -1483,69 +1512,73 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	}
 
-    class SetViewMuatualEvent extends RequestUI {
-        private String proId = "";
+	class SetViewMuatualEvent extends RequestUI {
+		private String proId = "";
 
-        public SetViewMuatualEvent(Object key, Activity activity, String proId) {
-            super(key, activity);
-            this.proId = proId;
-        }
+		public SetViewMuatualEvent(Object key, Activity activity, String proId) {
+			super(key, activity);
+			this.proId = proId;
+		}
 
-        @Override
-        public void execute() throws Exception {
-            oakClubApi.SetViewedMutualMatch(proId);
-        }
+		@Override
+		public void execute() throws Exception {
+			oakClubApi.SetViewedMutualMatch(proId);
+		}
 
-        @Override
-        public void executeUI(Exception ex) {
+		@Override
+		public void executeUI(Exception ex) {
 
-        }
+		}
 
-    }
-    
-    class GetConfig extends RequestUI {
-        GetConfigData obj;
+	}
 
-        public GetConfig(Object key, Activity activity) {
-            super(key, activity);
-        }
+	class GetConfig extends RequestUI {
+		GetConfigData obj;
 
-        @Override
-        public void execute() throws Exception {
-            obj = oakClubApi.GetConfig();
-        }
+		public GetConfig(Object key, Activity activity) {
+			super(key, activity);
+		}
 
-        @Override
-        public void executeUI(Exception ex) {
-        	if (pdLogin != null && pdLogin.isShowing()) {
+		@Override
+		public void execute() throws Exception {
+			obj = oakClubApi.GetConfig();
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			if (pdLogin != null && pdLogin.isShowing()) {
 				pdLogin.dismiss();
 			}
-            if (obj != null && obj.getData() != null) {
-            	if (obj != null && obj.getData() != null) {
-                    Constants.dataConfig = obj.getData();
-                    HashMap<String, String> stickers = new HashMap<String, String>();
-                    for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                        stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
-                    }
-                    StickerScreenAdapter.stickers.add(stickers);
-                    
-                    stickers = new HashMap<String, String>();
-                    for (int i = 0; i < obj.getData().getCats().size(); i++) {
-                        stickers.put(obj.getData().getCats().get(i).getSymbol_name(), obj.getData().getCats().get(i).getImage());
-                    }
-                    StickerScreenAdapter.stickers.add(stickers);
-                    initEmoticonPage();
-                    
-                    messageArrayList = new ArrayList<ChatHistoryData>();
-        			adapter = new ChatHistoryAdapter(getApplicationContext(),
-        					messageArrayList, profile_id, target_avatar);
-        			chatLv.setAdapter(adapter);
-                }
-            }
-        }
-    }
-    
-    class LoginXMPPLoader extends RequestUI {
+			if (obj != null && obj.getData() != null) {
+				if (obj != null && obj.getData() != null) {
+					Constants.dataConfig = obj.getData();
+					HashMap<String, String> stickers = new HashMap<String, String>();
+					for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+						stickers.put(obj.getData().getStickers().get(i)
+								.getSymbol_name(), obj.getData().getStickers()
+								.get(i).getImage());
+					}
+					StickerScreenAdapter.stickers.add(stickers);
+
+					stickers = new HashMap<String, String>();
+					for (int i = 0; i < obj.getData().getCats().size(); i++) {
+						stickers.put(obj.getData().getCats().get(i)
+								.getSymbol_name(),
+								obj.getData().getCats().get(i).getImage());
+					}
+					StickerScreenAdapter.stickers.add(stickers);
+					initEmoticonPage();
+
+					messageArrayList = new ArrayList<ChatHistoryData>();
+					adapter = new ChatHistoryAdapter(getApplicationContext(),
+							messageArrayList, profile_id, target_avatar);
+					chatLv.setAdapter(adapter);
+				}
+			}
+		}
+	}
+
+	class LoginXMPPLoader extends RequestUI {
 
 		public LoginXMPPLoader(Object key, Activity activity) {
 			super(key, activity);

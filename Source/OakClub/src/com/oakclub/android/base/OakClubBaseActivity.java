@@ -74,7 +74,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 
 	public static int[] mChatStatusIcon = { R.drawable.matchup_on,
 			R.drawable.matchup_off, R.drawable.chat_up_on,
-			R.drawable.chat_up_off,R.drawable.matchup_off };
+			R.drawable.chat_up_off, R.drawable.matchup_off };
 
 	private LocationClient mLocationClient = null;
 	protected GPSTracker mGPS = null;
@@ -82,7 +82,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	protected String android_token;
 
 	protected View view;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTheme(android.R.style.Theme_Holo_NoActionBar);
@@ -179,11 +179,11 @@ public class OakClubBaseActivity extends FragmentActivity implements
 		}
 		try {
 			GCMRegistrar.onDestroy(this);
-			
+
 		} catch (Exception e) {
 			Log.e("UnRegister Receiver Error", "> " + e.getMessage());
 		}
-        System.gc();
+		System.gc();
 		super.onDestroy();
 	}
 
@@ -217,14 +217,14 @@ public class OakClubBaseActivity extends FragmentActivity implements
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
 		android_token = GCMRegistrar.getRegistrationId(this);
-		Log.v("android_token",android_token);
+		Log.v("android_token", android_token);
 		if (android_token.equals("")) {
 
 			GCMRegistrar.register(this, Constants.SENDER_ID);
 		} else {
 			// Device is already registered on GCM Server
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
-				// Skips registration.				
+				// Skips registration.
 				Log.v("Already registered with GCM Server", "1");
 			} else {
 				final Context context = this;
@@ -232,7 +232,11 @@ public class OakClubBaseActivity extends FragmentActivity implements
 					@Override
 					protected Void doInBackground(Void... params) {
 						// Register on our server
-						oakClubApi.sendRegister(OakClubBaseActivity.facebook_user_id, OakClubBaseActivity.access_token, "3", LoginBaseActivity.appVer, LoginBaseActivity.nameDevice, android_token);
+						oakClubApi.sendRegister(
+								OakClubBaseActivity.facebook_user_id,
+								OakClubBaseActivity.access_token, "3",
+								LoginBaseActivity.appVer,
+								LoginBaseActivity.nameDevice, android_token);
 						GCMRegistrar.setRegisteredOnServer(context, true);
 						return null;
 					}
@@ -251,10 +255,9 @@ public class OakClubBaseActivity extends FragmentActivity implements
 	protected void onStart() {
 		super.onStart();
 		// Connect the client.
-		if (OakClubUtil.isInternetAccess(OakClubBaseActivity.this))
-        {
-	        mLocationClient.connect();
-        }
+		if (OakClubUtil.isInternetAccess(OakClubBaseActivity.this)) {
+			mLocationClient.connect();
+		}
 	}
 
 	/*
@@ -300,7 +303,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 						location = loc;
 					}
 				});
-		//location = mLocationClient.getLastLocation();
+		// location = mLocationClient.getLastLocation();
 	}
 
 	@Override
@@ -308,17 +311,18 @@ public class OakClubBaseActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 
 	}
-	
-    @Override
-    protected void onResume() {
-        if(!OakClubUtil.isInternetAccess(OakClubBaseActivity.this)){
-            OakClubUtil.enableDialogWarning(this, 
-                    this.getString(R.string.txt_warning), 
-                    this.getString(R.string.txt_internet_message));
-        }
-        com.facebook.AppEventsLogger.activateApp(this, this.getString(R.string.app_id));
-        super.onResume();
-    }
+
+	@Override
+	protected void onResume() {
+		if (!OakClubUtil.isInternetAccess(OakClubBaseActivity.this)) {
+			OakClubUtil.enableDialogWarning(this,
+					this.getString(R.string.txt_warning),
+					this.getString(R.string.txt_internet_message));
+		}
+		com.facebook.AppEventsLogger.activateApp(this,
+				this.getString(R.string.app_id));
+		super.onResume();
+	}
 }
 
 // static {

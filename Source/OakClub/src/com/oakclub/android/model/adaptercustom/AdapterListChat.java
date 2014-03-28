@@ -99,7 +99,7 @@ public class AdapterListChat extends BaseAdapter {
 		String url = mListChatData.get(position).getAvatar();
 		if (url != null)
 			OakClubUtil.loadImageFromUrl(mContext,
-				OakClubUtil.getFullLink(mContext, url), holder.imgAvatar);
+				OakClubUtil.getFullLink(mContext, url), holder.imgAvatar, "");
 		holder.tvName.setText(mListChatData.get(position).getName());
 				
 		switch (mListChatData.get(position).getStatus()) {

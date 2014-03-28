@@ -29,67 +29,67 @@ public class SmartImageView extends ImageView {
 
 
     // Helpers to set image by URL
-    public void setImageUrl(String url) {
-        setImage(new WebImage(url));
+    public void setImageUrl(String url, String folder) {
+        setImage(new WebImage(url), folder);
     }
 
-    public void setImageUrl(String url, SmartImageTask.OnCompleteListener completeListener) {
-        setImage(new WebImage(url), completeListener);
+    public void setImageUrl(String url, String folder, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), folder, completeListener);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource) {
-        setImage(new WebImage(url), fallbackResource);
+    public void setImageUrl(String url, String folder, final Integer fallbackResource) {
+        setImage(new WebImage(url), folder, fallbackResource);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
-        setImage(new WebImage(url), fallbackResource, completeListener);
+    public void setImageUrl(String url, String folder, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), folder, fallbackResource, completeListener);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
-        setImage(new WebImage(url), fallbackResource, loadingResource);
+    public void setImageUrl(String url, String folder, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(new WebImage(url), folder, fallbackResource, loadingResource);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, SmartImageTask.OnCompleteListener completeListener) {
-        setImage(new WebImage(url), fallbackResource, loadingResource, completeListener);
+    public void setImageUrl(String url, String folder, final Integer fallbackResource, final Integer loadingResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(new WebImage(url), folder, fallbackResource, loadingResource, completeListener);
     }
 
 
     // Helpers to set image by contact address book id
-    public void setImageContact(long contactId) {
-        setImage(new ContactImage(contactId));
+    public void setImageContact(long contactId, String folder) {
+        setImage(new ContactImage(contactId), folder);
     }
 
-    public void setImageContact(long contactId, final Integer fallbackResource) {
-        setImage(new ContactImage(contactId), fallbackResource);
+    public void setImageContact(long contactId, String folder, final Integer fallbackResource) {
+        setImage(new ContactImage(contactId), folder, fallbackResource);
     }
 
-    public void setImageContact(long contactId, final Integer fallbackResource, final Integer loadingResource) {
-        setImage(new ContactImage(contactId), fallbackResource, fallbackResource);
+    public void setImageContact(long contactId, String folder, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(new ContactImage(contactId), folder, fallbackResource, fallbackResource);
     }
 
 
     // Set image using SmartImage object
-    public void setImage(final SmartImage image) {
-        setImage(image, null, null, null);
+    public void setImage(final SmartImage image, String folder) {
+        setImage(image, folder, null, null, null);
     }
 
-    public void setImage(final SmartImage image, final SmartImageTask.OnCompleteListener completeListener) {
-        setImage(image, null, null, completeListener);
+    public void setImage(final SmartImage image, String folder, final SmartImageTask.OnCompleteListener completeListener) {
+        setImage(image, folder, null, null, completeListener);
     }
 
-    public void setImage(final SmartImage image, final Integer fallbackResource) {
-        setImage(image, fallbackResource, fallbackResource, null);
+    public void setImage(final SmartImage image, String folder, final Integer fallbackResource) {
+        setImage(image, folder, fallbackResource, fallbackResource, null);
     }
 
-    public void setImage(final SmartImage image, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
-        setImage(image, fallbackResource, fallbackResource, completeListener);
+    public void setImage(final SmartImage image, String folder, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
+        setImage(image, folder, fallbackResource, fallbackResource, completeListener);
     }
 
-    public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource) {
-        setImage(image, fallbackResource, loadingResource, null);
+    public void setImage(final SmartImage image, String folder, final Integer fallbackResource, final Integer loadingResource) {
+        setImage(image, folder, fallbackResource, loadingResource, null);
     }
 
-    public void setImage(final SmartImage image, final Integer fallbackResource, final Integer loadingResource, final SmartImageTask.OnCompleteListener completeListener) {
+    public void setImage(final SmartImage image, String folder, final Integer fallbackResource, final Integer loadingResource, final SmartImageTask.OnCompleteListener completeListener) {
         // Set a loading resource
         if(loadingResource != null){
             setImageResource(loadingResource);
@@ -102,7 +102,7 @@ public class SmartImageView extends ImageView {
         }
 
         // Set up the new task
-        currentTask = new SmartImageTask(getContext(), image);
+        currentTask = new SmartImageTask(getContext(), folder, image);
         currentTask.setOnCompleteHandler(new SmartImageTask.OnCompleteHandler() {
             @Override
             public void onComplete(Bitmap bitmap) {

@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -226,40 +227,44 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 	private void showVerifiedActivity() {
 		startSnapshot();
-//		if (ProfileSettingFragment.profileInfoObj != null) {
-//			if (!ProfileSettingFragment.profileInfoObj.getIs_verify()) {
-//				if (ProfileSettingFragment.profileInfoObj.getForce_verify()) {
-//					Intent verified = new Intent(this,
-//							ForceVerifiedActivity.class);
-//					verified.putExtra(Constants.START_LOGIN, true);
-//					//verified.putExtra(Constants.FORCE_VERIFIED, true);
-//					this.startActivityForResult(verified,0);
-//					//finish();
-//				} else if (ProfileSettingFragment.profileInfoObj.getGender() == Constants.MEN
-//						&& (Integer
-//								.parseInt(ProfileSettingFragment.error_Status) == -1 || !ProfileSettingFragment.profileInfoObj.getSkip_verify())) {
-//					Intent verified = new Intent(this, VerifiedActivity.class);
-//					verified.putExtra(Constants.START_LOGIN, true);
-//					this.startActivityForResult(verified, Constants.VERIFIED);
-//				} else {
-//					startSnapshot();
-//				}
-//			} else {
-//				startSnapshot();
-//			}
-//		} else {
-//			Intent intent = new Intent(LoginBaseActivity.this, MainActivity.class);
-//			startActivity(intent);
-//			finish();
-//		}
+		// if (ProfileSettingFragment.profileInfoObj != null) {
+		// if (!ProfileSettingFragment.profileInfoObj.getIs_verify()) {
+		// if (ProfileSettingFragment.profileInfoObj.getForce_verify()) {
+		// Intent verified = new Intent(this,
+		// ForceVerifiedActivity.class);
+		// verified.putExtra(Constants.START_LOGIN, true);
+		// //verified.putExtra(Constants.FORCE_VERIFIED, true);
+		// this.startActivityForResult(verified,0);
+		// //finish();
+		// } else if (ProfileSettingFragment.profileInfoObj.getGender() ==
+		// Constants.MEN
+		// && (Integer
+		// .parseInt(ProfileSettingFragment.error_Status) == -1 ||
+		// !ProfileSettingFragment.profileInfoObj.getSkip_verify())) {
+		// Intent verified = new Intent(this, VerifiedActivity.class);
+		// verified.putExtra(Constants.START_LOGIN, true);
+		// this.startActivityForResult(verified, Constants.VERIFIED);
+		// } else {
+		// startSnapshot();
+		// }
+		// } else {
+		// startSnapshot();
+		// }
+		// } else {
+		// Intent intent = new Intent(LoginBaseActivity.this,
+		// MainActivity.class);
+		// startActivity(intent);
+		// finish();
+		// }
 	}
 
 	private void startSnapshot() {
-		
+
 		Intent intent = new Intent(LoginBaseActivity.this,
 				SlidingActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putBoolean(Constants.isLoadListMutualMatch, isLoadListMutualMatch);
+		bundle.putBoolean(Constants.isLoadListMutualMatch,
+				isLoadListMutualMatch);
 		bundle.putString(Constants.BUNDLE_PROFILE_ID, profileIdMultualMatch);
 		intent.putExtras(bundle);
 		startActivity(intent);
@@ -270,18 +275,19 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		(new Handler()).postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				if (!LoginBaseActivity.this.isFinishing()) {
+					Editor editor = getSharedPreferences(
+							Constants.PREFERENCE_NAME, 0).edit();
+					editor.putBoolean(Constants.PREFERENCE_LOGGINED, true);
+					editor.commit();
+					mLoginButton.setEnabled(false);
+					pd = new ProgressDialog(LoginBaseActivity.this);
+					pd.setMessage(getString(R.string.txt_loading));
+					pd.setCancelable(false);
+					pd.show();
 
-				Editor editor = getSharedPreferences(Constants.PREFERENCE_NAME,
-						0).edit();
-				editor.putBoolean(Constants.PREFERENCE_LOGGINED, true);
-				editor.commit();
-				mLoginButton.setEnabled(false);
-				pd = new ProgressDialog(LoginBaseActivity.this);
-				pd.setMessage(getString(R.string.txt_loading));
-				pd.setCancelable(false);
-				pd.show();
-
-				getFacebookUserId();
+					getFacebookUserId();
+				}
 			}
 		}, 1000);
 	}
@@ -297,7 +303,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		}
 		if (requestCode == Constants.TUTORIAL) {
 			showVerifiedActivity();
-		}else if(requestCode == Constants.VERIFIED && resultCode == RESULT_OK || (data != null && data.getBooleanExtra(Constants.VERIFIED_SUCCESS, false))){
+		} else if (requestCode == Constants.VERIFIED
+				&& resultCode == RESULT_OK
+				|| (data != null && data.getBooleanExtra(
+						Constants.VERIFIED_SUCCESS, false))) {
 			startSnapshot();
 		}
 	}
@@ -336,40 +345,49 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_warning),
 						getResources().getString(R.string.txt_signin_failed));
 			} else {
-				if(!OakClubUtil.compareVersion(obj.getData().getRequired_android_app_version(), getString(R.string.build_version))){
+				if (!OakClubUtil.compareVersion(obj.getData()
+						.getRequired_android_app_version(),
+						getString(R.string.build_version))) {
 					AlertDialog.Builder builder;
-			        builder = new AlertDialog.Builder(LoginBaseActivity.this);
-			        final AlertDialog dialog = builder.create();
-			        LayoutInflater inflater = LayoutInflater
-			                .from(LoginBaseActivity.this);
-			        View layout = inflater.inflate(R.layout.dialog_warning_ok,
-			                null);
-			        dialog.setView(layout, 0, 0, 0, 0);
-			        TextView tvTitle = (TextView)layout.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-			        tvTitle.setText(LoginBaseActivity.this.getString(R.string.txt_update_new_version_title));
-			        TextView tvQuestion = (TextView)layout.findViewById(R.id.dialog_warning_tvQuestion);
-			        tvQuestion.setText(LoginBaseActivity.this.getString(R.string.txt_update_new_version_message));
-			        Button btnOK = (Button) layout
-			                .findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-			        btnOK.setOnClickListener(new OnClickListener() {
-			            @Override
-			            public void onClick(View v) {
-			            	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+getApplicationContext().getPackageName())));
-			            	dialog.dismiss();
-			            }
-			        });
-			        dialog.setCancelable(false);
-			        dialog.show();
-				}
-				else{
+					builder = new AlertDialog.Builder(LoginBaseActivity.this);
+					final AlertDialog dialog = builder.create();
+					LayoutInflater inflater = LayoutInflater
+							.from(LoginBaseActivity.this);
+					View layout = inflater.inflate(R.layout.dialog_warning_ok,
+							null);
+					dialog.setView(layout, 0, 0, 0, 0);
+					TextView tvTitle = (TextView) layout
+							.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+					tvTitle.setText(LoginBaseActivity.this
+							.getString(R.string.txt_update_new_version_title));
+					TextView tvQuestion = (TextView) layout
+							.findViewById(R.id.dialog_warning_tvQuestion);
+					tvQuestion
+							.setText(LoginBaseActivity.this
+									.getString(R.string.txt_update_new_version_message));
+					Button btnOK = (Button) layout
+							.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+					btnOK.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							startActivity(new Intent(Intent.ACTION_VIEW, Uri
+									.parse("market://details?id="
+											+ getApplicationContext()
+													.getPackageName())));
+							dialog.dismiss();
+						}
+					});
+					dialog.setCancelable(false);
+					dialog.show();
+				} else {
 					ProfileSettingFragment.profileInfoObj = obj.getData();
 					ProfileSettingFragment.error_Status = obj.getError_status();
 					// Register custom Broadcast receiver to show messages on
 					// activity
 					registerGCM();
-	
+
 					runOnUiThread(new Runnable() {
-	
+
 						@Override
 						public void run() {
 							location = mGPS.getLocation();
@@ -377,27 +395,31 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 								double longitude = location.getLongitude();
 								double latitude = location.getLatitude();
 								SendUserLocation loader = new SendUserLocation(
-										"sendLocation", LoginBaseActivity.this, ""
-												+ latitude, "" + longitude);
+										"sendLocation", LoginBaseActivity.this,
+										"" + latitude, "" + longitude);
 								getRequestQueue().addRequest(loader);
-								GetConfig loader2 = new GetConfig(Constants.GETCONFIG, LoginBaseActivity.this);
-						        getRequestQueue().addRequest(loader2);
+								GetConfig loader2 = new GetConfig(
+										Constants.GETCONFIG,
+										LoginBaseActivity.this);
+								getRequestQueue().addRequest(loader2);
 							} else if (mGPS.isGPSEnabled) {
 								// showOpenGPSSettingsDialog(MainActivity.this);
-								OakClubUtil.enableDialogWarning(
-										LoginBaseActivity.this,
-										getResources().getString(
-												R.string.txt_warning),
-										getResources().getString(
-												R.string.txt_gps_settings_title));
+								OakClubUtil
+										.enableDialogWarning(
+												LoginBaseActivity.this,
+												getResources().getString(
+														R.string.txt_warning),
+												getResources()
+														.getString(
+																R.string.txt_gps_settings_title));
 							}
 						}
 					});
 					user_id = obj.getData().getProfile_id();
 					LoginXMPPLoader loader = new LoginXMPPLoader("loginXMPP",
-								LoginBaseActivity.this);
-						getRequestQueue().addRequest(loader);
-				        
+							LoginBaseActivity.this);
+					getRequestQueue().addRequest(loader);
+
 					GetDataLanguageLoader loader3 = new GetDataLanguageLoader(
 							"getDataLanguage", LoginBaseActivity.this);
 					loader3.setPriority(RequestUI.PRIORITY_LOW);
@@ -474,7 +496,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		str = msg.getTo();
 		str = str.substring(0, str.indexOf('@'));
 		message.setTo(str);
-		
+
 		str = msg.getFrom();
 		str = str.substring(0, str.indexOf('@'));
 		message.setFrom(str);
@@ -482,7 +504,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		SimpleDateFormat df = new SimpleDateFormat(Constants.CHAT_CLIENT_FORMAT);
 		String formattedDate = df.format(new Date());
 		message.setTime_string(formattedDate);
-		
+
 		updateNewMessage(message);
 	}
 
@@ -543,18 +565,20 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		Log.v("LoginFacebook: ", loggedIn + "");
 
 		if (loggedIn) {
-
-			pd = new ProgressDialog(LoginBaseActivity.this);
-			pd.setMessage(getString(R.string.txt_loading));
-			pd.setCancelable(false);
-			pd.show();
-			facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
-					null);
-			access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN, null);
-			SendRegisterRequest request = new SendRegisterRequest(
-					"sendRegister", LoginBaseActivity.this, facebook_user_id,
-					access_token);
-			getRequestQueue().addRequest(request);
+			if (!LoginBaseActivity.this.isFinishing()) {
+				pd = new ProgressDialog(LoginBaseActivity.this);
+				pd.setMessage(getString(R.string.txt_loading));
+				pd.setCancelable(false);
+				pd.show();
+				facebook_user_id = pref.getString(Constants.PREFERENCE_USER_ID,
+						null);
+				access_token = pref.getString(Constants.HEADER_ACCESS_TOKEN,
+						null);
+				SendRegisterRequest request = new SendRegisterRequest(
+						"sendRegister", LoginBaseActivity.this,
+						facebook_user_id, access_token);
+				getRequestQueue().addRequest(request);
+			}
 		}
 	}
 
@@ -621,10 +645,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	}
 
 	private void updateNewMessage(final ChatHistoryData message) {
-		
+
 		if (baseAllList == null)
 			baseAllList = new ArrayList<ListChatData>();
-		
+
 		if (ChatActivity.profile_id != null
 				&& ChatActivity.profile_id.equals(message.getFrom())) {
 			runOnUiThread(new Runnable() {
@@ -639,73 +663,79 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				}
 			});
 
-		} 
+		}
 
 		ListChatOperation listChatDb = new ListChatOperation(this);
-		if(!listChatDb.checkProfileExist(message.getFrom())){
+		if (!listChatDb.checkProfileExist(message.getFrom())) {
 			GetOtherProfile loader2 = new GetOtherProfile(
 					Constants.GET_HANGOUT_PROFILE, LoginBaseActivity.this,
 					message.getFrom(), message);
 			getRequestQueue().addRequest(loader2);
-		}
-		else{
+		} else {
 			ListChatData data = listChatDb.getChatData(message.getFrom());
 			data.setLast_message(message.getBody());
 			data.setLast_message_time(message.getTime_string());
 			data.setLast_active_time(message.getTime_string());
-			if(ChatActivity.isActive && ChatActivity.profile_id != null && ChatActivity.profile_id.equals(message.getFrom())){
+			if (ChatActivity.isActive && ChatActivity.profile_id != null
+					&& ChatActivity.profile_id.equals(message.getFrom())) {
 				data.setStatus(3);
 				listChatDb.updateReadMessage(data);
-			}
-			else {
-				data.setUnread_count(data.getUnread_count()+1);
+			} else {
+				data.setUnread_count(data.getUnread_count() + 1);
 				data.setStatus(2);
 				listChatDb.updateNewMessage(data);
 			}
 		}
-		
+
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 
-
-				if(AllChatActivity.allList ==null && AllChatActivity.adapterAll ==null){
+				if (AllChatActivity.allList == null
+						&& AllChatActivity.adapterAll == null) {
 					AllChatActivity.allList = new ArrayList<ListChatData>();
-					AllChatActivity.adapterAll = new AdapterListChat(LoginBaseActivity.this, AllChatActivity.allList);
+					AllChatActivity.adapterAll = new AdapterListChat(
+							LoginBaseActivity.this, AllChatActivity.allList);
 				}
-				if(MatchChatActivity.matchedList ==null && MatchChatActivity.adapterMatch ==null){
+				if (MatchChatActivity.matchedList == null
+						&& MatchChatActivity.adapterMatch == null) {
 					MatchChatActivity.matchedList = new ArrayList<ListChatData>();
-					MatchChatActivity.adapterMatch = new AdapterListChat(LoginBaseActivity.this, MatchChatActivity.matchedList);
+					MatchChatActivity.adapterMatch = new AdapterListChat(
+							LoginBaseActivity.this,
+							MatchChatActivity.matchedList);
 				}
-				if(VIPActivity.vipList ==null && VIPActivity.adapterVip==null){
+				if (VIPActivity.vipList == null
+						&& VIPActivity.adapterVip == null) {
 					VIPActivity.vipList = new ArrayList<ListChatData>();
-					VIPActivity.adapterVip = new AdapterListChat(LoginBaseActivity.this, VIPActivity.vipList);
+					VIPActivity.adapterVip = new AdapterListChat(
+							LoginBaseActivity.this, VIPActivity.vipList);
 				}
-				
-				ListChatOperation listChatDb = new ListChatOperation(LoginBaseActivity.this);
-				
+
+				ListChatOperation listChatDb = new ListChatOperation(
+						LoginBaseActivity.this);
+
 				AllChatActivity.allList.clear();
 				AllChatActivity.allList.addAll(listChatDb.getListChat());
-				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.ignoreDisabled = true;
 				AllChatActivity.adapterAll.notifyDataSetChanged();
 
 				MatchChatActivity.matchedList.clear();
 				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
-				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.ignoreDisabled = true;
 				MatchChatActivity.adapterMatch.notifyDataSetChanged();
 
 				VIPActivity.vipList.clear();
 				VIPActivity.vipList.addAll(listChatDb.getListVip());
-				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.ignoreDisabled = true;
 				VIPActivity.adapterVip.notifyDataSetChanged();
-					
-				try{
-					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+
+				try {
+					SlidingMenuActivity.getTotalNotification(listChatDb
+							.getTotalNotification());
+				} catch (Exception e) {
+
 				}
-				catch(Exception e){
-					
-				}
-				
+
 			}
 		});
 	}
@@ -753,28 +783,29 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				newMessage.setStatus(2);
 				newMessage.setMatches(false);
 				newMessage.setUnread_count(1);
-				
-				ListChatOperation listChatDb = new ListChatOperation(LoginBaseActivity.this);
+
+				ListChatOperation listChatDb = new ListChatOperation(
+						LoginBaseActivity.this);
 				listChatDb.insertListChat(newMessage);
-								
+
 				AllChatActivity.allList.clear();
 				AllChatActivity.allList.addAll(listChatDb.getListChat());
-				AllChatActivity.adapterAll.ignoreDisabled=true;
+				AllChatActivity.adapterAll.ignoreDisabled = true;
 				AllChatActivity.adapterAll.notifyDataSetChanged();
 
 				MatchChatActivity.matchedList.clear();
 				MatchChatActivity.matchedList.addAll(listChatDb.getListMatch());
-				MatchChatActivity.adapterMatch.ignoreDisabled=true;
+				MatchChatActivity.adapterMatch.ignoreDisabled = true;
 				MatchChatActivity.adapterMatch.notifyDataSetChanged();
 
 				VIPActivity.vipList.clear();
 				VIPActivity.vipList.addAll(listChatDb.getListVip());
-				VIPActivity.adapterVip.ignoreDisabled=true;
+				VIPActivity.adapterVip.ignoreDisabled = true;
 				VIPActivity.adapterVip.notifyDataSetChanged();
-					
-				SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
-				
-	            
+
+				SlidingMenuActivity.getTotalNotification(listChatDb
+						.getTotalNotification());
+
 			} else {
 				OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
 						getString(R.string.txt_warning),
@@ -784,38 +815,42 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	}
 
 	class GetConfig extends RequestUI {
-        GetConfigData obj;
+		GetConfigData obj;
 
-        public GetConfig(Object key, Activity activity) {
-            super(key, activity);
-        }
+		public GetConfig(Object key, Activity activity) {
+			super(key, activity);
+		}
 
-        @Override
-        public void execute() throws Exception {
-            obj = oakClubApi.GetConfig();
-        }
+		@Override
+		public void execute() throws Exception {
+			obj = oakClubApi.GetConfig();
+		}
 
-        @Override
-        public void executeUI(Exception ex) {
-        	if (pd != null && pd.isShowing()) {
+		@Override
+		public void executeUI(Exception ex) {
+			if (pd != null && pd.isShowing()) {
 				pd.dismiss();
 				mLoginButton.setEnabled(true);
 			}
-            if (obj != null && obj.getData() != null) {
-                Constants.dataConfig = obj.getData();
-                HashMap<String, String> stickers = new HashMap<String, String>();
-                for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-                    stickers.put(obj.getData().getStickers().get(i).getSymbol_name(), obj.getData().getStickers().get(i).getImage());
-                }
-                StickerScreenAdapter.stickers.add(stickers);
-                
-                stickers = new HashMap<String, String>();
-                for (int i = 0; i < obj.getData().getCats().size(); i++) {
-                    stickers.put(obj.getData().getCats().get(i).getSymbol_name(), obj.getData().getCats().get(i).getImage());
-                }
-                StickerScreenAdapter.stickers.add(stickers);
-                showTutorialActivity();
-            }
-        }
-    }
+			if (obj != null && obj.getData() != null) {
+				Constants.dataConfig = obj.getData();
+				HashMap<String, String> stickers = new HashMap<String, String>();
+				for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+					stickers.put(obj.getData().getStickers().get(i)
+							.getSymbol_name(),
+							obj.getData().getStickers().get(i).getImage());
+				}
+				StickerScreenAdapter.stickers.add(stickers);
+
+				stickers = new HashMap<String, String>();
+				for (int i = 0; i < obj.getData().getCats().size(); i++) {
+					stickers.put(obj.getData().getCats().get(i)
+							.getSymbol_name(), obj.getData().getCats().get(i)
+							.getImage());
+				}
+				StickerScreenAdapter.stickers.add(stickers);
+				showTutorialActivity();
+			}
+		}
+	}
 }

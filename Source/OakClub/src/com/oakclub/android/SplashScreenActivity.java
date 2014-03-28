@@ -45,7 +45,11 @@ public class SplashScreenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
 		img = (ImageView) findViewById(R.id.activity_splash_screen_img);
-		ImageLoader imgLoader = new ImageLoader(this);
+		ImageLoader imgLoader = new ImageLoader(this, "");
+        imgLoader.clearCache();
+        imgLoader = new ImageLoader(this, Constants.SNAPSHOT_FOLDER);
+        imgLoader.clearCache();
+        imgLoader = new ImageLoader(this, Constants.OTHER_PROFILE_FOLDER);
         imgLoader.clearCache();
 		try {
 			saveLogcatToFile(getApplicationContext());
@@ -164,7 +168,7 @@ public class SplashScreenActivity extends Activity {
 		
 		
 	    String fileName = "logcat_"+yearNow+".txt";
-	    String filePath = OakClubUtil.getFileStore(context).getAbsolutePath();
+	    String filePath = OakClubUtil.getFileStore(context, "").getAbsolutePath();
 	    File outputFile = new File(filePath,fileName);
 	    @SuppressWarnings("unused")
 	    Process process = Runtime.getRuntime().exec("logcat -f "+outputFile.getAbsolutePath());

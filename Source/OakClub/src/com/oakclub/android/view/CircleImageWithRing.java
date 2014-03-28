@@ -33,7 +33,7 @@ public class CircleImageWithRing extends FrameLayout {
 	}
 	public void setImageUrl(String url){
 		this.url = url;
-		OakClubUtil.loadImageFromUrl(context, url, imageView);
+		OakClubUtil.loadImageFromUrl(context, url, imageView, "");
 	}
 	
 	public void setImageBitmap(int id){

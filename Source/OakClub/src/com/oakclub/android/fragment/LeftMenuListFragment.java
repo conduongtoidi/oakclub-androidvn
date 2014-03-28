@@ -111,7 +111,7 @@ public class LeftMenuListFragment extends Fragment {
 			String imageUrl = OakClubUtil.getFullLink(this.getActivity(),
 					ProfileSettingFragment.profileInfoObj.getAvatar());
 			OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl,
-					avatarProfile);
+					avatarProfile, "");
 		} else {
 			Intent intent = new Intent(this.getActivity(), MainActivity.class);
 			startActivity(intent);
@@ -291,7 +291,7 @@ public class LeftMenuListFragment extends Fragment {
 			tvVipRoom.setText(menuTextList[5]);
 			
 			String imageUrl = OakClubUtil.getFullLink(this.getActivity(), ProfileSettingFragment.profileInfoObj.getAvatar());
-            OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile);
+            OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile, "");
             
 		} else {
 			Intent intent = new Intent(this.getActivity(), MainActivity.class);
