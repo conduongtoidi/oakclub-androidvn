@@ -357,6 +357,12 @@ public class PurchaseActivity extends OakClubBaseActivity{
 	/** Verifies the developer payload of a purchase. */
 	boolean verifyDeveloperPayload(Purchase p) {
 		String payload = p.getDeveloperPayload();
+		Log.d("getPackageName", getPackageName());
+		Log.d("getPackageName", p.getPackageName());
+		Log.d("SKU", SKU_ID);
+		Log.d("sku",  p.getSku());
+		Log.d("payload", this.payload);
+		Log.d("payload", payload);
 		if (payload.equals(this.payload) && p.getSku().equals(SKU_ID)
 				&& p.getPackageName().equals(getPackageName())) {
 			return true;
@@ -518,6 +524,7 @@ public class PurchaseActivity extends OakClubBaseActivity{
 
 		@Override
 		public void execute() throws Exception {
+			Log.d("purchasing token", purchase.getToken());
 			obj = oakClubApi.SendVIPRegister(purchase.getSku(),
 					purchase.getToken());
 		}
