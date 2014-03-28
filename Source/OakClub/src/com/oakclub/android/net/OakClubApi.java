@@ -763,6 +763,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			paramList.add(new BasicNameValuePair("product_id", productID));
 			paramList.add(new BasicNameValuePair("receipt", purchaseToken));
 			String result =excuteGet(baseUrl + "/" + Constants.VIP_REGISTER, paramList);
+			Log.d("result receipt", result);
 			return OakClubJsonParser.getJsonObjectByMapper(result,
                     SenVIPRegisterReturnObject.class);
 		} catch (Exception e) {

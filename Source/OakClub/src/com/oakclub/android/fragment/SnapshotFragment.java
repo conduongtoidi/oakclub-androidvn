@@ -233,10 +233,10 @@ public class SnapshotFragment {
 				if (chatAccount != null) {
 					if (ProfileSettingFragment.profileInfoObj != null) {
 						if (!ProfileSettingFragment.profileInfoObj.isIs_vip()) {
-							Toast.makeText(
-									activity,
-									activity.getString(R.string.txt_non_VIP_message),
-									Toast.LENGTH_SHORT).show();
+							activity.setMenu(MenuOakclub.VIPROOM);
+							GetVIPFragment getVIP = new GetVIPFragment(
+									activity);
+							getVIP.initGetVIP();
 						} else {
 
 							// AddRosterEvent loader = new
