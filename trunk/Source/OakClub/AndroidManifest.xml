@@ -137,6 +137,11 @@
             android:screenOrientation="portrait" >
         </activity>
          <activity
+            android:name="com.oakclub.android.PurchaseActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
             android:name="com.oakclub.android.PurchaseConfirmedActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
