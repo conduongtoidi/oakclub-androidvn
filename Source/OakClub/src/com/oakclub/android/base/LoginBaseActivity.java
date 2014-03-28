@@ -58,6 +58,7 @@ import com.facebook.android.FacebookError;
 import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.ChooseLanguageActivity;
+import com.oakclub.android.DisableUserActivity;
 import com.oakclub.android.ForceVerifiedActivity;
 import com.oakclub.android.MainActivity;
 import com.oakclub.android.MatchChatActivity;
@@ -259,16 +260,22 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	}
 
 	private void startSnapshot() {
-
-		Intent intent = new Intent(LoginBaseActivity.this,
-				SlidingActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putBoolean(Constants.isLoadListMutualMatch,
-				isLoadListMutualMatch);
-		bundle.putString(Constants.BUNDLE_PROFILE_ID, profileIdMultualMatch);
-		intent.putExtras(bundle);
-		startActivity(intent);
-		finish();
+		if(!ProfileSettingFragment.profileInfoObj.isIs_enabled()){
+			Intent intent = new Intent(LoginBaseActivity.this,
+					SlidingActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putBoolean(Constants.isLoadListMutualMatch,
+					isLoadListMutualMatch);
+			bundle.putString(Constants.BUNDLE_PROFILE_ID, profileIdMultualMatch);
+			intent.putExtras(bundle);
+			startActivity(intent);
+//			finish();
+		}
+		else{
+			intent = new Intent(LoginBaseActivity.this,
+					DisableUserActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	private void startProccess() {
