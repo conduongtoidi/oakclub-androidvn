@@ -34,7 +34,7 @@
         android:name="com.oakclub.android.base.OakClubApplication"
         android:icon="@drawable/logo_oakclub"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <receiver android:name="com.oakclub.android.net.OnBootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -106,6 +106,7 @@
         <activity
             android:name="com.oakclub.android.ChatActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" 
             android:windowSoftInputMode="stateHidden"
             >
