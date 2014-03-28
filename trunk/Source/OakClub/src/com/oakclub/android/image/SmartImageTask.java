@@ -12,6 +12,7 @@ public class SmartImageTask implements Runnable {
     private OnCompleteHandler onCompleteHandler;
     private SmartImage image;
     private Context context;
+    private String folder;
 
     public static class OnCompleteHandler extends Handler {
         @Override
@@ -27,15 +28,16 @@ public class SmartImageTask implements Runnable {
         public abstract void onComplete();
     }
 
-    public SmartImageTask(Context context, SmartImage image) {
+    public SmartImageTask(Context context, String folder, SmartImage image) {
         this.image = image;
         this.context = context;
+        this.folder = folder;
     }
 
     @Override
     public void run() {
         if(image != null) {
-            complete(image.getBitmap(context));
+            complete(image.getBitmap(context, folder));
             context = null;
         }
     }

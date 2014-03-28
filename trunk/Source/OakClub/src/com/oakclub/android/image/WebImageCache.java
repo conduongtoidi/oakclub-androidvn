@@ -24,14 +24,14 @@ public class WebImageCache {
     private boolean diskCacheEnabled = false;
     private ExecutorService writeThread;
 
-    public WebImageCache(Context context) {
+    public WebImageCache(Context context, String folder) {
         // Set up in-memory cache store
         memoryCache = new ConcurrentHashMap<String, SoftReference<Bitmap>>();
 
         // Set up disk cache store
         Context appContext = context.getApplicationContext();
 
-        File outFile =OakClubUtil.getFileStore(appContext);
+        File outFile = OakClubUtil.getFileStore(appContext, folder);
         diskCachePath = outFile.getAbsolutePath();
 
         diskCacheEnabled = outFile.exists();

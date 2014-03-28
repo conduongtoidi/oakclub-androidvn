@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.oakclub.android.InfoProfileOtherActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.model.FacebookInfoObject;
+import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 
 import android.content.Context;
@@ -63,7 +64,7 @@ public class ViewPagerCustom extends HorizontalScrollView{
             String url = listFacebookObject.get(i).getAvatar();
             String name = listFacebookObject.get(i).getName();
             name = OakClubUtil.getFirstName(name);
-            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar);
+            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar, Constants.SNAPSHOT_FOLDER);
             tvName.setText(name);
             linear.addView(view);
 		}
@@ -106,7 +107,7 @@ public class ViewPagerCustom extends HorizontalScrollView{
             String url = listItem.get(position).getAvatar();
             String name = listItem.get(position).getName();
             name = OakClubUtil.getFirstName(name);
-            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar);
+            OakClubUtil.loadImageFromUrl(ViewPagerCustom.this.getContext(),url, imgAvatar, Constants.SNAPSHOT_FOLDER);
             tvName.setText(name);
 			return view;
 		}

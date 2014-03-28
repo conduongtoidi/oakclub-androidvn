@@ -17,7 +17,7 @@ public class ContactImage implements SmartImage {
         this.contactId = contactId;
     }
 
-    public Bitmap getBitmap(Context context) {
+    public Bitmap getBitmap(Context context, String folder) {
         Bitmap bitmap = null;
         ContentResolver contentResolver = context.getContentResolver();
 
@@ -33,4 +33,10 @@ public class ContactImage implements SmartImage {
 
         return bitmap;
     }
+
+//	@Override
+//	public Bitmap getBitmap(Context context, String folder) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

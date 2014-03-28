@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -43,6 +44,7 @@ import com.oakclub.android.view.TextViewWithFont;
 public class GetVIPFragment {
 	private Button btn_get_vip_package;
 	private ImageView vip_logo;
+
 	// private TextView get_vip_title;
 	private String TAG = "Purchase proccess";
 	public static IabHelper mHelper;
@@ -69,6 +71,7 @@ public class GetVIPFragment {
 		listProduct = (LinearLayout) activity.findViewById(R.id.list_product);
 
 		btn_get_vip_package = (Button) activity.findViewById(R.id.btn_get_vip);
+
 		tvLoadProductListFailed = (TextViewWithFont) activity
 				.findViewById(R.id.error_load_products_title);
 		btn_get_vip_package.setOnClickListener(buttonClick);
@@ -80,46 +83,52 @@ public class GetVIPFragment {
 
 		vip_logo = (ImageView) activity.findViewById(R.id.vip_logo);
 		vip_logo.setPadding(0, 0, padding, 0);
+
 		monthsList = activity.getResources()
 				.getStringArray(R.array.months_list);
 
-		(new Handler()).postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				pd = new ProgressDialog(activity);
-				pd.setMessage(activity.getString(R.string.txt_loading));
-				pd.setCancelable(false);
-				pd.show();
+		if (!activity.isFinishing()) {
+			(new Handler()).postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					pd = new ProgressDialog(activity);
+					pd.setMessage(activity.getString(R.string.txt_loading));
+					pd.setCancelable(false);
+					pd.show();
 
-				mHelper = new IabHelper(activity, DecodeKey(
-						Constants.PUSHLISH_KEY[0], 1)
-						+ DecodeKey(Constants.PUSHLISH_KEY[1], 2)
-						+ DecodeKey(Constants.PUSHLISH_KEY[2], 3)
-						+ DecodeKey(Constants.PUSHLISH_KEY[3], 4)
-						+ DecodeKey(Constants.PUSHLISH_KEY[4], 5));
+					mHelper = new IabHelper(activity, DecodeKey(
+							Constants.PUSHLISH_KEY[0], 1)
+							+ DecodeKey(Constants.PUSHLISH_KEY[1], 2)
+							+ DecodeKey(Constants.PUSHLISH_KEY[2], 3)
+							+ DecodeKey(Constants.PUSHLISH_KEY[3], 4)
+							+ DecodeKey(Constants.PUSHLISH_KEY[4], 5));
 
-				mHelper.enableDebugLogging(true);
+					mHelper.enableDebugLogging(true);
 
-				// Start setup. This is asynchronous and the specified listener
-				// will be called once setup completes.
-				Log.d(TAG, "Starting setup.");
-				mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-					public void onIabSetupFinished(IabResult result) {
-						Log.d(TAG, "Setup finished.");
-						if (mHelper == null)
-							return;
-						if (!result.isSuccess()) {
-							return;
-						}
+					// Start setup. This is asynchronous and the specified
+					// listener
+					// will be called once setup completes.
+					Log.d(TAG, "Starting setup.");
+					mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+						public void onIabSetupFinished(IabResult result) {
+							Log.d(TAG, "Setup finished.");
+							if (mHelper == null)
+								return;
+							if (!result.isSuccess()) {
+								return;
+							}
+
 						Log.d(TAG, "Setup successful. Querying inventory.");
 						mHelper.getAllSKU(IabHelper.ITEM_TYPE_INAPP,
 								mGetAllSkuDetailListener);
 					}
 				});
 			}
-		}, 1000);
+			}, 1000);
+		}
 
 	}
+
 	private String RandomString(int length) {
 		String characters = "q1w2e3r4t5y6u7i8o9plkj0hgfdsamnbvcxz/?>.,<!@#$%^&*()_+=-";
 		Random r = new Random();
@@ -188,6 +197,7 @@ public class GetVIPFragment {
 	}
 
 	String roundTwoDecimals(double d) {
+
 		DecimalFormat twoDForm = new DecimalFormat(".##");
 		return twoDForm.format(d) + "";
 	}

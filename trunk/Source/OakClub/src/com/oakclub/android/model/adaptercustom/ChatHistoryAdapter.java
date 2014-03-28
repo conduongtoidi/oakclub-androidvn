@@ -115,16 +115,18 @@ public class ChatHistoryAdapter extends BaseAdapter {
 		if (type == 0) {
 			String url = OakClubUtil.getFullLink(context, target_avatar);
 			SmartImageView imgAva = holder.userAvatar;
-			OakClubUtil.loadImageFromUrl(context, url, imgAva);
+			OakClubUtil.loadImageFromUrl(context, url, imgAva, "");
 			holder.leftTv.setText(spannable);
 			ImageView imgView = holder.leftImg;
 			TextView textView = holder.leftTv;
-			getSticker(position, item, text, matcher, imgView, textView);
+			if (imgView != null)
+				getSticker(position, item, text, matcher, imgView, textView);
 		} else {
 			holder.rightTv.setText(spannable);
 			ImageView imgView = holder.rightImg;
 			TextView textView = holder.rightTv;
-			getSticker(position, item, text, matcher, imgView,
+			if (imgView != null)
+				getSticker(position, item, text, matcher, imgView,
 					textView);
 		}
 		holder.timeTv.setText(item.getTime_string());

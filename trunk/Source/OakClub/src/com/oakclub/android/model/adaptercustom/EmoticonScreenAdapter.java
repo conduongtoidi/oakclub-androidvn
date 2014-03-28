@@ -160,7 +160,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		emoticons.put("x(", R.drawable.angry + "");
 		emoticons.put(":D", R.drawable.grin + "");
 		emoticons.put(":-o", R.drawable.amazed + "");
-		emoticons.put(" :\"&gt;", R.drawable.shy + "");
+		emoticons.put(":\"&gt;", R.drawable.shy + "");
 		emoticons.put("B-)", R.drawable.cool + "");
 		emoticons.put("(bandit)", R.drawable.ninja + "");
 		emoticons.put(":-&amp;", R.drawable.sick + "");

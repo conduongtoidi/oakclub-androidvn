@@ -50,8 +50,8 @@ import com.oakclub.android.view.CircleImageView;
 public class OakClubUtil {
 
 	public static void loadImageFromUrl(final Context context,
-			final String imageUrl, final SmartImageView imageView) {
-		imageView.setImageUrl(imageUrl, null, R.drawable.logo_splashscreen);
+			final String imageUrl, final SmartImageView imageView, String folder) {
+		imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
 
 	}
 
@@ -318,10 +318,13 @@ public class OakClubUtil {
 	}
 	
 	
-	public static File getFileStore(Context context){
+	public static File getFileStore(Context context, String folder){
 	    File file;
-	    if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+	    if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 	        file=new File(android.os.Environment.getExternalStorageDirectory(), Constants.TAG);
+	        if (!folder.equals(""))
+	        	file = new File(file, folder);
+	    }
         else
             file=context.getCacheDir();
         if(!file.exists())

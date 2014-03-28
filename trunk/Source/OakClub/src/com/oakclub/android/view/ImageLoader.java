@@ -31,8 +31,8 @@ public class ImageLoader {
     private Map<ImageView, String> imageViews=Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     ExecutorService executorService;
   
-    public ImageLoader(Context context){
-        fileCache=new FileCache(context);
+    public ImageLoader(Context context, String folder){
+        fileCache=new FileCache(context, folder);
         executorService=Executors.newFixedThreadPool(5);
     }
   

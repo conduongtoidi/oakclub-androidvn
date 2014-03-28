@@ -60,15 +60,15 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 	TextView profileTvLocation;
 	double longitude;
 	double latitude;
-	
+
 	RelativeLayout profileLayoutName;
 	RelativeLayout profileLayoutBirthdate;
 	RelativeLayout profileLayoutEmail;
 	RelativeLayout profileLayoutGender;
-	
+
 	RelativeLayout profileLayoutInterestedIn;
 	RelativeLayout profileLayoutLocation;
-	
+
 	Button btnDone;
 	boolean hasChange = false;
 	Uri mImageCaptureUri;
@@ -82,10 +82,12 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 		init();
 	}
 
-	private void init(){
-		
-		profileInfoObj = (ProfileInfoData)this.getIntent().getSerializableExtra("Info");
-		if(profileInfoObj==null) return;
+	private void init() {
+
+		profileInfoObj = (ProfileInfoData) this.getIntent()
+				.getSerializableExtra("Info");
+		if (profileInfoObj == null)
+			return;
 		OnLayoutClickListener listener = new OnLayoutClickListener();
 		avatar = (CircleImageView) findViewById(R.id.update_profile_top_rlt_header_civw_avatar);
 		userNameTv = (TextView) findViewById(R.id.update_profile_top_rlt_header_llt_info_tvw_user_name);
@@ -96,41 +98,43 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 		profileTvGender = (TextView) findViewById(R.id.update_profile_body_cvw_info_rlt_gender_tvw_gender);
 		profileTvInterestedIn = (TextView) findViewById(R.id.update_profile_body_cvw_info_rlt_interested_in_tvw_interested_in);
 		profileTvLocation = (TextView) findViewById(R.id.update_profile_body_cvw_info_rlt_location_tvw_location);
-		
+
 		profileLayoutName = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_name);
 		profileLayoutBirthdate = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_birthdate);
 		profileLayoutEmail = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_email);
 		profileLayoutGender = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_gender);
 		profileLayoutInterestedIn = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_interested_in);
-		profileLayoutLocation = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_location);	
-		
+		profileLayoutLocation = (RelativeLayout) findViewById(R.id.update_profile_body_cvw_info_rlt_location);
+
 		btnDone = (Button) findViewById(R.id.update_profile_footer_btn_done);
 		btnDone.setOnClickListener(listener);
-		
+
 		profileLayoutName.setOnClickListener(listener);
 		profileLayoutBirthdate.setOnClickListener(listener);
 		profileLayoutEmail.setOnClickListener(listener);
 		profileLayoutGender.setOnClickListener(listener);
 		profileLayoutInterestedIn.setOnClickListener(listener);
 		profileLayoutLocation.setOnClickListener(listener);
-		
+
 		initInfo();
-		
+
 	}
-	
+
 	class OnLayoutClickListener implements View.OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			if (profileInfoObj==null){
+			if (profileInfoObj == null) {
 				return;
 			}
 			switch (v.getId()) {
 			case R.id.update_profile_body_cvw_info_rlt_name:
-				solveChangeField(Constants.PROFILE_SETTING_FIELD_NAME,profileInfoObj.getName());
+				solveChangeField(Constants.PROFILE_SETTING_FIELD_NAME,
+						profileInfoObj.getName());
 				break;
 			case R.id.update_profile_body_cvw_info_rlt_email:
-				solveChangeField(Constants.PROFILE_SETTING_FIELD_EMAIL,profileInfoObj.getEmail());
+				solveChangeField(Constants.PROFILE_SETTING_FIELD_EMAIL,
+						profileInfoObj.getEmail());
 				break;
 			case R.id.update_profile_body_cvw_info_rlt_gender:
 				solveChangeBySingleChoice(
@@ -140,61 +144,69 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 			case R.id.update_profile_body_cvw_info_rlt_interested_in:
 				solveChangeBySingleChoice(
 						Constants.PROFILE_SETTING_FIELD_INTERESTED,
-						R.array.interested_in_list, profileInfoObj.getInterested());
+						R.array.interested_in_list,
+						profileInfoObj.getInterested());
 				break;
 			case R.id.update_profile_body_cvw_info_rlt_birthdate:
 				solveChangeBirthdate(Constants.PROFILE_SETTING_FIELD_BIRTHDATE,
 						profileInfoObj.getBirthday_date());
 				break;
 			case R.id.update_profile_footer_btn_done:
-			    runOnUiThread(new Runnable() {
+				runOnUiThread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        Location location = null;//OakClubUtil.getLocation(getApplicationContext());
-                        if (location != null) {
-                        	Log.v("TEST", "btnDone:is nulll");
-                            longitude = location.getLongitude();
-                            latitude = location.getLatitude();
-                            SetProfileByFieldLoader loader = new SetProfileByFieldLoader("updateProfileFirstTime",
-                                    ProfileUpdateActivity.this,
-                                    profileTvName.getText().toString(),
-                                    profileTvGender.getText().toString(),
-                                    profileTvBirthdate.getText().toString(),
-                                    profileTvInterestedIn.getText().toString(),
-                                    profileTvEmail.getText().toString(), longitude, latitude);
-                            getRequestQueue().addRequest(loader);
-                           
-                        } else {
-                            showOpenGPSSettingsDialog(ProfileUpdateActivity.this);
-//                            Toast.makeText(getApplicationContext(),
-//                                    getString(R.string.abnormal_error_message),
-//                                    Toast.LENGTH_SHORT);
-                        }
-                    }
-                });
+					@Override
+					public void run() {
+						Location location = null;// OakClubUtil.getLocation(getApplicationContext());
+						if (location != null) {
+							Log.v("TEST", "btnDone:is nulll");
+							longitude = location.getLongitude();
+							latitude = location.getLatitude();
+							SetProfileByFieldLoader loader = new SetProfileByFieldLoader(
+									"updateProfileFirstTime",
+									ProfileUpdateActivity.this, profileTvName
+											.getText().toString(),
+									profileTvGender.getText().toString(),
+									profileTvBirthdate.getText().toString(),
+									profileTvInterestedIn.getText().toString(),
+									profileTvEmail.getText().toString(),
+									longitude, latitude);
+							getRequestQueue().addRequest(loader);
+
+						} else {
+							if (!ProfileUpdateActivity.this.isFinishing()) {
+								showOpenGPSSettingsDialog(ProfileUpdateActivity.this);
+							}
+							// Toast.makeText(getApplicationContext(),
+							// getString(R.string.abnormal_error_message),
+							// Toast.LENGTH_SHORT);
+						}
+					}
+				});
 				break;
 			default:
 			}
 		}
 	}
-	
-	private void initInfo(){
+
+	private void initInfo() {
 		if (profileInfoObj != null) {
-			String url = OakClubUtil.getFullLink(getApplicationContext(), profileInfoObj.getAvatar(),100,100,1);
-			OakClubUtil.loadImageFromUrl(getApplicationContext(),url, avatar);
+			String url = OakClubUtil.getFullLink(getApplicationContext(),
+					profileInfoObj.getAvatar(), 100, 100, 1);
+			OakClubUtil.loadImageFromUrl(getApplicationContext(), url, avatar, "");
 			userNameTv.setText(profileInfoObj.getName());
 			userBriefInfoTv.setText(profileInfoObj.getLocation().getName());
 			profileTvName.setText("" + profileInfoObj.getName());
-			profileTvBirthdate.setText(""+ profileInfoObj.getBirthday_date());
-			profileTvGender.setText(profileInfoObj.getGender() == 1?""
-					+ getString(R.string.profile_gender_male):""
+			profileTvBirthdate.setText("" + profileInfoObj.getBirthday_date());
+			profileTvGender.setText(profileInfoObj.getGender() == 1 ? ""
+					+ getString(R.string.profile_gender_male) : ""
 					+ getString(R.string.profile_gender_female));
-			
-			profileTvLocation.setText(""+ profileInfoObj.getLocation().getName());
-			profileTvInterestedIn.setText(ParseDataProfileInfo.getInterested(this, profileInfoObj.getInterested()));
-			
-			profileTvEmail.setText(""+ profileInfoObj.getEmail());
+
+			profileTvLocation.setText(""
+					+ profileInfoObj.getLocation().getName());
+			profileTvInterestedIn.setText(ParseDataProfileInfo.getInterested(
+					this, profileInfoObj.getInterested()));
+
+			profileTvEmail.setText("" + profileInfoObj.getEmail());
 		}
 	}
 
@@ -209,13 +221,16 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						String editable = input.getText().toString();
-						if (editable != null && editable.length() != 0 && !editable.equals(currentValue)) {
+						if (editable != null && editable.length() != 0
+								&& !editable.equals(currentValue)) {
 							hasChange = true;
 							if (profileInfoObj != null) {
-								if (fieldName.equals(Constants.PROFILE_SETTING_FIELD_NAME)) {
+								if (fieldName
+										.equals(Constants.PROFILE_SETTING_FIELD_NAME)) {
 									profileInfoObj.setName(editable);
 									profileTvName.setText(editable);
-								}else if(fieldName.equals(Constants.PROFILE_SETTING_FIELD_EMAIL)){
+								} else if (fieldName
+										.equals(Constants.PROFILE_SETTING_FIELD_EMAIL)) {
 									profileInfoObj.setEmail(editable);
 									profileTvEmail.setText(editable);
 								}
@@ -223,16 +238,18 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 						}
 					}
 				})
-				.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-						}
-					}).show();
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+							}
+						}).show();
 	}
 
 	public void solveChangeBySingleChoice(final String fieldName,
 			int stringArrayId, final int currentValue) {
-		final String[] stringList = getResources().getStringArray(stringArrayId);
+		final String[] stringList = getResources()
+				.getStringArray(stringArrayId);
 		final ArrayList<RadioButton> radioButtons;
 		final RadioGroup radioGroup = new RadioGroup(getApplicationContext());
 		radioGroup.setOrientation(RadioGroup.VERTICAL);
@@ -253,7 +270,8 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 				.setView(radioGroup)
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						int selectedButtonId = radioGroup.getCheckedRadioButtonId();
+						int selectedButtonId = radioGroup
+								.getCheckedRadioButtonId();
 						int selectedId = -1;
 						for (int i = 0; i < radioButtons.size(); i++) {
 							if (radioButtons.get(i).getId() == selectedButtonId) {
@@ -263,20 +281,25 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 						}
 						if (selectedId != -1 && selectedId != currentValue) {
 							hasChange = true;
-//							SetProfileByFieldLoader loader = new SetProfileByFieldLoader(
-//									"setField", ProfileUpdateActivity.this,
-//									fieldName, "" + selectedId);
-//							getRequestQueue().addRequest(loader);
+							// SetProfileByFieldLoader loader = new
+							// SetProfileByFieldLoader(
+							// "setField", ProfileUpdateActivity.this,
+							// fieldName, "" + selectedId);
+							// getRequestQueue().addRequest(loader);
 
 							if (profileInfoObj != null) {
-								if (fieldName.equals(Constants.PROFILE_SETTING_FIELD_GENDER)) {
-									
+								if (fieldName
+										.equals(Constants.PROFILE_SETTING_FIELD_GENDER)) {
+
 									profileInfoObj.setGender(selectedId);
-									profileTvGender.setText(""+ stringList[selectedId]);
-								} else if (fieldName.equals(Constants.PROFILE_SETTING_FIELD_INTERESTED)) {
-									
+									profileTvGender.setText(""
+											+ stringList[selectedId]);
+								} else if (fieldName
+										.equals(Constants.PROFILE_SETTING_FIELD_INTERESTED)) {
+
 									profileInfoObj.setInterested(selectedId);
-									profileTvInterestedIn.setText(stringList[selectedId]);
+									profileTvInterestedIn
+											.setText(stringList[selectedId]);
 								}
 
 							}
@@ -313,39 +336,42 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 			if (year < 100) {
 				year += 1900;
 			}
-			final DatePickerDialog dialog = new DatePickerDialog(this,
-					pDateSetListener, year, month, day);
-			final DatePicker datePicker = dialog.getDatePicker();
-			datePicker.init(year, month, day, null);
-			OnClickListener listener = new OnClickListener() {
+			if (!ProfileUpdateActivity.this.isFinishing()) {
+				final DatePickerDialog dialog = new DatePickerDialog(this,
+						pDateSetListener, year, month, day);
+				final DatePicker datePicker = dialog.getDatePicker();
+				datePicker.init(year, month, day, null);
+				OnClickListener listener = new OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog2, int which) {
-					int year;
-					int month;
-					int day;
-					datePicker.clearFocus();
-					year = datePicker.getYear();
-					month = datePicker.getMonth();
-					day = datePicker.getDayOfMonth();
-					Date date2 = new Date(year - 1900, month, day);
-					String newDay = dateFormat.format(date2);
-					if (newDay != null && !newDay.equals(currentValue)) {
-						hasChange = true;
-//						SetProfileByFieldLoader loader = new SetProfileByFieldLoader(
-//								"setField", ProfileUpdateActivity.this,
-//								fieldName, "" + newDay);
-//						getRequestQueue().addRequest(loader);
+					@Override
+					public void onClick(DialogInterface dialog2, int which) {
+						int year;
+						int month;
+						int day;
+						datePicker.clearFocus();
+						year = datePicker.getYear();
+						month = datePicker.getMonth();
+						day = datePicker.getDayOfMonth();
+						Date date2 = new Date(year - 1900, month, day);
+						String newDay = dateFormat.format(date2);
+						if (newDay != null && !newDay.equals(currentValue)) {
+							hasChange = true;
+							// SetProfileByFieldLoader loader = new
+							// SetProfileByFieldLoader(
+							// "setField", ProfileUpdateActivity.this,
+							// fieldName, "" + newDay);
+							// getRequestQueue().addRequest(loader);
 
-						if (profileInfoObj != null) {
-							profileInfoObj.setBirthday_date(newDay);
-							profileTvBirthdate.setText("" + newDay);
+							if (profileInfoObj != null) {
+								profileInfoObj.setBirthday_date(newDay);
+								profileTvBirthdate.setText("" + newDay);
+							}
 						}
 					}
-				}
-			};
-			dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Done", listener); 
-			dialog.show();
+				};
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Done", listener);
+				dialog.show();
+			}
 		}
 
 	}
@@ -360,29 +386,33 @@ public class ProfileUpdateActivity extends OakClubBaseActivity {
 		double latitude;
 		ProfileUpdateFirstTimeObject obj;
 
-		public SetProfileByFieldLoader(Object key, Activity activity, String name, String gender, String birthday, String interested, String email, double longitude, double latitude) {
+		public SetProfileByFieldLoader(Object key, Activity activity,
+				String name, String gender, String birthday, String interested,
+				String email, double longitude, double latitude) {
 			super(key, activity);
-			this.name=name;
-			this.gender =  gender.equals("Male")? 1: 0;
-			this.birthday=birthday;
-			this.interested=interested;
+			this.name = name;
+			this.gender = gender.equals("Male") ? 1 : 0;
+			this.birthday = birthday;
+			this.interested = interested;
 			this.email = email;
 			this.longitude = longitude;
-			this.latitude = latitude;			        
+			this.latitude = latitude;
 		}
 
 		@Override
 		public void execute() throws Exception {
-		    obj = oakClubApi.updateProfileFirstTime(name, gender, birthday, interested, email, longitude, latitude);
-			//obj = oakClubApi.setProfileByField(field, value);
+			obj = oakClubApi.updateProfileFirstTime(name, gender, birthday,
+					interested, email, longitude, latitude);
+			// obj = oakClubApi.setProfileByField(field, value);
 		}
 
 		@Override
 		public void executeUI(Exception ex) {
 			if (obj != null && obj.isStatus()) {
-			    intent = new Intent(ProfileUpdateActivity.this, SlidingActivity.class );
-			    startActivity(intent);
-                finish();
+				intent = new Intent(ProfileUpdateActivity.this,
+						SlidingActivity.class);
+				startActivity(intent);
+				finish();
 			} else {
 				Toast.makeText(getApplicationContext(),
 						getString(R.string.abnormal_error_message),

@@ -20,11 +20,11 @@ public class WebImage implements SmartImage {
         this.url = url;
     }
 
-    public Bitmap getBitmap(Context context) {
+    public Bitmap getBitmap(Context context, String folder) {
         // Don't leak context
-        if(webImageCache == null) {
-            webImageCache = new WebImageCache(context);
-        }
+        //if(webImageCache == null) {
+            webImageCache = new WebImageCache(context, folder);
+        //}
 
         // Try getting bitmap from cache first
         Bitmap bitmap = null;

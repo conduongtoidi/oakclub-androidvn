@@ -146,5 +146,7 @@ public class Constants {
 
 	public static final int STATUS_CHAT_FROM_SENT = 0;
 	public static final int STATUS_CHAT_FROM_RECEIVED = 1;
+	public static String SNAPSHOT_FOLDER = "Snapshot";
+	public static String OTHER_PROFILE_FOLDER = "OtherProfile";
     
 }
