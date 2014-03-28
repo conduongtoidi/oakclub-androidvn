@@ -260,7 +260,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	}
 
 	private void startSnapshot() {
-		if(!ProfileSettingFragment.profileInfoObj.isIs_enabled()){
+		if(ProfileSettingFragment.profileInfoObj.isIs_enabled()){
 			Intent intent = new Intent(LoginBaseActivity.this,
 					SlidingActivity.class);
 			Bundle bundle = new Bundle();

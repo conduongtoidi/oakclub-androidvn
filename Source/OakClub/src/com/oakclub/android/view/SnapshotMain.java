@@ -381,73 +381,79 @@ public class SnapshotMain extends FrameLayout {
 
 			if (snapshot.fltBody.getChildCount() > 1)
 				snapshot.fltBody.getChildAt(0).setVisibility(View.VISIBLE);
+
+			if(snapshot.getContentMain()!=SnapshotMain.this)
+				return true;
 			switch (action) {
-			case MotionEvent.ACTION_DOWN: {
-				tempX = 0;
-				tempY = 0;
-				fltParams = (FrameLayout.LayoutParams) v.getLayoutParams();
-
-				dx = event.getRawX() - fltParams.leftMargin;
-				dy = event.getRawY() - fltParams.topMargin;
-				break;
-			}
-			case MotionEvent.ACTION_MOVE: {
-				fltContent.setBackgroundDrawable(null);
-				x = event.getRawX();
-				y = event.getRawY();
-				tempX = (int) (x - dx);
-				tempY = (int) (y - dy);
-				fltParams.leftMargin = (int) (tempX);
-				if (Math.abs(tempY) <= OakClubUtil.getWidthScreen(getContext()))
-					fltParams.topMargin = (int) tempY;//
-				fltParams.width = (int) widthT;
-				fltParams.height = (int) heightT;
-				v.setLayoutParams(fltParams);
-
-				float tempAlpha = tempX / 100;
-				angle = getAngle(tempX);
-				v.setRotation(angle);
-				if (tempX > 0) {
-					ivwLikeStamp.setAlpha(tempAlpha);
-					ivwNopeStamp.setAlpha(0.0f);
-				} else {
-					ivwNopeStamp.setAlpha(-tempAlpha);
-					ivwLikeStamp.setAlpha(0.0f);
+				case MotionEvent.ACTION_DOWN: {
+					tempX = 0;
+					tempY = 0;
+					fltParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+	
+					dx = event.getRawX() - fltParams.leftMargin;
+					dy = event.getRawY() - fltParams.topMargin;
+					break;
 				}
-				break;
-
-			}
-			case MotionEvent.ACTION_UP: {
-				fltContent.setBackgroundDrawable(null);
-				if (Math.abs(tempX) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE
-						&& Math.abs(tempY) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE) {
-					Intent intent = new Intent(getContext(),
-							InfoProfileOtherActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-					Bundle b = new Bundle();
-					b.putSerializable("SnapshotDataBundle", data);
-					b.putString("Activity", "SnapshotActivity");
-					intent.putExtras(b);
-					((FragmentActivity) getContext()).startActivityForResult(
-							intent, 1);
-					System.gc();
-					return true;
+				case MotionEvent.ACTION_MOVE: {
+					fltContent.setBackgroundDrawable(null);
+					x = event.getRawX();
+					y = event.getRawY();
+					tempX = (int) (x - dx);
+					tempY = (int) (y - dy);
+					fltParams.leftMargin = (int) (tempX);
+					if (Math.abs(tempY) <= OakClubUtil.getWidthScreen(getContext()))
+						fltParams.topMargin = (int) tempY;//
+					fltParams.width = (int) widthT;
+					fltParams.height = (int) heightT;
+					v.setLayoutParams(fltParams);
+	
+					float tempAlpha = tempX / 100;
+					angle = getAngle(tempX);
+					v.setRotation(angle);
+					if (tempX > 0) {
+						ivwLikeStamp.setAlpha(tempAlpha);
+						ivwNopeStamp.setAlpha(0.0f);
+					} else {
+						ivwNopeStamp.setAlpha(-tempAlpha);
+						ivwLikeStamp.setAlpha(0.0f);
+					}
+					break;
+	
 				}
-
-				if (Math.abs(tempX) > widthScreen / 6) {
-					if (tempX > 0 && isFirstLike) {
-						showDialogFirst(true, true);
-					} else if (tempX < 0 && isFirstNope) {
-						showDialogFirst(true, false);
-					} else
-						dragSnapshotAnimation();
-					ImageLoader imgLoader = new ImageLoader(getContext(), Constants.OTHER_PROFILE_FOLDER);
-					imgLoader.clearCache();
-				} else {
-					returnSnapshot(tempX, tempY);
+				case MotionEvent.ACTION_UP: {
+					setLoadingAnim(false);
+					fltContent.setBackgroundDrawable(null);
+					if (Math.abs(tempX) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE
+							&& Math.abs(tempY) <= Constants.DISTANCE_MIN_TO_INTO_PROFILE) {
+						Intent intent = new Intent(getContext(),
+								InfoProfileOtherActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+						Bundle b = new Bundle();
+						b.putSerializable("SnapshotDataBundle", data);
+						b.putString("Activity", "SnapshotActivity");
+						intent.putExtras(b);
+						((FragmentActivity) getContext()).startActivityForResult(
+								intent, 1);
+						System.gc();
+						return true;
+					}
+	
+					if (Math.abs(tempX) > widthScreen / 6) {
+						if (tempX > 0 && isFirstLike) {
+							showDialogFirst(true, true);
+						} 
+						else if (tempX < 0 && isFirstNope) {
+							showDialogFirst(true, false);
+						} 
+						else
+							dragSnapshotAnimation();
+						ImageLoader imgLoader = new ImageLoader(getContext(), Constants.OTHER_PROFILE_FOLDER);
+						imgLoader.clearCache();
+					} else {
+						returnSnapshot(tempX, tempY);
+					}
+					break;
 				}
-				break;
-			}
 			}
 			return true;
 		}
