@@ -29,4 +29,6 @@
     <color name="GoldLight">#c49a00</color>
     <color name="text_vip">#BD8E40</color>
     <color name="text_vip_disable">#DCBD6A</color>
+    <color name="disable_text_button_normal">#7b115c</color>
+    <color name="disable_text_button_click">#bbc0c4</color>
 </resources>

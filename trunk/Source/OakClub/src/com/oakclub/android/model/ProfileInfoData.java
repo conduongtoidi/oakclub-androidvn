@@ -28,6 +28,7 @@ public class ProfileInfoData implements Serializable {
 	private String xmpp_username = "";
 	private String xmpp_password = "";
 	private String email ="";
+	private boolean is_enabled = true;
 	private boolean is_verify = true;
 	private boolean force_verify = false;
 	private boolean skip_verify = false;
@@ -268,6 +269,14 @@ public class ProfileInfoData implements Serializable {
 	public void setRequired_android_app_version(
 			String required_android_app_version) {
 		this.required_android_app_version = required_android_app_version;
+	}
+
+	public boolean isIs_enabled() {
+		return is_enabled;
+	}
+
+	public void setIs_enabled(boolean is_enabled) {
+		this.is_enabled = is_enabled;
 	}
 
 
