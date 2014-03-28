@@ -553,7 +553,7 @@ public class SnapshotFragment {
 		}
 	}
 
-	private SnapshotMain getContentMain() {
+	public SnapshotMain getContentMain() {
 		SnapshotMain snapshot = null;
 		if (fltBody.getChildCount() == 1)
 			snapshot = (SnapshotMain) fltBody.getChildAt(0);
