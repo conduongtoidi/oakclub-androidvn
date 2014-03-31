@@ -355,37 +355,39 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				if (!OakClubUtil.compareVersion(obj.getData()
 						.getRequired_android_app_version(),
 						getString(R.string.build_version))) {
-					AlertDialog.Builder builder;
-					builder = new AlertDialog.Builder(LoginBaseActivity.this);
-					final AlertDialog dialog = builder.create();
-					LayoutInflater inflater = LayoutInflater
-							.from(LoginBaseActivity.this);
-					View layout = inflater.inflate(R.layout.dialog_warning_ok,
-							null);
-					dialog.setView(layout, 0, 0, 0, 0);
-					TextView tvTitle = (TextView) layout
-							.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-					tvTitle.setText(LoginBaseActivity.this
-							.getString(R.string.txt_update_new_version_title));
-					TextView tvQuestion = (TextView) layout
-							.findViewById(R.id.dialog_warning_tvQuestion);
-					tvQuestion
-							.setText(LoginBaseActivity.this
-									.getString(R.string.txt_update_new_version_message));
-					Button btnOK = (Button) layout
-							.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-					btnOK.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							startActivity(new Intent(Intent.ACTION_VIEW, Uri
-									.parse("market://details?id="
-											+ getApplicationContext()
-													.getPackageName())));
-							dialog.dismiss();
-						}
-					});
-					dialog.setCancelable(false);
-					dialog.show();
+					if (!LoginBaseActivity.this.isFinishing()) {
+						AlertDialog.Builder builder;
+						builder = new AlertDialog.Builder(LoginBaseActivity.this);
+						final AlertDialog dialog = builder.create();
+						LayoutInflater inflater = LayoutInflater
+								.from(LoginBaseActivity.this);
+						View layout = inflater.inflate(R.layout.dialog_warning_ok,
+								null);
+						dialog.setView(layout, 0, 0, 0, 0);
+						TextView tvTitle = (TextView) layout
+								.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+						tvTitle.setText(LoginBaseActivity.this
+								.getString(R.string.txt_update_new_version_title));
+						TextView tvQuestion = (TextView) layout
+								.findViewById(R.id.dialog_warning_tvQuestion);
+						tvQuestion
+								.setText(LoginBaseActivity.this
+										.getString(R.string.txt_update_new_version_message));
+						Button btnOK = (Button) layout
+								.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+						btnOK.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								startActivity(new Intent(Intent.ACTION_VIEW, Uri
+										.parse("market://details?id="
+												+ getApplicationContext()
+														.getPackageName())));
+								dialog.dismiss();
+							}
+						});
+						dialog.setCancelable(false);
+						dialog.show();
+					}
 				} else {
 					ProfileSettingFragment.profileInfoObj = obj.getData();
 					ProfileSettingFragment.error_Status = obj.getError_status();
@@ -397,6 +399,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 						@Override
 						public void run() {
+							if (pd != null && pd.isShowing()) {
+								pd.dismiss();
+								mLoginButton.setEnabled(true);
+							}
 							location = mGPS.getLocation();
 							if (location != null) {
 								double longitude = location.getLongitude();
@@ -405,20 +411,28 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 										"sendLocation", LoginBaseActivity.this,
 										"" + latitude, "" + longitude);
 								getRequestQueue().addRequest(loader);
+								if (!LoginBaseActivity.this.isFinishing()) {
+									pd = new ProgressDialog(LoginBaseActivity.this);
+									pd.setMessage(getString(R.string.txt_loading));
+									pd.setCancelable(false);
+									pd.show();
+								}
 								GetConfig loader2 = new GetConfig(
 										Constants.GETCONFIG,
 										LoginBaseActivity.this);
 								getRequestQueue().addRequest(loader2);
 							} else if (mGPS.isGPSEnabled) {
 								// showOpenGPSSettingsDialog(MainActivity.this);
-								OakClubUtil
-										.enableDialogWarning(
-												LoginBaseActivity.this,
-												getResources().getString(
-														R.string.txt_warning),
-												getResources()
-														.getString(
-																R.string.txt_gps_settings_title));
+								if (!LoginBaseActivity.this.isFinishing()) {
+									OakClubUtil
+											.enableDialogWarning(
+													LoginBaseActivity.this,
+													getResources().getString(
+															R.string.txt_warning),
+													getResources()
+															.getString(
+																	R.string.txt_gps_settings_title));
+								}
 							}
 						}
 					});
@@ -544,7 +558,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				FacebookRequestError error = response.getError();
 				if (error != null) {
 					mLoginButton.setEnabled(true);
-					if (pd.isShowing()) {
+					if (pd != null && pd.isShowing()) {
 						pd.dismiss();
 					}
 				} else {
@@ -814,9 +828,11 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						.getTotalNotification());
 
 			} else {
-				OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
-						getString(R.string.txt_warning),
-						getString(R.string.txt_internet_message));
+				if (!LoginBaseActivity.this.isFinishing()) {
+					OakClubUtil.enableDialogWarning(LoginBaseActivity.this,
+							getString(R.string.txt_warning),
+							getString(R.string.txt_internet_message));
+				}
 			}
 		}
 	}
