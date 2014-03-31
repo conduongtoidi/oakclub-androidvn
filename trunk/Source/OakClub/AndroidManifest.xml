@@ -46,7 +46,7 @@
         </receiver>
         <receiver android:name="com.oakclub.android.net.OnAlarmReceiver" >
         </receiver>
-
+        
         <service android:name="com.oakclub.android.net.AppService" >
         </service>
         <meta-data
@@ -166,7 +166,7 @@
             android:name="com.facebook.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oakclub.android.ProfileUpdateActivity"
+            android:name="com.oakclub.android.DisableUserActivity"
             android:screenOrientation="portrait" />
 
         <service android:name="com.oakclub.android.net.PushIntentService" />

@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -570,10 +571,19 @@ public class SnapshotFragment {
 		if (arrSnapshotMain.size() == 0) {
 			int size = data.size();
 			for (int i = 0; i < size; i++) {
-				SnapshotMain snapshotLayout = new SnapshotMain(activity, this,
-						data.get(0));
-				arrSnapshotMain.add(snapshotLayout);
-				data.remove(0);
+				String filterMale = data.get(0).getGender()==Constants.GENDER_MALE?"on":"";
+				String filterFemale = data.get(0).getGender()==Constants.GENDER_FEMALE?"on":"";
+				if(Constants.settingObject!=null && (
+						!Constants.settingObject.getFilter_male().equals(filterMale)||
+						!Constants.settingObject.getFilter_female().equals(filterFemale))){
+					data.remove(0);
+				}
+				else{
+					SnapshotMain snapshotLayout = new SnapshotMain(activity, this,
+							data.get(0));
+					arrSnapshotMain.add(snapshotLayout);
+					data.remove(0);
+				}
 			}
 
 			addDataIntoSnapshotLayout();
