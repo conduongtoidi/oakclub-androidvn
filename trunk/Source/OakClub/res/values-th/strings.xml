@@ -182,5 +182,10 @@
 <string name = "txt_one_year_ago">1 ปีที่แล้ว</string>
 <string name = "txt_year_ago">%d ปีที่แล้ว</string>
 <string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">การเริ่มต้นพูดคุยอาจเป็นเรื่องยาก แต่ไม่ใช่ที่ Oakclub!</string>
-    
+    <string name="txt_month">{{b}}%s / เดือน{{/b}}</string>
+    <string name="txt_get_vip_btn">เลือกแพคเกจวีไอพีตอนนี้</string>
+    <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
+    <string name="txt_save">ประหยัด {{b}}%s%%{{/b}}</string>
+    <string name="txt_load_in_app_error">ไม่สามารถโหลดการซื้อภายในแอป</string>
+    <string name="txt_vip_title">เป็นสมาชิกวีไอพี</string> 
 </resources>

@@ -1,10 +1,12 @@
 package com.oakclub.android;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,6 +37,7 @@ import com.oakclub.android.model.Purchase;
 import com.oakclub.android.model.SenVIPRegisterReturnObject;
 import com.oakclub.android.model.SkuDetails;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.CurrencyFormatter;
 import com.oakclub.android.util.IabHelper;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.util.RichTextHelper;
@@ -178,11 +181,18 @@ public class PurchaseActivity extends OakClubBaseActivity{
 				/ (priceOneMonth * months) * 100);
 		return Math.round(res) + "";
 	}
+	private static DecimalFormat df;
+	  static {
+	    df = new DecimalFormat("#,###,##0.00");
+	    DecimalFormatSymbols otherSymbols = new   DecimalFormatSymbols(Locale.ENGLISH);
+	    otherSymbols.setDecimalSeparator('.');
+	    otherSymbols.setGroupingSeparator(' ');
+	    df.setDecimalFormatSymbols(otherSymbols);
+	  }
 
-	String roundTwoDecimals(double d) {
-		DecimalFormat twoDForm = new DecimalFormat(".##");
-		return twoDForm.format(d) + "";
-	}
+	  public static <T extends Number> String roundTwoDecimals(T number) {
+	     return df.format(number);
+	  }
 
 	private static class ListProductHolder {
 		public TextView tvVipPackage;
@@ -202,6 +212,7 @@ public class PurchaseActivity extends OakClubBaseActivity{
 			if (idx > 0) {
 				sku.setTitle(sku.getTitle().substring(0, idx));
 			}
+			sku = CurrencyFormatter.parse(sku);
 			mapList.put(sku.getSku(), sku);
 		}
 		for (String id : productIDs) {
@@ -228,10 +239,19 @@ public class PurchaseActivity extends OakClubBaseActivity{
 		btn_get_vip_package.setVisibility(View.VISIBLE);
 		int i = 0;
 		String priceOnMonth = "1";
-		double minPrice = 1000000;
-		for (SkuDetails sku : productList) {
-			if (Double.parseDouble(sku.getPriceInMicros()) < minPrice) {
-				minPrice = Double.parseDouble(sku.getPriceInMicros());
+		double minPrice = 1000000000;
+		SkuDetails skud = productList.get(0);
+		if(skud != null && (skud.getCurrencySymple().equals("") || skud.getPriceInNumberString().equals(""))){
+			for (SkuDetails pro : productList) {
+				if (Double.parseDouble(pro.getPriceInMicros()) < minPrice) {
+					minPrice = Double.parseDouble(pro.getPriceInMicros());
+				}
+			}
+		}else{
+			for (SkuDetails pro : productList) {
+				if (Double.parseDouble(pro.getPriceInNumberString()) < minPrice) {
+					minPrice = Double.parseDouble(pro.getPriceInNumberString());
+				}
 			}
 		}
 		priceOnMonth = minPrice + "";
@@ -266,27 +286,42 @@ public class PurchaseActivity extends OakClubBaseActivity{
 			holder.rdButton.setClickable(false);
 			holder.tvVipPackage.setText(RichTextHelper.getRichText("{{b}}"
 					+ sku.getTitle() + "{{/b}}"));
-			if (sku.getPriceInMicros().equals(priceOnMonth)) {
-				holder.tvPrice.setText(RichTextHelper.getRichText(String
-						.format(getString(R.string.txt_int_app_product_title),sku.getPriceInMicros() + " " +sku.getCurrency() +"("+sku.getPrice()+")" )));
-//				RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.tvPrice
-//						.getLayoutParams();
-//				layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT,
-//						RelativeLayout.TRUE);
-//				holder.tvPrice.setLayoutParams(layoutParams);
-				holder.tvBilled.setVisibility(View.GONE);
-				holder.tvSaved.setVisibility(View.GONE);
-			} else {
-				holder.tvPrice.setText(RichTextHelper.getRichText(String
-						.format(getString(R.string.txt_month), saveRate(Double.parseDouble(priceOnMonth), Double.parseDouble(sku.getPriceInMicros() ), Integer.parseInt(monthsList[i])) + " " +sku.getCurrency() )));
-				holder.tvBilled.setText(RichTextHelper.getRichText(String
-						.format(getString(R.string.txt_total_bill), sku.getPriceInMicros() +  " " + sku.getCurrency()  + "("+sku.getPrice()+")" )));
-				holder.tvSaved.setText(RichTextHelper.getRichText(String
-						.format(getString(R.string.txt_save),
-								saveRate(Double.parseDouble(priceOnMonth),
-										Double.parseDouble(sku
-												.getPriceInMicros()), Integer
-												.parseInt(monthsList[i])))));
+			if(sku.getCurrencySymple().equals("") || sku.getPriceInNumberString().equals("")){
+				if (sku.getPriceInMicros().equals(priceOnMonth)) {
+					holder.tvPrice.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_int_app_product_title),sku.getPriceInMicros() + " " +sku.getCurrency() +"("+sku.getPrice()+")" )));
+					holder.tvBilled.setVisibility(View.GONE);
+					holder.tvSaved.setVisibility(View.GONE);
+				} else {
+					holder.tvPrice.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_month), roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros() ) / Integer.parseInt(monthsList[i])) + " " +sku.getCurrency() )));
+					holder.tvBilled.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_total_bill), sku.getPriceInMicros() +  " " + sku.getCurrency()  + "("+sku.getPrice()+")" )));
+					holder.tvSaved.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_save),
+									saveRate(Double.parseDouble(priceOnMonth),
+											Double.parseDouble(sku
+													.getPriceInMicros()), Integer
+													.parseInt(monthsList[i])))));
+				}
+			}else{
+				if (Double.parseDouble(sku.getPriceInNumberString()) == Double.parseDouble(priceOnMonth)) {
+					holder.tvPrice.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_int_app_product_title),sku.getPrice())));
+					holder.tvBilled.setVisibility(View.GONE);
+					holder.tvSaved.setVisibility(View.GONE);
+				} else {
+					holder.tvPrice.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_month), roundTwoDecimals( Double.parseDouble(sku.getPriceInNumberString() ) / Integer.parseInt(monthsList[i]) ) + " " +sku.getCurrencySymple())));
+					holder.tvBilled.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_total_bill), sku.getPrice() )));
+					holder.tvSaved.setText(RichTextHelper.getRichText(String
+							.format(getString(R.string.txt_save),
+									saveRate(Double.parseDouble(priceOnMonth),
+											Double.parseDouble(sku
+													.getPriceInNumberString()), Integer
+													.parseInt(monthsList[i])))));
+				}
 			}
 			final int index = i;
 			convertView.setOnClickListener(new OnClickListener() {
@@ -372,7 +407,7 @@ public class PurchaseActivity extends OakClubBaseActivity{
 
 	// Callback for when a purchase is finished
 	IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-		public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+		public void onIabPurchaseFinished(IabResult result, final Purchase purchase) {
 			btn_get_vip_package.setEnabled(true);
 			Log.d(TAG, "Purchase finished: " + result + ", purchase: "
 					+ purchase);
@@ -399,9 +434,20 @@ public class PurchaseActivity extends OakClubBaseActivity{
 
 			Log.d(TAG, "Purchase successful.");
 			// xac nhan la VIP user len server
-			SendVIPRegister loader = new SendVIPRegister(
-					Constants.VIP_REGISTER, PurchaseActivity.this, purchase);
-			getRequestQueue().addRequest(loader);
+			(new Handler()).postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					pd = new ProgressDialog(PurchaseActivity.this);
+					pd.setMessage(getString(R.string.txt_loading));
+					pd.setCancelable(false);
+					pd.show();
+
+					SendVIPRegister loader = new SendVIPRegister(
+							Constants.VIP_REGISTER, PurchaseActivity.this, purchase);
+					getRequestQueue().addRequest(loader);
+				}
+			}, 0);
+			
 		}
 	};
 
@@ -531,7 +577,10 @@ public class PurchaseActivity extends OakClubBaseActivity{
 
 		@Override
 		public void executeUI(Exception ex) {
-
+			if(pd != null && pd.isShowing()){
+				pd.dismiss();
+				pd = null;
+			}
 			if (obj != null && obj.isStatus()) {
 				// popup purchase seccess
 				if (ProfileSettingFragment.profileInfoObj != null) {

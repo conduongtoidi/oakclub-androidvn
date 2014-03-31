@@ -766,6 +766,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			return OakClubJsonParser.getJsonObjectByMapper(result,
                     SenVIPRegisterReturnObject.class);
 		} catch (Exception e) {
+			Log.d("result receipt", "error request to server.....");
 			return null;
 		}
 	}

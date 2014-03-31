@@ -33,6 +33,8 @@ public class SkuDetails {
     String json;
     String currency;
     String priceInMicros;
+    String currencySymple = "";
+    String priceInNumberString = "";
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
@@ -61,12 +63,24 @@ public class SkuDetails {
     public String getSku() { return sku; }
     public String getType() { return type; }
     public String getPrice() { return price; }
+    public void setPrice(String price) { this.price = price ;}
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getDescription() { return description; }
     public String getCurrency() { return currency; }
     public String getPriceInMicros() { return priceInMicros; }
-    @Override
+    public String getCurrencySymple() { return currencySymple; }
+    public void setCurrencySymple(String currSymple) { this.currencySymple = currSymple; }
+    
+    public String getPriceInNumberString() {
+		return priceInNumberString;
+	}
+
+	public void setPriceInNumberString(String priceInNumberString) {
+		this.priceInNumberString = priceInNumberString;
+	}
+
+	@Override
     public String toString() {
         return "SkuDetails:" + json;
     }

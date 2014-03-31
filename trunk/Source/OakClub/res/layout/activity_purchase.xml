@@ -64,7 +64,7 @@
                 android:layout_marginRight="5dp"
                 android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="@string/abnormal_error_message"
+                android:text="@string/txt_load_in_app_error"
                 android:textColor="@color/Red"
                 android:textSize="15sp"
                 android:textStyle="bold"
