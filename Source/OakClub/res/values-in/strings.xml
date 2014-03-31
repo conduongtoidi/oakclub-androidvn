@@ -182,5 +182,10 @@
 <string name = "txt_one_year_ago">1 tahun yang lalu</string>
 <string name = "txt_year_ago">%d tahun yang lalu</string>
 <string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Memulai obrolan memang canggung, tapi tidak di OakClub!</string>
-    
+    <string name="txt_month">{{b}}%s / bulan{{/b}}</string>
+    <string name="txt_get_vip_btn">Dapatkan Paket V.I.P Sekarang</string>
+    <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
+    <string name="txt_save">Hemat {{b}}%s%%{{/b}}</string>
+    <string name="txt_load_in_app_error">Tidak bisa memuat Pembelian InApp</string>
+    <string name="txt_vip_title">Jadilah VIP</string> 
 </resources>

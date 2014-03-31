@@ -194,7 +194,8 @@
     <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
     <string name="txt_total_bill">Total: %s</string>
     <string name="txt_save">SAVE {{b}}%s%%{{/b}}</string>
-    <string name="txt_vip_room">Get VIP</string>
+    <string name="txt_vip_room">VIP Room</string>
+    <string name="txt_load_in_app_error">Can\'t load InApp Purchase</string>
     <string name="txt_rate_app">Rate OakClub</string>
     <string name="txt_content_rate_app">Please take 1 minute to let us know what you think about OakClub. Thank you for your support!</string>
     <string name="txt_leave_us_a_message">Leave us a message</string>
