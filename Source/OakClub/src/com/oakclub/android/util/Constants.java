@@ -80,6 +80,8 @@ public class Constants {
 	public static int MIN_SEARCH_DISTANCE = 0;
 	
 	public static boolean isChangedSetting = false;
+	public static final int GENDER_MALE = 1;
+	public static final int GENDER_FEMALE = 0;
 	public static SettingObject settingObject= null;
 	public static DataConfig dataConfig;
 	public static String urlAvatar = "";

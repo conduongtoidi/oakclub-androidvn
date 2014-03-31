@@ -22,7 +22,7 @@ public class SnapshotData implements Serializable {
     private String about_me = "";
     private boolean is_like = false;
     private String like_time;
-    
+    private int gender =0;
     private String location_name = "";
     private String hometown_name = ""; 
     private String birthday_date = "";
@@ -183,4 +183,10 @@ public class SnapshotData implements Serializable {
     public void setIs_vip(boolean is_vip) {
         this.is_vip = is_vip;
     }
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
 }

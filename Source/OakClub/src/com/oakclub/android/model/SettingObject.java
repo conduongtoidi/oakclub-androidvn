@@ -1,7 +1,7 @@
 package com.oakclub.android.model;
 
 public class SettingObject {
-    private String filter_male="";
+    private String filter_male="on";
     private String filter_female="";
     private boolean include_friends=false;
     private int age_from=16;

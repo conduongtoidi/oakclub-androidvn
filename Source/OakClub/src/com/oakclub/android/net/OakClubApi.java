@@ -352,8 +352,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 				paramList.add(new BasicNameValuePair("search_preference[filter_male]", Constants.settingObject.getFilter_male()));
 				paramList.add(new BasicNameValuePair("search_preference[include_friends]", String.valueOf(Constants.settingObject.isInclude_friends())));
 				paramList.add(new BasicNameValuePair("search_preference[range]", String.valueOf(Constants.settingObject.getRange())));
-				Log.v("Female get:", Constants.settingObject.getFilter_female() + "");
-				Log.v("Male get:", Constants.settingObject.getFilter_male() + "");
+				Log.v("Range:", String.valueOf(Constants.settingObject.getRange()) + "");
 			}
 			String result = excuteGet(baseUrl + "/" + Constants.GET_SNAPSHOT, paramList);
 			
