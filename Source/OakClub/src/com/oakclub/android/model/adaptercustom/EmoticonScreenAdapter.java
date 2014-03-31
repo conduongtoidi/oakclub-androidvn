@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.util.EmoticonSupportHelper;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class EmoticonScreenAdapter extends PagerAdapter implements
@@ -77,7 +78,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				arrayHashMapEmoticon.get(position));
 		gvEmoticon.setAdapter(adapter);
 		arrayAdaper.add(adapter);
-		final int POS = position;
+//		final int POS = position;
 		gvEmoticon.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
@@ -93,8 +94,8 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				value = textHead + value + textTail;
 				Spannable spannable = ChatActivity
 						.getSmiledText(context, value, true);
-				ChatActivity.tbMessage.setText(spannable);
-				ChatActivity.tbMessage.setSelection(spannable.length());
+				ChatActivity.tbMessage.setText("");
+				ChatActivity.tbMessage.append(spannable);
 //
 //				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
 //						.get(POS).entrySet().iterator();

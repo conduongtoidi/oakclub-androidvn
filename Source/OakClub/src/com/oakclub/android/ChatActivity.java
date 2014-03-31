@@ -20,6 +20,7 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -30,6 +31,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
@@ -46,6 +48,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,6 +83,7 @@ import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.EmoticonScreenAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.EmoticonSupportHelper;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;
@@ -143,6 +147,8 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	private SharedPreferences pref;
 	private Editor editor;
+	private static int heightKeyBoard = 742;
+	private static int heightChange = 50;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -406,7 +412,28 @@ public class ChatActivity extends OakClubBaseActivity {
 				return false;
 			}
 		});
-		// typing();
+		//typing();
+		
+		heightKeyBoard = (int) (OakClubUtil.getHeightScreen(ChatActivity.this) / 2.5);
+		chatLv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                Rect r = new Rect();
+                chatLv.getWindowVisibleDisplayFrame(r);
+
+                int screenHeight = chatLv.getRootView().getHeight();
+                int heightDifference = screenHeight - (r.bottom - r.top);
+                
+                heightChange = Math.min(heightDifference, heightChange);
+
+                //boolean visible = heightDiff > screenHeight / 3;
+                if (heightDifference > 100) {
+                	heightKeyBoard = heightDifference;
+                }
+            }
+        });
 	}
 
 	private TextWatcher tw = null;
@@ -425,17 +452,17 @@ public class ChatActivity extends OakClubBaseActivity {
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
+				Log.v("test", "test");
 			}
 
 			@Override
 			public void onTextChanged(CharSequence str, int start, int before,
 					int count) {
-				// tbMessage.removeTextChangedListener(tw);
-				// Spannable spannable = getSmiledText(getApplicationContext(),
-				// tbMessage.getText().toString(), true);
-				// tbMessage.setText(spannable);
-				// tbMessage.setSelection(spannable.length());
-				// tbMessage.addTextChangedListener(tw);
+//				 tbMessage.removeTextChangedListener(tw);
+//				 Spannable spannable = EmoticonSupportHelper.getSmiledText(getApplicationContext(), tbMessage.getText().toString());
+//				 tbMessage.setText(spannable);
+//				 tbMessage.setSelection(spannable.length());
+//				 tbMessage.addTextChangedListener(tw);
 			}
 		};
 		tbMessage.addTextChangedListener(tw);
@@ -448,6 +475,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 			mPager = (ViewPager) findViewById(R.id.activity_chat_viewpage_emoticon);
 			mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
+			
 		} catch (Exception ex) {
 
 		}
@@ -550,10 +578,15 @@ public class ChatActivity extends OakClubBaseActivity {
 
 		}
 
+		@SuppressWarnings("deprecation")
 		private void showSticker() {
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
+			
+			params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, heightKeyBoard - heightChange);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			rltChatViewPage.setLayoutParams(params);
+			
 			mPager.setAdapter(stickerScreenAdapter);
 			mIndicator.setViewPager(mPager);
 			mIndicator.notifyDataSetChanged();
@@ -567,10 +600,15 @@ public class ChatActivity extends OakClubBaseActivity {
 			rltChatViewPage.setVisibility(View.VISIBLE);
 		}
 
+		@SuppressWarnings("deprecation")
 		private void showSmile() {
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
+			params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, heightKeyBoard - heightChange);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			rltChatViewPage.setLayoutParams(params);
+			
 			mPager.setAdapter(emoticonScreenAdapter);
 			mIndicator.setViewPager(mPager);
 			mIndicator.notifyDataSetChanged();
@@ -1046,6 +1084,8 @@ public class ChatActivity extends OakClubBaseActivity {
 		return content;
 	}
 
+	@SuppressLint("DefaultLocale")
+	@SuppressWarnings("deprecation")
 	public static Spannable getSmiledText(Context context, String text,
 			boolean isPress) {
 		text = getXMLString(text);
@@ -1070,24 +1110,22 @@ public class ChatActivity extends OakClubBaseActivity {
 							Bitmap bitmap = BitmapFactory.decodeResource(
 									context.getResources(),
 									Integer.parseInt(entry.getValue()));
-							int size = (int) OakClubUtil
-									.convertPixelsToDp(
-											(float) (OakClubUtil
-													.getWidthScreen(context) / 15 * 1.75),
-											context);
+							int size = (int) new TextView(context).getTextSize();
 							Bitmap scaledbmp = Bitmap.createScaledBitmap(
 									bitmap,
-									(int) (tbMessage.getTextSize() * 1.75),
-									(int) (tbMessage.getTextSize() * 1.75),
+									(int) (OakClubUtil.convertDpToPixel((float) (size * 1.37), context)),
+									(int) (OakClubUtil.convertDpToPixel((float) (size * 1.37), context)),
 									false);
 							imageSpan = new ImageSpan(scaledbmp,
-									ImageSpan.ALIGN_BASELINE);
+									ImageSpan.ALIGN_BOTTOM);
 						} else {
 							imageSpan = new ImageSpan(context,
 									Integer.parseInt(entry.getValue()));
 						}
+						
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						
 						flag = true;
 						length = entryKey.length();
 					}
@@ -1098,8 +1136,27 @@ public class ChatActivity extends OakClubBaseActivity {
 				index -= length - 1;
 			}
 		}
+//		builder = builder.replace(0, 1, "");
 		return builder;
 	}
+	
+	public static Spannable getSmiledText(Context context, String text) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        int index;for (index = 0; index < builder.length(); index++) {
+          for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons.entrySet()) {
+            int length = entry.getKey().length();
+            if (index + length > builder.length())
+              continue;
+            if (builder.subSequence(index, index + length).toString().equals(entry.getKey())) {
+              builder.setSpan(new ImageSpan(context, Integer.parseInt(entry.getValue())), index, index + length,
+                  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+              index += length - 1;
+              break;
+            }
+          }
+        }
+        return builder;
+      }
 
 	@Override
 	public void onBackPressed() {
@@ -1140,7 +1197,6 @@ public class ChatActivity extends OakClubBaseActivity {
 			dateNow = sdf.parse(now);
 			dateMatchTime = sdf.parse(timeMatch);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		long time = 0;
