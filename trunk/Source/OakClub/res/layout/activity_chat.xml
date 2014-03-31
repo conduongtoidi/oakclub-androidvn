@@ -166,7 +166,8 @@
 	            android:padding="5dp"
 	            android:textColor="@android:color/black"
 	            android:textCursorDrawable="@drawable/color_cursor"
-	            android:maxLines="3"/>
+	            android:maxLines="3"
+	            android:minHeight="30dp"/>
 	
 	        <Button
 	            android:id="@+id/activity_chat_rtlbottom_btSend"
