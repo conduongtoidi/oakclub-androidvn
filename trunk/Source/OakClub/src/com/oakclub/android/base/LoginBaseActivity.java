@@ -269,7 +269,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			bundle.putString(Constants.BUNDLE_PROFILE_ID, profileIdMultualMatch);
 			intent.putExtras(bundle);
 			startActivity(intent);
-//			finish();
+			finish();
 		}
 		else{
 			intent = new Intent(LoginBaseActivity.this,
