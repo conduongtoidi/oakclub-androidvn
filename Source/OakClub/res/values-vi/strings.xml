@@ -180,7 +180,9 @@
 <string name = "txt_one_year_ago">1 năm trước</string>
 <string name = "txt_year_ago">%d năm trước</string>
 <string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Đừng mắc cỡ, làm quen với người ta đi nào!</string>
-    <string name="txt_month">{{b}}%s / tháng{{/b}}</string>
+ 	<string name="txt_month">{{b}}%s tháng{{/b}}</string>
+ 	<string name="txt_months">{{b}}%s tháng{{/b}}</string>
+    <string name="txt_price_per_month">{{b}}%s / tháng{{/b}}</string>
     <string name="txt_get_vip_btn">Mua gói thành viên VIP ngay</string>
     <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
     <string name="txt_save">Tiết kiệm {{b}}%s%%{{/b}}</string>

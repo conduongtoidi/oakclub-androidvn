@@ -179,5 +179,39 @@
 	<string name = "txt_one_year_ago">1 year ago</string>
 	<string name = "txt_year_ago">%d years ago</string>
 	<string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Starting conversations is awkward, but not at OakClub!</string>
-    
+	<string name="txt_vip_title">Become a VIP</string>
+     <string name="txt_vip_purchase_title">Purchasing</string>
+    <string name="txt_vip_benefits_title_1">RiseUp during subscription time</string>
+    <string name="txt_vip_benefits_title_2">Immediate chat</string>
+    <string name="txt_vip_benefits_title_3">Prioritize msg in chat window</string>
+    <string name="txt_vip_benefits_title_4">Vip exclusive emoticons and stickerse</string>
+    <string name="txt_vip_benefits_title_5">Frame and Crown\n(You can choose to disable this option)</string>
+
+    <string name="txt_vip_benefits_1">Prioritize you on Snapshots queue. More people will see you.</string>
+    <string name="txt_vip_benefits_2">Why waiting? Chat immediately with the ones you like.</string>
+    <string name="txt_vip_benefits_3">VIP messages appears before other users.</string>
+    <string name="txt_vip_benefits_4">Express it in your own ways. Tons of emoticons and stickers for VIPs only.</string>
+    <string name="txt_vip_benefits_5">Looks fabulous with golden frame and VIP crown.</string>
+    <string name="txt_month">{{b}}%s month{{/b}}</string>
+    <string name="txt_months">{{b}}%s months{{/b}}</string>
+    <string name="txt_price_per_month">{{b}}%s / mo{{/b}}</string>
+    <string name="txt_get_vip_btn">Get VIP Package Now</string>
+    <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
+    <string name="txt_total_bill">Total: %s</string>
+    <string name="txt_save">SAVE {{b}}%s%%{{/b}}</string>
+    <string name="txt_vip_room">VIP Room</string>
+    <string name="txt_load_in_app_error">Can\'t load InApp Purchase</string>
+     <string name="txt_purchase_error">Error purchasing. Authenticity verification failed.</string>
+    <string name="txt_choose_package_msg">Please choose one of packages!!!</string>
+    <string name="txt_you_VIP_member">You Are Now Already A</string>
+    <string name="txt_VIP_member">VIP Member</string>
+    <string name="txt_meet_more_people">Meet More People</string>
+     <string name="txt_VIP_member_content">Start a conversation with everyone!\nThe more people you chat with, the more likely you are to find the right match!</string>
+    <string name="txt_purchase_confirmed">Your Purchase Has Been Confirmed</string>
+    <string name="txt_btn_back">Back</string>
+    <string name="txt_purchase_confirmed_transaction_id">Transaction ID: %s</string>
+    <string name="txt_share_on_facebook">Share On Facebook</string>
+    <string name="txt_email_to_friend">Email To Your Friends</string>
+    <string name="txt_store">Store</string>
+    <string name="txt_oakclub_store">OakClub Store</string>
 </resources>

@@ -284,17 +284,19 @@ public class PurchaseActivity extends OakClubBaseActivity{
 				holder.ivVIPSeparator.setVisibility(View.GONE);
 			}
 			holder.rdButton.setClickable(false);
-			holder.tvVipPackage.setText(RichTextHelper.getRichText("{{b}}"
-					+ sku.getTitle() + "{{/b}}"));
+
+			//holder.tvVipPackage.setText(RichTextHelper.getRichText(String.format(getString(R.string.txt_month), monthsList[i])));
 			if(sku.getCurrencySymple().equals("") || sku.getPriceInNumberString().equals("")){
 				if (sku.getPriceInMicros().equals(priceOnMonth)) {
+					holder.tvVipPackage.setText(RichTextHelper.getRichText(String.format(getString(R.string.txt_month), monthsList[i])));
 					holder.tvPrice.setText(RichTextHelper.getRichText(String
 							.format(getString(R.string.txt_int_app_product_title),sku.getPriceInMicros() + " " +sku.getCurrency() +"("+sku.getPrice()+")" )));
 					holder.tvBilled.setVisibility(View.GONE);
 					holder.tvSaved.setVisibility(View.GONE);
 				} else {
+					holder.tvVipPackage.setText(RichTextHelper.getRichText(String.format(getString(R.string.txt_months), monthsList[i])));
 					holder.tvPrice.setText(RichTextHelper.getRichText(String
-							.format(getString(R.string.txt_month), roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros() ) / Integer.parseInt(monthsList[i])) + " " +sku.getCurrency() )));
+							.format(getString(R.string.txt_price_per_month), roundTwoDecimals(Double.parseDouble(sku.getPriceInMicros() ) / Integer.parseInt(monthsList[i])) + " " +sku.getCurrency() )));
 					holder.tvBilled.setText(RichTextHelper.getRichText(String
 							.format(getString(R.string.txt_total_bill), sku.getPriceInMicros() +  " " + sku.getCurrency()  + "("+sku.getPrice()+")" )));
 					holder.tvSaved.setText(RichTextHelper.getRichText(String
@@ -306,13 +308,15 @@ public class PurchaseActivity extends OakClubBaseActivity{
 				}
 			}else{
 				if (Double.parseDouble(sku.getPriceInNumberString()) == Double.parseDouble(priceOnMonth)) {
+					holder.tvVipPackage.setText(RichTextHelper.getRichText(String.format(getString(R.string.txt_month), monthsList[i])));
 					holder.tvPrice.setText(RichTextHelper.getRichText(String
 							.format(getString(R.string.txt_int_app_product_title),sku.getPrice())));
 					holder.tvBilled.setVisibility(View.GONE);
 					holder.tvSaved.setVisibility(View.GONE);
 				} else {
+					holder.tvVipPackage.setText(RichTextHelper.getRichText(String.format(getString(R.string.txt_months), monthsList[i])));
 					holder.tvPrice.setText(RichTextHelper.getRichText(String
-							.format(getString(R.string.txt_month), roundTwoDecimals( Double.parseDouble(sku.getPriceInNumberString() ) / Integer.parseInt(monthsList[i]) ) + " " +sku.getCurrencySymple())));
+							.format(getString(R.string.txt_price_per_month), roundTwoDecimals( Double.parseDouble(sku.getPriceInNumberString() ) / Integer.parseInt(monthsList[i]) ) + " " +sku.getCurrencySymple())));
 					holder.tvBilled.setText(RichTextHelper.getRichText(String
 							.format(getString(R.string.txt_total_bill), sku.getPrice() )));
 					holder.tvSaved.setText(RichTextHelper.getRichText(String
