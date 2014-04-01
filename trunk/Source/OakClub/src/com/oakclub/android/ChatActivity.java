@@ -388,6 +388,7 @@ public class ChatActivity extends OakClubBaseActivity {
 				InputMethodManager imm = (InputMethodManager) ChatActivity.this
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.showSoftInput(tbMessage, InputMethodManager.SHOW_IMPLICIT);
+				tbMessage.setSelection(tbMessage.getText().length());
 			}
 		});
 
@@ -419,7 +420,6 @@ public class ChatActivity extends OakClubBaseActivity {
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
                 Rect r = new Rect();
                 chatLv.getWindowVisibleDisplayFrame(r);
 
@@ -1118,12 +1118,12 @@ public class ChatActivity extends OakClubBaseActivity {
 									false);
 							imageSpan = new ImageSpan(scaledbmp,
 									ImageSpan.ALIGN_BOTTOM);
+							
 						} else {
 							imageSpan = new ImageSpan(context,
 									Integer.parseInt(entry.getValue()));
 						}
 						
-						//builder.replace(index - lengthEntry, index, "");
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						
