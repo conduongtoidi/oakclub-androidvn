@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,6 +56,7 @@ public class LeftMenuListFragment extends Fragment {
 	String[] menuTextList;
 	ImageView ivVerified;
 	FrameLayout iconVIPRoom;
+	private FrameLayout fltAvaProfile;
 	private LinearLayout lltMenu;
 	boolean isVerified = true;
 	private SlidingActivity activity = (SlidingActivity) getActivity();
@@ -94,8 +96,16 @@ public class LeftMenuListFragment extends Fragment {
 				.findViewById(R.id.menu_item_text_getverified);
 		tvIncludeFriends = (TextView) rootView
 				.findViewById(R.id.menu_item_text_include_friends);
-		avatarProfile = (CircleImageView) rootView
+		
+		fltAvaProfile = (FrameLayout) rootView.findViewById(R.id.menu_item_icon_flt_avaProfile);
+		int widthPhotoItem = (int) OakClubUtil.getWidthScreen(this.getActivity()) / 8;
+		LinearLayout.LayoutParams layoutView = new LinearLayout.LayoutParams(
+				widthPhotoItem, widthPhotoItem);
+		layoutView.gravity = Gravity.CENTER;
+		fltAvaProfile.setLayoutParams(layoutView);
+		avatarProfile = (CircleImageView) fltAvaProfile
 				.findViewById(R.id.menu_item_icon_avaProfile);
+		
 		menuTextList = getResources().getStringArray(R.array.menu_text_list);
 		lltMenu = (LinearLayout) rootView
 				.findViewById(R.id.layout_left_menu_lltlistmenu);
@@ -133,11 +143,7 @@ public class LeftMenuListFragment extends Fragment {
 								activity);
 						profileSetting.initProfile();
 					}
-					// intent = new Intent(activity,
-					// ProfileSettingActivity.class);
-					// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-					// | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-					// startActivity(intent);
+					
 					break;
 				case R.id.menu_item_llt_snapshot:
 					if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
@@ -147,11 +153,6 @@ public class LeftMenuListFragment extends Fragment {
 						snapshot.initSnapshot();
 						activity.snapshot = snapshot;
 					}
-					// intent = new Intent(activity,
-					// SnapshotActivity.class);
-					// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-					// | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-					// startActivity(intent);
 					break;
 				case R.id.menu_item_llt_setting:
 					if (activity.getMenu() != MenuOakclub.SETTING) {
@@ -159,11 +160,6 @@ public class LeftMenuListFragment extends Fragment {
 						SettingFragment setting = new SettingFragment(activity);
 						setting.initSetting();
 					}
-					// intent = new Intent(activity,
-					// SnapshotSettingActivity.class);
-					// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-					// | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-					// startActivity(intent);
 					break;
 				case R.id.menu_item_llt_include_friends:
 					activity.setMenu(MenuOakclub.INVITE_FRIEND);
@@ -180,9 +176,6 @@ public class LeftMenuListFragment extends Fragment {
 					break;
 
 				case R.id.menu_item_llt_get_verified:
-//					Intent verified = new Intent(activity,
-//							VerifiedActivity.class);
-//					startActivityForResult(verified, Constants.VERIFIED);
 					if (activity.getMenu() != MenuOakclub.VERIFIED) {
 						activity.setMenu(MenuOakclub.VERIFIED);
 						VerifiedActivity verifiedActivity = new VerifiedActivity(activity,false);
@@ -260,8 +253,6 @@ public class LeftMenuListFragment extends Fragment {
 			params.leftMargin = (int) OakClubUtil.convertDpToPixel(30,
 					getActivity().getBaseContext());
 			params.topMargin = heightScreen / 5;
-			// (int) OakClubUtil.convertDpToPixel(heightScreen/5,
-			// getActivity().getBaseContext());
 			if (ProfileSettingFragment.profileInfoObj.getIs_verify()) {
 				menuVerified.setVisibility(View.GONE);
 				ivVerified.setVisibility(View.VISIBLE);
@@ -287,7 +278,7 @@ public class LeftMenuListFragment extends Fragment {
 			tvVipRoom.setText(menuTextList[5]);
 			
 			String imageUrl = OakClubUtil.getFullLink(this.getActivity(), ProfileSettingFragment.profileInfoObj.getAvatar());
-            OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile, "");
+			OakClubUtil.loadImageFromUrl(this.getActivity(), imageUrl, avatarProfile, "");
             
 		} else {
 			Intent intent = new Intent(this.getActivity(), MainActivity.class);

@@ -172,7 +172,7 @@ public class SnapshotFragment {
 
 		if (ProfileSettingFragment.profileInfoObj != null
 				&& !ProfileSettingFragment.profileInfoObj.isIs_vip()) {
-			btnChat.setBackgroundResource(R.drawable.vipchat_inactive);
+			btnChat.setBackgroundResource(R.drawable.btn_vip_chat_deactivated);
 		}
 		getListSnapshotData(start);
 	}

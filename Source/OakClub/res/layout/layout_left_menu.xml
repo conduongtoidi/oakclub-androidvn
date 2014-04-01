@@ -35,16 +35,22 @@
             android:paddingTop="5dp" >
 
             <FrameLayout
+                android:id="@+id/menu_item_icon_flt_avaProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/menu_profile_selector" >
+                android:layout_gravity="center" >
 
                 <com.oakclub.android.view.CircleImageView
                     android:id="@+id/menu_item_icon_avaProfile"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center" />
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+               		android:background="@drawable/menu_profile_selector"
+                    />
             </FrameLayout>
 
             <com.oakclub.android.view.TextViewWithFont
