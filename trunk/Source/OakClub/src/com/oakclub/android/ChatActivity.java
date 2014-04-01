@@ -1123,6 +1123,7 @@ public class ChatActivity extends OakClubBaseActivity {
 									Integer.parseInt(entry.getValue()));
 						}
 						
+						//builder.replace(index - lengthEntry, index, "");
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						
