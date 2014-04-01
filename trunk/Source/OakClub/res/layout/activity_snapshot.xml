@@ -33,59 +33,46 @@
             >
     
         </FrameLayout>
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/activity_snapshot_flt_footer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="4"
             android:gravity="center"
             >
-    
-            <LinearLayout
+            <ImageButton
+                android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
+                android:layout_toLeftOf="@+id/activity_snapshot_flt_footer_ibn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/foot_btn_pass_selector" 
+                />
+
+            <ImageButton
+                android:id="@+id/activity_snapshot_flt_footer_ibn_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/buttonbase"
-                android:gravity="center" >
+                android:background="@drawable/foot_btn_info_selector"
+                android:layout_centerHorizontal="true"
+                />
 
-                <ImageButton
-                    android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="1.5dp"
-                    android:background="@drawable/foot_btn_pass_selector" />
+           <ImageButton
+                android:id="@+id/activity_snapshot_flt_footer_ibn_chat"
+                android:layout_below="@+id/activity_snapshot_flt_footer_ibn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/foot_btn_chat_selector" 
+                android:layout_centerHorizontal="true"
+                />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical" >
-
-                    <ImageButton
-                        android:id="@+id/activity_snapshot_flt_footer_ibn_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/foot_btn_info_selector" />
-
-                    <ImageButton
-                        android:id="@+id/activity_snapshot_flt_footer_ibn_chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/foot_btn_chat_selector" />
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/activity_snapshot_flt_footer_ibn_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:background="@drawable/foot_btn_like_selector" />
-            </LinearLayout>
-        </FrameLayout>
+           <ImageButton
+                android:id="@+id/activity_snapshot_flt_footer_ibn_like"
+                android:layout_toRightOf="@+id/activity_snapshot_flt_footer_ibn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/foot_btn_like_selector"  />
+         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>
