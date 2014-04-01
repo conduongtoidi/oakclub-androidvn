@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
@@ -39,8 +40,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.base.OakClubBaseActivity.PingActivitiesLoader;
 import com.oakclub.android.core.IRequestQueue;
 import com.oakclub.android.core.RequestQueue;
+import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.fragment.LeftMenuListFragment;
 import com.oakclub.android.fragment.ListChatFragment;
 import com.oakclub.android.fragment.ProfileSettingFragment;
@@ -180,7 +183,44 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 //		ListChatOperation listChatDb = new ListChatOperation(this);
 //		totalUnreadMessage = listChatDb.getTotalNotification();
 //		getTotalNotification(totalUnreadMessage);
+		
+
+		Thread SplashTimer = new Thread(){   
+		       public void run(){  
+		            try{  
+		                while(true){
+		            		PingActivitiesLoader loader = new PingActivitiesLoader(
+		            				"pingActivities", SlidingMenuActivity.this);
+		            		SlidingMenuActivity.this.getRequestQueue().addRequest(loader);
+		                    sleep(60000);  
+		                }
+		            }  
+		            catch (InterruptedException e) {  
+		            e.printStackTrace();  
+		            }   
+		        }  
+		};  
+		SplashTimer.start();  
+		
 	}
+	
+
+	class PingActivitiesLoader extends RequestUI {
+		public PingActivitiesLoader(Object key, Activity activity) {
+			super(key, activity);
+		}
+
+		@Override
+		public void execute() throws Exception {
+			oakClubApi.pingActivities();
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			
+		}
+	}
+
 	
 	public static void getTotalNotification(int totalUnreadMessage){
 		if (totalUnreadMessage > 0) {

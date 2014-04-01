@@ -47,6 +47,7 @@ import com.oakclub.android.core.IRequestQueue;
 import com.oakclub.android.core.RequestQueue;
 import com.oakclub.android.core.RequestUI;
 import com.oakclub.android.model.ChatHistoryData;
+import com.oakclub.android.model.GetSnapShot;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 import com.oakclub.android.net.IOakClubApi;
@@ -136,8 +137,42 @@ public class OakClubBaseActivity extends FragmentActivity implements
 			dialog.show();
 		}
 
+		Thread SplashTimer = new Thread(){   
+		       public void run(){  
+		            try{  
+		                while(true){
+		            		PingActivitiesLoader loader = new PingActivitiesLoader(
+		            				"pingActivities", OakClubBaseActivity.this);
+		            		OakClubBaseActivity.this.getRequestQueue().addRequest(loader);
+		                    sleep(60000);  
+		                }
+		            }  
+		            catch (InterruptedException e) {  
+		            e.printStackTrace();  
+		            }   
+		        }  
+		};  
+		SplashTimer.start();  
 	}
 
+
+	class PingActivitiesLoader extends RequestUI {
+		public PingActivitiesLoader(Object key, Activity activity) {
+			super(key, activity);
+		}
+
+		@Override
+		public void execute() throws Exception {
+			oakClubApi.pingActivities();
+		}
+
+		@Override
+		public void executeUI(Exception ex) {
+			
+		}
+	}
+
+	
 	public RequestQueue getRequestQueue() {
 		return ((IRequestQueue) getApplication()).getRequestQueue();
 	}
