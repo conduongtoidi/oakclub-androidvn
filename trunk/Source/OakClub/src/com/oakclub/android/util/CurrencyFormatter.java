@@ -38,13 +38,14 @@ public class CurrencyFormatter {
 				|| currencyUnit.equalsIgnoreCase("د.ك")
 				|| currencyUnit.equalsIgnoreCase("元")
 				|| currencyUnit.equalsIgnoreCase("лв")
-				|| currencyUnit.equalsIgnoreCase("Ft")) {
+				|| currencyUnit.equalsIgnoreCase("Ft")
+				|| currencyUnit.equalsIgnoreCase("¥")) {
 			//#,###.## || # ###.##
 			// Australia, Singapore, Thailand, United Kingdom, United States, Malaysian
 			// Ghana, Turkey, Saudi Arabia, Nigeria, philippin, United Arab Emirates, India
 			// Cac quoc gia dung dong Euro
 			// South Africa Rand, Canada, Taiwan, Kuwaiti dinar, China Yuan Renminbi
-			// 	Bulgarian Lev
+			// 	Bulgarian Lev , china, japan
 			for (char c : price.toCharArray()) {
 				if (c != ',' && c != ' ') {
 					tmp = tmp + c;
@@ -77,6 +78,9 @@ public class CurrencyFormatter {
 		}
 		int count = 0;
 		for( char c : tmp.toCharArray()){
+			if(c == ','){
+				count += 2;
+			}
 			if( c > '9' || c < '0'){
 				count ++;
 			}

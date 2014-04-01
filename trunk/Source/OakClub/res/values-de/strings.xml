@@ -182,7 +182,9 @@
 <string name = "txt_one_year_ago">Vor 1 Jahr</string>
 <string name = "txt_year_ago">%d Vor einigen Jahren</string>
 <string name = "txt_start_conversations_are_awkward_but_not_at_OakClub">Ein Gespräch zu starten ist immer etwas komisch, aber nicht bei OakClub!</string>
-    <string name="txt_month">{{b}}%s / monat{{/b}}</string>
+    <string name="txt_month">{{b}}%s monat{{/b}}</string>
+    <string name="txt_months">{{b}}%s monat{{/b}}</string>
+    <string name="txt_price_per_month">{{b}}%s / monat{{/b}}</string>
     <string name="txt_get_vip_btn">Erhalte jetzt das VIP Paket</string>
     <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
     <string name="txt_save">Spare {{b}}%s%%{{/b}}</string>

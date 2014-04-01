@@ -189,7 +189,9 @@
     <string name="txt_vip_benefits_3">VIP messages appears before other users.</string>
     <string name="txt_vip_benefits_4">Express it in your own ways. Tons of emoticons and stickers for VIPs only.</string>
     <string name="txt_vip_benefits_5">Looks fabulous with golden frame and VIP crown.</string>
-    <string name="txt_month">{{b}}%s / mo{{/b}}</string>
+    <string name="txt_month">{{b}}%s month{{/b}}</string>
+    <string name="txt_months">{{b}}%s months{{/b}}</string>
+    <string name="txt_price_per_month">{{b}}%s / mo{{/b}}</string>
     <string name="txt_get_vip_btn">Get VIP Package Now</string>
     <string name="txt_int_app_product_title">{{b}}%s{{/b}}</string>
     <string name="txt_total_bill">Total: %s</string>
@@ -213,9 +215,7 @@
 	<string name = "txt_year_ago">%d years ago</string>
     <string name="txt_start_conversations_are_awkward_but_not_at_OakClub">Start conversations are awkward, but not at OakClub</string>
     <string name="txt_you_rated_snapshots">You rated %d SnapShots. Sharing is caring. Invite your friends!</string>
-     <string name="txt_purchase_cancel">Purchasing is not complete. Please try again!</string>
     <string name="txt_purchase_error">Error purchasing. Authenticity verification failed.</string>
-    <string name="txt_choose_package_msg">Please choose one of packages!!!</string>
     <string name="txt_you_VIP_member">You Are Now Already A</string>
     <string name="txt_VIP_member">VIP Member</string>
     <string name="txt_meet_more_people">Meet More People</string>
