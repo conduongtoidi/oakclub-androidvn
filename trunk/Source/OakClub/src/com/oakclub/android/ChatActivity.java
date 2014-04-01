@@ -83,7 +83,6 @@ import com.oakclub.android.model.adaptercustom.ChatHistoryAdapter;
 import com.oakclub.android.model.adaptercustom.EmoticonScreenAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.util.Constants;
-import com.oakclub.android.util.EmoticonSupportHelper;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
 import com.oakclub.android.view.RadioButtonCustom;

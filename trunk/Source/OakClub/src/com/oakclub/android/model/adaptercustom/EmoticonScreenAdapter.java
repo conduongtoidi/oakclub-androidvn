@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Html;
 import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
-import com.oakclub.android.util.EmoticonSupportHelper;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class EmoticonScreenAdapter extends PagerAdapter implements
