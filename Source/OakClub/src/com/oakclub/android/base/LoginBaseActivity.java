@@ -352,43 +352,44 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 						getResources().getString(R.string.txt_warning),
 						getResources().getString(R.string.txt_signin_failed));
 			} else {
-				if (!OakClubUtil.compareVersion(obj.getData()
-						.getRequired_android_app_version(),
-						getString(R.string.build_version))) {
-					if (!LoginBaseActivity.this.isFinishing()) {
-						AlertDialog.Builder builder;
-						builder = new AlertDialog.Builder(LoginBaseActivity.this);
-						final AlertDialog dialog = builder.create();
-						LayoutInflater inflater = LayoutInflater
-								.from(LoginBaseActivity.this);
-						View layout = inflater.inflate(R.layout.dialog_warning_ok,
-								null);
-						dialog.setView(layout, 0, 0, 0, 0);
-						TextView tvTitle = (TextView) layout
-								.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-						tvTitle.setText(LoginBaseActivity.this
-								.getString(R.string.txt_update_new_version_title));
-						TextView tvQuestion = (TextView) layout
-								.findViewById(R.id.dialog_warning_tvQuestion);
-						tvQuestion
-								.setText(LoginBaseActivity.this
-										.getString(R.string.txt_update_new_version_message));
-						Button btnOK = (Button) layout
-								.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
-						btnOK.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								startActivity(new Intent(Intent.ACTION_VIEW, Uri
-										.parse("market://details?id="
-												+ getApplicationContext()
-														.getPackageName())));
-								dialog.dismiss();
-							}
-						});
-						dialog.setCancelable(false);
-						dialog.show();
-					}
-				} else {
+//				if (!OakClubUtil.compareVersion(obj.getData()
+//						.getRequired_android_app_version(),
+//						getString(R.string.build_version))) {
+//					if (!LoginBaseActivity.this.isFinishing()) {
+//						AlertDialog.Builder builder;
+//						builder = new AlertDialog.Builder(LoginBaseActivity.this);
+//						final AlertDialog dialog = builder.create();
+//						LayoutInflater inflater = LayoutInflater
+//								.from(LoginBaseActivity.this);
+//						View layout = inflater.inflate(R.layout.dialog_warning_ok,
+//								null);
+//						dialog.setView(layout, 0, 0, 0, 0);
+//						TextView tvTitle = (TextView) layout
+//								.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+//						tvTitle.setText(LoginBaseActivity.this
+//								.getString(R.string.txt_update_new_version_title));
+//						TextView tvQuestion = (TextView) layout
+//								.findViewById(R.id.dialog_warning_tvQuestion);
+//						tvQuestion
+//								.setText(LoginBaseActivity.this
+//										.getString(R.string.txt_update_new_version_message));
+//						Button btnOK = (Button) layout
+//								.findViewById(R.id.dialog_internet_access_lltfooter_btOK);
+//						btnOK.setOnClickListener(new OnClickListener() {
+//							@Override
+//							public void onClick(View v) {
+//								startActivity(new Intent(Intent.ACTION_VIEW, Uri
+//										.parse("market://details?id="
+//												+ getApplicationContext()
+//														.getPackageName())));
+//								dialog.dismiss();
+//							}
+//						});
+//						dialog.setCancelable(false);
+//						dialog.show();
+//					}
+//				} else 
+				{
 					ProfileSettingFragment.profileInfoObj = obj.getData();
 					ProfileSettingFragment.error_Status = obj.getError_status();
 					// Register custom Broadcast receiver to show messages on
