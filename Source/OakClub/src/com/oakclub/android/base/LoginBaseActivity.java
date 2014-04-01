@@ -345,6 +345,10 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
+			if (pd != null && pd.isShowing()) {
+				pd.dismiss();
+				mLoginButton.setEnabled(true);
+			}
 			mLoginButton.setEnabled(true);
 			if (obj == null
 					|| (!obj.isStatus() && obj.getError_status().equals("1"))) {
@@ -400,10 +404,6 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 						@Override
 						public void run() {
-							if (pd != null && pd.isShowing()) {
-								pd.dismiss();
-								mLoginButton.setEnabled(true);
-							}
 							location = mGPS.getLocation();
 							if (location != null) {
 								double longitude = location.getLongitude();

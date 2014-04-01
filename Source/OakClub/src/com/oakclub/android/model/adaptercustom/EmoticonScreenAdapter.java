@@ -94,8 +94,10 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				value = textHead + value + textTail;
 				Spannable spannable = ChatActivity
 						.getSmiledText(context, value, true);
-				ChatActivity.tbMessage.setText("");
-				ChatActivity.tbMessage.append(spannable);
+				ChatActivity.tbMessage.setText(spannable);
+				ChatActivity.tbMessage.setSelection(spannable.length());
+//				ChatActivity.tbMessage.clearFocus();
+				
 //
 //				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
 //						.get(POS).entrySet().iterator();
