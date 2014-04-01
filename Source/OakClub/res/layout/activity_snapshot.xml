@@ -39,6 +39,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="4"
             android:gravity="center"
+            android:layout_gravity="center"
             >
             <ImageButton
                 android:id="@+id/activity_snapshot_flt_footer_ibn_nope"
@@ -52,7 +53,6 @@
                 android:id="@+id/activity_snapshot_flt_footer_ibn_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:background="@drawable/foot_btn_info_selector"
                 android:layout_centerHorizontal="true"
                 />
@@ -62,7 +62,6 @@
                 android:layout_below="@+id/activity_snapshot_flt_footer_ibn_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:background="@drawable/foot_btn_chat_selector" 
                 android:layout_centerHorizontal="true"
                 />
