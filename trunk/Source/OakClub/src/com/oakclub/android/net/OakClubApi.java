@@ -853,4 +853,14 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 		}
 		
 	}
+
+	@Override
+	public void pingActivities() {
+		try {
+			excuteGet(baseUrl + "/pingActivities", null);
+//            HashMap<String, Object> map = new HashMap<String, Object>();
+//            map = OakClubJsonParser.getHashmapByMapper(result);
+		} catch (Exception ex) {
+		}
+	}
 }
