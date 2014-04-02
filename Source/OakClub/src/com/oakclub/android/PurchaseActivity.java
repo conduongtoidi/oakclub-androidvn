@@ -482,13 +482,6 @@ public class PurchaseActivity extends OakClubBaseActivity{
 			switch (v.getId()) {
 			case R.id.btn_get_vip:
 				btn_get_vip_package.setEnabled(false);
-				if (ProfileSettingFragment.profileInfoObj != null
-						&& ProfileSettingFragment.profileInfoObj.isIs_vip()) {
-					enableDialogWarning(PurchaseActivity.this,
-							getString(R.string.txt_vip_room),
-						getString(R.string.txt_you_VIP_member));
-					break;
-				}
 				if (OakClubUtil.isInternetAccess(PurchaseActivity.this)) {
 					if (mPosition != -1 && mPosition < productList.size()) {
 						SKU_ID = productList.get(mPosition).getSku();

@@ -136,8 +136,18 @@ public class ChatHistoryAdapter extends BaseAdapter {
 	private void getSticker(int position, ChatHistoryData item, String text, Matcher matcher, ImageView imgView,
 			TextView textView) {
 		
-		String pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-		String pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+		String pathSticker = "";
+		try {
+			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+		} catch(Exception ex) {
+			
+		}
+		String pathSticker_Cat = "";
+		try {
+			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+		} catch (Exception ex) {
+			
+		}
 		imgView.setVisibility(View.GONE);
 		textView.setVisibility(View.VISIBLE);
 		try {

@@ -161,8 +161,19 @@ public class AdapterListChat extends BaseAdapter {
 		if (Html.fromHtml(text).toString().length() > 1) {
 			text = Html.fromHtml(text).toString();
 		}
-		String pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-		String pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+		
+		String pathSticker = "";
+		try {
+			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+		} catch(Exception ex) {
+			
+		}
+		String pathSticker_Cat = "";
+		try {
+			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+		} catch (Exception ex) {
+			
+		}
 		String giftOld = "/bundles/likevnhangout/images/gift/";
 		String giftNew = "/bundles/likevnblissdate/v3/chat/images/gifts/";
 		String pathImg = "<img src=\"([^\"]+)";

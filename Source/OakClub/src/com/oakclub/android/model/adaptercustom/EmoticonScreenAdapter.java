@@ -9,12 +9,17 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.InputType;
 import android.text.Spannable;
+import android.text.Spannable.Factory;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
@@ -84,17 +89,17 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				int pos = ChatActivity.tbMessage.getSelectionStart();
 				String value = gvEmoticon.getAdapter().getItem(position)
 						.toString();
-
+				value = "(" + value + ")";
 				String text = ChatActivity.tbMessage.getText().toString();
 				String textHead = text.substring(0, pos);
 				String textTail = text.substring(pos, text.length());
 				pos = (textHead + value).length();
 				value = textHead + value + textTail;
-				Spannable spannable = ChatActivity
+				SpannableStringBuilder spannable = ChatActivity
 						.getSmiledText(context, value, true);
 				ChatActivity.tbMessage.setText(spannable);
 				ChatActivity.tbMessage.setSelection(spannable.length());
-//				ChatActivity.tbMessage.clearFocus();
+
 				
 //
 //				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
