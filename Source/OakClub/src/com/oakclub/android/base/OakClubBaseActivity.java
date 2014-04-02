@@ -137,22 +137,6 @@ public class OakClubBaseActivity extends FragmentActivity implements
 			dialog.show();
 		}
 
-		Thread SplashTimer = new Thread(){   
-		       public void run(){  
-		            try{  
-		                while(true){
-		            		PingActivitiesLoader loader = new PingActivitiesLoader(
-		            				"pingActivities", OakClubBaseActivity.this);
-		            		OakClubBaseActivity.this.getRequestQueue().addRequest(loader);
-		                    sleep(60000);  
-		                }
-		            }  
-		            catch (InterruptedException e) {  
-		            e.printStackTrace();  
-		            }   
-		        }  
-		};  
-		SplashTimer.start();  
 	}
 
 

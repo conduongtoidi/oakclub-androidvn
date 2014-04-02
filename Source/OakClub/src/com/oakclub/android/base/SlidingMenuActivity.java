@@ -183,24 +183,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 //		ListChatOperation listChatDb = new ListChatOperation(this);
 //		totalUnreadMessage = listChatDb.getTotalNotification();
 //		getTotalNotification(totalUnreadMessage);
-		
 
-		Thread SplashTimer = new Thread(){   
-		       public void run(){  
-		            try{  
-		                while(true){
-		            		PingActivitiesLoader loader = new PingActivitiesLoader(
-		            				"pingActivities", SlidingMenuActivity.this);
-		            		SlidingMenuActivity.this.getRequestQueue().addRequest(loader);
-		                    sleep(60000);  
-		                }
-		            }  
-		            catch (InterruptedException e) {  
-		            e.printStackTrace();  
-		            }   
-		        }  
-		};  
-		SplashTimer.start();  
 		
 	}
 	
