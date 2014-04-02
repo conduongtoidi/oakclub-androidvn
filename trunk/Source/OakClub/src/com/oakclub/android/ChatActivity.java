@@ -32,14 +32,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Html.ImageGetter;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
@@ -435,33 +439,33 @@ public class ChatActivity extends OakClubBaseActivity {
         });
 	}
 
-	private TextWatcher tw = null;
+	private static TextWatcher tw = null;
 
 	private void typing() {
 		tw = new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				// Spannable spannable = getSmiledText(getApplicationContext(),
-				// tbMessage.getText().toString(), true);
-				// ChatActivity.tbMessage.setText(spannable);
-				// ChatActivity.tbMessage.setSelection(spannable.length());
+				SpannableStringBuilder spannable = getSmiledText(getApplicationContext(), tbMessage.getText().toString(), true);
+				tbMessage.removeTextChangedListener(tw);
+				tbMessage.setText(spannable);
+				tbMessage.setSelection(tbMessage.getText().length());
+				tbMessage.endBatchEdit();
+				Log.v("test", "after");
+				tbMessage.addTextChangedListener(tw);
 
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
-				Log.v("test", "test");
+				Log.v("test", "before");
+				tbMessage.beginBatchEdit();
 			}
 
 			@Override
 			public void onTextChanged(CharSequence str, int start, int before,
 					int count) {
-//				 tbMessage.removeTextChangedListener(tw);
-//				 Spannable spannable = EmoticonSupportHelper.getSmiledText(getApplicationContext(), tbMessage.getText().toString());
-//				 tbMessage.setText(spannable);
-//				 tbMessage.setSelection(spannable.length());
-//				 tbMessage.addTextChangedListener(tw);
+				Log.v("test", "change");
 			}
 		};
 		tbMessage.addTextChangedListener(tw);
@@ -528,16 +532,6 @@ public class ChatActivity extends OakClubBaseActivity {
 				}
 				break;
 			case R.id.activity_chat_rtlbottom_btSend:
-				if (xmpp != null && !xmpp.isConnected()) {
-					try {
-						StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-								.permitAll().build();
-						StrictMode.setThreadPolicy(policy);
-						xmpp.connect();
-					} catch (XMPPException e) {
-						e.printStackTrace();
-					}
-				}
 				chatLv.setVisibility(View.VISIBLE);
 				lltMatch.setVisibility(View.GONE);
 				editor.putBoolean(Constants.IS_LOAD_CHAT_AGAIN, true);
@@ -816,9 +810,19 @@ public class ChatActivity extends OakClubBaseActivity {
 		}
 	}
 
+	private String replaceText(String str) {
+		for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons.entrySet()) {
+			String entryKey = getXMLString(entry.getKey());
+			str = str.replace("(" + entryKey + ")", entryKey);
+		}
+		
+		return str;
+	}
+	
 	public void solveSendMessage() {
 		try {
 			String content = tbMessage.getText().toString();
+			content = replaceText(content);
 			if (content.trim().equals(""))
 				return;
 			final Message xmppmessage = new Message("" + profile_id
@@ -858,6 +862,8 @@ public class ChatActivity extends OakClubBaseActivity {
 			messageArrayList.add(message);
 			adapter.notifyDataSetChanged();
 			chatLv.setSelection(chatLv.getCount() - 1);
+
+			content = TextUtils.htmlEncode(content);
 			SendMessageLoader loader = new SendMessageLoader("sendMessage",
 					ChatActivity.this, profile_id, content);
 			getRequestQueue().addRequest(loader);
@@ -1085,7 +1091,7 @@ public class ChatActivity extends OakClubBaseActivity {
 
 	@SuppressLint("DefaultLocale")
 	@SuppressWarnings("deprecation")
-	public static Spannable getSmiledText(Context context, String text,
+	public static SpannableStringBuilder getSmiledText(final Context context, String text,
 			boolean isPress) {
 		text = getXMLString(text);
 		SpannableStringBuilder builder = new SpannableStringBuilder(text);
@@ -1095,10 +1101,14 @@ public class ChatActivity extends OakClubBaseActivity {
 			int length = 0;
 			boolean flag = false;
 			ImageSpan imageSpan = null;
-			for (Entry<String, String> entry : EmoticonScreenAdapter.emoticons
+			for (final Entry<String, String> entry : EmoticonScreenAdapter.emoticons
 					.entrySet()) {
 				String entryKey = getXMLString(entry.getKey());// Html.fromHtml(entry.getKey()).toString();
 				int lengthEntry = entryKey.length();
+				if (isPress) {
+					entryKey = "(" + entryKey + ")";
+					lengthEntry += 2;
+				}
 				if (index - lengthEntry < 0)
 					continue;
 				if (builder.subSequence(index - lengthEntry, index).toString()
@@ -1118,16 +1128,17 @@ public class ChatActivity extends OakClubBaseActivity {
 							imageSpan = new ImageSpan(scaledbmp,
 									ImageSpan.ALIGN_BOTTOM);
 							
+							//isSpan = true;
+							
 						} else {
 							imageSpan = new ImageSpan(context,
 									Integer.parseInt(entry.getValue()));
 						}
 						
+						flag = true;
 						builder.setSpan(imageSpan, index - lengthEntry, index,
 								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						
-						flag = true;
-						length = entryKey.length();
+						length = lengthEntry;
 					}
 					// break;
 				}

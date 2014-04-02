@@ -859,19 +859,25 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			}
 			if (obj != null && obj.getData() != null) {
 				Constants.dataConfig = obj.getData();
+				
 				HashMap<String, String> stickers = new HashMap<String, String>();
-				for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-					stickers.put(obj.getData().getStickers().get(i)
-							.getSymbol_name(),
-							obj.getData().getStickers().get(i).getImage());
+				if (obj.getData().getStickers() != null) {
+					for (int i = 0; i < obj.getData().getStickers().size(); i++) {
+						stickers.put(obj.getData().getStickers().get(i)
+								.getSymbol_name(),
+								obj.getData().getStickers().get(i).getImage());
+					}
 				}
 				StickerScreenAdapter.stickers.add(stickers);
-
+				
+				
 				stickers = new HashMap<String, String>();
-				for (int i = 0; i < obj.getData().getCats().size(); i++) {
-					stickers.put(obj.getData().getCats().get(i)
-							.getSymbol_name(), obj.getData().getCats().get(i)
-							.getImage());
+				if (obj.getData().getCats() != null) {
+					for (int i = 0; i < obj.getData().getCats().size(); i++) {
+						stickers.put(obj.getData().getCats().get(i)
+								.getSymbol_name(), obj.getData().getCats().get(i)
+								.getImage());
+					}
 				}
 				StickerScreenAdapter.stickers.add(stickers);
 				showTutorialActivity();
