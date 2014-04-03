@@ -23,37 +23,53 @@ import android.widget.TextView;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.util.Constants;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class EmoticonScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
-	int[] page_imgTabs = {R.drawable.tab_smile_selector };
+	int[] page_imgTabs = {R.drawable.tab_smile_selector, R.drawable.tab_often_selector,
+			R.drawable.tab_sticker_selector, R.drawable.tab_sticker_selector };
 
 	public static HashMap<String, String> emoticons = new HashMap<String, String>();
 	private static ArrayList<HashMap<String, String>> arrayHashMapEmoticon = new ArrayList<HashMap<String, String>>();
 	private ArrayList<ArrayList<String>> arrayEmoticon = new ArrayList<ArrayList<String>>();
 	private ArrayList<SmileysAdapter> arrayAdaper = new ArrayList<SmileysAdapter>();
 	Context context;
+	
+	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
+	private static ArrayList<HashMap<String, String>> arrayHashMapSticker = new ArrayList<HashMap<String, String>>();
+	private ArrayList<ArrayList<String>> arraySticker = new ArrayList<ArrayList<String>>();
+	
+	public static ChatActivity chat;
+	String pathSticker = "";
+	String imgSticker = "";
 
 	public EmoticonScreenAdapter(Context c) {
 		this.context = c;
+
 		//arrayHashMapEmoticon.add(oftenEmoticon());
 		arrayHashMapEmoticon.add(addSmileToEmoticons());
 		//arrayEmoticon.add(new ArrayList<String>());
 		arrayEmoticon.add(new ArrayList<String>());
+		arrayHashMapSticker.add(oftenSticker());
+		arrayHashMapSticker.add(addToSticker(0));
+		arrayHashMapSticker.add(addToSticker(1));
+		
+		arraySticker.add(new ArrayList<String>());
+		arraySticker.add(new ArrayList<String>());
+		arraySticker.add(new ArrayList<String>());
 	}
 
 	// This is the number of pages
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return page_imgTabs.length;
 	}
 	
 	@Override
 	public boolean isViewFromObject(View v, Object o) {
-		// TODO Auto-generated method stub
 		return v.equals(o);
 	}
 
@@ -74,49 +90,186 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		final GridView gvEmoticon = (GridView) v
 				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
 
-		fillArrayList(arrayHashMapEmoticon.get(position),
-				arrayEmoticon.get(position));
-		SmileysAdapter adapter = new SmileysAdapter(
-				arrayEmoticon.get(position), context,
-				arrayHashMapEmoticon.get(position));
-		gvEmoticon.setAdapter(adapter);
-		arrayAdaper.add(adapter);
+		SmileysAdapter adapter;
+		
 //		final int POS = position;
+		
+		final int POS = position;
+		int indexList;
+		switch (POS) {
+		case 0:
+			fillArrayList(arrayHashMapEmoticon.get(position),
+					arrayEmoticon.get(position));
+			adapter = new SmileysAdapter(
+					arrayEmoticon.get(position), context,
+					arrayHashMapEmoticon.get(position), "", true);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
+			break;
+		case 1:
+			indexList = 0;
+			gvEmoticon.setNumColumns(4);
+			fillArrayList(arrayHashMapSticker.get(indexList),
+					arraySticker.get(indexList));
+			adapter = new SmileysAdapter(
+					arraySticker.get(indexList), context,
+					arrayHashMapSticker.get(indexList), pathSticker, false);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
+			break;
+		case 2:
+			indexList = 1;
+			try {
+				pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+			} catch(Exception ex) {
+				
+			}
+			imgSticker = "<img src=\"" + pathSticker;
+			gvEmoticon.setNumColumns(4);
+			fillArrayList(arrayHashMapSticker.get(indexList),
+					arraySticker.get(indexList));
+			adapter = new SmileysAdapter(
+					arraySticker.get(indexList), context,
+					arrayHashMapSticker.get(indexList), pathSticker, false);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
+			break;
+		case 3:
+			indexList = 2;
+			try {
+				pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+			} catch (Exception ex) {
+				
+			}
+			imgSticker = "<img src=\"" + pathSticker;
+			gvEmoticon.setNumColumns(4);
+			fillArrayList(arrayHashMapSticker.get(indexList),
+					arraySticker.get(indexList));
+			adapter = new SmileysAdapter(
+					arraySticker.get(indexList), context,
+					arrayHashMapSticker.get(indexList), pathSticker, false);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
+		default:
+			break;
+		}
+		
 		gvEmoticon.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int position, long arg3) {
-				int pos = ChatActivity.tbMessage.getSelectionStart();
-				String value = gvEmoticon.getAdapter().getItem(position)
-						.toString();
-				value = "(" + value + ")";
-				String text = ChatActivity.tbMessage.getText().toString();
-				String textHead = text.substring(0, pos);
-				String textTail = text.substring(pos, text.length());
-				pos = (textHead + value).length();
-				value = textHead + value + textTail;
-				SpannableStringBuilder spannable = ChatActivity
-						.getSmiledText(context, value, true);
-				ChatActivity.tbMessage.setText(spannable);
-				ChatActivity.tbMessage.setSelection(spannable.length());
+				switch (POS) {
+				case 0:
+					int pos = ChatActivity.tbMessage.getSelectionStart();
+					String value = gvEmoticon.getAdapter().getItem(position)
+							.toString();
+					value = "(" + value + ")";
+					String text = ChatActivity.tbMessage.getText().toString();
+					String textHead = text.substring(0, pos);
+					String textTail = text.substring(pos, text.length());
+					pos = (textHead + value).length();
+					value = textHead + value + textTail;
+					SpannableStringBuilder spannable = ChatActivity
+							.getSmiledText(context, value, true);
+					ChatActivity.tbMessage.setText(spannable);
+					ChatActivity.tbMessage.setSelection(spannable.length());
+					break;
+				case 1:
+					
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					value = gvEmoticon.getAdapter().getItem(position).toString();
+	                String keyEntry = value;
+	                if (keyEntry.contains("_cat")) {
+	                	try {
+							pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+						} catch(Exception ex) {
+							
+						}
+	                } else {
+	                	try {
+							pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+						} catch(Exception ex) {
+							
+						}
+	                }
+	                imgSticker = "<img src=\"" + pathSticker;
+	                String path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
+	                chat.solveSendMessage(path2);
 
-				
-//
-//				Iterator<Entry<String, String>> iterator = arrayHashMapEmoticon
-//						.get(POS).entrySet().iterator();
-//				String valueEntry = "";
-//				while (iterator.hasNext()) {
-//					Entry<String, String> entry = iterator.next();
-//					if (entry.getKey().equals(keyEntry)) {
-//						valueEntry = entry.getValue();
-//					}
-//				}
-//				if (!arrayHashMapEmoticon.get(0).containsKey(keyEntry)) {
-//					arrayHashMapEmoticon.get(0).put(keyEntry, valueEntry);
-//					fillArrayList(arrayHashMapEmoticon.get(0),
-//							arrayEmoticon.get(0));
-//					arrayAdaper.get(0).notifyDataSetChanged();
-//				}
+					Iterator<Entry<String, String>> iterator = arrayHashMapSticker
+							.get(1).entrySet().iterator();
+					String valueEntry = "";
+					while (iterator.hasNext()) {
+						Entry<String, String> entry = iterator.next();
+						if (entry.getKey().equals(keyEntry)) {
+							valueEntry = entry.getValue();
+						}
+					}
+					if (!arrayHashMapSticker.get(0).containsKey(keyEntry)) {
+						arrayHashMapSticker.get(0).put(keyEntry, valueEntry);
+						arraySticker.get(0).add(keyEntry);
+						arrayAdaper.get(0).notifyDataSetChanged();
+					}
+					break;
+				case 2:
+					try {
+						pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					} catch(Exception ex) {
+						
+					}
+					imgSticker = "<img src=\"" + pathSticker;
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					value = gvEmoticon.getAdapter().getItem(position).toString();
+	                keyEntry = value;
+	                path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
+	                chat.solveSendMessage(path2);
+
+					iterator = arrayHashMapSticker
+							.get(1).entrySet().iterator();
+					valueEntry = "";
+					while (iterator.hasNext()) {
+						Entry<String, String> entry = iterator.next();
+						if (entry.getKey().equals(keyEntry)) {
+							valueEntry = entry.getValue();
+						}
+					}
+					if (!arrayHashMapSticker.get(0).containsKey(keyEntry)) {
+						arrayHashMapSticker.get(0).put(keyEntry, valueEntry);
+						arraySticker.get(0).add(keyEntry);
+						arrayAdaper.get(0).notifyDataSetChanged();
+					}
+					break;
+				case 3:
+					try {
+						pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					} catch(Exception ex) {
+						
+					}
+					imgSticker = "<img src=\"" + pathSticker;
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					value = gvEmoticon.getAdapter().getItem(position).toString();
+	                keyEntry = value;
+	                path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
+	                chat.solveSendMessage(path2);
+
+					iterator = arrayHashMapSticker
+							.get(2).entrySet().iterator();
+					valueEntry = "";
+					while (iterator.hasNext()) {
+						Entry<String, String> entry = iterator.next();
+						if (entry.getKey().equals(keyEntry)) {
+							valueEntry = entry.getValue();
+						}
+					}
+					if (!arrayHashMapSticker.get(0).containsKey(keyEntry)) {
+						arrayHashMapSticker.get(0).put(keyEntry, valueEntry);
+						arraySticker.get(0).add(keyEntry);
+						arrayAdaper.get(0).notifyDataSetChanged();
+					}
+					break;
+				default:
+					break;
+				}
 
 			}
 		});
@@ -195,6 +348,15 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 
 		this.emoticons = emoticons;
 		return emoticons;
+	}
+
+	HashMap<String, String> oftenSticker() {
+		HashMap<String, String> emoticons = new HashMap<String, String>();
+		return emoticons;
+	}
+	
+	HashMap<String, String> addToSticker(int index) {
+		return stickers.get(index);
 	}
 
 	private void fillArrayList(HashMap<String, String> emoticons,

@@ -80,11 +80,19 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		final int POS = position;
 		switch (POS) {
 		case 1:
-			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+			try {
+				pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+			} catch(Exception ex) {
+				
+			}
 			imgSticker = "<img src=\"" + pathSticker;
 			break;
 		case 2:
-			pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+			try {
+				pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+			} catch (Exception ex) {
+				
+			}
 			imgSticker = "<img src=\"" + pathSticker;
 		default:
 			break;
@@ -108,11 +116,19 @@ public class StickerScreenAdapter extends PagerAdapter implements
 					int position, long arg3) {
 				switch (POS) {
 				case 1:
-					pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					try {
+						pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					} catch(Exception ex) {
+						
+					}
 					imgSticker = "<img src=\"" + pathSticker;
 					break;
 				case 2:
-					pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+					try {
+						pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					} catch(Exception ex) {
+						
+					}
 					imgSticker = "<img src=\"" + pathSticker;
 				default:
 					break;

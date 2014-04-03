@@ -300,6 +300,7 @@ public class ChatActivity extends OakClubBaseActivity {
 		userAvatar = (CircleImageView) findViewById(R.id.user_avatar);
 
 		StickerScreenAdapter.chat = this;
+		EmoticonScreenAdapter.chat = this;
 
 		ListChatOperation listChatDb = new ListChatOperation(ChatActivity.this);
 
