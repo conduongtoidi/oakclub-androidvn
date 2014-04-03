@@ -78,6 +78,7 @@ import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SetLocationReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
+import com.oakclub.android.model.adaptercustom.EmoticonScreenAdapter;
 import com.oakclub.android.model.adaptercustom.StickerScreenAdapter;
 import com.oakclub.android.net.AppService;
 import com.oakclub.android.util.Constants;
@@ -880,6 +881,8 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 					}
 				}
 				StickerScreenAdapter.stickers.add(stickers);
+				
+				EmoticonScreenAdapter.stickers = StickerScreenAdapter.stickers;
 				showTutorialActivity();
 			}
 		}
