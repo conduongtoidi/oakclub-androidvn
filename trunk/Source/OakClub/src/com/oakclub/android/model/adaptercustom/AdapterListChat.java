@@ -9,6 +9,7 @@ import com.google.android.gms.internal.ho;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.base.OakClubBaseActivity;
+import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
@@ -87,7 +88,7 @@ public class AdapterListChat extends BaseAdapter {
 					.findViewById(R.id.item_listview_listchat_lltcontent_tvmatches);
 			holder.tvLastMessage = (TextView) convertView
 					.findViewById(R.id.item_listview_listchat_lltcontent_tvlastchat);
-			holder.img = (ImageView) convertView.findViewById(R.id.item_listview_listchat_lltcontent_img);
+			holder.img = (SmartImageView) convertView.findViewById(R.id.item_listview_listchat_lltcontent_img);
 			holder.imgChatMutual = (ImageView) convertView
 					.findViewById(R.id.item_listview_listchat_imgright);
 
@@ -161,67 +162,19 @@ public class AdapterListChat extends BaseAdapter {
 			text = Html.fromHtml(text).toString();
 		}
 		
-		String pathSticker = "";
-		try {
-			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-		} catch(Exception ex) {
-			
-		}
-		String pathSticker_Cat = "";
-		try {
-			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
-		} catch (Exception ex) {
-			
-		}
-		String giftOld = "/bundles/likevnhangout/images/gift/";
-		String giftNew = "/bundles/likevnblissdate/v3/chat/images/gifts/";
 		String pathImg = "<img src=\"([^\"]+)";
 		Matcher matcher = Pattern.compile(pathImg).matcher(text);
 		holder.img.setVisibility(View.GONE);
 		holder.tvLastMessage.setVisibility(View.VISIBLE);
 		while (matcher.find()) {
-			if (text.contains("type=\"sticker\"")){
-				String imgName = matcher.group(1).replace(pathSticker, "");
-				imgName = imgName.replace(pathSticker_Cat, "");
+			if (text.contains("type=\"sticker\"") || text.contains("type=\"gift\"")){
 				String imgLink = matcher.group(1);
 				holder.img.setVisibility(View.VISIBLE);
 				holder.tvLastMessage.setVisibility(View.GONE);
-				ImageView imgView = holder.img;
-				if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(imgName.replace(".png", ""))) {
-					String urlImg = OakClubUtil
-							.getFullLinkStickerOrGift(mContext, imgLink);
-		            OakClubUtil.loadStickerFromUrl(mContext, urlImg, imgView, imgName.replace(".png", ""));
-		        } else {
-		        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(imgName.replace(".png", "")));
-		        }
-			} else if (matcher.group(1).contains(giftOld) || matcher.group(1).contains(giftNew)) {
-				try {
-					String img = "";
-					if (matcher.group(1).contains(giftOld)) {
-						img = matcher.group(1).replace(giftOld, "").split("\"")[0].replace(
-							".png", "");
-						
-						holder.img.setVisibility(View.VISIBLE);
-						holder.tvLastMessage.setVisibility(View.GONE);
-						holder.img.setImageResource(mContext.getResources()
-								.getIdentifier(img.toLowerCase(), "drawable",
-										mContext.getPackageName()));
-					} else if (matcher.group(1).contains(giftNew)) {
-						img = matcher.group(1).replace(giftNew, "").split("\"")[0];
-						holder.img.setVisibility(View.VISIBLE);
-						holder.tvLastMessage.setVisibility(View.GONE);
-
-						if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
-							String urlImg = OakClubUtil
-									.getFullLinkStickerOrGift(mContext, giftNew + img);
-				            OakClubUtil.loadStickerFromUrl(mContext, urlImg, holder.img, img.replace(".png", ""));
-				        } else {
-				        	holder.img.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
-				        }
-					} 
-				} catch (Exception e) {
-
-				}
+				SmartImageView imgView = holder.img;
+				String url = OakClubUtil.getFullLinkStickerOrGift(mContext, imgLink);
+				OakClubUtil.loadImageFromUrl(mContext, url, imgView, "Chat");
+				
 			} else{
 				holder.img.setVisibility(View.GONE);
 				holder.tvLastMessage.setVisibility(View.VISIBLE);
@@ -235,6 +188,6 @@ public class AdapterListChat extends BaseAdapter {
 		public TextView tvTimeMatches;
 		public TextView tvLastMessage;
 		public ImageView imgChatMutual;
-		public ImageView img;
+		public SmartImageView img;
 	}
 }

@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.oakclub.android.util.OakClubUtil;
+
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
@@ -107,6 +109,7 @@ public class SmartImageView extends ImageView {
             @Override
             public void onComplete(Bitmap bitmap) {
                 if(bitmap != null) {
+                	//Bitmap scaledbmp = Bitmap.createScaledBitmap(bitmap, 75, 75, false);
                     setImageBitmap(bitmap);
                 } else {
                     // Set fallback resource

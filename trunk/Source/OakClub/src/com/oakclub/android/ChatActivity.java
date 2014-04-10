@@ -78,6 +78,7 @@ import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.ChatHistoryReturnObject;
 import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
+import com.oakclub.android.model.Groups;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendChatReturnObject;
@@ -606,7 +607,7 @@ public class ChatActivity extends OakClubBaseActivity {
 			mPager.setAdapter(emoticonScreenAdapter);
 			mIndicator.setViewPager(mPager);
 			mIndicator.notifyDataSetChanged();
-			mIndicator.setCurrentItem(0);
+			mIndicator.setCurrentItem(1);
 			params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.FILL_PARENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -1617,24 +1618,25 @@ public class ChatActivity extends OakClubBaseActivity {
 			if (pdLogin != null && pdLogin.isShowing()) {
 				pdLogin.dismiss();
 			}
-			if (obj != null && obj.getData() != null) {
-				if (obj != null && obj.getData() != null) {
-					Constants.dataConfig = obj.getData();
-					HashMap<String, String> stickers = new HashMap<String, String>();
-					for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-						stickers.put(obj.getData().getStickers().get(i)
-								.getSymbol_name(), obj.getData().getStickers()
-								.get(i).getImage());
+			if (obj != null && obj.getData2() != null) {
+				if (obj != null && obj.getData2() != null) {
+					Constants.dataConfig = obj.getData2();
+					
+					EmoticonScreenAdapter.groups.add(new Groups());
+					if (obj.getData2().getSticker() != null && obj.getData2().getSticker().getGroups() != null) {
+						EmoticonScreenAdapter.groups.addAll(obj.getData2().getSticker().getGroups());
 					}
-					StickerScreenAdapter.stickers.add(stickers);
-
-					stickers = new HashMap<String, String>();
-					for (int i = 0; i < obj.getData().getCats().size(); i++) {
-						stickers.put(obj.getData().getCats().get(i)
-								.getSymbol_name(),
-								obj.getData().getCats().get(i).getImage());
+					
+					
+					StickerScreenAdapter.groups.add(new Groups());
+					if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
+						StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
 					}
-					StickerScreenAdapter.stickers.add(stickers);
+//					if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
+//						StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
+//					}
+					
+					EmoticonScreenAdapter.stickers = StickerScreenAdapter.stickers;
 					initEmoticonPage();
 
 					messageArrayList = new ArrayList<ChatHistoryData>();

@@ -10,6 +10,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -165,6 +167,11 @@ public class MainActivity extends LoginBaseActivity {
 			// getWindowManager().getDefaultDisplay().getHeight() * 2 / 100;
 			// txtView.setTextSize(fontSize);
 			// super.setPrimaryItem(container, position, object);
+		}
+
+		public Drawable getIconBitmap(int index) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
