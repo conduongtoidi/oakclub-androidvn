@@ -6,7 +6,7 @@
     android:paddingTop="5dp"
     android:orientation="vertical" >    
     
-    <ImageView
+    <com.oakclub.android.image.SmartImageView
             android:id="@+id/image_content_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
