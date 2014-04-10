@@ -73,7 +73,7 @@
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
-            <ImageView
+            <com.oakclub.android.image.SmartImageView
                 android:id="@+id/item_listview_listchat_lltcontent_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
