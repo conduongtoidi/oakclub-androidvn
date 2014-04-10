@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -198,6 +200,11 @@ public class TutorialScreenActivity extends Activity {
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			container.removeView((View) object);
+		}
+
+		public Drawable getIconBitmap(int index) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 }

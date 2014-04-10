@@ -73,6 +73,7 @@ import com.oakclub.android.helper.operations.ListChatOperation;
 import com.oakclub.android.model.ChatHistoryData;
 import com.oakclub.android.model.GetConfigData;
 import com.oakclub.android.model.GetDataLanguageReturnObject;
+import com.oakclub.android.model.Groups;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.SendRegisterReturnObject;
@@ -858,29 +859,22 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				pd.dismiss();
 				mLoginButton.setEnabled(true);
 			}
-			if (obj != null && obj.getData() != null) {
-				Constants.dataConfig = obj.getData();
+			if (obj != null && obj.getData2() != null) {
+				Constants.dataConfig = obj.getData2();
 				
-				HashMap<String, String> stickers = new HashMap<String, String>();
-				if (obj.getData().getStickers() != null) {
-					for (int i = 0; i < obj.getData().getStickers().size(); i++) {
-						stickers.put(obj.getData().getStickers().get(i)
-								.getSymbol_name(),
-								obj.getData().getStickers().get(i).getImage());
-					}
+				EmoticonScreenAdapter.groups.add(new Groups());
+				if (obj.getData2().getSticker() != null && obj.getData2().getSticker().getGroups() != null) {
+					EmoticonScreenAdapter.groups.addAll(obj.getData2().getSticker().getGroups());
 				}
-				StickerScreenAdapter.stickers.add(stickers);
 				
 				
-				stickers = new HashMap<String, String>();
-				if (obj.getData().getCats() != null) {
-					for (int i = 0; i < obj.getData().getCats().size(); i++) {
-						stickers.put(obj.getData().getCats().get(i)
-								.getSymbol_name(), obj.getData().getCats().get(i)
-								.getImage());
-					}
+				StickerScreenAdapter.groups.add(new Groups());
+				if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
+					StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
 				}
-				StickerScreenAdapter.stickers.add(stickers);
+//				if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
+//					StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
+//				}
 				
 				EmoticonScreenAdapter.stickers = StickerScreenAdapter.stickers;
 				showTutorialActivity();

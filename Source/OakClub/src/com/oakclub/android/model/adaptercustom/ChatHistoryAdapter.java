@@ -88,14 +88,14 @@ public class ChatHistoryAdapter extends BaseAdapter {
 						.findViewById(R.id.message_content_left);
 				holder.timeTv = (TextView) convertView
 						.findViewById(R.id.timeDisplay);
-				holder.leftImg = (ImageView) convertView
+				holder.leftImg = (SmartImageView) convertView
 						.findViewById(R.id.image_content_left);
 			} else {
 				convertView = LayoutInflater.from(context).inflate(
 						R.layout.item_chat_list_right, null);
 				holder.rightTv = (TextView) convertView
 						.findViewById(R.id.message_content_right);
-				holder.rightImg = (ImageView) convertView
+				holder.rightImg = (SmartImageView) convertView
 						.findViewById(R.id.image_content_right);
 				holder.timeTv = (TextView) convertView
 						.findViewById(R.id.timeDisplay);
@@ -117,13 +117,13 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			SmartImageView imgAva = holder.userAvatar;
 			OakClubUtil.loadImageFromUrl(context, url, imgAva, "");
 			holder.leftTv.setText(spannable);
-			ImageView imgView = holder.leftImg;
+			SmartImageView imgView = holder.leftImg;
 			TextView textView = holder.leftTv;
 			if (imgView != null)
 				getSticker(position, item, text, matcher, imgView, textView);
 		} else {
 			holder.rightTv.setText(spannable);
-			ImageView imgView = holder.rightImg;
+			SmartImageView imgView = holder.rightImg;
 			TextView textView = holder.rightTv;
 			if (imgView != null)
 				getSticker(position, item, text, matcher, imgView,
@@ -133,21 +133,22 @@ public class ChatHistoryAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private void getSticker(int position, ChatHistoryData item, String text, Matcher matcher, ImageView imgView,
+	private void getSticker(int position, ChatHistoryData item, String text, Matcher matcher, SmartImageView imgView,
 			TextView textView) {
 		
 		String pathSticker = "";
-		try {
-			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-		} catch(Exception ex) {
-			
-		}
 		String pathSticker_Cat = "";
-		try {
-			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
-		} catch (Exception ex) {
-			
-		}
+//		try {
+//			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+//		} catch(Exception ex) {
+//			
+//		}
+//		
+//		try {
+//			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
+//		} catch (Exception ex) {
+//			
+//		}
 		imgView.setVisibility(View.GONE);
 		textView.setVisibility(View.VISIBLE);
 		try {
@@ -155,60 +156,21 @@ public class ChatHistoryAdapter extends BaseAdapter {
 				text = Html.fromHtml(item.getBody()).toString();
 			}
 			while (matcher.find()) {
-				if (text.contains("type=\"sticker\"")){
+				if (text.contains("type=\"sticker\"") || text.contains("type=\"gift\"")){
 					String imgName = matcher.group(1).replace(pathSticker, "").split("\"")[0];
 					imgName = imgName.replace(pathSticker_Cat, "");
 					String imgLink = matcher.group(1);
 					Log.v("img right", imgName + " " + position);
 					imgView.setVisibility(View.VISIBLE);
 					textView.setVisibility(View.GONE);
-					if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(imgName.replace(".png", ""))) {
-						String urlImg = OakClubUtil
-								.getFullLinkStickerOrGift(context, imgLink);
-			            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, imgName.replace(".png", ""));
-			        } else {
-			        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(imgName.replace(".png", "")));
-			        }
+					
+					String url = OakClubUtil.getFullLinkStickerOrGift(context, imgLink);
+					OakClubUtil.loadImageFromUrl(context, url, imgView, "Chat");
+					
 					int widthScreen = (int) OakClubUtil.getWidthScreen(context);
 					LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
 					imgView.setLayoutParams(params);
-				} else {
-					String giftOld = "/bundles/likevnhangout/images/gift/";
-					String giftNew = "/bundles/likevnblissdate/v3/chat/images/gifts/";
-					if (matcher.group(1).contains(giftOld) || matcher.group(1).contains(giftNew)) {
-						try {
-							String img = "";
-							if (matcher.group(1).contains(giftOld)) {
-								img = matcher.group(1).replace(giftOld, "").split("\"")[0].replace(
-									".png", "");
-								
-								textView.setVisibility(View.GONE);
-								imgView.setVisibility(View.VISIBLE);
-								imgView.setImageResource(context.getResources()
-										.getIdentifier(img.toLowerCase(), "drawable",
-												context.getPackageName()));
-							} else if (matcher.group(1).contains(giftNew)) {
-								img = matcher.group(1).replace(giftNew, "").split("\"")[0];
-								textView.setVisibility(View.GONE);
-								imgView.setVisibility(View.VISIBLE);
-								
-								if (ChatActivity.bitmapSticker.isEmpty() || !ChatActivity.bitmapSticker.containsKey(img.replace(".png", ""))) {
-									String urlImg = OakClubUtil
-											.getFullLinkStickerOrGift(context, giftNew + img);
-						            OakClubUtil.loadStickerFromUrl(context, urlImg, imgView, img.replace(".png", ""));
-						        } else {
-						        	imgView.setImageBitmap(ChatActivity.bitmapSticker.get(img.replace(".png", "")));
-						        }
-								int widthScreen = (int) OakClubUtil.getWidthScreen(context);
-								LayoutParams params = new LayoutParams(widthScreen/3, widthScreen/3);
-								imgView.setLayoutParams(params);
-
-							} 
-						} catch (Exception e) {
-
-						}
-					}
-				}
+				} 
 			}
 		} catch (Exception ex) {
 
@@ -220,8 +182,8 @@ public class ChatHistoryAdapter extends BaseAdapter {
 		TextView leftTv;
 		TextView rightTv;
 		TextView timeTv;
-		ImageView leftImg;
-		ImageView rightImg;
+		SmartImageView leftImg;
+		SmartImageView rightImg;
 	}
 
 }

@@ -6,9 +6,14 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,44 +22,65 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.image.SmartImageView;
+import com.oakclub.android.model.Groups;
+import com.oakclub.android.model.List;
 import com.oakclub.android.util.Constants;
+import com.oakclub.android.util.OakClubUtil;
 import com.viewpagerindicator.IconPagerAdapter;
 
 public class StickerScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
-	int[] page_imgTabs = { R.drawable.tab_often_selector,
-			R.drawable.tab_sticker_selector, R.drawable.tab_sticker_selector };
+	ArrayList<Integer> page_imgTabs = new ArrayList<Integer>();
+	ArrayList<Drawable> page_imgBitmapTabs = new ArrayList<Drawable>();
 
+	public static ArrayList<Groups> groups = new ArrayList<Groups>();
+	
 	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
 	private static ArrayList<HashMap<String, String>> arrayHashMapSticker = new ArrayList<HashMap<String, String>>();
 	private ArrayList<ArrayList<String>> arraySticker = new ArrayList<ArrayList<String>>();
-	private ArrayList<StickerAdapter> arrayAdaper = new ArrayList<StickerAdapter>();
+	private ArrayList<SmileysAdapter> arrayAdaper = new ArrayList<SmileysAdapter>();
 	Context context;
 	public static ChatActivity chat;
-	String pathSticker = "";
+	String pathGift = "";
 	String imgSticker = "";
+	SmartImageView smartImageView;
 
 	public StickerScreenAdapter(Context c) {
 		this.context = c;
-		//addCat();
-		arrayHashMapSticker.add(oftenSticker());
-		arrayHashMapSticker.add(addToSticker(0));
-		arrayHashMapSticker.add(addToSticker(1));
+		page_imgTabs.add(R.drawable.tab_often_selector);
+		for (int i = 1; i < groups.size(); i++) {
+			page_imgTabs.add(R.drawable.tab_sticker_selector);
+		}
 		
-//		for (int i = 0; i < arrayHashMapSticker.size(); i++) {
-//			arraySticker.add(new ArrayList<String>());
-//		}
-		arraySticker.add(new ArrayList<String>());
-		arraySticker.add(new ArrayList<String>());
-		arraySticker.add(new ArrayList<String>());
+		smartImageView = new SmartImageView(c);
+		String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
+		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
+		page_imgBitmapTabs.add(smartImageView.getDrawable());
+		for (int i = 1; i < groups.size(); i++) {
+			final SmartImageView smartImageView = new SmartImageView(c);
+			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
+			page_imgBitmapTabs.add(smartImageView.getDrawable());
+			final int index = i;
+			final String str = url;
+			new Handler().postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					Log.v("index", index + " " + str);
+					page_imgBitmapTabs.set(index, smartImageView.getDrawable());
+				}
+			}, 5000);
+		}
+		notifyDataSetChanged();
 	}
 
 	// This is the number of pages
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		return page_imgTabs.length;
+		return page_imgTabs.size();
 	}
 
 	@Override
@@ -63,8 +89,16 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		return v.equals(o);
 	}
 
+	public Drawable getIconBitmap(int index) {
+		if (index >= 1)
+			return page_imgBitmapTabs.get(index);
+		return null;
+	}
+	
 	public int getIconResId(int position) {
-		return page_imgTabs[position];
+		if (position < 1)
+			return page_imgTabs.get(position);
+		return 0;
 	}
 
 	// public CharSequence getPageTitle(int position) {
@@ -77,81 +111,96 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.activity_chat_emoticon, null, false);
 
+		final GridView gvEmoticon = (GridView) v
+				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
+
+		SmileysAdapter adapter;
+		
 		final int POS = position;
+		int indexList;
 		switch (POS) {
-		case 1:
+		case 0:
+			indexList = 0;
 			try {
-				pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+				pathGift = groups.get(indexList).getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
 			} catch(Exception ex) {
 				
 			}
-			imgSticker = "<img src=\"" + pathSticker;
+			imgSticker = "<img src=\"" + pathGift;
+			gvEmoticon.setNumColumns(4);
+//			fillArrayList(arrayHashMapSticker.get(indexList),
+//					arraySticker.get(indexList));
+			adapter = new SmileysAdapter(
+					groups.get(indexList), context, pathGift, false);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
 			break;
-		case 2:
+		default:
+			indexList = POS;
 			try {
-				pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
-			} catch (Exception ex) {
+				pathGift = groups.get(indexList).getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+			} catch(Exception ex) {
 				
 			}
-			imgSticker = "<img src=\"" + pathSticker;
-		default:
+			imgSticker = "<img src=\"" + pathGift;
+			gvEmoticon.setNumColumns(4);
+//			fillArrayList(arrayHashMapSticker.get(indexList),
+//					arraySticker.get(indexList));
+			adapter = new SmileysAdapter(
+					groups.get(indexList), context, pathGift, false);
+			gvEmoticon.setAdapter(adapter);
+			arrayAdaper.add(adapter);
 			break;
 		}
 		
-		final GridView gvSticker = (GridView) v
-				.findViewById(R.id.activity_chat_emticon_gvEmoticon);
-		gvSticker.setNumColumns(4);
-		fillArrayList(arrayHashMapSticker.get(position),
-				arraySticker.get(position));
-		StickerAdapter adapter = new StickerAdapter(
-				arraySticker.get(position), context,
-				arrayHashMapSticker.get(position), pathSticker);
-		gvSticker.setAdapter(adapter);
-		arrayAdaper.add(adapter);
-		
-		
-		gvSticker.setOnItemClickListener(new OnItemClickListener() {
+		gvEmoticon.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int position, long arg3) {
 				switch (POS) {
-				case 1:
-					try {
-						pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-					} catch(Exception ex) {
-						
-					}
-					imgSticker = "<img src=\"" + pathSticker;
-					break;
-				case 2:
-					try {
-						pathSticker = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-					} catch(Exception ex) {
-						
-					}
-					imgSticker = "<img src=\"" + pathSticker;
-				default:
-					break;
-				}
-				ChatActivity.lltMatch.setVisibility(View.GONE);
-				String value = gvSticker.getAdapter().getItem(position).toString();
-                String keyEntry = value;
-                String path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
-                chat.solveSendMessage(path2);
+				case 0:					
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					String value = gvEmoticon.getAdapter().getItem(position).toString();
+	                String keyEntry = value;
+	                pathGift = groups.get(0).getList().get(position).getUrl();
+	                imgSticker = "<img src=\"" + pathGift;
+	                String path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"gift\"/>";
+	                chat.solveSendMessage(path2);
 
-				Iterator<Entry<String, String>> iterator = arrayHashMapSticker
-						.get(POS).entrySet().iterator();
-				String valueEntry = "";
-				while (iterator.hasNext()) {
-					Entry<String, String> entry = iterator.next();
-					if (entry.getKey().equals(keyEntry)) {
-						valueEntry = entry.getValue();
+					break;
+				default:
+					try {
+						pathGift = groups.get(POS).getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
+					} catch(Exception ex) {
+						
 					}
-				}
-				if (!arrayHashMapSticker.get(0).containsKey(keyEntry)) {
-					arrayHashMapSticker.get(0).put(keyEntry, valueEntry);
-					arraySticker.get(0).add(keyEntry);
-					arrayAdaper.get(0).notifyDataSetChanged();
+					imgSticker = "<img src=\"" + pathGift;
+					ChatActivity.lltMatch.setVisibility(View.GONE);
+					value = gvEmoticon.getAdapter().getItem(position).toString();
+	                keyEntry = value;
+	                path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"gift\"/>";
+	                chat.solveSendMessage(path2);
+	                
+	                if (groups.get(0).getList() == null) {
+	                	groups.get(0).setIcon(groups.get(POS).getIcon());
+	                	groups.get(0).setName(groups.get(POS).getName());
+	                	groups.get(0).setUrl(groups.get(POS).getUrl());
+	                	groups.get(0).setList(new ArrayList<List>());
+	                	groups.get(0).getList().add(groups.get(POS).getList().get(position));
+	                	groups.get(0).getList().get(0).setUrl(groups.get(POS).getUrl());
+	                }
+	                boolean flag = false;
+	                for (int i = 0; i < groups.get(0).getList().size(); i++) {
+	                	if (!groups.get(0).getList().get(i).getName().equals(keyEntry)) {
+	                		flag = true;
+	                	}
+	                }
+	                if (flag) {
+	                	groups.get(0).getList().add(groups.get(POS).getList().get(position));
+                		groups.get(0).getList().get(groups.get(0).getList().size() - 1).setUrl(groups.get(POS).getUrl());
+	                }
+	                arrayAdaper.get(0).notifyDataSetChanged();
+					break;
 				}
 
 			}

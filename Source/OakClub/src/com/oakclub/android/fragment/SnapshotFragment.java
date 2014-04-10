@@ -698,67 +698,67 @@ public class SnapshotFragment {
 	}
 
 	private void showDialogSnapshotCounter(final Activity activity) {
-		if (Constants.dataConfig != null) {
-			for (int i = 0; i < Constants.dataConfig.getConfigs()
-					.getSnapshot_counter().getInvite_friend().size(); i++) {
-				if (objSnapshot.getSnapshot_counter() + counter == Constants.dataConfig
-						.getConfigs().getSnapshot_counter().getInvite_friend()
-						.get(i)) {
-					AlertDialog.Builder builder;
-					builder = new AlertDialog.Builder(activity);
-					final AlertDialog dialog = builder.create();
-					LayoutInflater inflater = LayoutInflater.from(activity);
-					View layout = inflater.inflate(R.layout.dialog_warning,
-							null);
-					dialog.setView(layout, 0, 0, 0, 0);
-
-					TextView tvTitle = (TextView) layout
-							.findViewById(R.id.dialog_warning_lltheader_tvTitle);
-					tvTitle.setText(activity.getString(R.string.txt_warning));
-
-					TextView tvContent = (TextView) layout
-							.findViewById(R.id.dialog_warning_tvQuestion);
-					tvContent.setText(String.format(activity
-							.getString(R.string.txt_you_rated_snapshots),
-							Constants.dataConfig.getConfigs()
-									.getSnapshot_counter().getInvite_friend()
-									.get(i)));
-					Button btOk = (Button) layout
-							.findViewById(R.id.dialog_warning_lltfooter_btOK);
-					btOk.setText(activity
-							.getString(R.string.txt_tell_your_friend));
-					Button btCancel = (Button) layout
-							.findViewById(R.id.dialog_warning_lltfooter_btCancel);
-
-					btOk.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View arg0) {
-							dialog.dismiss();
-							intent = new Intent();
-							intent.setAction(Intent.ACTION_SEND);
-							intent.putExtra(
-									Intent.EXTRA_TEXT,
-									activity.getString(R.string.txt_share_title)
-											+ "\n"
-											+ activity
-													.getString(R.string.txt_share_url));
-							intent.setType("text/plain");
-							intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-									| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-									| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							activity.startActivity(intent);
-						}
-					});
-					btCancel.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View arg0) {
-							dialog.dismiss();
-						}
-					});
-					dialog.setCancelable(false);
-					dialog.show();
-				}
-			}
-		}
+//		if (Constants.dataConfig != null) {
+//			for (int i = 0; i < Constants.dataConfig.getConfigs()
+//					.getSnapshot_counter().getInvite_friend().size(); i++) {
+//				if (objSnapshot.getSnapshot_counter() + counter == Constants.dataConfig
+//						.getConfigs().getSnapshot_counter().getInvite_friend()
+//						.get(i)) {
+//					AlertDialog.Builder builder;
+//					builder = new AlertDialog.Builder(activity);
+//					final AlertDialog dialog = builder.create();
+//					LayoutInflater inflater = LayoutInflater.from(activity);
+//					View layout = inflater.inflate(R.layout.dialog_warning,
+//							null);
+//					dialog.setView(layout, 0, 0, 0, 0);
+//
+//					TextView tvTitle = (TextView) layout
+//							.findViewById(R.id.dialog_warning_lltheader_tvTitle);
+//					tvTitle.setText(activity.getString(R.string.txt_warning));
+//
+//					TextView tvContent = (TextView) layout
+//							.findViewById(R.id.dialog_warning_tvQuestion);
+//					tvContent.setText(String.format(activity
+//							.getString(R.string.txt_you_rated_snapshots),
+//							Constants.dataConfig.getConfigs()
+//									.getSnapshot_counter().getInvite_friend()
+//									.get(i)));
+//					Button btOk = (Button) layout
+//							.findViewById(R.id.dialog_warning_lltfooter_btOK);
+//					btOk.setText(activity
+//							.getString(R.string.txt_tell_your_friend));
+//					Button btCancel = (Button) layout
+//							.findViewById(R.id.dialog_warning_lltfooter_btCancel);
+//
+//					btOk.setOnClickListener(new View.OnClickListener() {
+//						@Override
+//						public void onClick(View arg0) {
+//							dialog.dismiss();
+//							intent = new Intent();
+//							intent.setAction(Intent.ACTION_SEND);
+//							intent.putExtra(
+//									Intent.EXTRA_TEXT,
+//									activity.getString(R.string.txt_share_title)
+//											+ "\n"
+//											+ activity
+//													.getString(R.string.txt_share_url));
+//							intent.setType("text/plain");
+//							intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//									| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+//									| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//							activity.startActivity(intent);
+//						}
+//					});
+//					btCancel.setOnClickListener(new View.OnClickListener() {
+//						@Override
+//						public void onClick(View arg0) {
+//							dialog.dismiss();
+//						}
+//					});
+//					dialog.setCancelable(false);
+//					dialog.show();
+//				}
+//			}
+//		}
 	}
 }

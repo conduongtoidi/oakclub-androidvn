@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.image.SmartImageView;
+import com.oakclub.android.model.Groups;
 import com.oakclub.android.util.OakClubUtil;
 
 import android.content.Context;
@@ -25,6 +27,7 @@ public class SmileysAdapter extends BaseAdapter {
     private int widthScreen = 0;
     private String urlLink;
     private boolean isSmile;
+    private Groups group;
     
     public SmileysAdapter(ArrayList<String> arraylistSmileys, Context context, HashMap<String, String> emoticons, String urlLink, boolean isSmile) {
         this.arrayListSmileys = arraylistSmileys;
@@ -35,21 +38,32 @@ public class SmileysAdapter extends BaseAdapter {
         widthScreen = (int) OakClubUtil.getWidthScreen(context);
     }
     
+    public SmileysAdapter(Groups group, Context context, String urlLink, boolean isSmile) {
+        this.group = group;
+        this.context = context;
+        this.urlLink = urlLink;
+        this.isSmile = isSmile;
+        widthScreen = (int) OakClubUtil.getWidthScreen(context);
+    }
+    
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return arrayListSmileys.size();
+        if (isSmile)
+        	return arrayListSmileys.size();
+        if (group.getList() != null) 
+        	return group.getList().size();
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return arrayListSmileys.get(position);
+    	if (isSmile)
+    		return arrayListSmileys.get(position);
+    	return group.getList().get(position).getName();
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -72,16 +86,16 @@ public class SmileysAdapter extends BaseAdapter {
 	        imageView.setLayoutParams(params);
         } else {
         	LayoutParams params = new LayoutParams(widthScreen/4, widthScreen/4);
-            ImageView imageView = (ImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
-            if (!ChatActivity.bitmapSticker.containsKey(arrayListSmileys.get(position))) {
-            	String url = OakClubUtil.getFullLinkStickerOrGift(context,
-                        urlLink + emoticons.get(arrayListSmileys.get(position)));
-                OakClubUtil.loadStickerFromUrl(context, url, imageView, arrayListSmileys.get(position));
+            SmartImageView smartImageView = (SmartImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
+            String url = "";
+            if (group.getList() != null && group.getList().get(position).getUrl() != null) {
+            	url = OakClubUtil.getFullLinkStickerOrGift(context, group.getList().get(position).getUrl() + group.getList().get(position).getImage());
             } else {
-            	imageView.setImageBitmap(ChatActivity.bitmapSticker.get(arrayListSmileys.get(position)));
+            	url = OakClubUtil.getFullLinkStickerOrGift(context, group.getUrl() + group.getList().get(position).getImage());
             }
+            OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker " + group.getName());
             
-            imageView.setLayoutParams(params);
+            smartImageView.setLayoutParams(params);
         }
         
         return view;

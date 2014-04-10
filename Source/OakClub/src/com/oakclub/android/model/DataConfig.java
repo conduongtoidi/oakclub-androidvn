@@ -3,31 +3,42 @@ package com.oakclub.android.model;
 import java.util.ArrayList;
 
 public class DataConfig {
-	private ArrayList<Sticker> stickers;
-	private ArrayList<Sticker> cats;
-	private Configs configs;
+	private Sticker sticker;
+	private Sticker gift;
+	private SnapshotCounter snapshot_counter;
+//	private Configs configs;
 
-	public ArrayList<Sticker> getStickers() {
-		return stickers;
+
+//	public Configs getConfigs() {
+//		return configs;
+//	}
+//
+//	public void setConfigs(Configs configs) {
+//		this.configs = configs;
+//	}
+
+	public Sticker getSticker() {
+		return sticker;
 	}
 
-	public void setStickers(ArrayList<Sticker> stickers) {
-		this.stickers = stickers;
+	public void setSticker(Sticker sticker) {
+		this.sticker = sticker;
 	}
 
-	public Configs getConfigs() {
-		return configs;
+	public SnapshotCounter getSnapshot_counter() {
+		return snapshot_counter;
 	}
 
-	public void setConfigs(Configs configs) {
-		this.configs = configs;
+	public void setSnapshot_counter(SnapshotCounter snapshot_counter) {
+		this.snapshot_counter = snapshot_counter;
 	}
 
-	public ArrayList<Sticker> getCats() {
-		return cats;
+	public Sticker getGift() {
+		return gift;
 	}
 
-	public void setCats(ArrayList<Sticker> cats) {
-		this.cats = cats;
+	public void setGift(Sticker gift) {
+		this.gift = gift;
 	}
+
 }
