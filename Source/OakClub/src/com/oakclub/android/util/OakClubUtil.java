@@ -51,6 +51,7 @@ public class OakClubUtil {
 
 	public static void loadImageFromUrl(final Context context,
 			final String imageUrl, final SmartImageView imageView, String folder) {
+		imageView.setImageBitmap(null);
 		imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
 
 	}
