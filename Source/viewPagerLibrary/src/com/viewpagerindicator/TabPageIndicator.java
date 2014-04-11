@@ -17,10 +17,12 @@
 package com.viewpagerindicator;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -101,7 +103,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             if (childCount > 2) {
                 mMaxTabWidth = (int)(MeasureSpec.getSize(widthMeasureSpec) * 0.4f);
             } else {
-            	mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec);
+                mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec);
 //                mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec) / 2;
             }
         } else {
@@ -161,7 +163,25 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
         }
 
-        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, MATCH_PARENT, 1));
+        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, 1));
+    }
+    
+    @SuppressWarnings("deprecation")
+	private void addTab(int index, CharSequence text, Drawable drawable) {
+        final TabView tabView = new TabView(getContext());
+        tabView.mIndex = index;
+        tabView.setFocusable(true);
+        tabView.setOnClickListener(mTabClickListener);
+        tabView.setText(text);
+
+        if (drawable != null) {
+        	Log.v("abc", "" + index);
+            tabView.setBackgroundDrawable(drawable);
+        } else {
+        	Log.v("null", "" + index);
+        }
+
+        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT, 1));
     }
 
     @Override
@@ -217,10 +237,15 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
                 title = EMPTY_TITLE;
             }
             int iconResId = 0;
+            Drawable iconDrawable = null;
             if (iconAdapter != null) {
                 iconResId = iconAdapter.getIconResId(i);
+                iconDrawable = iconAdapter.getIconDrawable(i);
             }
-            addTab(i, title, iconResId);
+            if (iconResId != 0)
+            	addTab(i, title, iconResId);
+            if (iconDrawable != null)
+            	addTab(i, title, iconDrawable);
         }
         if (mSelectedTabIndex > count) {
             mSelectedTabIndex = count - 1;
@@ -272,9 +297,9 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
             // Re-measure if we went beyond our maximum size.
             if (mMaxTabWidth > 0 && getMeasuredWidth() > mMaxTabWidth) {
-            	super.onMeasure(mMaxTabWidth, heightMeasureSpec);
 //                super.onMeasure(MeasureSpec.makeMeasureSpec(mMaxTabWidth, MeasureSpec.EXACTLY),
 //                        heightMeasureSpec);
+            	super.onMeasure(mMaxTabWidth, heightMeasureSpec);
             }
         }
 
