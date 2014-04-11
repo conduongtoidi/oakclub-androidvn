@@ -169,7 +169,7 @@ public class MainActivity extends LoginBaseActivity {
 			// super.setPrimaryItem(container, position, object);
 		}
 
-		public Drawable getIconBitmap(int index) {
+		public Drawable getIconDrawable(int index) {
 			// TODO Auto-generated method stub
 			return null;
 		}

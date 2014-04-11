@@ -93,7 +93,7 @@ public class SmileysAdapter extends BaseAdapter {
             } else {
             	url = OakClubUtil.getFullLinkStickerOrGift(context, group.getUrl() + group.getList().get(position).getImage());
             }
-            OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker " + group.getName());
+            OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker");
             
             smartImageView.setLayoutParams(params);
         }
