@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -33,7 +34,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
 	ArrayList<Integer> page_imgTabs = new ArrayList<Integer>();
-	ArrayList<Drawable> page_imgBitmapTabs = new ArrayList<Drawable>();
+	ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
 
 	public static ArrayList<Groups> groups = new ArrayList<Groups>();
 	
@@ -56,13 +57,20 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		
 		smartImageView = new SmartImageView(c);
 		String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
-		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
-		page_imgBitmapTabs.add(smartImageView.getDrawable());
+		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker", R.drawable.logo_oakclub);
+		page_imgDrawableTabs.add(smartImageView.getDrawable());
 		for (int i = 1; i < groups.size(); i++) {
-			final SmartImageView smartImageView = new SmartImageView(c);
+			final SmartImageView smartImageViewNomal = new SmartImageView(c);
 			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
-			page_imgBitmapTabs.add(smartImageView.getDrawable());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Sticker", R.drawable.logo_oakclub);
+			
+			final SmartImageView smartImageViewPress = new SmartImageView(c);
+			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getHover());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Sticker", R.drawable.logo_oakclub);
+			
+			final StateListDrawable stateDrawable = new StateListDrawable();
+			
+			page_imgDrawableTabs.add(stateDrawable);
 			final int index = i;
 			final String str = url;
 			new Handler().postDelayed(new Runnable() {
@@ -70,7 +78,10 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				@Override
 				public void run() {
 					Log.v("index", index + " " + str);
-					page_imgBitmapTabs.set(index, smartImageView.getDrawable());
+					stateDrawable.addState(new int[] {-android.R.attr.state_selected, -android.R.attr.state_pressed}, smartImageViewNomal.getDrawable());
+					stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
+					
+					page_imgDrawableTabs.set(index, stateDrawable);
 				}
 			}, 5000);
 		}
@@ -89,9 +100,9 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		return v.equals(o);
 	}
 
-	public Drawable getIconBitmap(int index) {
+	public Drawable getIconDrawable(int index) {
 		if (index >= 1)
-			return page_imgBitmapTabs.get(index);
+			return page_imgDrawableTabs.get(index);
 		return null;
 	}
 	

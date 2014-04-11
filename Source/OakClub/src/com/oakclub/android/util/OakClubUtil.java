@@ -23,21 +23,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.cache.memory.MemoryCacheAware;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -45,7 +39,6 @@ import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.image.SmartImageView;
-import com.oakclub.android.view.CircleImageView;
 
 public class OakClubUtil {
 
@@ -53,6 +46,13 @@ public class OakClubUtil {
 			final String imageUrl, final SmartImageView imageView, String folder) {
 		imageView.setImageBitmap(null);
 		imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
+
+	}
+	
+	public static void loadImageFromUrl(final Context context,
+			final String imageUrl, final SmartImageView imageView, String folder, int icon) {
+		imageView.setImageBitmap(null);
+		imageView.setImageUrl(imageUrl, folder, icon);
 
 	}
 

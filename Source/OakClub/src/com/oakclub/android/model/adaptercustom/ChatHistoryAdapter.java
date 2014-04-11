@@ -135,20 +135,6 @@ public class ChatHistoryAdapter extends BaseAdapter {
 
 	private void getSticker(int position, ChatHistoryData item, String text, Matcher matcher, SmartImageView imgView,
 			TextView textView) {
-		
-		String pathSticker = "";
-		String pathSticker_Cat = "";
-//		try {
-//			pathSticker = Constants.dataConfig.getConfigs().getSticker().getUrl();//"/bundles/likevnblissdate/v3/chat/images/stickers/";
-//		} catch(Exception ex) {
-//			
-//		}
-//		
-//		try {
-//			pathSticker_Cat = Constants.dataConfig.getConfigs().getCats().getUrl();//"/bundles/likevnblissdate/v3/chat/images/sticker_cats/";
-//		} catch (Exception ex) {
-//			
-//		}
 		imgView.setVisibility(View.GONE);
 		textView.setVisibility(View.VISIBLE);
 		try {
@@ -157,10 +143,7 @@ public class ChatHistoryAdapter extends BaseAdapter {
 			}
 			while (matcher.find()) {
 				if (text.contains("type=\"sticker\"") || text.contains("type=\"gift\"")){
-					String imgName = matcher.group(1).replace(pathSticker, "").split("\"")[0];
-					imgName = imgName.replace(pathSticker_Cat, "");
 					String imgLink = matcher.group(1);
-					Log.v("img right", imgName + " " + position);
 					imgView.setVisibility(View.VISIBLE);
 					textView.setVisibility(View.GONE);
 					

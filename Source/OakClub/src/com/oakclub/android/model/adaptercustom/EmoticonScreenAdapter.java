@@ -6,25 +6,19 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.InputType;
-import android.text.Spannable;
-import android.text.Spannable.Factory;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
 
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
@@ -39,7 +33,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
 	ArrayList<Integer> page_imgTabs = new ArrayList<Integer>();
-	ArrayList<Drawable> page_imgBitmapTabs = new ArrayList<Drawable>();
+	ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
 
 	public static ArrayList<Groups> groups = new ArrayList<Groups>();
 	
@@ -50,8 +44,6 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 	Context context;
 	
 	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
-	private static ArrayList<HashMap<String, String>> arrayHashMapSticker = new ArrayList<HashMap<String, String>>();
-	private ArrayList<ArrayList<String>> arraySticker = new ArrayList<ArrayList<String>>();
 	
 	public static ChatActivity chat;
 	String pathSticker = "";
@@ -69,15 +61,22 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		
 		smartImageView = new SmartImageView(c);
 		String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
-		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
-		page_imgBitmapTabs.add(smartImageView.getDrawable());
+		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker", R.drawable.logo_oakclub);
+		page_imgDrawableTabs.add(smartImageView.getDrawable());
 		smartImageView = new SmartImageView(c);
-		page_imgBitmapTabs.add(smartImageView.getDrawable());
+		page_imgDrawableTabs.add(smartImageView.getDrawable());
 		for (int i = 1; i < groups.size(); i++) {
-			final SmartImageView smartImageView = new SmartImageView(c);
+			final SmartImageView smartImageViewNomal = new SmartImageView(c);
 			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker ");
-			page_imgBitmapTabs.add(smartImageView.getDrawable());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Sticker", R.drawable.logo_oakclub);
+			
+			final SmartImageView smartImageViewPress = new SmartImageView(c);
+			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getHover());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Sticker", R.drawable.logo_oakclub);
+			
+			final StateListDrawable stateDrawable = new StateListDrawable();
+			
+			page_imgDrawableTabs.add(stateDrawable);
 			final int index = i + 1;
 			final String str = url;
 			new Handler().postDelayed(new Runnable() {
@@ -85,7 +84,10 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				@Override
 				public void run() {
 					Log.v("index", index + " " + str);
-					page_imgBitmapTabs.set(index, smartImageView.getDrawable());
+					stateDrawable.addState(new int[] {-android.R.attr.state_selected, -android.R.attr.state_pressed}, smartImageViewNomal.getDrawable());
+					stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
+					
+					page_imgDrawableTabs.set(index, stateDrawable);
 				}
 			}, 5000);
 		}
@@ -107,9 +109,9 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		return v.equals(o);
 	}
 
-	public Drawable getIconBitmap(int index) {
+	public Drawable getIconDrawable(int index) {
 		if (index >= 2)
-			return page_imgBitmapTabs.get(index);
+			return page_imgDrawableTabs.get(index);
 		return null;
 	}
 	

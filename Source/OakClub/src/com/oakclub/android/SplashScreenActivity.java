@@ -51,6 +51,10 @@ public class SplashScreenActivity extends Activity {
         imgLoader.clearCache();
         imgLoader = new ImageLoader(this, Constants.OTHER_PROFILE_FOLDER);
         imgLoader.clearCache();
+        imgLoader = new ImageLoader(this, "Sticker");
+        imgLoader.clearCache();
+        imgLoader = new ImageLoader(this, "Chat");
+        imgLoader.clearCache();
 		try {
 			saveLogcatToFile(getApplicationContext());
 		} catch (IOException e) {
