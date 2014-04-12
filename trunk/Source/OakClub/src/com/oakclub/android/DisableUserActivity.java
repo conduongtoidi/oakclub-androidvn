@@ -404,7 +404,7 @@ public class DisableUserActivity extends OakClubBaseActivity {
             } 
             else {
                 OakClubUtil.enableDialogWarning(DisableUserActivity.this,
-                        getResources().getString(R.string.txt_warning),
+                        getResources().getString(R.string.txt_warning_uppercase),
                         getResources().getString(R.string.value_upload_failed));
             }
         }
@@ -439,7 +439,7 @@ public class DisableUserActivity extends OakClubBaseActivity {
             	
             } else {
                 OakClubUtil.enableDialogWarning(DisableUserActivity.this,
-                        getResources().getString(R.string.txt_warning),
+                        getResources().getString(R.string.txt_warning_uppercase),
                         getResources().getString(R.string.value_upload_failed));
             }
         }
