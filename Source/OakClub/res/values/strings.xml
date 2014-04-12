@@ -232,7 +232,7 @@
     <string name="txt_wifi_enabled">Wifi enabled</string>
     <string name="txt_mobile_data_enabled">Mobile data enabled</string>
     <string name="txt_not_connected_to_internet">Not connected to Internet</string>
-    <string name="txt_warning">WARNING!</string>
+    <string name="txt_warning_uppercase">WARNING!</string>
     <string name="txt_account_reviewed">YOUR ACCOUNT IS BEING REVIEWED</string>
     <string name="txt_disable_reasons">Due to one of following reasons:</string>
     <string name="txt_disable_reason_1">Under 17 years of age</string>
@@ -244,7 +244,7 @@
     <string name="txt_disable_update_friends">Update Friends</string>
     <string name="txt_disable_upload_video">Upload Video</string>
     <string name="txt_disable_upload_pictures">Upload Pictures</string>
-    
+    <string name="txt_coming_soon">Coming soon</string>
     
     <string name = "app_name">OakClub</string>
     <string name = "txt_share_url">www.oakclub.com</string>

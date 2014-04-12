@@ -124,7 +124,7 @@ public class SnapshotFragment {
 	ProgressCircle progFin;
 
 	private void init(int start) {
-
+		
 		arrSnapshotData = new ArrayList<SnapshotData>();
 		arrSnapshotMain = new ArrayList<SnapshotMain>();
 
@@ -234,10 +234,11 @@ public class SnapshotFragment {
 				if (chatAccount != null) {
 					if (ProfileSettingFragment.profileInfoObj != null) {
 						if (!ProfileSettingFragment.profileInfoObj.isIs_vip()) {
-							activity.setMenu(MenuOakclub.VIPROOM);
-							GetVIPFragment getVIP = new GetVIPFragment(
-									activity);
-							getVIP.initGetVIP();
+							Toast.makeText(activity, activity.getString(R.string.txt_coming_soon), Toast.LENGTH_SHORT).show();
+//							activity.setMenu(MenuOakclub.VIPROOM);
+//							GetVIPFragment getVIP = new GetVIPFragment(
+//									activity);
+//							getVIP.initGetVIP();
 						} else {
 
 							// AddRosterEvent loader = new

@@ -376,6 +376,7 @@ public class VerifiedActivity extends SlidingActivity {
 					finish();
 				}
 			} else {
+				Toast.makeText(activity, activity.getString(R.string.abnormal_error_message), Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(activity, MainActivity.class);
 				activity.startActivity(intent);
 				activity.finish();
@@ -406,7 +407,7 @@ public class VerifiedActivity extends SlidingActivity {
 				}
 				activity.finish();
 			} else {
-				Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+				Toast.makeText(activity, activity.getString(R.string.abnormal_error_message), Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(activity, MainActivity.class);
 				activity.startActivity(intent);
 				activity.finish();
