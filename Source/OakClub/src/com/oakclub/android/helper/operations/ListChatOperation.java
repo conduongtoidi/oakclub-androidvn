@@ -28,11 +28,7 @@ public class ListChatOperation {
 //    private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_AVATAR = "avatar"; 
-    private static final String KEY_AGE = "age"; 
-    private static final String KEY_CITY = "city"; 
     private static final String KEY_PROFILE_ID = "profile_id";
-    private static final String KEY_XMPP_USER = "xmpp_username";
-    private static final String KEY_JID = "jid";
     private static final String KEY_STATUS = "status";
     private static final String KEY_VIP = "is_vip";
     private static final String KEY_LAST_MESSAGE = "last_message";
@@ -48,13 +44,8 @@ public class ListChatOperation {
     public static final String CREATE_TABLE_LIST_CHAT = "" +
     		"CREATE TABLE "+ TABLE_LIST_CHAT + "(" + 
 			KEY_PROFILE_ID + " TEXT PRIMARY KEY, "+
-//			KEY_ID + " INTEGER PRIMARY KEY," + 
 			KEY_NAME + " TEXT, " +
 			KEY_AVATAR + " TEXT, "+
-//			KEY_AGE + "INTEGER, "+
-//			KEY_CITY + "TEXT, "+
-//			KEY_XMPP_USER + "TEXT, "+
-//			KEY_JID + "TEXT, "+
 			KEY_STATUS + " INTEGER, "+
 			KEY_VIP + " BOOLEAN, "+
 			KEY_LAST_MESSAGE + " DATETIME, "+
@@ -83,7 +74,6 @@ public class ListChatOperation {
 		values.put(KEY_PROFILE_ID, data.getProfile_id());
 		values.put(KEY_NAME, data.getName());
 		values.put(KEY_AVATAR, data.getAvatar());
-//		values.put(KEY_XMPP_USER, data.getProfile_id());
 		values.put(KEY_STATUS, data.getStatus());
 		values.put(KEY_VIP, data.isIs_vip());
 		values.put(KEY_LAST_MESSAGE, data.getLast_message());
@@ -103,7 +93,6 @@ public class ListChatOperation {
 		values.put(KEY_PROFILE_ID, data.getProfile_id());
 		values.put(KEY_NAME, data.getName());
 		values.put(KEY_AVATAR, data.getAvatar());
-//		values.put(KEY_XMPP_USER, data.getProfile_id());
 		values.put(KEY_STATUS, data.getStatus());
 		values.put(KEY_VIP, data.isIs_vip());
 		values.put(KEY_LAST_MESSAGE, data.getLast_message());

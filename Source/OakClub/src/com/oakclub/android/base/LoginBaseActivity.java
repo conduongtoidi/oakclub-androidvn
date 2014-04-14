@@ -76,6 +76,7 @@ import com.oakclub.android.model.GetDataLanguageReturnObject;
 import com.oakclub.android.model.Groups;
 import com.oakclub.android.model.HangoutProfileOtherReturnObject;
 import com.oakclub.android.model.ListChatData;
+import com.oakclub.android.model.LocationObject;
 import com.oakclub.android.model.SendRegisterReturnObject;
 import com.oakclub.android.model.SetLocationReturnObject;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
@@ -626,7 +627,11 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 		@Override
 		public void executeUI(Exception ex) {
-
+			if(result!=null){
+				LocationObject location = ProfileSettingFragment.profileInfoObj.getLocation();
+				location.setName(result.getMsg());
+				ProfileSettingFragment.profileInfoObj.setLocation(location);
+			}
 		}
 	}
 

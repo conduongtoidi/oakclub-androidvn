@@ -23,6 +23,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
@@ -39,20 +40,61 @@ import com.nostra13.universalimageloader.core.assist.MemoryCacheUtil;
 import com.oakclub.android.ChatActivity;
 import com.oakclub.android.R;
 import com.oakclub.android.image.SmartImageView;
+import com.oakclub.android.image.WebImageCache;
 
 public class OakClubUtil {
 
 	public static void loadImageFromUrl(final Context context,
 			final String imageUrl, final SmartImageView imageView, String folder) {
 		imageView.setImageBitmap(null);
-		imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
-
+		if(!imageUrl.contains("graph"))
+				imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
+		else loadImageFromUrlFacebook(context, imageUrl, imageView, folder);
 	}
-	
+
+	public static void loadImageFromUrlFacebook(final Context context,
+			final String imageUrl, final ImageView imageView, String folder) {
+		final WebImageCache webImageCache = new WebImageCache(context, folder);
+		if(imageUrl != null) {
+            Bitmap bitmap = webImageCache.get(imageUrl);
+            if(bitmap == null) {
+            	Constants.imageLoader.displayImage(imageUrl, imageView,
+        				new ImageLoadingListener() {
+        					@Override
+        					public void onLoadingStarted(String arg0, View arg1) {
+        						final ImageView imageView = (ImageView) arg1;
+        						imageView.setImageBitmap(null);
+        						imageView.setBackgroundResource(R.drawable.logo_splashscreen);
+        					}
+
+        					@Override
+        					public void onLoadingFailed(String arg0, View arg1,
+        							FailReason arg2) {
+        					}
+
+        					@Override
+        					public void onLoadingComplete(String arg0, View arg1,
+        							Bitmap arg2) {
+        						imageView.setBackgroundResource(android.R.color.transparent);
+        						imageView.setImageBitmap(arg2);
+        						if(arg2 != null){
+        		                    webImageCache.put(arg0, arg2);
+        		                }
+        					}
+
+        					@Override
+        					public void onLoadingCancelled(String arg0, View arg1) {
+        					}
+        				});
+            }
+            else imageView.setImageBitmap(bitmap);
+        }
+		
+	}
 	public static void loadImageFromUrl(final Context context,
 			final String imageUrl, final SmartImageView imageView, String folder, int icon) {
 		imageView.setImageBitmap(null);
-		imageView.setImageUrl(imageUrl, folder, icon);
+		imageView.setImageUrl(imageUrl, folder, R.drawable.logo_splashscreen);
 
 	}
 

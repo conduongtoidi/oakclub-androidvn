@@ -1,8 +1,16 @@
 package com.oakclub.android.image;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+import com.oakclub.android.util.OakClubUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -43,7 +51,6 @@ public class WebImage implements SmartImage {
 
     private Bitmap getBitmapFromUrl(String url) {
         Bitmap bitmap = null;
-
         try {
             URLConnection conn = new URL(url).openConnection();
             conn.setConnectTimeout(CONNECT_TIMEOUT);
@@ -52,7 +59,6 @@ public class WebImage implements SmartImage {
         } catch(Exception e) {
             e.printStackTrace();
         }
-
         return bitmap;
     }
 

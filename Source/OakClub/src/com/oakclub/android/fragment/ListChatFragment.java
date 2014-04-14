@@ -1,7 +1,11 @@
 package com.oakclub.android.fragment;
 
 
+import java.util.ArrayList;
+
+import android.app.Activity;
 import android.app.LocalActivityManager;
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,9 +28,11 @@ import com.oakclub.android.AllChatActivity;
 import com.oakclub.android.MatchChatActivity;
 import com.oakclub.android.VIPActivity;
 import com.oakclub.android.R;
+import com.oakclub.android.base.ChatBaseActivity;
 import com.oakclub.android.base.OakClubBaseActivity;
 import com.oakclub.android.base.SlidingMenuActivity;
 import com.oakclub.android.core.IRightMenuOnClickListener;
+import com.oakclub.android.model.ListChatData;
 import com.oakclub.android.model.adaptercustom.AdapterListChat;
 
 @SuppressWarnings("deprecation")
@@ -112,6 +118,7 @@ public class ListChatFragment extends Fragment {
         
     }
     
+    
     private void searchChat(){
         tw = new TextWatcher() {
             @Override
@@ -141,7 +148,14 @@ public class ListChatFragment extends Fragment {
 			
 			@Override
 			public void run() {
-				String str = searchEdt.getText().toString().toLowerCase();
+				ArrayList<ListChatData> baseListChat =new ArrayList<ListChatData>();
+				ChatBaseActivity currentActivity = (ChatBaseActivity) mLocalActivityManager.getActivity( tabHost.getCurrentTabTag());
+				for(int i= 0;i<currentActivity.getLvListChat().getChildCount();i++){
+					ListChatData data = (ListChatData) currentActivity.getLvListChat().getItemAtPosition(i);
+					baseListChat.add(data);
+				}
+				
+				String str = searchEdt.getText().toString().toLowerCase();		
 		        if (OakClubBaseActivity.baseAllList!=null){
 		            MatchChatActivity.matchedList.clear();
 		            VIPActivity.vipList.clear();
@@ -152,7 +166,8 @@ public class ListChatFragment extends Fragment {
 		                	AllChatActivity.allList.add(OakClubBaseActivity.baseAllList.get(i));
 		                    if (OakClubBaseActivity.baseAllList.get(i).isMatches()){
 		                    	MatchChatActivity.matchedList.add(OakClubBaseActivity.baseAllList.get(i));
-		                    } else {
+		                    }
+		                    if (OakClubBaseActivity.baseAllList.get(i).isIs_vip()){
 		                    	VIPActivity.vipList.add(OakClubBaseActivity.baseAllList.get(i));
 		                    }
 		                }

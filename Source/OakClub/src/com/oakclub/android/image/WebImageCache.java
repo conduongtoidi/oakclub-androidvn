@@ -146,7 +146,7 @@ public class WebImageCache {
     }
 
     private String getFilePath(String url) {
-        return diskCachePath + getCacheKey(url);
+        return diskCachePath +"/"+ getCacheKey(url);
     }
 
     private String getCacheKey(String url) {
