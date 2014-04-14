@@ -239,4 +239,12 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 			
 		}
 	}
+
+	public ListView getLvListChat() {
+		return lvListChat;
+	}
+
+	public void setLvListChat(ListView lvListChat) {
+		this.lvListChat = lvListChat;
+	}
 }

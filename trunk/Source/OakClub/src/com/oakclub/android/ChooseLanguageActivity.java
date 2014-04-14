@@ -1,6 +1,7 @@
 package com.oakclub.android;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 import com.oakclub.android.util.Constants;
@@ -31,12 +32,19 @@ import android.widget.RadioGroup;
 public class ChooseLanguageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		setTheme(android.R.style.Theme_Holo_NoActionBar);
 		super.onCreate(savedInstanceState);
 		SharedPreferences pref = getApplicationContext().getSharedPreferences(
 				Constants.PREFERENCE_NAME, 0);
-		int currentId = pref.getInt(Constants.PREFERENCE_LANGUAGE, -1);
+		int currentId = pref.getInt(Constants.PREFERENCE_LANGUAGE, 0);
+		String locale = getResources().getConfiguration().locale.getLanguage();
+		for(int i = 0; i<Constants.LANGUAGE_LOCALE.length;i ++){
+			if(Constants.LANGUAGE_LOCALE[i].equals(locale)){
+				currentId=i;
+				setLocale(Constants.LANGUAGE_LOCALE[currentId]);
+				break;
+			}
+		}
 		showLanguagueDialog(currentId);
 	}
 
@@ -57,6 +65,7 @@ public class ChooseLanguageActivity extends Activity {
 					.findViewById(R.id.radioGroup1);
 			radioGroup.setOrientation(RadioGroup.VERTICAL);
 			radioButtons = new ArrayList<RadioButton>();
+						
 			for (int i = 0; i < stringList.length; i++) {
 				RadioButtonCustom radio = new RadioButtonCustom(
 						getApplicationContext(), getResources().getDrawable(
@@ -86,15 +95,14 @@ public class ChooseLanguageActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					int selectedButtonId = radioGroup.getCheckedRadioButtonId();
-					int selectedId = -1;
+					int selectedId = 0;
 					for (int i = 0; i < radioButtons.size(); i++) {
 						if (radioButtons.get(i).getId() == selectedButtonId) {
 							selectedId = i;
 							break;
 						}
 					}
-					if (currentId != selectedId) {
-
+//					if (currentId != selectedId) {
 						if (selectedId < Constants.LANGUAGE_LOCALE.length)
 							setLocale(Constants.LANGUAGE_LOCALE[selectedId]);
 						else
@@ -103,8 +111,7 @@ public class ChooseLanguageActivity extends Activity {
 								Constants.PREFERENCE_NAME, 0).edit();
 						editor.putInt(Constants.PREFERENCE_LANGUAGE, selectedId);
 						editor.commit();
-					}
-
+//					}
 					Intent intent = new Intent(ChooseLanguageActivity.this,
 							MainActivity.class);
 					startActivity(intent);

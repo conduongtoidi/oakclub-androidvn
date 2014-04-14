@@ -328,7 +328,6 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 	}
 
 	private void finishAct() {
-		// OakClubUtil.releaseImagePager(pager);
 		finish();
 	}
 
@@ -368,7 +367,6 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 						(int) OakClubUtil
 								.getHeightScreen(getApplicationContext())
 								- StatusHeight);
-				// 1 second is enougth for animation duration run smoothly
 				animation.setDuration(500);
 				animation
 						.setAnimationListener(new Animation.AnimationListener() {
@@ -424,58 +422,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 					}
 				});
 				footer.startAnimation(fadeOut);
-			} else {
-				// isZoom = false;
-				// ResizeAnimation animation = null;
-				// Resources rs = getApplicationContext().getResources();
-				// int rsNaviHeight =
-				// getApplicationContext().getResources().getIdentifier("navigation_bar_height",
-				// "dimen", "android");
-				// int rsStatusHeight =
-				// getApplicationContext().getResources().getIdentifier("status_bar_height",
-				// "dimen", "android");
-				// int NaviHeight = 0;
-				// int StatusHeight = 0;
-				//
-				// if (rsNaviHeight > 0)
-				// NaviHeight = rs.getDimensionPixelSize(rsNaviHeight);
-				//
-				// if (rsStatusHeight > 0)
-				// StatusHeight = rs.getDimensionPixelSize(rsStatusHeight);
-				// animation = new ResizeAnimation(rltMain,
-				// getWindowManager().getDefaultDisplay().getHeight() -
-				// NaviHeight - StatusHeight,
-				// InfoProfileOtherActivity.this.getResources().getDimensionPixelSize(R.dimen.profile_info_other_image));
-				// //1 second is enougth for animation duration run smoothly
-				// animation.setDuration(500);
-				// animation.setAnimationListener(new
-				// Animation.AnimationListener() {
-				//
-				// @Override
-				// public void onAnimationStart(Animation animation) {
-				// FrameLayout.LayoutParams layoutPager = new
-				// android.widget.FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,InfoProfileOtherActivity.this.getResources().getDimensionPixelSize(R.dimen.profile_info_other_image));
-				// layoutPager.gravity = Gravity.CENTER;
-				// pager.setLayoutParams(layoutPager);
-				// rltNavigation.setVisibility(View.GONE);
-				// }
-				//
-				// @Override
-				// public void onAnimationRepeat(Animation animation) {
-				//
-				// }
-				//
-				// @Override
-				// public void onAnimationEnd(Animation animation) {
-				// RelativeLayout.LayoutParams layout = new
-				// android.widget.RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-				// rltMain.setLayoutParams(layout);
-				// rltContent.setVisibility(View.VISIBLE);
-				// rltNavigation.setVisibility(View.VISIBLE);
-				// }
-				// });
-				// rltMain.startAnimation(animation);
-			}
+			} 
 
 		}
 	};

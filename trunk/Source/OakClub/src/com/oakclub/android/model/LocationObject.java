@@ -3,8 +3,8 @@ package com.oakclub.android.model;
 import java.io.Serializable;
 
 public class LocationObject implements Serializable {
-	String id;
-	String name;
+	String id="-1";
+	String name="";
 	String country = "";
 	String country_code = "";
 	CoordinatesObject coordinates;

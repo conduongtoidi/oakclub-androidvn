@@ -36,7 +36,7 @@ public class ImageLoader {
         executorService=Executors.newFixedThreadPool(5);
     }
   
-    int stub_id = R.drawable.icon_brokeniamges;
+    int stub_id = R.drawable.logo_splashscreen;
     public void DisplayImage(String url, int loader, ImageView imageView)
     {
         stub_id = loader;
