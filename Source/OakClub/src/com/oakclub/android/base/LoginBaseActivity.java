@@ -157,6 +157,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			facebook.authorize(LoginBaseActivity.this,
 					Constants.FACEBOOK_PERMISSION, new DialogListener() {
 
+				
 						@Override
 						public void onComplete(Bundle values) {
 
@@ -833,8 +834,12 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				VIPActivity.adapterVip.ignoreDisabled = true;
 				VIPActivity.adapterVip.notifyDataSetChanged();
 
-				SlidingMenuActivity.getTotalNotification(listChatDb
-						.getTotalNotification());
+				try{
+					SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+				}
+				catch(Exception e) {
+					
+				}
 
 			} else {
 				if (!LoginBaseActivity.this.isFinishing()) {
@@ -867,6 +872,9 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 			if (obj != null && obj.getData2() != null) {
 				Constants.dataConfig = obj.getData2();
 				
+				EmoticonScreenAdapter.groups = new ArrayList<Groups>();
+				StickerScreenAdapter.groups = new ArrayList<Groups>();
+				
 				EmoticonScreenAdapter.groups.add(new Groups());
 				if (obj.getData2().getSticker() != null && obj.getData2().getSticker().getGroups() != null) {
 					EmoticonScreenAdapter.groups.addAll(obj.getData2().getSticker().getGroups());
@@ -877,11 +885,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 				if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
 					StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
 				}
-//				if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
-//					StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
-//				}
-				
-				EmoticonScreenAdapter.stickers = StickerScreenAdapter.stickers;
+
 				showTutorialActivity();
 			}
 		}

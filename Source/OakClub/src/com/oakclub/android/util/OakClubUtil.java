@@ -23,7 +23,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
@@ -314,7 +313,6 @@ public class OakClubUtil {
 	          deleteDir(dir);
 	       }
 	    } catch (Exception e) {
-	       // TODO: handle exception
 	    }
 	 }
 

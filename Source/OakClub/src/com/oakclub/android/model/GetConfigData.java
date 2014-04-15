@@ -1,7 +1,5 @@
 package com.oakclub.android.model;
 
-import java.util.ArrayList;
-
 public class GetConfigData {
 	private boolean status;
 	private String msg;

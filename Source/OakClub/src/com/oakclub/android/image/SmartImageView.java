@@ -3,8 +3,10 @@ package com.oakclub.android.image;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,21 +14,24 @@ import com.oakclub.android.util.OakClubUtil;
 
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
+    private ExecutorService threadPool;
 
-    private SmartImageTask currentTask;
+//    private SmartImageTask currentTask;
 
 
     public SmartImageView(Context context) {
         super(context);
+        threadPool = Executors.newSingleThreadExecutor();// Executors.newFixedThreadPool(LOADING_THREADS);
     }
 
     public SmartImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        threadPool = Executors.newSingleThreadExecutor();// Executors.newFixedThreadPool(LOADING_THREADS);
     }
 
     public SmartImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        threadPool = Executors.newSingleThreadExecutor();// Executors.newFixedThreadPool(LOADING_THREADS);
     }
 
 
@@ -96,12 +101,12 @@ public class SmartImageView extends ImageView {
         if(loadingResource != null){
             setImageResource(loadingResource);
         }
-
+        SmartImageTask currentTask = null;
         // Cancel any existing tasks for this image view
-        if(currentTask != null) {
-            currentTask.cancel();
-            currentTask = null;
-        }
+//        if(currentTask != null) {
+//            currentTask.cancel();
+//            currentTask = null;
+//        }
 
         // Set up the new task
         currentTask = new SmartImageTask(getContext(), folder, image);
@@ -127,9 +132,19 @@ public class SmartImageView extends ImageView {
         // Run the task in a threadpool
         threadPool.execute(currentTask);
     }
+    
+    @SuppressWarnings("deprecation")
+	@Override
+    protected void onDetachedFromWindow () {
+        setImageDrawable(null);
+        setBackgroundDrawable(null);
+        setImageBitmap(null);
+        System.gc();
+        super.onDetachedFromWindow();
+    }
 
     public static void cancelAllTasks() {
-        threadPool.shutdownNow();
-        threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
+        //threadPool.shutdownNow();
+        //threadPool = null;
     }
 }

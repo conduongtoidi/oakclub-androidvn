@@ -412,6 +412,8 @@ public class ChatActivity extends OakClubBaseActivity {
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 						0);
+				isShowSmile = false;
+				isShowSticker = false;
 				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				lltBottom.setLayoutParams(params);
 				rltChatViewPage.setVisibility(View.GONE);
@@ -474,16 +476,12 @@ public class ChatActivity extends OakClubBaseActivity {
 	}
 
 	private void initEmoticonPage() {
-		try {
-			emoticonScreenAdapter = new EmoticonScreenAdapter(this);
-			stickerScreenAdapter = new StickerScreenAdapter(this);
+		emoticonScreenAdapter = new EmoticonScreenAdapter(this);
+		stickerScreenAdapter = new StickerScreenAdapter(this);
 
-			mPager = (ViewPager) findViewById(R.id.activity_chat_viewpage_emoticon);
-			mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
-			
-		} catch (Exception ex) {
+		mPager = (ViewPager) findViewById(R.id.activity_chat_viewpage_emoticon);
+		mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
 
-		}
 	}
 
 	private OnClickListener listener = new OnClickListener() {
@@ -528,8 +526,12 @@ public class ChatActivity extends OakClubBaseActivity {
 					startActivity(intent);
 					finish();
 				} else {
-					SlidingMenuActivity.getTotalNotification(listChatDb
-							.getTotalNotification());
+					try{
+						SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
+					}
+					catch(Exception ex) {
+						
+					}
 					finish();
 				}
 				break;
@@ -1622,6 +1624,9 @@ public class ChatActivity extends OakClubBaseActivity {
 				if (obj != null && obj.getData2() != null) {
 					Constants.dataConfig = obj.getData2();
 					
+					EmoticonScreenAdapter.groups = new ArrayList<Groups>();
+					StickerScreenAdapter.groups = new ArrayList<Groups>();
+					
 					EmoticonScreenAdapter.groups.add(new Groups());
 					if (obj.getData2().getSticker() != null && obj.getData2().getSticker().getGroups() != null) {
 						EmoticonScreenAdapter.groups.addAll(obj.getData2().getSticker().getGroups());
@@ -1632,11 +1637,7 @@ public class ChatActivity extends OakClubBaseActivity {
 					if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
 						StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
 					}
-//					if (obj.getData2().getGift() != null && obj.getData2().getGift().getGroups() != null) {
-//						StickerScreenAdapter.groups.addAll(obj.getData2().getGift().getGroups());
-//					}
-					
-					EmoticonScreenAdapter.stickers = StickerScreenAdapter.stickers;
+
 					initEmoticonPage();
 
 					messageArrayList = new ArrayList<ChatHistoryData>();

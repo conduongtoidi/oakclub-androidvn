@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.oakclub.android.base.SlidingMenuActivity;
+import com.oakclub.android.image.SmartImageView;
+import com.oakclub.android.image.WebImage;
 import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.oakclub.android.view.CircleImageView;
@@ -148,6 +150,11 @@ public class LeftMenuListFragment extends Fragment {
 				case R.id.menu_item_llt_snapshot:
 					if (activity.getMenu() != MenuOakclub.SNAPSHOT) {
 						activity.setMenu(MenuOakclub.SNAPSHOT);
+						ImageLoader imgLoader = new ImageLoader(activity, "");
+						imgLoader = new ImageLoader(activity, Constants.SNAPSHOT_FOLDER);
+				        imgLoader.clearCache();
+				        imgLoader = new ImageLoader(activity, Constants.OTHER_PROFILE_FOLDER);
+				        imgLoader.clearCache();
 						SnapshotFragment snapshot = new SnapshotFragment(
 								activity);
 						snapshot.initSnapshot();
@@ -184,6 +191,19 @@ public class LeftMenuListFragment extends Fragment {
 					break;
 
 				case R.id.linear_logout:
+					
+					ImageLoader imgLoader = new ImageLoader(activity, "");
+			        imgLoader.clearCache();
+			        imgLoader = new ImageLoader(activity, Constants.SNAPSHOT_FOLDER);
+			        imgLoader.clearCache();
+			        imgLoader = new ImageLoader(activity, Constants.OTHER_PROFILE_FOLDER);
+			        imgLoader.clearCache();
+			        imgLoader = new ImageLoader(activity, "Chat");
+			        imgLoader.clearCache();
+			        
+					SmartImageView.cancelAllTasks();
+					WebImage.clear();
+					
 					Editor editor = activity.getSharedPreferences(
 							Constants.PREFERENCE_NAME, 0).edit();
 					editor.putBoolean(Constants.PREFERENCE_LOGGINED, false);

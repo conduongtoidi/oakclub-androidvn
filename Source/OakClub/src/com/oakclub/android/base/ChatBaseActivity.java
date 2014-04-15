@@ -234,8 +234,7 @@ public class ChatBaseActivity extends OakClubBaseActivity {
 		try{
 			SlidingMenuActivity.getTotalNotification(listChatDb.getTotalNotification());
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex){
 			
 		}
 	}
