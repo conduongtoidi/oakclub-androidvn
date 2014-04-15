@@ -32,13 +32,19 @@ public class SmartImageTask implements Runnable {
         this.image = image;
         this.context = context;
         this.folder = folder;
+        
+        cancelled = false;
     }
 
     @Override
     public void run() {
         if(image != null) {
-            complete(image.getBitmap(context, folder));
-            context = null;
+        	try {
+	            complete(image.getBitmap(context, folder));
+	            context = null;
+        	} catch (Exception ex) {
+        		
+        	}
         }
     }
 

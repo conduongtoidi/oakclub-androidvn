@@ -2,18 +2,14 @@ package com.oakclub.android.model.adaptercustom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +22,6 @@ import com.oakclub.android.R;
 import com.oakclub.android.image.SmartImageView;
 import com.oakclub.android.model.Groups;
 import com.oakclub.android.model.List;
-import com.oakclub.android.util.Constants;
 import com.oakclub.android.util.OakClubUtil;
 import com.viewpagerindicator.IconPagerAdapter;
 
@@ -34,13 +29,10 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
 	ArrayList<Integer> page_imgTabs = new ArrayList<Integer>();
-	ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
+	static ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
 
 	public static ArrayList<Groups> groups = new ArrayList<Groups>();
 	
-	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
-	private static ArrayList<HashMap<String, String>> arrayHashMapSticker = new ArrayList<HashMap<String, String>>();
-	private ArrayList<ArrayList<String>> arraySticker = new ArrayList<ArrayList<String>>();
 	private ArrayList<SmileysAdapter> arrayAdaper = new ArrayList<SmileysAdapter>();
 	Context context;
 	public static ChatActivity chat;
@@ -57,20 +49,20 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		
 		smartImageView = new SmartImageView(c);
 		String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
-		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker", R.drawable.logo_oakclub);
+		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Chat", R.drawable.logo_oakclub);
 		page_imgDrawableTabs.add(smartImageView.getDrawable());
 		for (int i = 1; i < groups.size(); i++) {
 			final SmartImageView smartImageViewNomal = new SmartImageView(c);
 			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Sticker", R.drawable.logo_oakclub);
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Chat", R.drawable.logo_oakclub);
 			
 			final SmartImageView smartImageViewPress = new SmartImageView(c);
 			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getHover());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Sticker", R.drawable.logo_oakclub);
+			OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Chat", R.drawable.logo_oakclub);
 			
 			final StateListDrawable stateDrawable = new StateListDrawable();
 			
-			page_imgDrawableTabs.add(stateDrawable);
+			page_imgDrawableTabs.add(context.getResources().getDrawable(R.drawable.logo_oakclub));
 			final int index = i;
 			final String str = url;
 			new Handler().postDelayed(new Runnable() {
@@ -96,7 +88,6 @@ public class StickerScreenAdapter extends PagerAdapter implements
 
 	@Override
 	public boolean isViewFromObject(View v, Object o) {
-		// TODO Auto-generated method stub
 		return v.equals(o);
 	}
 
@@ -187,6 +178,7 @@ public class StickerScreenAdapter extends PagerAdapter implements
 					}
 					imgSticker = "<img src=\"" + pathGift;
 					ChatActivity.lltMatch.setVisibility(View.GONE);
+					ChatActivity.chatLv.setVisibility(View.VISIBLE);
 					value = gvEmoticon.getAdapter().getItem(position).toString();
 	                keyEntry = value;
 	                path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"gift\"/>";
@@ -250,20 +242,16 @@ public class StickerScreenAdapter extends PagerAdapter implements
 		return emoticons;
 	}
 
-	HashMap<String, String> addToSticker(int index) {
-		return stickers.get(index);
-	}
-
-	private void fillArrayList(HashMap<String, String> emoticons,
-			ArrayList<String> arrayListSmileys) {
-		arrayListSmileys.clear();
-		Iterator<Entry<String, String>> iterator = emoticons.entrySet()
-				.iterator();
-		while (iterator.hasNext()) {
-			Entry<String, String> entry = iterator.next();
-			arrayListSmileys.add(entry.getKey());
-		}
-	}
+//	private void fillArrayList(HashMap<String, String> emoticons,
+//			ArrayList<String> arrayListSmileys) {
+//		arrayListSmileys.clear();
+//		Iterator<Entry<String, String>> iterator = emoticons.entrySet()
+//				.iterator();
+//		while (iterator.hasNext()) {
+//			Entry<String, String> entry = iterator.next();
+//			arrayListSmileys.add(entry.getKey());
+//		}
+//	}
 	
 //	private void addCat()
 //	{

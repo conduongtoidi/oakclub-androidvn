@@ -313,6 +313,5 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	        }
         }
         super.onResume();
-    }
-
+    }    
 }

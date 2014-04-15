@@ -329,7 +329,7 @@ public class OakClubApi extends ApiConnect implements IOakClubApi {
 			paramList.add(new BasicNameValuePair("device_name", device_name));
 			paramList.add(new BasicNameValuePair("android_token", androidToken));
 			String result = excuteGet(baseUrl + "/sendRegister", paramList);
-			return OakClubJsonParser.getJsonObjectByMapper(result,
+ 			return OakClubJsonParser.getJsonObjectByMapper(result,
 					SendRegisterReturnObject.class);
 		} catch (Exception e) {
 			return null;

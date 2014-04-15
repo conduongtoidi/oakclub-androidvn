@@ -19,14 +19,14 @@ import android.graphics.BitmapFactory;
 
 public class WebImageCache {
 
-    private ConcurrentHashMap<String, SoftReference<Bitmap>> memoryCache;
+//    private ConcurrentHashMap<String, SoftReference<Bitmap>> memoryCache;
     private String diskCachePath;
     private boolean diskCacheEnabled = false;
     private ExecutorService writeThread;
 
     public WebImageCache(Context context, String folder) {
         // Set up in-memory cache store
-        memoryCache = new ConcurrentHashMap<String, SoftReference<Bitmap>>();
+        //memoryCache = new ConcurrentHashMap<String, SoftReference<Bitmap>>();
 
         // Set up disk cache store
         Context appContext = context.getApplicationContext();
@@ -70,7 +70,7 @@ public class WebImageCache {
         }
 
         // Remove from memory cache
-        memoryCache.remove(getCacheKey(url));
+       // memoryCache.remove(getCacheKey(url));
 
         // Remove from file cache
         File f = new File(diskCachePath, getCacheKey(url));
@@ -81,7 +81,7 @@ public class WebImageCache {
 
     public void clear() {
         // Remove everything from memory cache
-        memoryCache.clear();
+        //memoryCache.clear();
 
         // Remove everything from file cache
         File cachedFileDir = new File(diskCachePath);
@@ -96,7 +96,7 @@ public class WebImageCache {
     }
 
     private void cacheBitmapToMemory(final String url, final Bitmap bitmap) {
-        memoryCache.put(getCacheKey(url), new SoftReference<Bitmap>(bitmap));
+        //memoryCache.put(getCacheKey(url), new SoftReference<Bitmap>(bitmap));
     }
 
     private void cacheBitmapToDisk(final String url, final Bitmap bitmap) {
@@ -106,7 +106,7 @@ public class WebImageCache {
                 if(diskCacheEnabled) {
                     BufferedOutputStream ostream = null;
                     try {
-                        ostream = new BufferedOutputStream(new FileOutputStream(new File(diskCachePath, getCacheKey(url))), 2*1024);
+                        ostream = new BufferedOutputStream(new FileOutputStream(new File(diskCachePath, getCacheKey(url))), 512);
                         bitmap.compress(CompressFormat.PNG, 100, ostream);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -125,10 +125,10 @@ public class WebImageCache {
 
     private Bitmap getBitmapFromMemory(String url) {
         Bitmap bitmap = null;
-        SoftReference<Bitmap> softRef = memoryCache.get(getCacheKey(url));
-        if(softRef != null){
-            bitmap = softRef.get();
-        }
+//        SoftReference<Bitmap> softRef = memoryCache.get(getCacheKey(url));
+//        if(softRef != null){
+//            bitmap = softRef.get();
+//        }
 
         return bitmap;
     }

@@ -33,7 +33,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		IconPagerAdapter {
 
 	ArrayList<Integer> page_imgTabs = new ArrayList<Integer>();
-	ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
+	static ArrayList<Drawable> page_imgDrawableTabs = new ArrayList<Drawable>();
 
 	public static ArrayList<Groups> groups = new ArrayList<Groups>();
 	
@@ -43,7 +43,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 	private ArrayList<SmileysAdapter> arrayAdaper = new ArrayList<SmileysAdapter>();
 	Context context;
 	
-	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
+//	public static ArrayList<HashMap<String, String>> stickers = new ArrayList<HashMap<String, String>>();
 	
 	public static ChatActivity chat;
 	String pathSticker = "";
@@ -59,42 +59,44 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 			page_imgTabs.add(R.drawable.tab_sticker_selector);
 		}
 		
-		smartImageView = new SmartImageView(c);
-		String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
-		OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Sticker", R.drawable.logo_oakclub);
-		page_imgDrawableTabs.add(smartImageView.getDrawable());
-		smartImageView = new SmartImageView(c);
-		page_imgDrawableTabs.add(smartImageView.getDrawable());
-		for (int i = 1; i < groups.size(); i++) {
-			final SmartImageView smartImageViewNomal = new SmartImageView(c);
-			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Sticker", R.drawable.logo_oakclub);
-			
-			final SmartImageView smartImageViewPress = new SmartImageView(c);
-			url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getHover());
-			OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Sticker", R.drawable.logo_oakclub);
-			
-			final StateListDrawable stateDrawable = new StateListDrawable();
-			
-			page_imgDrawableTabs.add(stateDrawable);
-			final int index = i + 1;
-			final String str = url;
-			new Handler().postDelayed(new Runnable() {
+		if (page_imgDrawableTabs.size() == 0) {
+			smartImageView = new SmartImageView(c);
+			String url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(1).getIcon().getNormal());
+			OakClubUtil.loadImageFromUrl(context, url, smartImageView, "Chat", R.drawable.logo_oakclub);
+			page_imgDrawableTabs.add(smartImageView.getDrawable());
+			smartImageView = new SmartImageView(c);
+			page_imgDrawableTabs.add(smartImageView.getDrawable());
+			for (int i = 1; i < groups.size(); i++) {
+				final SmartImageView smartImageViewNomal = new SmartImageView(c);
+				url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getNormal());
+				OakClubUtil.loadImageFromUrl(context, url, smartImageViewNomal, "Chat", R.drawable.logo_oakclub);
 				
-				@Override
-				public void run() {
-					Log.v("index", index + " " + str);
-					stateDrawable.addState(new int[] {-android.R.attr.state_selected, -android.R.attr.state_pressed}, smartImageViewNomal.getDrawable());
-					stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
+				final SmartImageView smartImageViewPress = new SmartImageView(c);
+				url = OakClubUtil.getFullLinkStickerOrGift(context, groups.get(i).getIcon().getHover());
+				OakClubUtil.loadImageFromUrl(context, url, smartImageViewPress, "Chat", R.drawable.logo_oakclub);
+				
+				final StateListDrawable stateDrawable = new StateListDrawable();
+				
+				page_imgDrawableTabs.add(context.getResources().getDrawable(R.drawable.logo_oakclub));
+				final int index = i + 1;
+				final String str = url;
+				new Handler().postDelayed(new Runnable() {
 					
-					page_imgDrawableTabs.set(index, stateDrawable);
-				}
-			}, 5000);
+					@Override
+					public void run() {
+						Log.v("index", index + " " + str);
+						stateDrawable.addState(new int[] {-android.R.attr.state_selected, -android.R.attr.state_pressed}, smartImageViewNomal.getDrawable());
+						stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
+						
+						page_imgDrawableTabs.set(index, stateDrawable);
+						notifyDataSetChanged();
+					}
+				}, 5000);
+			}
 		}
 		
 		arrayHashMapEmoticon.add(addSmileToEmoticons());
 		arrayEmoticon.add(new ArrayList<String>());
-		notifyDataSetChanged();
 
 	}
 
@@ -204,6 +206,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				case 0:
 					
 					ChatActivity.lltMatch.setVisibility(View.GONE);
+					ChatActivity.chatLv.setVisibility(View.VISIBLE);
 					value = gvEmoticon.getAdapter().getItem(position).toString();
 	                String keyEntry = value;
 	                pathSticker = groups.get(0).getList().get(position).getUrl();
@@ -220,6 +223,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 					}
 					imgSticker = "<img src=\"" + pathSticker;
 					ChatActivity.lltMatch.setVisibility(View.GONE);
+					ChatActivity.chatLv.setVisibility(View.VISIBLE);
 					value = gvEmoticon.getAdapter().getItem(position).toString();
 	                keyEntry = value;
 	                path2 = imgSticker + value + ".png\" width=\"125\" height=\"125\" type=\"sticker\"/>";
@@ -329,10 +333,6 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 	HashMap<String, String> oftenSticker() {
 		HashMap<String, String> emoticons = new HashMap<String, String>();
 		return emoticons;
-	}
-	
-	HashMap<String, String> addToSticker(int index) {
-		return stickers.get(index);
 	}
 
 	private void fillArrayList(HashMap<String, String> emoticons,
