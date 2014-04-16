@@ -97,6 +97,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 	protected boolean isLoadListMutualMatch = false;
 	protected String profileIdMultualMatch = "";
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -535,6 +536,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 		updateNewMessage(message);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getFacebookUserId() {
 		Request.Callback callback2 = new Request.Callback() {
 			public void onCompleted(Response response) {
@@ -773,7 +775,7 @@ public class LoginBaseActivity extends OakClubBaseActivity {
 
 	@Override
 	protected void onPause() {
-		System.gc();
+//		System.gc();
 		super.onPause();
 	}
 

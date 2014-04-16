@@ -225,7 +225,6 @@ public class SnapshotFragment {
 				b.putString("Snapshot", "SnapshotFragment");
 				intent.putExtras(b);
 				activity.startActivityForResult(intent, 1);
-				System.gc();
 			} else if (v.getId() == R.id.activity_snapshot_flt_footer_ibn_nope
 					&& !isAction && getContentMain() != null) {
 				getContentMain().setPressButtonAction(Constants.ACTION_NOPE);

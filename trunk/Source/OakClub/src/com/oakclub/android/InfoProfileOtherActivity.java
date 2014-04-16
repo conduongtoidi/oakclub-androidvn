@@ -104,7 +104,7 @@ public class InfoProfileOtherActivity extends OakClubBaseActivity {
 
 	@Override
 	protected void onPause() {
-		System.gc();
+//		System.gc();
 		super.onPause();
 	}
 

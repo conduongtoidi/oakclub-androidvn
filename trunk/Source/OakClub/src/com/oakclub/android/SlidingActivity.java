@@ -141,7 +141,7 @@ public class SlidingActivity extends SlidingMenuActivity {
 	}
     @Override
     protected void onPause(){
-        System.gc();
+//        System.gc();
         super.onPause();
     }
     

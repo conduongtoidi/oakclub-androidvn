@@ -434,7 +434,7 @@ public class SnapshotMain extends FrameLayout {
 						intent.putExtras(b);
 						((FragmentActivity) getContext()).startActivityForResult(
 								intent, 1);
-						System.gc();
+//						System.gc();
 						return true;
 					}
 	

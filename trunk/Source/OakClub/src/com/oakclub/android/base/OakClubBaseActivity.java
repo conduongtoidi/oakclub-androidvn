@@ -187,7 +187,7 @@ public class OakClubBaseActivity extends FragmentActivity implements
 
 	@Override
 	protected void onPause() {
-		System.gc();
+//		System.gc();
 		super.onPause();
 	}
 

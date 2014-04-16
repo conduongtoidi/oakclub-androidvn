@@ -214,7 +214,7 @@ public class MainActivity extends LoginBaseActivity {
 
     @Override
     protected void onPause(){
-        System.gc();
+//        System.gc();
         super.onPause();
     }
 

@@ -139,7 +139,7 @@ public class SmartImageView extends ImageView {
         setImageDrawable(null);
         setBackgroundDrawable(null);
         setImageBitmap(null);
-        System.gc();
+        //System.gc();
         super.onDetachedFromWindow();
     }
 
