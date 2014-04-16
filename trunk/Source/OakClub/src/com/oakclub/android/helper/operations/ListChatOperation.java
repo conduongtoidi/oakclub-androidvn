@@ -123,7 +123,7 @@ public class ListChatOperation {
 
 	public ArrayList<ListChatData> getListChat() {
 		ArrayList<ListChatData> listChat = new ArrayList<ListChatData>();
-		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT +" ORDER BY "+KEY_VIP+" DESC , DATE("+KEY_ACTIVE_TIME+") DESC ";
+		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT +" ORDER BY "+KEY_VIP+" DESC , DATETIME("+KEY_ACTIVE_TIME+") DESC ";
 		this.open();
 	    Cursor cursor = database.rawQuery(selectQuery, null);
 	    if (cursor.moveToFirst()) {
@@ -173,7 +173,7 @@ public class ListChatOperation {
 
 	public ArrayList<ListChatData> getListMatch() {
 		ArrayList<ListChatData> listChat = new ArrayList<ListChatData>();
-		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT + " WHERE "+KEY_IS_MATCH+ " = '1'"  +"ORDER BY DATE("+KEY_ACTIVE_TIME+") DESC";
+		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT + " WHERE "+KEY_IS_MATCH+ " = '1' "  +"ORDER BY DATETIME("+KEY_ACTIVE_TIME+") DESC";
 		this.open();
 	    Cursor cursor = database.rawQuery(selectQuery, null);
 	    if (cursor.moveToFirst()) {
@@ -200,7 +200,7 @@ public class ListChatOperation {
 
 	public ArrayList<ListChatData> getListVip() {
 		ArrayList<ListChatData> listChat = new ArrayList<ListChatData>();
-		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT + " WHERE "+KEY_VIP+ " = '1'" +"ORDER BY DATE("+KEY_ACTIVE_TIME+") DESC";
+		String selectQuery = "SELECT * FROM "+ TABLE_LIST_CHAT + " WHERE "+KEY_VIP+ " = '1' " +"ORDER BY DATETIME("+KEY_ACTIVE_TIME+") DESC";
 		this.open();
 	    Cursor cursor = database.rawQuery(selectQuery, null);
 	    if (cursor.moveToFirst()) {

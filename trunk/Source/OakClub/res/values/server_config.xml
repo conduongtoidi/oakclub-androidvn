@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="default_server_address">http://staging.oakclub.com/service</string>
-    <string name="default_server_address_temp">http://staging.oakclub.com/japi</string>
-    <string name="server_address_image">http://staging.oakclub.com/load_photo.php</string>
-    <string name="server_address_video">http://staging.oakclub.com/data</string>
-    <string name="server_address_sticker">http://staging.oakclub.com</string>
-    <string name="xmpp_server_address">staging.oakclub.com</string>
+    <string name="default_server_address">http://oakclub.com/service</string>
+    <string name="default_server_address_temp">http://oakclub.com/japi</string>
+    <string name="server_address_image">http://oakclub.com/load_photo.php</string>
+    <string name="server_address_video">http://oakclub.com/data</string>
+    <string name="server_address_sticker">http://oakclub.com</string>
+    <string name="xmpp_server_address">xmpp.oakclub.com</string>
     <string name="mail_server_address">help@Oakclub.com</string>
     <string name="default_port_server">5222</string>
 </resources>
