@@ -89,7 +89,12 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 						stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
 						
 						page_imgDrawableTabs.set(index, stateDrawable);
-						notifyDataSetChanged();
+						try {
+							if (ChatActivity.mIndicator != null)
+								ChatActivity.mIndicator.notifyDataSetChanged();
+						} catch (Exception ex) {
+							
+						}
 					}
 				}, 5000);
 			}
@@ -99,7 +104,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 		arrayEmoticon.add(new ArrayList<String>());
 
 	}
-
+	
 	// This is the number of pages
 	@Override
 	public int getCount() {

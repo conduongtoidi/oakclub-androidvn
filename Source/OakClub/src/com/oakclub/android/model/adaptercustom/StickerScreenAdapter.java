@@ -74,6 +74,12 @@ public class StickerScreenAdapter extends PagerAdapter implements
 					stateDrawable.addState(new int[] {}, smartImageViewPress.getDrawable());
 					
 					page_imgDrawableTabs.set(index, stateDrawable);
+					try {
+						if (ChatActivity.mIndicator != null)
+							ChatActivity.mIndicator.notifyDataSetChanged();
+					} catch (Exception ex) {
+						
+					}
 				}
 			}, 5000);
 		}

@@ -148,12 +148,12 @@ public class ListChatFragment extends Fragment {
 			
 			@Override
 			public void run() {
-				ArrayList<ListChatData> baseListChat =new ArrayList<ListChatData>();
-				ChatBaseActivity currentActivity = (ChatBaseActivity) mLocalActivityManager.getActivity( tabHost.getCurrentTabTag());
-				for(int i= 0;i<currentActivity.getLvListChat().getChildCount();i++){
-					ListChatData data = (ListChatData) currentActivity.getLvListChat().getItemAtPosition(i);
-					baseListChat.add(data);
-				}
+//				ArrayList<ListChatData> baseListChat =new ArrayList<ListChatData>();
+//				ChatBaseActivity currentActivity = (ChatBaseActivity) mLocalActivityManager.getActivity( tabHost.getCurrentTabTag());
+//				for(int i= 0;i<currentActivity.getLvListChat().getChildCount();i++){
+//					ListChatData data = (ListChatData) currentActivity.getLvListChat().getItemAtPosition(i);
+//					baseListChat.add(data);
+//				}
 				
 				String str = searchEdt.getText().toString().toLowerCase();		
 		        if (OakClubBaseActivity.baseAllList!=null){

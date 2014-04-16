@@ -272,7 +272,7 @@ public class SlidingMenuActivity extends SlidingFragmentActivity {
 	
 	@Override
     protected void onPause() {
-	    System.gc();
+//	    System.gc();
         super.onPause();
     }
 

@@ -145,7 +145,7 @@ public class ChatActivity extends OakClubBaseActivity {
 	protected ProgressDialog pd;
 	protected ProgressDialog pdLogin;
 	ViewPager mPager;
-	TabPageIndicator mIndicator;
+	public static TabPageIndicator mIndicator;
 	EmoticonScreenAdapter emoticonScreenAdapter;
 	StickerScreenAdapter stickerScreenAdapter;
 
