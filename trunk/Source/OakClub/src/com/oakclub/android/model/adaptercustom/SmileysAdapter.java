@@ -22,8 +22,7 @@ public class SmileysAdapter extends BaseAdapter {
     private ArrayList<String> arrayListSmileys = new ArrayList<String>();
     private Context context;
     private HashMap<String, String> emoticons = new HashMap<String, String>();
-    private ArrayList<String> showListSmileys = new ArrayList<String>();
-    private int imageWidth = 0;
+    public static int numberColumns;
     private int widthScreen = 0;
     private String urlLink;
     private boolean isSmile;
@@ -76,16 +75,16 @@ public class SmileysAdapter extends BaseAdapter {
         view = layoutInflater.inflate(R.layout.item_chat_smiley, parent, false);
         //convertView = LayoutInflater.from(context).inflate(R.layout.item_chat_smiley, null);
         if (isSmile) {
-	        LayoutParams params = new LayoutParams(widthScreen/8, widthScreen/8);
+	        LayoutParams params = new LayoutParams(widthScreen/numberColumns, widthScreen/numberColumns);
 	        ImageView imageView = (ImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
 	        try{
 	        	imageView.setBackgroundResource(Integer.parseInt(emoticons.get(arrayListSmileys.get(position))));
 	        } catch(Exception ex) {
 	        	
 	        }
-	        imageView.setLayoutParams(params);
+	        //imageView.setLayoutParams(params);
         } else {
-        	LayoutParams params = new LayoutParams(widthScreen/4, widthScreen/4);
+        	LayoutParams params = new LayoutParams(widthScreen / numberColumns, widthScreen / numberColumns);
             SmartImageView smartImageView = (SmartImageView) view.findViewById(R.id.item_chat_smiley_ivSmile);
             String url = "";
             if (group.getList() != null && group.getList().get(position).getUrl() != null) {
