@@ -8,9 +8,7 @@
         android:id="@+id/activity_chat_emticon_gvEmoticon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:numColumns="8"
-        android:columnWidth="60dp"
         android:stretchMode="columnWidth"
         android:visibility="visible" />
  
