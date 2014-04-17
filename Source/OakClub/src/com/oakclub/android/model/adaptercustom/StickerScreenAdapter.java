@@ -135,7 +135,8 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				
 			}
 			imgSticker = "<img src=\"" + pathGift;
-			gvEmoticon.setNumColumns(4);
+			SmileysAdapter.numberColumns = 7;
+			gvEmoticon.setNumColumns(SmileysAdapter.numberColumns);
 //			fillArrayList(arrayHashMapSticker.get(indexList),
 //					arraySticker.get(indexList));
 			adapter = new SmileysAdapter(
@@ -151,7 +152,8 @@ public class StickerScreenAdapter extends PagerAdapter implements
 				
 			}
 			imgSticker = "<img src=\"" + pathGift;
-			gvEmoticon.setNumColumns(4);
+			SmileysAdapter.numberColumns = 7;
+			gvEmoticon.setNumColumns(SmileysAdapter.numberColumns);
 //			fillArrayList(arrayHashMapSticker.get(indexList),
 //					arraySticker.get(indexList));
 			adapter = new SmileysAdapter(

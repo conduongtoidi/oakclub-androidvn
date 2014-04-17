@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -154,7 +155,8 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				
 			}
 			imgSticker = "<img src=\"" + pathSticker;
-			gvEmoticon.setNumColumns(4);
+			SmileysAdapter.numberColumns = 7;
+			gvEmoticon.setNumColumns(SmileysAdapter.numberColumns);
 //			fillArrayList(arrayHashMapSticker.get(indexList),
 //					arraySticker.get(indexList));
 			adapter = new SmileysAdapter(
@@ -163,6 +165,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 			arrayAdaper.add(adapter);
 			break;
 		case 1:
+			//gvEmoticon.setNumColumns(8);
 			fillArrayList(arrayHashMapEmoticon.get(0),
 					arrayEmoticon.get(0));
 			adapter = new SmileysAdapter(
@@ -178,7 +181,7 @@ public class EmoticonScreenAdapter extends PagerAdapter implements
 				
 			}
 			imgSticker = "<img src=\"" + pathSticker;
-			gvEmoticon.setNumColumns(4);
+			gvEmoticon.setNumColumns(SmileysAdapter.numberColumns);
 //			fillArrayList(arrayHashMapSticker.get(indexList),
 //					arraySticker.get(indexList));
 			adapter = new SmileysAdapter(
