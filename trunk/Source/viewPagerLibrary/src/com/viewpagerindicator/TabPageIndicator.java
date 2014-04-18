@@ -18,11 +18,11 @@ package com.viewpagerindicator;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -162,26 +162,25 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
         }
+        tabView.setPadding(5, 0, 5, 0);
 
         mTabLayout.addView(tabView, new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, 1));
     }
     
-    @SuppressWarnings("deprecation")
 	private void addTab(int index, CharSequence text, Drawable drawable) {
         final TabView tabView = new TabView(getContext());
         tabView.mIndex = index;
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
-
+        
         if (drawable != null) {
-        	Log.v("abc", "" + index);
-            tabView.setBackgroundDrawable(drawable);
-        } else {
-        	Log.v("null", "" + index);
+            tabView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
+        tabView.setPadding(5, 0, 5, 0);
 
         mTabLayout.addView(tabView, new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT, 1));
+        
     }
 
     @Override
