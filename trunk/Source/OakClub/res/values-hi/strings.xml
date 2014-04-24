@@ -72,14 +72,12 @@
 <string name = "txt_contact_us">हमसे संपर्क करें</string>
 <string name = "txt_logout">लॉगआउट</string>
 <string name = "value_distance_lessthan1">एक किलोमीटर से भी कम दूरी</string>
-<string name = "value_distance">%i किमी दूर</string>
+<string name = "value_distance">%.1f किमी दूर</string>
 <string name = "value_active_dayago">दिन पहले</string>
 <string name = "value_active_morethan5daysago">5 दिन पहले से भी ज्यादा</string>
 <string name = "profile_birthdate">जन्मतिथि</string>
-<string name = "profile_interested_in">इच्छुक</string>
 <string name = "txt_date">तिथि</string>
 <string name = "txt_new_friend">नए दोस्त बनाएं</string>
-<string name = "txt_new_people">नए लोग</string>
 <string name = "txt_friends_of_friends">दोस्तों के दोस्त</string>
 <string name = "profile_gender_male">पुरुष</string>
 <string name = "profile_gender_female">स्त्री</string>
@@ -89,7 +87,6 @@
 <string name = "txt_search_your_match">अपने मैचों में खोजें ...</string>
 <string name = "msg_matched_with">मैं इसके साथ मैच करना चाहता/ती हूँ</string>
 <string name = "txt_invite_friend">अपने मित्रों को बताएँ!</string>
-<string name = "txt_contact_us">हमसे संपर्क करें</string>
 <string name = "txt_save_settings">अपनी सेटिंग्स सहेजें</string>
 <string name = "txt_warning">चेतावनी</string>
 <string name = "txt_delete_photo_question">आप इस तस्वीर को हटाना चाहते हैं?</string>
@@ -107,7 +104,6 @@
 <string name = "txt_privacy_content5">• दुसरे यूजर्स को आपकी लोकेशन कभी दिखाई नहीं जाएगी</string>
 <string name = "txt_matched">मैच</string>
 <string name = "txt_vips">वीआईपी</string>
-<string name = "txt_all">सभी</string>
 <string name = "txt_or">या</string>
 <string name = "warning_profile_max_size_photo">फोटो का अधिकतम आकार 3 एमबी है</string>
 <string name = "profile_email">ईमेल</string>

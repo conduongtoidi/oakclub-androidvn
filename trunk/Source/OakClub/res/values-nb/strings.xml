@@ -70,7 +70,7 @@
 <string name = "txt_contact_us">Kontakt oss</string>
 <string name = "txt_logout">Logg ut</string>
 <string name = "value_distance_lessthan1">Mindre enn en kilometer unna</string>
-<string name = "value_distance">% i km unna</string>
+<string name = "value_distance">%.1f km unna</string>
 <string name = "value_active_morethan5daysago">Mer enn 5 dager siden</string>
 <string name = "profile_birthdate">Fødsels</string>
 <string name = "txt_date">dato</string>
